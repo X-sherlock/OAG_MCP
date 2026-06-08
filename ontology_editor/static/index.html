@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OAG Ontology Editor</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <script src="/static/vendor/cytoscape.min.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="toolbar">
+        <div class="brand">OAG Ontology Editor</div>
+        <button id="toggleLeftBtn" title="隐藏左栏">左栏</button>
+        <button id="toggleRightBtn" title="隐藏右栏">右栏</button>
+        <button id="focusModeBtn" title="专注模式">专注</button>
+        <button id="refreshBtn">刷新图谱</button>
+        <button id="saveBtn">保存当前修改</button>
+        <button id="validateBtn">校验</button>
+        <button id="seedBtn" class="danger">执行 seed</button>
+        <select id="modeSelect">
+          <option value="overview">概览</option>
+          <option value="requirement" selected>需求定位</option>
+          <option value="skill">Skill 设计</option>
+          <option value="object_attribute">对象属性</option>
+          <option value="table_mapping">表字段映射</option>
+          <option value="full">全图，高级模式</option>
+        </select>
+        <input id="searchInput" type="search" placeholder="搜索 Fund / return_rate / skill" />
+        <button id="searchBtn">定位</button>
+        <a id="exportBtn" href="/api/export">导出 YAML</a>
+        <select id="layoutSelect">
+          <option value="breadthfirst">breadthfirst</option>
+          <option value="concentric">concentric</option>
+          <option value="cose">cose</option>
+          <option value="grid">grid</option>
+        </select>
+        <button id="addNodeBtn">新增节点</button>
+        <button id="addEdgeBtn">创建边</button>
+      </header>
+
+      <aside class="sidebar">
+        <section>
+          <h2>视图模式</h2>
+          <div class="mode-buttons">
+            <button id="overviewBtn">概览</button>
+            <button id="requirementBtn">需求</button>
+            <button id="skillBtn">Skill</button>
+            <button id="objectAttributeBtn">对象属性</button>
+            <button id="tableMappingBtn">表映射</button>
+            <button id="fullBtn">全图</button>
+          </div>
+        </section>
+        <section>
+          <h2>展开控制</h2>
+          <label>深度
+            <select id="depthSelect">
+              <option value="1">1 跳</option>
+              <option value="2" selected>2 跳</option>
+            </select>
+          </label>
+          <label><input id="includeInferred" type="checkbox" /> inferred edges</label>
+          <label><input id="includeFields" type="checkbox" /> 在画布展开 DataField</label>
+          <label><input id="showEdgeLabels" type="checkbox" /> 显示边标签</label>
+        </section>
+        <section>
+          <h2>搜索结果</h2>
+          <div id="searchResults" class="search-results">
+            <div class="muted">输入关键词后点击定位</div>
+          </div>
+        </section>
+        <section>
+          <h2>当前视图关系统计</h2>
+          <div id="relationSummary" class="relation-summary"></div>
+        </section>
+        <section>
+          <h2>选中节点关系统计</h2>
+          <div id="selectedRelationSummary" class="relation-summary">
+            <div class="muted">未选择节点</div>
+          </div>
+        </section>
+        <section>
+          <h2>YAML 文件</h2>
+          <div id="fileList" class="file-list"></div>
+        </section>
+      </aside>
+
+      <main class="canvas-wrap">
+        <div id="canvasStatus" class="canvas-status">0 nodes · 0 edges</div>
+        <button id="exitFocusBtn" class="exit-focus" hidden>退出专注</button>
+        <div id="cy"></div>
+      </main>
+
+      <aside class="inspector">
+        <div class="inspector-head">
+          <h2 id="inspectorTitle">未选择</h2>
+          <div id="inspectorMeta"></div>
+        </div>
+        <div id="contextActions" class="context-actions"></div>
+        <section>
+          <h3>基本信息</h3>
+          <div id="basicInfo" class="info-grid"></div>
+        </section>
+        <section>
+          <h3>核心表单</h3>
+          <div id="quickForm" class="form-grid"></div>
+        </section>
+        <section>
+          <h3>关联边</h3>
+          <div id="relatedEdges" class="related-list"></div>
+        </section>
+        <details class="raw-details">
+          <summary>Raw JSON</summary>
+          <textarea id="rawEditor" spellcheck="false"></textarea>
+        </details>
+        <div class="inspector-actions">
+          <button id="saveSelectedBtn">保存</button>
+          <button id="deleteSelectedBtn" class="danger">删除</button>
+        </div>
+        <section id="fieldList" class="field-list"></section>
+        <section>
+          <h3>输出</h3>
+          <pre id="output"></pre>
+        </section>
+      </aside>
+
+      <footer class="statusbar">
+        <span id="nodeCount">nodes: 0</span>
+        <span id="edgeCount">edges: 0</span>
+        <span id="viewStatus">需求定位 / hidden fields: 0 / hidden inferred: 0</span>
+        <span id="validationStatus">validation: unknown</span>
+        <span id="lastSaved">last saved: -</span>
+        <span id="ontologyRoot">ontology: -</span>
+      </footer>
+    </div>
+
+    <dialog id="modal">
+      <form method="dialog" class="modal-card">
+        <h2 id="modalTitle">编辑</h2>
+        <div id="modalBody"></div>
+        <div class="modal-actions">
+          <button value="cancel">取消</button>
+          <button id="modalOkBtn" value="ok">确定</button>
+        </div>
+      </form>
+    </dialog>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+server:
+  port: ${OAG_MCP_JAVA_PORT:8080}
+
+spring:
+  application:
+    name: oag-mcp-java
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${OAG_DB_HOST:127.0.0.1}:${OAG_DB_PORT:3306}/${OAG_DB_NAME:ifundtest}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: ${OAG_DB_USER:root}
+    password: ${OAG_DB_PASSWORD:}
+  ai:
+    mcp:
+      server:
+        name: oag-mcp-java
+        version: 0.1.0
+        type: SYNC
+        protocol: STREAMABLE
+        annotation-scanner:
+          enabled: true
+
+mybatis:
+  mapper-locations: classpath*:com/example/oagmcp/dao/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+oag:
+  domain: ${OAG_DOMAIN:finance_market}

@@ -1,0 +1,116 @@
+- intent_name: performance_overview
+  intent_name_zh: 基金综合表现分析
+  description: 基金综合表现分析。
+  trigger_aliases:
+    - 表现
+    - 业绩
+    - 走势
+    - 表现如何
+    - 业绩表现
+    - 收益表现
+    - 收益率
+    - 收益
+    - 回报
+    - 近一年表现
+    - 近三年表现
+    - 今年以来表现
+  default_attributes:
+    - return_rate
+    - benchmark_return
+    - excess_return
+    - max_drawdown
+    - volatility
+    - sharpe_ratio
+    - rank
+  primary_skills:
+    - get_fund_metric_values
+  secondary_skills:
+    - get_fund_benchmark_facts
+  optional_skills:
+    - get_fund_peer_ranking_facts
+  required_params:
+    - fund_code
+    - period
+
+- intent_name: risk_overview
+  intent_name_zh: 基金风险分析
+  description: 基金风险分析。
+  trigger_aliases:
+    - 风险
+    - 风险表现
+    - 回撤
+    - 波动
+    - 稳定性
+    - 抗跌
+    - 风险收益
+  default_attributes:
+    - max_drawdown
+    - volatility
+    - sharpe_ratio
+    - downside_deviation
+    - var
+    - calmar_ratio
+  primary_skills:
+    - get_fund_metric_values
+  secondary_skills:
+    - get_fund_benchmark_facts
+  optional_skills:
+    - get_fund_peer_ranking_facts
+  required_params:
+    - fund_code
+    - period
+
+- intent_name: benchmark_comparison
+  intent_name_zh: 基金相对基准表现
+  description: 基金相对基准表现。
+  trigger_aliases:
+    - 跑赢基准
+    - 超额收益
+    - 相对基准
+    - 基准比较
+    - 战胜基准
+    - 业绩基准
+    - 基准
+    - 跑赢
+  default_attributes:
+    - return_rate
+    - benchmark_return
+    - excess_return
+    - tracking_error
+    - information_ratio
+  primary_skills:
+    - get_fund_benchmark_facts
+  secondary_skills:
+    - get_fund_metric_values
+  optional_skills:
+    - get_fund_peer_ranking_facts
+  required_params:
+    - fund_code
+    - period
+
+- intent_name: peer_comparison
+  intent_name_zh: 基金同类比较
+  description: 基金同类比较。
+  trigger_aliases:
+    - 同类
+    - 排名
+    - 同类排名
+    - 同类表现
+    - 排第几
+    - 百分位
+    - 分位
+  default_attributes:
+    - rank
+    - percentile
+    - return_rate
+    - max_drawdown
+    - sharpe_ratio
+  primary_skills:
+    - get_fund_peer_ranking_facts
+  secondary_skills:
+    - get_fund_metric_values
+  optional_skills:
+    - get_fund_benchmark_facts
+  required_params:
+    - fund_code
+    - period

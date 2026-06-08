@@ -1,0 +1,72 @@
+periods:
+  - code: 1w
+    name_zh: 近一周
+    aliases: ["近一周", "一周", "近1周"]
+    table_suffix: 1w
+    field_replacement: 近一周
+
+  - code: 1m
+    name_zh: 近一月
+    aliases: ["近一月", "一月", "一个月", "近1月"]
+    table_suffix: 1m
+    field_replacement: 近一月
+
+  - code: 3m
+    name_zh: 近三个月
+    aliases: ["近三个月", "三个月", "近3月"]
+    table_suffix: 3m
+    field_replacement: 近三个月
+
+  - code: 6m
+    name_zh: 近六月
+    aliases: ["近六月", "六个月", "近6月"]
+    table_suffix: 6m
+    field_replacement: 近六月
+
+  - code: 1y
+    name_zh: 近一年
+    aliases: ["近一年", "一年", "最近一年", "近1年"]
+    table_suffix: 1y
+    field_replacement: 近一年
+
+  - code: 2y
+    name_zh: 近两年
+    aliases: ["近两年", "两年", "近2年"]
+    table_suffix: 2y
+    field_replacement: 近两年
+
+  - code: 3y
+    name_zh: 近三年
+    aliases: ["近三年", "三年", "近3年"]
+    table_suffix: 3y
+    field_replacement: 近三年
+
+  - code: 5y
+    name_zh: 近五年
+    aliases: ["近五年", "五年", "近5年"]
+    table_suffix: 5y
+    field_replacement: 近五年
+
+  - code: 10y
+    name_zh: 近十年
+    aliases: ["近十年", "十年", "近10年"]
+    table_suffix: 10y
+    field_replacement: 近十年
+
+  - code: 20y
+    name_zh: 近二十年
+    aliases: ["近二十年", "二十年", "近20年"]
+    table_suffix: 20y
+    field_replacement: 近二十年
+
+  - code: ytd
+    name_zh: 今年以来
+    aliases: ["今年以来", "本年以来", "YTD"]
+    table_suffix: ytd
+    field_replacement: 今年以来
+
+  - code: si
+    name_zh: 成立以来
+    aliases: ["成立以来", "设立以来", "SI"]
+    table_suffix: si
+    field_replacement: 成立以来

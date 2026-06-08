@@ -1,0 +1,13 @@
+.venv/
+.idea/
+__pycache__/
+*.pyc
+.pytest_cache/
+pytest-cache-files-*/
+dist/
+build/
+*.egg-info/
+docker/
+docker-compose.yml
+表说明.txt
+表说明.xlsx

@@ -1,0 +1,1280 @@
+{
+  "status": "success",
+  "domain": "finance_market",
+  "question": "分析000001近一年的表现",
+  "intent": "structured_query",
+  "matched_objects": [
+    {
+      "mention": "000001",
+      "node_id": "ObjectType:Fund",
+      "object_type": "Fund",
+      "object_id": "Fund",
+      "object_name": "Fund",
+      "confidence": 0.98,
+      "match_method": "fund_code_param_inference",
+      "params": {},
+      "resolved_params": {
+        "fund_code": "000001"
+      }
+    }
+  ],
+  "matched_intents": [
+    {
+      "intent_name": "performance_overview",
+      "intent_name_zh": "基金综合表现分析",
+      "confidence": 0.85,
+      "match_reason": "trigger_alias_matched:表现",
+      "trigger": "表现"
+    }
+  ],
+  "matched_attributes": [
+    {
+      "object_type": "PerformanceMetric",
+      "attribute_name": "return_rate",
+      "attribute_name_zh": "区间收益率",
+      "confidence": 0.82,
+      "match_reason": "inferred_by_intent:performance_overview"
+    },
+    {
+      "object_type": "PerformanceMetric",
+      "attribute_name": "benchmark_return",
+      "attribute_name_zh": "基准收益率",
+      "confidence": 0.805,
+      "match_reason": "inferred_by_intent:performance_overview"
+    },
+    {
+      "object_type": "PerformanceMetric",
+      "attribute_name": "excess_return",
+      "attribute_name_zh": "超额收益率",
+      "confidence": 0.79,
+      "match_reason": "inferred_by_intent:performance_overview"
+    },
+    {
+      "object_type": "RiskMetric",
+      "attribute_name": "max_drawdown",
+      "attribute_name_zh": "最大回撤",
+      "confidence": 0.775,
+      "match_reason": "inferred_by_intent:performance_overview"
+    },
+    {
+      "object_type": "RiskMetric",
+      "attribute_name": "volatility",
+      "attribute_name_zh": "波动率",
+      "confidence": 0.76,
+      "match_reason": "inferred_by_intent:performance_overview"
+    },
+    {
+      "object_type": "RiskMetric",
+      "attribute_name": "sharpe_ratio",
+      "attribute_name_zh": "夏普比率",
+      "confidence": 0.745,
+      "match_reason": "inferred_by_intent:performance_overview"
+    },
+    {
+      "object_type": "PerformanceMetric",
+      "attribute_name": "rank",
+      "attribute_name_zh": "排名",
+      "confidence": 0.73,
+      "match_reason": "inferred_by_intent:performance_overview"
+    }
+  ],
+  "matched_relations": [
+    {
+      "edge_id": "Attribute:max_drawdown__mapped_to_field__DataField:DWD_FUND_NAV_GRTH.最大回撤(一年)",
+      "from": "Attribute:max_drawdown",
+      "to": "DataField:DWD_FUND_NAV_GRTH.最大回撤(一年)",
+      "relation_type": "mapped_to_field",
+      "score": 0.99
+    },
+    {
+      "edge_id": "Attribute:return_rate__mapped_to_field__DataField:DWD_FUND_NAV_GRTH.收益率(一年)",
+      "from": "Attribute:return_rate",
+      "to": "DataField:DWD_FUND_NAV_GRTH.收益率(一年)",
+      "relation_type": "mapped_to_field",
+      "score": 0.99
+    },
+    {
+      "edge_id": "Attribute:return_rate__mapped_to_field__DataField:DWD_FUND_NAV_GRTH.最近一年同类基金收益率",
+      "from": "Attribute:return_rate",
+      "to": "DataField:DWD_FUND_NAV_GRTH.最近一年同类基金收益率",
+      "relation_type": "mapped_to_field",
+      "score": 0.99
+    },
+    {
+      "edge_id": "Attribute:max_drawdown__mapped_to_field__DataField:dws_fund_perf_xx_dd.最大回撤（近xx）",
+      "from": "Attribute:max_drawdown",
+      "to": "DataField:dws_fund_perf_xx_dd.最大回撤（近xx）",
+      "relation_type": "mapped_to_field",
+      "score": 0.99
+    },
+    {
+      "edge_id": "Attribute:max_drawdown__mapped_to_field__DataField:dws_fund_perf_xx_dd.最大回撤峰值（近xx)",
+      "from": "Attribute:max_drawdown",
+      "to": "DataField:dws_fund_perf_xx_dd.最大回撤峰值（近xx)",
+      "relation_type": "mapped_to_field",
+      "score": 0.99
+    },
+    {
+      "edge_id": "Attribute:return_rate__mapped_to_field__DataField:dws_bm_perf_xx.几何平均收益率（近xx)",
+      "from": "Attribute:return_rate",
+      "to": "DataField:dws_bm_perf_xx.几何平均收益率（近xx)",
+      "relation_type": "mapped_to_field",
+      "score": 0.99
+    },
+    {
+      "edge_id": "Attribute:sharpe_ratio__mapped_to_field__DataField:dws_fund_risk retxx.Sharpe（年化）(近xx)",
+      "from": "Attribute:sharpe_ratio",
+      "to": "DataField:dws_fund_risk retxx.Sharpe（年化）(近xx)",
+      "relation_type": "mapped_to_field",
+      "score": 0.99
+    },
+    {
+      "edge_id": "Attribute:sharpe_ratio__mapped_to_field__DataField:dws_fund_risk retxx.Sharpe(近xx)",
+      "from": "Attribute:sharpe_ratio",
+      "to": "DataField:dws_fund_risk retxx.Sharpe(近xx)",
+      "relation_type": "mapped_to_field",
+      "score": 0.99
+    },
+    {
+      "edge_id": "QueryCapability:fund_benchmark_compare_query__reads_from__DataTable:dwd_fund_bm_grth_rate",
+      "from": "QueryCapability:fund_benchmark_compare_query",
+      "to": "DataTable:dwd_fund_bm_grth_rate",
+      "relation_type": "reads_from",
+      "score": 0.97
+    },
+    {
+      "edge_id": "QueryCapability:fund_benchmark_compare_query__reads_from__DataTable:dws_bm_perf_xx",
+      "from": "QueryCapability:fund_benchmark_compare_query",
+      "to": "DataTable:dws_bm_perf_xx",
+      "relation_type": "reads_from",
+      "score": 0.97
+    },
+    {
+      "edge_id": "QueryCapability:fund_perf_interval_query__reads_from__DataTable:DWD_FUND_NAV_GRTH",
+      "from": "QueryCapability:fund_perf_interval_query",
+      "to": "DataTable:DWD_FUND_NAV_GRTH",
+      "relation_type": "reads_from",
+      "score": 0.97
+    },
+    {
+      "edge_id": "QueryCapability:fund_perf_interval_query__reads_from__DataTable:dws_fund_perf_xx",
+      "from": "QueryCapability:fund_perf_interval_query",
+      "to": "DataTable:dws_fund_perf_xx",
+      "relation_type": "reads_from",
+      "score": 0.97
+    },
+    {
+      "edge_id": "QueryCapability:fund_risk_interval_query__reads_from__DataTable:dws_fund_risk retxx",
+      "from": "QueryCapability:fund_risk_interval_query",
+      "to": "DataTable:dws_fund_risk retxx",
+      "relation_type": "reads_from",
+      "score": 0.97
+    },
+    {
+      "edge_id": "QueryCapability:fund_benchmark_compare_query__returns_attribute__Attribute:benchmark_return",
+      "from": "QueryCapability:fund_benchmark_compare_query",
+      "to": "Attribute:benchmark_return",
+      "relation_type": "returns_attribute",
+      "score": 0.96
+    },
+    {
+      "edge_id": "QueryCapability:fund_benchmark_compare_query__returns_attribute__Attribute:excess_return",
+      "from": "QueryCapability:fund_benchmark_compare_query",
+      "to": "Attribute:excess_return",
+      "relation_type": "returns_attribute",
+      "score": 0.96
+    },
+    {
+      "edge_id": "QueryCapability:fund_benchmark_compare_query__returns_attribute__Attribute:return_rate",
+      "from": "QueryCapability:fund_benchmark_compare_query",
+      "to": "Attribute:return_rate",
+      "relation_type": "returns_attribute",
+      "score": 0.96
+    },
+    {
+      "edge_id": "QueryCapability:fund_perf_interval_query__returns_attribute__Attribute:benchmark_return",
+      "from": "QueryCapability:fund_perf_interval_query",
+      "to": "Attribute:benchmark_return",
+      "relation_type": "returns_attribute",
+      "score": 0.96
+    },
+    {
+      "edge_id": "QueryCapability:fund_perf_interval_query__returns_attribute__Attribute:excess_return",
+      "from": "QueryCapability:fund_perf_interval_query",
+      "to": "Attribute:excess_return",
+      "relation_type": "returns_attribute",
+      "score": 0.96
+    },
+    {
+      "edge_id": "QueryCapability:fund_perf_interval_query__returns_attribute__Attribute:max_drawdown",
+      "from": "QueryCapability:fund_perf_interval_query",
+      "to": "Attribute:max_drawdown",
+      "relation_type": "returns_attribute",
+      "score": 0.96
+    },
+    {
+      "edge_id": "QueryCapability:fund_perf_interval_query__returns_attribute__Attribute:return_rate",
+      "from": "QueryCapability:fund_perf_interval_query",
+      "to": "Attribute:return_rate",
+      "relation_type": "returns_attribute",
+      "score": 0.96
+    },
+    {
+      "edge_id": "QueryCapability:fund_perf_interval_query__returns_attribute__Attribute:sharpe_ratio",
+      "from": "QueryCapability:fund_perf_interval_query",
+      "to": "Attribute:sharpe_ratio",
+      "relation_type": "returns_attribute",
+      "score": 0.96
+    },
+    {
+      "edge_id": "QueryCapability:fund_perf_interval_query__returns_attribute__Attribute:volatility",
+      "from": "QueryCapability:fund_perf_interval_query",
+      "to": "Attribute:volatility",
+      "relation_type": "returns_attribute",
+      "score": 0.96
+    },
+    {
+      "edge_id": "QueryCapability:fund_risk_interval_query__returns_attribute__Attribute:max_drawdown",
+      "from": "QueryCapability:fund_risk_interval_query",
+      "to": "Attribute:max_drawdown",
+      "relation_type": "returns_attribute",
+      "score": 0.96
+    },
+    {
+      "edge_id": "QueryCapability:fund_risk_interval_query__returns_attribute__Attribute:sharpe_ratio",
+      "from": "QueryCapability:fund_risk_interval_query",
+      "to": "Attribute:sharpe_ratio",
+      "relation_type": "returns_attribute",
+      "score": 0.96
+    },
+    {
+      "edge_id": "QueryCapability:fund_risk_interval_query__returns_attribute__Attribute:volatility",
+      "from": "QueryCapability:fund_risk_interval_query",
+      "to": "Attribute:volatility",
+      "relation_type": "returns_attribute",
+      "score": 0.96
+    },
+    {
+      "edge_id": "Attribute:sharpe_ratio__mapped_to_field__DataField:dws_fund_risk ret_peer_xx.Sharp（同类平均）（近xx）",
+      "from": "Attribute:sharpe_ratio",
+      "to": "DataField:dws_fund_risk ret_peer_xx.Sharp（同类平均）（近xx）",
+      "relation_type": "mapped_to_field",
+      "score": 0.99
+    },
+    {
+      "edge_id": "Attribute:volatility__mapped_to_field__DataField:DWS_FUND_RISK_PEER_xx.年化波动率（同类平均）(近xx)",
+      "from": "Attribute:volatility",
+      "to": "DataField:DWS_FUND_RISK_PEER_xx.年化波动率（同类平均）(近xx)",
+      "relation_type": "mapped_to_field",
+      "score": 0.99
+    },
+    {
+      "edge_id": "Attribute:volatility__mapped_to_field__DataField:DWS_FUND_RISK_PEER_xx.年化波动率（同类排名）(近xx)",
+      "from": "Attribute:volatility",
+      "to": "DataField:DWS_FUND_RISK_PEER_xx.年化波动率（同类排名）(近xx)",
+      "relation_type": "mapped_to_field",
+      "score": 0.99
+    },
+    {
+      "edge_id": "QueryCapability:fund_peer_ranking_query__reads_from__DataTable:DWD_FUND_NAV_GRTH",
+      "from": "QueryCapability:fund_peer_ranking_query",
+      "to": "DataTable:DWD_FUND_NAV_GRTH",
+      "relation_type": "reads_from",
+      "score": 0.97
+    },
+    {
+      "edge_id": "Attribute:volatility__mapped_to_field__DataField:DWS FUND RISK xx.化波动率",
+      "from": "Attribute:volatility",
+      "to": "DataField:DWS FUND RISK xx.化波动率",
+      "relation_type": "mapped_to_field",
+      "score": 0.99
+    }
+  ],
+  "relation_paths": [
+    {
+      "path": [
+        "ObjectType:Fund",
+        "DataTable:dim_fund_info",
+        "DataTable:dwd_fund_bm_grth_rate"
+      ],
+      "edges": [
+        "ObjectType:Fund__sourced_from_table__DataTable:dim_fund_info",
+        "DataTable:dim_fund_info__joins_on__DataTable:dwd_fund_bm_grth_rate"
+      ],
+      "score": 0.88
+    },
+    {
+      "path": [
+        "ObjectType:Fund",
+        "DataTable:dim_fund_info",
+        "DataTable:DWD_FUND_NAV_GRTH"
+      ],
+      "edges": [
+        "ObjectType:Fund__sourced_from_table__DataTable:dim_fund_info",
+        "DataTable:dim_fund_info__joins_on__DataTable:DWD_FUND_NAV_GRTH"
+      ],
+      "score": 0.88
+    },
+    {
+      "path": [
+        "ObjectType:Fund",
+        "DataTable:dim_fund_info",
+        "DataTable:dws_bm_perf_xx"
+      ],
+      "edges": [
+        "ObjectType:Fund__sourced_from_table__DataTable:dim_fund_info",
+        "DataTable:dim_fund_info__joins_on__DataTable:dws_bm_perf_xx"
+      ],
+      "score": 0.88
+    }
+  ],
+  "relation_subgraph": {
+    "nodes": [
+      {
+        "node_id": "ObjectType:Fund",
+        "object_type": "ObjectType",
+        "object_id": "Fund",
+        "source": "matched_object",
+        "name": "Fund"
+      },
+      {
+        "node_id": "Attribute:benchmark_return",
+        "object_type": "Attribute",
+        "object_id": "benchmark_return",
+        "source": "matched_attribute",
+        "name": "基准收益率"
+      },
+      {
+        "node_id": "Attribute:excess_return",
+        "object_type": "Attribute",
+        "object_id": "excess_return",
+        "source": "matched_attribute",
+        "name": "超额收益率"
+      },
+      {
+        "node_id": "Attribute:max_drawdown",
+        "object_type": "Attribute",
+        "object_id": "max_drawdown",
+        "source": "matched_attribute",
+        "name": "最大回撤"
+      },
+      {
+        "node_id": "Attribute:rank",
+        "object_type": "Attribute",
+        "object_id": "rank",
+        "source": "matched_attribute",
+        "name": "排名"
+      },
+      {
+        "node_id": "Attribute:return_rate",
+        "object_type": "Attribute",
+        "object_id": "return_rate",
+        "source": "matched_attribute",
+        "name": "区间收益率"
+      },
+      {
+        "node_id": "Attribute:sharpe_ratio",
+        "object_type": "Attribute",
+        "object_id": "sharpe_ratio",
+        "source": "matched_attribute",
+        "name": "夏普比率"
+      },
+      {
+        "node_id": "Attribute:volatility",
+        "object_type": "Attribute",
+        "object_id": "volatility",
+        "source": "matched_attribute",
+        "name": "波动率"
+      },
+      {
+        "node_id": "QueryCapability:fund_benchmark_compare_query",
+        "object_type": "QueryCapability",
+        "object_id": "fund_benchmark_compare_query",
+        "source": "candidate_query",
+        "name": "基金基准对比查询"
+      },
+      {
+        "node_id": "QueryCapability:fund_peer_ranking_query",
+        "object_type": "QueryCapability",
+        "object_id": "fund_peer_ranking_query",
+        "source": "candidate_query",
+        "name": "基金同类排名查询"
+      },
+      {
+        "node_id": "QueryCapability:fund_perf_interval_query",
+        "object_type": "QueryCapability",
+        "object_id": "fund_perf_interval_query",
+        "source": "candidate_query",
+        "name": "基金区间业绩查询"
+      },
+      {
+        "node_id": "QueryCapability:fund_risk_interval_query",
+        "object_type": "QueryCapability",
+        "object_id": "fund_risk_interval_query",
+        "source": "candidate_query",
+        "name": "基金区间风险查询"
+      },
+      {
+        "node_id": "SkillCapability:fund_benchmark_compare",
+        "object_type": "SkillCapability",
+        "object_id": "fund_benchmark_compare",
+        "source": "candidate_skill",
+        "name": "基金基准对比"
+      },
+      {
+        "node_id": "SkillCapability:fund_peer_comparison",
+        "object_type": "SkillCapability",
+        "object_id": "fund_peer_comparison",
+        "source": "candidate_skill",
+        "name": "基金同类比较"
+      },
+      {
+        "node_id": "SkillCapability:fund_performance_analysis",
+        "object_type": "SkillCapability",
+        "object_id": "fund_performance_analysis",
+        "source": "candidate_skill",
+        "name": "基金业绩分析"
+      },
+      {
+        "node_id": "SkillCapability:fund_risk_analysis",
+        "object_type": "SkillCapability",
+        "object_id": "fund_risk_analysis",
+        "source": "candidate_skill",
+        "name": "基金风险分析"
+      },
+      {
+        "node_id": "DataTable:DWD_FUND_NAV_GRTH",
+        "object_type": "DataTable",
+        "object_id": "DWD_FUND_NAV_GRTH",
+        "source": "matched_relations"
+      },
+      {
+        "node_id": "DataTable:dim_fund_info",
+        "object_type": "DataTable",
+        "object_id": "dim_fund_info",
+        "source": "path"
+      },
+      {
+        "node_id": "DataTable:dwd_fund_bm_grth_rate",
+        "object_type": "DataTable",
+        "object_id": "dwd_fund_bm_grth_rate",
+        "source": "matched_relations"
+      },
+      {
+        "node_id": "DataTable:dws_bm_perf_xx",
+        "object_type": "DataTable",
+        "object_id": "dws_bm_perf_xx",
+        "source": "matched_relations"
+      },
+      {
+        "node_id": "DataTable:dws_fund_perf_xx",
+        "object_type": "DataTable",
+        "object_id": "dws_fund_perf_xx",
+        "source": "matched_relations"
+      },
+      {
+        "node_id": "DataTable:dws_fund_risk retxx",
+        "object_type": "DataTable",
+        "object_id": "dws_fund_risk retxx",
+        "source": "matched_relations"
+      },
+      {
+        "node_id": "DataField:DWD_FUND_NAV_GRTH.收益率(一年)",
+        "object_type": "DataField",
+        "object_id": "DWD_FUND_NAV_GRTH.收益率(一年)",
+        "source": "matched_relations"
+      },
+      {
+        "node_id": "DataField:DWD_FUND_NAV_GRTH.最大回撤(一年)",
+        "object_type": "DataField",
+        "object_id": "DWD_FUND_NAV_GRTH.最大回撤(一年)",
+        "source": "matched_relations"
+      },
+      {
+        "node_id": "DataField:DWD_FUND_NAV_GRTH.最近一年同类基金收益率",
+        "object_type": "DataField",
+        "object_id": "DWD_FUND_NAV_GRTH.最近一年同类基金收益率",
+        "source": "matched_relations"
+      },
+      {
+        "node_id": "DataField:DWS FUND RISK xx.化波动率",
+        "object_type": "DataField",
+        "object_id": "DWS FUND RISK xx.化波动率",
+        "source": "matched_relations"
+      },
+      {
+        "node_id": "DataField:DWS_FUND_RISK_PEER_xx.年化波动率（同类平均）(近xx)",
+        "object_type": "DataField",
+        "object_id": "DWS_FUND_RISK_PEER_xx.年化波动率（同类平均）(近xx)",
+        "source": "matched_relations"
+      },
+      {
+        "node_id": "DataField:DWS_FUND_RISK_PEER_xx.年化波动率（同类排名）(近xx)",
+        "object_type": "DataField",
+        "object_id": "DWS_FUND_RISK_PEER_xx.年化波动率（同类排名）(近xx)",
+        "source": "matched_relations"
+      },
+      {
+        "node_id": "DataField:dws_bm_perf_xx.几何平均收益率（近xx)",
+        "object_type": "DataField",
+        "object_id": "dws_bm_perf_xx.几何平均收益率（近xx)",
+        "source": "matched_relations"
+      },
+      {
+        "node_id": "DataField:dws_fund_perf_xx_dd.最大回撤峰值（近xx)",
+        "object_type": "DataField",
+        "object_id": "dws_fund_perf_xx_dd.最大回撤峰值（近xx)",
+        "source": "matched_relations"
+      },
+      {
+        "node_id": "DataField:dws_fund_perf_xx_dd.最大回撤（近xx）",
+        "object_type": "DataField",
+        "object_id": "dws_fund_perf_xx_dd.最大回撤（近xx）",
+        "source": "matched_relations"
+      },
+      {
+        "node_id": "DataField:dws_fund_risk ret_peer_xx.Sharp（同类平均）（近xx）",
+        "object_type": "DataField",
+        "object_id": "dws_fund_risk ret_peer_xx.Sharp（同类平均）（近xx）",
+        "source": "matched_relations"
+      },
+      {
+        "node_id": "DataField:dws_fund_risk retxx.Sharpe(近xx)",
+        "object_type": "DataField",
+        "object_id": "dws_fund_risk retxx.Sharpe(近xx)",
+        "source": "matched_relations"
+      },
+      {
+        "node_id": "DataField:dws_fund_risk retxx.Sharpe（年化）(近xx)",
+        "object_type": "DataField",
+        "object_id": "dws_fund_risk retxx.Sharpe（年化）(近xx)",
+        "source": "matched_relations"
+      }
+    ],
+    "edges": [
+      {
+        "edge_id": "QueryCapability:fund_benchmark_compare_query__returns_attribute__Attribute:benchmark_return",
+        "from": "QueryCapability:fund_benchmark_compare_query",
+        "to": "Attribute:benchmark_return",
+        "relation_type": "returns_attribute",
+        "score": 0.96,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "QueryCapability:fund_benchmark_compare_query__returns_attribute__Attribute:excess_return",
+        "from": "QueryCapability:fund_benchmark_compare_query",
+        "to": "Attribute:excess_return",
+        "relation_type": "returns_attribute",
+        "score": 0.96,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "QueryCapability:fund_benchmark_compare_query__returns_attribute__Attribute:return_rate",
+        "from": "QueryCapability:fund_benchmark_compare_query",
+        "to": "Attribute:return_rate",
+        "relation_type": "returns_attribute",
+        "score": 0.96,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "QueryCapability:fund_perf_interval_query__returns_attribute__Attribute:benchmark_return",
+        "from": "QueryCapability:fund_perf_interval_query",
+        "to": "Attribute:benchmark_return",
+        "relation_type": "returns_attribute",
+        "score": 0.96,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "QueryCapability:fund_perf_interval_query__returns_attribute__Attribute:excess_return",
+        "from": "QueryCapability:fund_perf_interval_query",
+        "to": "Attribute:excess_return",
+        "relation_type": "returns_attribute",
+        "score": 0.96,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "QueryCapability:fund_perf_interval_query__returns_attribute__Attribute:max_drawdown",
+        "from": "QueryCapability:fund_perf_interval_query",
+        "to": "Attribute:max_drawdown",
+        "relation_type": "returns_attribute",
+        "score": 0.96,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "QueryCapability:fund_perf_interval_query__returns_attribute__Attribute:return_rate",
+        "from": "QueryCapability:fund_perf_interval_query",
+        "to": "Attribute:return_rate",
+        "relation_type": "returns_attribute",
+        "score": 0.96,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "QueryCapability:fund_perf_interval_query__returns_attribute__Attribute:sharpe_ratio",
+        "from": "QueryCapability:fund_perf_interval_query",
+        "to": "Attribute:sharpe_ratio",
+        "relation_type": "returns_attribute",
+        "score": 0.96,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "QueryCapability:fund_perf_interval_query__returns_attribute__Attribute:volatility",
+        "from": "QueryCapability:fund_perf_interval_query",
+        "to": "Attribute:volatility",
+        "relation_type": "returns_attribute",
+        "score": 0.96,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "QueryCapability:fund_risk_interval_query__returns_attribute__Attribute:max_drawdown",
+        "from": "QueryCapability:fund_risk_interval_query",
+        "to": "Attribute:max_drawdown",
+        "relation_type": "returns_attribute",
+        "score": 0.96,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "QueryCapability:fund_risk_interval_query__returns_attribute__Attribute:sharpe_ratio",
+        "from": "QueryCapability:fund_risk_interval_query",
+        "to": "Attribute:sharpe_ratio",
+        "relation_type": "returns_attribute",
+        "score": 0.96,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "QueryCapability:fund_risk_interval_query__returns_attribute__Attribute:volatility",
+        "from": "QueryCapability:fund_risk_interval_query",
+        "to": "Attribute:volatility",
+        "relation_type": "returns_attribute",
+        "score": 0.96,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "QueryCapability:fund_benchmark_compare_query__reads_from__DataTable:dwd_fund_bm_grth_rate",
+        "from": "QueryCapability:fund_benchmark_compare_query",
+        "to": "DataTable:dwd_fund_bm_grth_rate",
+        "relation_type": "reads_from",
+        "score": 0.97,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "QueryCapability:fund_benchmark_compare_query__reads_from__DataTable:dws_bm_perf_xx",
+        "from": "QueryCapability:fund_benchmark_compare_query",
+        "to": "DataTable:dws_bm_perf_xx",
+        "relation_type": "reads_from",
+        "score": 0.97,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "QueryCapability:fund_peer_ranking_query__reads_from__DataTable:DWD_FUND_NAV_GRTH",
+        "from": "QueryCapability:fund_peer_ranking_query",
+        "to": "DataTable:DWD_FUND_NAV_GRTH",
+        "relation_type": "reads_from",
+        "score": 0.97,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "QueryCapability:fund_perf_interval_query__reads_from__DataTable:DWD_FUND_NAV_GRTH",
+        "from": "QueryCapability:fund_perf_interval_query",
+        "to": "DataTable:DWD_FUND_NAV_GRTH",
+        "relation_type": "reads_from",
+        "score": 0.97,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "QueryCapability:fund_perf_interval_query__reads_from__DataTable:dws_fund_perf_xx",
+        "from": "QueryCapability:fund_perf_interval_query",
+        "to": "DataTable:dws_fund_perf_xx",
+        "relation_type": "reads_from",
+        "score": 0.97,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "QueryCapability:fund_risk_interval_query__reads_from__DataTable:dws_fund_risk retxx",
+        "from": "QueryCapability:fund_risk_interval_query",
+        "to": "DataTable:dws_fund_risk retxx",
+        "relation_type": "reads_from",
+        "score": 0.97,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "Attribute:max_drawdown__mapped_to_field__DataField:DWD_FUND_NAV_GRTH.最大回撤(一年)",
+        "from": "Attribute:max_drawdown",
+        "to": "DataField:DWD_FUND_NAV_GRTH.最大回撤(一年)",
+        "relation_type": "mapped_to_field",
+        "score": 0.99,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "Attribute:max_drawdown__mapped_to_field__DataField:dws_fund_perf_xx_dd.最大回撤峰值（近xx)",
+        "from": "Attribute:max_drawdown",
+        "to": "DataField:dws_fund_perf_xx_dd.最大回撤峰值（近xx)",
+        "relation_type": "mapped_to_field",
+        "score": 0.99,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "Attribute:max_drawdown__mapped_to_field__DataField:dws_fund_perf_xx_dd.最大回撤（近xx）",
+        "from": "Attribute:max_drawdown",
+        "to": "DataField:dws_fund_perf_xx_dd.最大回撤（近xx）",
+        "relation_type": "mapped_to_field",
+        "score": 0.99,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "Attribute:return_rate__mapped_to_field__DataField:DWD_FUND_NAV_GRTH.收益率(一年)",
+        "from": "Attribute:return_rate",
+        "to": "DataField:DWD_FUND_NAV_GRTH.收益率(一年)",
+        "relation_type": "mapped_to_field",
+        "score": 0.99,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "Attribute:return_rate__mapped_to_field__DataField:DWD_FUND_NAV_GRTH.最近一年同类基金收益率",
+        "from": "Attribute:return_rate",
+        "to": "DataField:DWD_FUND_NAV_GRTH.最近一年同类基金收益率",
+        "relation_type": "mapped_to_field",
+        "score": 0.99,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "Attribute:return_rate__mapped_to_field__DataField:dws_bm_perf_xx.几何平均收益率（近xx)",
+        "from": "Attribute:return_rate",
+        "to": "DataField:dws_bm_perf_xx.几何平均收益率（近xx)",
+        "relation_type": "mapped_to_field",
+        "score": 0.99,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "Attribute:sharpe_ratio__mapped_to_field__DataField:dws_fund_risk ret_peer_xx.Sharp（同类平均）（近xx）",
+        "from": "Attribute:sharpe_ratio",
+        "to": "DataField:dws_fund_risk ret_peer_xx.Sharp（同类平均）（近xx）",
+        "relation_type": "mapped_to_field",
+        "score": 0.99,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "Attribute:sharpe_ratio__mapped_to_field__DataField:dws_fund_risk retxx.Sharpe(近xx)",
+        "from": "Attribute:sharpe_ratio",
+        "to": "DataField:dws_fund_risk retxx.Sharpe(近xx)",
+        "relation_type": "mapped_to_field",
+        "score": 0.99,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "Attribute:sharpe_ratio__mapped_to_field__DataField:dws_fund_risk retxx.Sharpe（年化）(近xx)",
+        "from": "Attribute:sharpe_ratio",
+        "to": "DataField:dws_fund_risk retxx.Sharpe（年化）(近xx)",
+        "relation_type": "mapped_to_field",
+        "score": 0.99,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "Attribute:volatility__mapped_to_field__DataField:DWS FUND RISK xx.化波动率",
+        "from": "Attribute:volatility",
+        "to": "DataField:DWS FUND RISK xx.化波动率",
+        "relation_type": "mapped_to_field",
+        "score": 0.99,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "Attribute:volatility__mapped_to_field__DataField:DWS_FUND_RISK_PEER_xx.年化波动率（同类平均）(近xx)",
+        "from": "Attribute:volatility",
+        "to": "DataField:DWS_FUND_RISK_PEER_xx.年化波动率（同类平均）(近xx)",
+        "relation_type": "mapped_to_field",
+        "score": 0.99,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "Attribute:volatility__mapped_to_field__DataField:DWS_FUND_RISK_PEER_xx.年化波动率（同类排名）(近xx)",
+        "from": "Attribute:volatility",
+        "to": "DataField:DWS_FUND_RISK_PEER_xx.年化波动率（同类排名）(近xx)",
+        "relation_type": "mapped_to_field",
+        "score": 0.99,
+        "source": "matched_relations"
+      },
+      {
+        "edge_id": "ObjectType:Fund__sourced_from_table__DataTable:dim_fund_info",
+        "from": "ObjectType:Fund",
+        "to": "DataTable:dim_fund_info",
+        "relation_type": "sourced_from_table",
+        "score": 0.0,
+        "source": "relation_paths"
+      },
+      {
+        "edge_id": "DataTable:dim_fund_info__joins_on__DataTable:DWD_FUND_NAV_GRTH",
+        "from": "DataTable:dim_fund_info",
+        "to": "DataTable:DWD_FUND_NAV_GRTH",
+        "relation_type": "joins_on",
+        "score": 0.0,
+        "source": "relation_paths"
+      },
+      {
+        "edge_id": "DataTable:dim_fund_info__joins_on__DataTable:dwd_fund_bm_grth_rate",
+        "from": "DataTable:dim_fund_info",
+        "to": "DataTable:dwd_fund_bm_grth_rate",
+        "relation_type": "joins_on",
+        "score": 0.0,
+        "source": "relation_paths"
+      },
+      {
+        "edge_id": "DataTable:dim_fund_info__joins_on__DataTable:dws_bm_perf_xx",
+        "from": "DataTable:dim_fund_info",
+        "to": "DataTable:dws_bm_perf_xx",
+        "relation_type": "joins_on",
+        "score": 0.0,
+        "source": "relation_paths"
+      }
+    ],
+    "paths": [
+      {
+        "path": [
+          "ObjectType:Fund",
+          "DataTable:dim_fund_info",
+          "DataTable:dwd_fund_bm_grth_rate"
+        ],
+        "edges": [
+          "ObjectType:Fund__sourced_from_table__DataTable:dim_fund_info",
+          "DataTable:dim_fund_info__joins_on__DataTable:dwd_fund_bm_grth_rate"
+        ],
+        "score": 0.88
+      },
+      {
+        "path": [
+          "ObjectType:Fund",
+          "DataTable:dim_fund_info",
+          "DataTable:DWD_FUND_NAV_GRTH"
+        ],
+        "edges": [
+          "ObjectType:Fund__sourced_from_table__DataTable:dim_fund_info",
+          "DataTable:dim_fund_info__joins_on__DataTable:DWD_FUND_NAV_GRTH"
+        ],
+        "score": 0.88
+      },
+      {
+        "path": [
+          "ObjectType:Fund",
+          "DataTable:dim_fund_info",
+          "DataTable:dws_bm_perf_xx"
+        ],
+        "edges": [
+          "ObjectType:Fund__sourced_from_table__DataTable:dim_fund_info",
+          "DataTable:dim_fund_info__joins_on__DataTable:dws_bm_perf_xx"
+        ],
+        "score": 0.88
+      }
+    ]
+  },
+  "candidate_queries": [
+    {
+      "query_id": "fund_benchmark_compare_query",
+      "description": "基金基准对比查询",
+      "target_object_type": "Fund",
+      "required_params": [
+        "fund_code",
+        "period"
+      ],
+      "optional_params": [
+        "benchmark_code"
+      ],
+      "output_attributes": [
+        "return_rate",
+        "benchmark_return",
+        "excess_return",
+        "tracking_error",
+        "information_ratio"
+      ],
+      "tool_type": "MCP",
+      "tool_name": "structured_query_execute",
+      "permission_scope": "fund_public_data:read",
+      "confidence": 0.95
+    },
+    {
+      "query_id": "fund_peer_ranking_query",
+      "description": "基金同类排名查询",
+      "target_object_type": "Fund",
+      "required_params": [
+        "fund_code",
+        "period"
+      ],
+      "optional_params": [],
+      "output_attributes": [
+        "peer_return_rank",
+        "peer_risk_rank",
+        "peer_sharpe_rank",
+        "peer_drawdown_rank",
+        "peer_average"
+      ],
+      "tool_type": "MCP",
+      "tool_name": "structured_query_execute",
+      "permission_scope": "fund_public_data:read",
+      "confidence": 0.95
+    },
+    {
+      "query_id": "fund_perf_interval_query",
+      "description": "基金区间业绩查询",
+      "target_object_type": "Fund",
+      "required_params": [
+        "fund_code",
+        "period"
+      ],
+      "optional_params": [
+        "benchmark_code"
+      ],
+      "output_attributes": [
+        "return_rate",
+        "annualized_return",
+        "ytd_return",
+        "inception_return",
+        "benchmark_return",
+        "excess_return",
+        "max_drawdown",
+        "volatility",
+        "sharpe_ratio"
+      ],
+      "tool_type": "MCP",
+      "tool_name": "structured_query_execute",
+      "permission_scope": "fund_public_data:read",
+      "confidence": 0.95
+    },
+    {
+      "query_id": "fund_risk_interval_query",
+      "description": "基金区间风险查询",
+      "target_object_type": "Fund",
+      "required_params": [
+        "fund_code",
+        "period"
+      ],
+      "optional_params": [],
+      "output_attributes": [
+        "max_drawdown",
+        "volatility",
+        "standard_deviation",
+        "sharpe_ratio",
+        "sortino_ratio",
+        "calmar_ratio",
+        "tracking_error",
+        "information_ratio",
+        "var",
+        "cvar",
+        "downside_risk"
+      ],
+      "tool_type": "MCP",
+      "tool_name": "structured_query_execute",
+      "permission_scope": "fund_public_data:read",
+      "confidence": 0.95
+    }
+  ],
+  "resolved_params": {
+    "fund_code": "000001",
+    "period": "1y"
+  },
+  "candidate_invocations": [
+    {
+      "capability_type": "query",
+      "query_id": "fund_perf_interval_query",
+      "tool_type": "MCP",
+      "tool_name": "structured_query_execute",
+      "priority": "primary",
+      "params": {
+        "fund_code": "000001",
+        "period": "1y"
+      },
+      "missing_params": [],
+      "confidence": 0.95,
+      "match_reasons": [
+        "target_object_type matched: Fund",
+        "output_attributes covered: benchmark_return,excess_return,max_drawdown,return_rate,sharpe_ratio,volatility",
+        "required_params resolved: fund_code,period",
+        "permission_scope matched: fund_public_data:read"
+      ]
+    },
+    {
+      "capability_type": "skill",
+      "skill_id": "fund_performance_analysis",
+      "tool_type": "SkillCapability",
+      "tool_name": "fund_performance_analysis",
+      "priority": "primary",
+      "related_queries": [
+        "fund_perf_interval_query"
+      ],
+      "params": {
+        "fund_code": "000001",
+        "period": "1y"
+      },
+      "missing_params": [],
+      "confidence": 0.95,
+      "match_reasons": [
+        "target_object_type matched: Fund",
+        "output_attributes covered: benchmark_return,excess_return,max_drawdown,return_rate,sharpe_ratio,volatility",
+        "required_params resolved: fund_code,period",
+        "permission_scope matched: fund_public_data:read"
+      ]
+    },
+    {
+      "capability_type": "skill",
+      "skill_id": "fund_benchmark_compare",
+      "tool_type": "SkillCapability",
+      "tool_name": "fund_benchmark_compare",
+      "priority": "secondary",
+      "related_queries": [
+        "fund_benchmark_compare_query"
+      ],
+      "params": {
+        "fund_code": "000001",
+        "period": "1y"
+      },
+      "missing_params": [],
+      "confidence": 0.95,
+      "match_reasons": [
+        "target_object_type matched: Fund",
+        "output_attributes covered: benchmark_return,excess_return,return_rate",
+        "required_params resolved: fund_code,period",
+        "permission_scope matched: fund_public_data:read"
+      ]
+    },
+    {
+      "capability_type": "skill",
+      "skill_id": "fund_risk_analysis",
+      "tool_type": "SkillCapability",
+      "tool_name": "fund_risk_analysis",
+      "priority": "secondary",
+      "related_queries": [
+        "fund_risk_interval_query"
+      ],
+      "params": {
+        "fund_code": "000001",
+        "period": "1y"
+      },
+      "missing_params": [],
+      "confidence": 0.95,
+      "match_reasons": [
+        "target_object_type matched: Fund",
+        "output_attributes covered: max_drawdown,sharpe_ratio,volatility",
+        "required_params resolved: fund_code,period",
+        "permission_scope matched: fund_public_data:read"
+      ]
+    },
+    {
+      "capability_type": "skill",
+      "skill_id": "fund_peer_comparison",
+      "tool_type": "SkillCapability",
+      "tool_name": "fund_peer_comparison",
+      "priority": "optional",
+      "related_queries": [
+        "fund_peer_ranking_query"
+      ],
+      "params": {
+        "fund_code": "000001",
+        "period": "1y"
+      },
+      "missing_params": [],
+      "confidence": 0.95,
+      "match_reasons": [
+        "target_object_type matched: Fund",
+        "required_params resolved: fund_code,period",
+        "permission_scope matched: fund_public_data:read"
+      ]
+    },
+    {
+      "capability_type": "query",
+      "query_id": "fund_benchmark_compare_query",
+      "tool_type": "MCP",
+      "tool_name": "structured_query_execute",
+      "priority": "secondary",
+      "params": {
+        "fund_code": "000001",
+        "period": "1y"
+      },
+      "missing_params": [],
+      "confidence": 0.95,
+      "match_reasons": [
+        "target_object_type matched: Fund",
+        "output_attributes covered: benchmark_return,excess_return,return_rate",
+        "required_params resolved: fund_code,period",
+        "permission_scope matched: fund_public_data:read"
+      ]
+    }
+  ],
+  "candidate_skills": [
+    {
+      "skill_id": "fund_performance_analysis",
+      "skill_name": "基金业绩分析",
+      "description": "分析基金区间收益、年化收益、超额收益、回撤和波动。",
+      "target_object_type": "Fund",
+      "input_params": [
+        "fund_code",
+        "period"
+      ],
+      "output_attributes": [
+        "return_rate",
+        "annualized_return",
+        "benchmark_return",
+        "excess_return",
+        "max_drawdown",
+        "volatility",
+        "sharpe_ratio"
+      ],
+      "related_queries": [
+        "fund_perf_interval_query"
+      ],
+      "permission_scope": "fund_public_data:read",
+      "missing_params": [],
+      "confidence": 0.95,
+      "priority": "primary"
+    },
+    {
+      "skill_id": "fund_benchmark_compare",
+      "skill_name": "基金基准对比",
+      "description": "分析基金相对业绩比较基准的收益、超额收益、跟踪误差和信息比率。",
+      "target_object_type": "Fund",
+      "input_params": [
+        "fund_code",
+        "period"
+      ],
+      "output_attributes": [
+        "return_rate",
+        "benchmark_return",
+        "excess_return",
+        "tracking_error",
+        "information_ratio"
+      ],
+      "related_queries": [
+        "fund_benchmark_compare_query"
+      ],
+      "permission_scope": "fund_public_data:read",
+      "missing_params": [],
+      "confidence": 0.95,
+      "priority": "secondary"
+    },
+    {
+      "skill_id": "fund_risk_analysis",
+      "skill_name": "基金风险分析",
+      "description": "分析最大回撤、波动率、夏普、Sortino、Calmar、跟踪误差、VaR 和下行风险。",
+      "target_object_type": "Fund",
+      "input_params": [
+        "fund_code",
+        "period"
+      ],
+      "output_attributes": [
+        "max_drawdown",
+        "volatility",
+        "standard_deviation",
+        "sharpe_ratio",
+        "sortino_ratio",
+        "calmar_ratio",
+        "tracking_error",
+        "information_ratio",
+        "var",
+        "cvar",
+        "downside_risk"
+      ],
+      "related_queries": [
+        "fund_risk_interval_query"
+      ],
+      "permission_scope": "fund_public_data:read",
+      "missing_params": [],
+      "confidence": 0.95,
+      "priority": "secondary"
+    },
+    {
+      "skill_id": "fund_peer_comparison",
+      "skill_name": "基金同类比较",
+      "description": "对比基金同类收益、风险、夏普和回撤排名。",
+      "target_object_type": "Fund",
+      "input_params": [
+        "fund_code",
+        "period"
+      ],
+      "output_attributes": [
+        "peer_return_rank",
+        "peer_risk_rank",
+        "peer_sharpe_rank",
+        "peer_drawdown_rank",
+        "peer_average"
+      ],
+      "related_queries": [
+        "fund_peer_ranking_query"
+      ],
+      "permission_scope": "fund_public_data:read",
+      "missing_params": [],
+      "confidence": 0.95,
+      "priority": "optional"
+    }
+  ],
+  "retrieval_summary": {
+    "main_object_types": [
+      "Fund"
+    ],
+    "main_attributes": [
+      "return_rate",
+      "benchmark_return",
+      "excess_return",
+      "max_drawdown",
+      "volatility",
+      "sharpe_ratio",
+      "rank"
+    ],
+    "main_query_capabilities": [
+      "fund_benchmark_compare_query",
+      "fund_peer_ranking_query",
+      "fund_perf_interval_query",
+      "fund_risk_interval_query"
+    ],
+    "main_skills": [
+      "fund_performance_analysis",
+      "fund_benchmark_compare",
+      "fund_risk_analysis",
+      "fund_peer_comparison"
+    ],
+    "main_tables": [
+      "dwd_fund_bm_grth_rate",
+      "dws_bm_perf_xx",
+      "DWD_FUND_NAV_GRTH",
+      "dws_fund_perf_xx",
+      "dws_fund_risk retxx",
+      "dim_fund_info"
+    ],
+    "period": "1y",
+    "fund_code": "000001"
+  },
+  "truncation": {
+    "truncated": true,
+    "detail_level": "compact",
+    "limits": {
+      "max_matched_relations": 30,
+      "max_relation_paths": 8,
+      "max_subgraph_nodes": 40,
+      "max_subgraph_edges": 60
+    },
+    "original_counts": {
+      "matched_relations": 209,
+      "relation_paths": 300,
+      "subgraph_nodes": 303,
+      "subgraph_edges": 448
+    },
+    "returned_counts": {
+      "matched_relations": 30,
+      "relation_paths": 3,
+      "subgraph_nodes": 34,
+      "subgraph_edges": 34
+    },
+    "reasons": [
+      "max_fields_per_attribute",
+      "max_paths_per_start_node",
+      "output_budget",
+      "path_pruning",
+      "period_filter"
+    ]
+  },
+  "missing_params": [],
+  "confidence": {
+    "overall": 0.936,
+    "entity_match": 0.98,
+    "attribute_match": 0.82,
+    "relation_match": 0.99,
+    "query_match": 0.95
+  },
+  "warnings": [
+    "问题未显式指定具体指标，已按基金综合表现分析默认补全收益、风险、基准和排名相关指标。"
+  ]
+}

@@ -22,6 +22,35 @@ def test_focus_view_keeps_relevant_business_nodes_for_query():
     assert any(node_id.startswith("Attribute:") for node_id in node_ids)
 
 
+def test_requirement_view_hides_data_fields_by_default():
+    view = build_graph_view(view_mode="requirement")
+
+    assert all(node["data"]["type"] != "DataField" for node in view["nodes"])
+
+
+def test_skill_focus_view_returns_focused_subgraph():
+    full = build_graph()
+    skill = next(node for node in full["nodes"] if node["data"]["type"] == "SkillCapability")
+    view = build_graph_view(view_mode="skill", focus_id=skill["data"]["id"], include_inferred=True)
+    node_ids = {node["data"]["id"] for node in view["nodes"]}
+
+    assert skill["data"]["id"] in node_ids
+    assert view["summary"]["node_count"] <= full["summary"]["node_count"]
+
+
+def test_skill_view_can_include_inferred_edges():
+    view = build_graph_view(view_mode="skill", include_inferred=True)
+
+    assert any(edge["data"].get("origin") == "inferred" for edge in view["edges"])
+
+
+def test_aggregate_edges_keeps_cytoscape_edge_shape():
+    view = build_graph_view(view_mode="full", include_fields=True, include_inferred=True, aggregate_edges=True)
+
+    assert "edges" in view
+    assert all("data" in edge and "source" in edge["data"] and "target" in edge["data"] for edge in view["edges"])
+
+
 def test_table_field_expansion_is_local_to_selected_table():
     full = build_graph()
     table = next(node for node in full["nodes"] if node["data"]["type"] == "DataTable" and node["data"]["raw"].get("fields"))

@@ -470,13 +470,18 @@
   disabled_reason: 非结构化政策文件数据暂未接入
 - skill_id: test_fund_query
   skill_name: test_基金指标查询
-  description: test_基金指标查询
+  description: test
   enabled: true
   target_object_type: Fund
   input_params: []
-  supported_attributes:
+  supported_attributes: []
+  output_attributes:
   - fund_code
   - fund_name
+  - is_fof
+  - is_pension
+  - is_index_fund
+  - custodian
   - benchmark_name
   - tracking_index_code
   - tracking_index_name
@@ -484,8 +489,6 @@
   - company_name
   - manager_id
   - manager_name
-  - manager_resume
-  - manager_tenure_days
   - manager_scale
   - unit_nav
   - accumulated_nav
@@ -493,15 +496,5 @@
   - nav_date
   - daily_return
   - return_rate
-  - annualized_return
-  - ytd_return
-  - inception_return
-  - benchmark_return
-  - excess_return
-  - dividend_adjusted_return
-  - geometric_average_return
-  - arithmetic_average_return
-  output_attributes: []
   provides_fact_types: []
   related_queries: []
-  permission_scope: fund_public_data:read

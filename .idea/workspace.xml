@@ -4,33 +4,46 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5119a13a-d11e-4d57-9e83-14b497f5f441" name="Changes" comment="" />
+    <list default="true" id="5119a13a-d11e-4d57-9e83-14b497f5f441" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ontology/skills.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/ontology/skills.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ontology_editor/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/ontology_editor/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ontology_editor/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/ontology_editor/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ontology_editor/graph_builder.py" beforeDir="false" afterPath="$PROJECT_DIR$/ontology_editor/graph_builder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ontology_editor/static/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/ontology_editor/static/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ontology_editor/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/ontology_editor/static/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ontology_editor/static/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/ontology_editor/static/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ontology_editor/yaml_store.py" beforeDir="false" afterPath="$PROJECT_DIR$/ontology_editor/yaml_store.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_ontology_editor_graph_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_ontology_editor_graph_view.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="3EYgUvuof5OuhLL2qoeB0o78LXb" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "D:/Data/Workspace/OAGdemo/OAG_MCP"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Data/Workspace/OAGdemo/OAG_MCP&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>

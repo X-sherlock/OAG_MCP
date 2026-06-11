@@ -305,6 +305,10 @@ def normalize_node_payload(node_type: str, node_id: str, data: dict[str, Any]) -
         payload["semantic_type"] = payload.pop("data_type")
     if node_type == "QueryCapability" and "description" not in payload:
         payload["description"] = payload.get("query_name", "")
+    if node_type == "SkillCapability":
+        if not payload.get("permission_scope"):
+            payload["permission_scope"] = "fund_public_data:read"
+        payload.setdefault("related_queries", [])
     if node_type == "PeriodVariant":
         payload.setdefault("code", strip_node_prefix(node_id))
     return payload

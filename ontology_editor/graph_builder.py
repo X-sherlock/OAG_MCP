@@ -17,9 +17,9 @@ CORE_NODE_TYPES = {
 }
 VIEW_NODE_TYPES = {
     "overview": {"ObjectType", "IntentProfile", "SkillCapability", "QueryCapability"},
-    "requirement": {"IntentProfile", "ObjectType", "Attribute", "SkillCapability"},
-    "skill": {"SkillCapability", "Attribute", "QueryCapability", "ObjectType"},
-    "object_attribute": {"ObjectType", "Attribute"},
+    "requirement": {"IntentProfile", "ObjectType", "Attribute", "SkillCapability", "QueryCapability"},
+    "skill": {"SkillCapability", "Attribute", "QueryCapability", "ObjectType", "DataTable"},
+    "object_attribute": {"ObjectType", "Attribute", "SkillCapability", "QueryCapability"},
     "table_mapping": {"Attribute", "DataTable", "DataField"},
     "full": set(NODE_TYPE_ORDER := (
         "ObjectType",
@@ -54,6 +54,8 @@ VIEW_EDGE_TYPES = {
         "outputs_attribute",
         "targets_object_type",
         "has_skill",
+        "related_query",
+        "uses_query",
     },
     "skill": {
         "supports_attribute",
@@ -64,8 +66,17 @@ VIEW_EDGE_TYPES = {
         "targets_object_type",
         "has_skill",
         "has_query",
+        "uses_table",
     },
-    "object_attribute": {"has_attribute"},
+    "object_attribute": {
+        "has_attribute",
+        "has_skill",
+        "has_query",
+        "supports_attribute",
+        "provides_attribute",
+        "outputs_attribute",
+        "related_query",
+    },
     "table_mapping": {
         "maps_to_field",
         "mapped_to_field",
@@ -216,6 +227,7 @@ def build_graph_view(
     depth: int = 2,
     include_fields: bool = False,
     include_inferred: bool = False,
+    aggregate_edges: bool = False,
 ) -> dict[str, Any]:
     graph = build_graph()
     all_nodes = {node["data"]["id"]: node for node in graph["nodes"]}
@@ -286,6 +298,8 @@ def build_graph_view(
     ]
     nodes = [with_view_metadata(all_nodes[node_id], all_edges) for node_id in sorted(visible_nodes, key=node_sort_key(all_nodes))]
     edges = sorted(visible_edges, key=lambda edge: (edge["data"].get("type", ""), edge["data"].get("id", "")))
+    if aggregate_edges:
+        edges = aggregate_edge_list(edges)
     hidden = hidden_counts(graph, nodes, edges)
     summary = {
         "view_mode": mode,
@@ -306,6 +320,37 @@ def build_graph_view(
         "hidden_counts": hidden,
         "relation_groups": relation_groups(edges),
     }
+
+
+def aggregate_edge_list(edges: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    grouped: dict[tuple[str, str, str], list[dict[str, Any]]] = {}
+    for edge in edges:
+        data = edge["data"]
+        key = (data.get("source", ""), data.get("target", ""), data.get("type", ""))
+        grouped.setdefault(key, []).append(edge)
+
+    result: list[dict[str, Any]] = []
+    for (source, target, relation_type), group in grouped.items():
+        if len(group) == 1:
+            result.append(group[0])
+            continue
+        first = group[0]["data"]
+        bundle_id = f"bundle:{stable_edge_id(source, target, relation_type, 'bundle')}"
+        result.append(
+            {
+                "data": {
+                    **first,
+                    "id": bundle_id,
+                    "label": f"{relation_type} × {len(group)}",
+                    "is_bundle": True,
+                    "bundle_count": len(group),
+                    "bundled_edges": [edge["data"] for edge in group],
+                    "origin": "bundle",
+                    "editable": False,
+                }
+            }
+        )
+    return result
 
 
 def normalize_view_mode(mode: str | None) -> str:

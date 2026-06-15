@@ -5,6 +5,7 @@ const NODE_TYPES = [
   "QueryCapability",
   "IntentProfile",
   "RelationType",
+  "FactType",
   "DataTable",
   "DataField",
   "DataSource",
@@ -20,10 +21,12 @@ const QUICK_FIELDS = {
     "description",
     "enabled",
     "target_object_type",
+    "supported_subject_types",
     "input_params",
     "supported_attributes",
     "output_attributes",
     "provides_fact_types",
+    "supported_relations",
     "related_queries",
     "permission_scope",
   ],
@@ -51,6 +54,7 @@ const QUICK_FIELDS = {
     "source_tables",
   ],
   RelationType: ["relation_type", "relation_name_zh", "from_object_type", "to_object_type", "description", "direction", "enabled"],
+  FactType: ["fact_type", "fact_type_name_zh", "description_zh", "applicable_subject_types", "typical_attributes", "default_priority"],
   DataTable: ["table_name", "table_name_zh", "description"],
   DataField: ["field_name", "field_name_zh", "semantic_type", "data_type", "maps_to_attribute", "description"],
   DataSource: ["source_id", "source_type", "enabled", "description", "tables"],
@@ -59,51 +63,86 @@ const QUICK_FIELDS = {
 
 const TASKS = [
   {
-    id: "skill",
-    title: "重构 Skill",
-    description: "选择或新增 Skill，编辑输入参数、输出属性、事实类型、关联查询能力、关联 Intent。",
-    viewMode: "skill",
-    recommendedTypes: ["SkillCapability"],
-    dashboard: "skill",
+    id: "oag_plan",
+    title: "OAG 规划调试",
+    description: "输入语义框架，生成事实需求、候选 Skill、覆盖情况和本次任务子图。",
+    viewMode: "requirement",
+    recommendedTypes: [],
+    dashboard: "oag_plan",
     includeInferred: true,
   },
   {
-    id: "object_attribute",
-    title: "设计对象属性",
-    description: "选择对象类型，查看和编辑其属性、相关 Skill、相关查询能力。",
-    viewMode: "object_attribute",
-    recommendedTypes: ["ObjectType"],
-    dashboard: "object_attribute",
+    id: "core_graph",
+    title: "本体核心图",
+    description: "查看对象、属性、事实类型、Intent、Skill 和本体关系。",
+    viewMode: "requirement",
+    recommendedTypes: ["ObjectType", "Attribute", "SkillCapability", "IntentProfile"],
+    dashboard: "core_graph",
     includeInferred: true,
   },
   {
-    id: "intent",
-    title: "设计 Intent 编排",
-    description: "选择 Intent，编辑触发表达、默认属性、候选 Skill 和事实需求模板。",
+    id: "intent_templates",
+    title: "意图模板",
+    description: "维护宽泛意图默认需要哪些事实，编辑属性、事实类型、优先级和中文原因。",
     viewMode: "requirement",
     recommendedTypes: ["IntentProfile"],
-    dashboard: "intent",
+    dashboard: "intent_templates",
     includeInferred: true,
   },
   {
-    id: "table_mapping",
-    title: "检查表字段映射",
-    description: "选择属性或数据表，查看属性到表字段和数据表的映射。",
+    id: "semantic_relations",
+    title: "关系治理",
+    description: "维护属性语义扩展边和对象关系边，检查适用任务、权重和中文原因。",
     viewMode: "object_attribute",
-    recommendedTypes: ["Attribute"],
-    dashboard: "table_mapping",
-    includeFields: false,
+    recommendedTypes: ["Attribute", "ObjectType"],
+    dashboard: "semantic_relations",
+    includeInferred: true,
+  },
+  {
+    id: "skill_coverage",
+    title: "Skill 覆盖",
+    description: "维护 Skill 能提供的事实类型、支持对象、指标属性、关系和权限要求。",
+    viewMode: "skill",
+    recommendedTypes: ["SkillCapability"],
+    dashboard: "skill_coverage",
     includeInferred: true,
   },
   {
     id: "diagnostic",
-    title: "全局检查",
-    description: "查看校验错误、警告、孤立节点、未覆盖属性、未被 Intent 使用的 Skill。",
+    title: "诊断中心",
+    description: "查看意图模板、Skill 能力、关系边、属性覆盖和必需事实覆盖问题。",
     viewMode: "overview",
     recommendedTypes: [],
     dashboard: "diagnostic",
     includeInferred: true,
   },
+  {
+    id: "yaml_files",
+    title: "YAML 文件",
+    description: "查看本体 YAML 文件状态，进入高级原始文件编辑和导出。",
+    viewMode: "overview",
+    recommendedTypes: [],
+    dashboard: "yaml_files",
+    includeInferred: true,
+  },
+];
+
+const DEFAULT_SKILL_INPUT_PARAMS = ["fund_code", "period", "attributes"];
+
+const FALLBACK_SKILL_INPUT_PARAM_OPTIONS = [
+  { value: "fund_code", label_zh: "基金代码", group_zh: "常用参数" },
+  { value: "fund_codes", label_zh: "多只基金代码", group_zh: "常用参数" },
+  { value: "fund_universe", label_zh: "基金池", group_zh: "常用参数" },
+  { value: "period", label_zh: "统计周期", group_zh: "常用参数" },
+  { value: "attributes", label_zh: "事实名称/指标列表", group_zh: "常用参数" },
+  { value: "report_date", label_zh: "报告日期", group_zh: "常用参数" },
+  { value: "date_or_date_range", label_zh: "日期或日期范围", group_zh: "常用参数" },
+  { value: "report_date_or_date_range", label_zh: "报告日期或日期范围", group_zh: "常用参数" },
+  { value: "benchmark_code", label_zh: "基准代码", group_zh: "常用参数" },
+  { value: "limit", label_zh: "返回数量", group_zh: "常用参数" },
+  { value: "ranking", label_zh: "排序规则", group_zh: "常用参数" },
+  { value: "filters", label_zh: "筛选条件", group_zh: "常用参数" },
+  { value: "policy_topic", label_zh: "政策主题", group_zh: "常用参数" },
 ];
 
 const VIEW_LABELS = {
@@ -125,12 +164,12 @@ const DEFAULT_LAYOUT_BY_VIEW = {
 };
 
 const SEMANTIC_RANKS = {
-  requirement: ["IntentProfile", "ObjectType", "Attribute", "SkillCapability", "QueryCapability"],
+  requirement: ["IntentProfile", "ObjectType", "FactType", "Attribute", "SkillCapability"],
   skill: ["ObjectType", "SkillCapability", "Attribute", "QueryCapability", "DataTable"],
-  object_attribute: ["ObjectType", "Attribute", "SkillCapability", "QueryCapability"],
+  object_attribute: ["ObjectType", "Attribute", "SkillCapability"],
   table_mapping: ["ObjectType", "Attribute", "DataField", "DataTable"],
-  overview: ["IntentProfile", "ObjectType", "SkillCapability", "QueryCapability", "Attribute"],
-  full: ["IntentProfile", "ObjectType", "Attribute", "SkillCapability", "QueryCapability", "DataTable", "DataField", "RelationType"],
+  overview: ["IntentProfile", "ObjectType", "FactType", "SkillCapability", "Attribute"],
+  full: ["IntentProfile", "ObjectType", "FactType", "Attribute", "SkillCapability", "QueryCapability", "DataTable", "DataField", "RelationType"],
 };
 
 const TYPE_BADGES = {
@@ -142,6 +181,7 @@ const TYPE_BADGES = {
   DataTable: "DataTable",
   DataField: "DataField",
   RelationType: "RelationType",
+  FactType: "FactType",
 };
 
 const NODE_TYPE_LABELS = {
@@ -151,10 +191,17 @@ const NODE_TYPE_LABELS = {
   QueryCapability: "查询能力",
   IntentProfile: "Intent 编排",
   RelationType: "关系类型",
+  FactType: "事实类型",
   DataTable: "数据表",
   DataField: "表字段",
   Edge: "关系边",
   BundleEdge: "聚合关系边",
+  SemanticFrame: "语义输入",
+  TaskType: "任务类型",
+  TargetInstance: "目标对象",
+  Constraint: "约束条件",
+  FactRequirement: "事实需求",
+  Parameter: "参数",
 };
 
 const RELATION_TYPE_LABELS = {
@@ -200,12 +247,25 @@ const RELATION_TYPE_LABELS = {
   requires_attribute: "需要属性",
   returns_attribute: "返回属性",
   maps_to_attribute: "映射到属性",
+  requires_fact: "需要事实",
+  requires_fact_type: "需要事实类型",
+  provides_fact_type: "提供事实类型",
+  has_task_type: "任务类型",
+  uses_intent: "使用意图模板",
+  has_target: "目标对象",
+  uses_constraint: "使用约束",
+  has_attribute: "包含属性",
+  expanded_from_relation: "关系扩展",
+  covered_by_skill: "由 Skill 覆盖",
+  requires_param: "需要参数",
+  provides_relation_target: "关系事实目标对象",
 };
 
 const MODELING_RELATION_TYPES = [
   { value: "supports_attribute", label: "Skill 支持属性" },
   { value: "outputs_attribute", label: "Skill 输出属性" },
   { value: "provides_attribute", label: "Skill 提供属性" },
+  { value: "provides_fact_type", label: "Skill 提供事实类型" },
   { value: "related_query", label: "Skill 关联查询能力" },
   { value: "uses_query", label: "Intent 使用查询能力" },
   { value: "has_skill", label: "Intent 关联 Skill" },
@@ -247,13 +307,24 @@ const FIELD_LABELS = {
   skill_priorities: "候选 Skill 优先级",
   related_queries: "关联查询能力",
   provides_fact_types: "提供的事实类型",
+  supported_subject_types: "支持对象类型",
+  supported_relations: "支持关系类型",
   permission_scope: "权限范围",
+  fact_type: "事实类型",
+  fact_type_name_zh: "事实类型中文名",
+  description_zh: "中文说明",
+  applicable_subject_types: "适用主体对象",
+  typical_attributes: "典型属性",
+  default_priority: "默认优先级",
   value_type: "值类型",
   data_type: "数据类型",
   aliases: "别名",
   trigger_aliases: "触发表达",
-  fact_requirements_template: "事实需求模板 JSON",
+  fact_requirements_template: "事实需求模板",
   source_tables: "来源数据表",
+  applicable_tasks: "适用任务",
+  applicable_intents: "适用意图",
+  reason_zh: "中文原因",
   from_object_type: "起点对象类型",
   to_object_type: "终点对象类型",
   direction: "方向",
@@ -277,10 +348,12 @@ const FIELD_HELP = {
   skill_priorities: "处理该 Intent 时优先尝试的 Skill。可多选；顺序暂按选择结果保存。",
   supported_attributes: "该 Skill 理解、支持或可参与分析的属性，用于能力覆盖检查。",
   output_attributes: "该 Skill 实际会返回给上层流程的属性，通常是结果字段。",
-  provides_fact_types: "该 Skill 产出的事实类别，例如 metric_value、ranking、profile_fact。多个值用逗号分隔。",
+  provides_fact_types: "该 Skill 产出的事实类别，例如指标值事实、排名事实、对象基础事实。多个值用逗号分隔。",
   related_queries: "该 Skill 需要调用或依赖的查询能力，例如先查净值、再计算收益。",
   permission_scope: "该 Skill 所需的数据或功能权限范围；不确定时可先留空。",
-  fact_requirements_template: "Intent 对事实的结构化需求模板。高级字段；不确定时可保持空对象 {}。",
+  supported_subject_types: "该 Skill 支持的主体对象类型，例如 Fund 或 FundSet。可多选。",
+  supported_relations: "该 Skill 可覆盖的对象关系，例如 managed_by 或 has_benchmark。可多选。",
+  fact_requirements_template: "Intent 对事实的结构化需求模板；建议在“意图模板”视图中维护。",
   source_tables: "该查询能力可能读取的数据表。",
   maps_to_attribute: "该字段语义上对应的对象属性。",
 };
@@ -292,6 +365,7 @@ const WIZARD_REQUIRED_FIELDS = {
   QueryCapability: new Set(["query_id", "query_name", "target_object_type"]),
   IntentProfile: new Set(["intent_name", "intent_name_zh"]),
   RelationType: new Set(["relation_type", "relation_name_zh"]),
+  FactType: new Set(["fact_type", "fact_type_name_zh"]),
   DataTable: new Set(["table_name"]),
   DataField: new Set(["table_name", "field_name"]),
 };
@@ -306,6 +380,12 @@ const NODE_TYPE_COLORS = {
   DataField: "#e5e7eb",
   DataSource: "#82b5ad",
   RelationType: "#475569",
+  FactType: "#14b8a6",
+  SemanticFrame: "#60a5fa",
+  TaskType: "#f59e0b",
+  TargetInstance: "#22c55e",
+  Constraint: "#a78bfa",
+  FactRequirement: "#fb7185",
   Group: "#334155",
   Parameter: "#cbd5e1",
 };
@@ -338,6 +418,8 @@ const state = {
 let cy;
 let currentGraph = { nodes: [], edges: [], summary: { node_count: 0, edge_count: 0 }, search_results: [] };
 let currentOptions = {};
+let currentOagOptions = {};
+let currentPlan = null;
 let currentDiagnostics = { items: [], summary: {} };
 let currentMappingMatrix = { rows: [], summary: {} };
 let selected = null;
@@ -366,6 +448,7 @@ function initCytoscape() {
     elements: [],
     minZoom: 0.08,
     maxZoom: 3,
+    wheelSensitivity: 0.16,
     boxSelectionEnabled: true,
     style: [
       {
@@ -401,6 +484,23 @@ function initCytoscape() {
       { selector: 'node[type = "DataField"]', style: { "background-color": "#e5e7eb", shape: "round-rectangle" } },
       { selector: 'node[type = "RelationType"]', style: { "background-color": "#475569", color: "#ffffff" } },
       { selector: 'node[type = "Group"]', style: { "background-color": "#334155", color: "#ffffff", shape: "round-rectangle" } },
+      {
+        selector: 'node[origin = "task_graph"]',
+        style: {
+          width: 104,
+          height: 52,
+          "font-size": 10,
+          "text-max-width": 88,
+          "text-opacity": 0.92,
+          "border-width": 1.2,
+          "border-color": "#ffffff",
+        },
+      },
+      { selector: 'node[origin = "task_graph"][type = "SemanticFrame"]', style: { "background-color": "#94a3b8", color: "#111827" } },
+      { selector: 'node[origin = "task_graph"][type = "FactRequirement"]', style: { "background-color": "#f0a5b5", shape: "round-rectangle" } },
+      { selector: 'node[origin = "task_graph"][type = "TargetInstance"]', style: { "background-color": "#93c5fd", shape: "ellipse" } },
+      { selector: 'node[origin = "task_graph"][type = "Constraint"]', style: { "background-color": "#d9e3f0", shape: "round-rectangle" } },
+      { selector: 'node[origin = "task_graph"][type = "Parameter"]', style: { "background-color": "#fde68a", shape: "round-rectangle" } },
       { selector: 'node[enabled = "false"]', style: { opacity: 0.42 } },
       { selector: 'node[inferred_only = "true"]', style: { opacity: 0.55 } },
       {
@@ -651,7 +751,19 @@ function renderFiles(files) {
 }
 
 async function loadOptions() {
-  currentOptions = await api("/api/options");
+  const [editorOptions, oagOptions] = await Promise.all([api("/api/options"), api("/api/oag/options")]);
+  currentOptions = editorOptions;
+  currentOagOptions = oagOptions;
+}
+
+async function loadOagOptions() {
+  currentOagOptions = await api("/api/oag/options");
+}
+
+async function ensureOagOptions(requiredFields = []) {
+  const missingBaseOptions = !currentOagOptions.task_types?.length;
+  const missingRequiredFields = requiredFields.some((field) => !Array.isArray(currentOagOptions[field]));
+  if (missingBaseOptions || missingRequiredFields) await loadOagOptions();
 }
 
 async function loadDiagnostics() {
@@ -678,13 +790,26 @@ function renderTaskCards() {
   });
 }
 
+function setTaskChromeMode() {
+  const shell = document.querySelector(".app-shell");
+  const isOag = state.activeTaskId === "oag_plan";
+  shell?.classList.toggle("oag-mode", isOag);
+  el("searchInput").placeholder = isOag ? "搜索任务图节点 / 事实 / Skill" : "搜索 Fund / return_rate / skill";
+  el("searchBtn").textContent = isOag ? "搜索图" : "定位";
+  if (isOag && el("layoutSelect")) el("layoutSelect").value = "semantic";
+  const relationsTab = document.querySelector('.inspector-tabs button[data-tab="relations"]');
+  const impactTab = document.querySelector('.inspector-tabs button[data-tab="impact"]');
+  if (relationsTab) relationsTab.textContent = isOag ? "任务图" : "关联关系";
+  if (impactTab) impactTab.textContent = isOag ? "提醒" : "上下游影响";
+}
+
 function renderWorkbenchHome() {
   el("workbenchHome").classList.remove("hidden");
   el("workbenchHome").classList.remove("dashboard-home");
   el("workbenchHome").innerHTML = `
     <div class="workbench-panel">
-      <h1>本体建模工作台</h1>
-      <p>选择建模任务后会直接进入可操作工作台；高级图谱范围只放在顶部“更多”里。</p>
+      <h1>OAG 事实规划与本体关系治理工作台</h1>
+      <p>从语义框架生成事实规划，查看任务子图，并维护意图模板、语义关系和 Skill 覆盖能力。</p>
       <div class="workbench-grid">
         ${TASKS.map(
           (task) => `
@@ -702,8 +827,23 @@ function renderWorkbenchHome() {
   });
 }
 
+function renderDashboardLoading(title, message) {
+  el("workbenchHome").classList.remove("hidden");
+  el("workbenchHome").classList.add("dashboard-home");
+  el("workbenchHome").innerHTML = `
+    <div class="workbench-panel dashboard-panel dashboard-loading">
+      <div class="loading-card inline-loading-card">
+        <div class="loading-spinner"></div>
+        <strong>${escapeHtml(title)}</strong>
+        <span>${escapeHtml(message)}</span>
+      </div>
+    </div>
+  `;
+}
+
 function renderTaskActionPanel() {
   const task = TASKS.find((item) => item.id === state.activeTaskId);
+  setTaskChromeMode();
   el("currentTaskTitle").textContent = task ? task.title : "工作台";
   const box = el("taskActions");
   if (!box) return;
@@ -716,12 +856,23 @@ function renderTaskActionPanel() {
     `<button id="taskValidateBtn">校验 ontology</button>`,
   ];
   const actionsByTask = {
-    skill: [
+    core_graph: [
+      `<button id="taskNewObjectBtn" data-edit-only>新增对象类型</button>`,
+      `<button id="taskNewAttributeBtn" data-edit-only>新增属性</button>`,
+      `<button id="taskNewSkillBtn" data-edit-only>新增 Skill</button>`,
+      `<button id="taskNewEdgeBtn" data-edit-only>创建关系边</button>`,
+    ],
+    skill_coverage: [
       `<button id="taskNewSkillBtn" data-edit-only>新增 Skill</button>`,
       `<button id="taskNewQueryBtn" data-edit-only>新增查询能力</button>`,
       `<button id="taskNewObjectBtn" data-edit-only>新增对象类型</button>`,
       `<button id="taskNewEdgeBtn" data-edit-only>创建关系边</button>`,
       `<button id="taskSkillCoverageBtn">查看 Skill 覆盖问题</button>`,
+    ],
+    semantic_relations: [
+      `<button id="taskNewSemanticRelationBtn" data-edit-only>新增语义关系</button>`,
+      `<button id="taskNewRelationTypeBtn" data-edit-only>新增关系类型</button>`,
+      `<button id="taskNewEdgeBtn" data-edit-only>通用关系边</button>`,
     ],
     object_attribute: [
       `<button id="taskNewObjectBtn" data-edit-only>新增对象类型</button>`,
@@ -730,7 +881,7 @@ function renderTaskActionPanel() {
       `<button id="taskNewQueryBtn" data-edit-only>新增查询能力</button>`,
       `<button id="taskAttributeIssuesBtn">查看属性问题</button>`,
     ],
-    intent: [
+    intent_templates: [
       `<button id="taskNewIntentBtn" data-edit-only>新增 Intent</button>`,
       `<button id="taskIntentIssuesBtn">查看 Intent 问题</button>`,
       `<button id="taskNewEdgeBtn" data-edit-only>关联 Skill / 属性</button>`,
@@ -755,14 +906,16 @@ function renderTaskActionPanel() {
   on("taskValidateBtn", "click", validateOntology);
   on("taskRunValidationBtn", "click", validateOntology);
   on("taskNewObjectBtn", "click", () => openAddNodeDialog("ObjectType", {}, { lockedType: true }));
-  on("taskNewSkillBtn", "click", () => openAddNodeDialog("SkillCapability", {}, { lockedType: true }));
+  on("taskNewSkillBtn", "click", () => openSkillCoverageEditor({}));
   on("taskNewQueryBtn", "click", () => openAddNodeDialog("QueryCapability", {}, { lockedType: true }));
   on("taskNewAttributeBtn", "click", () => openAddNodeDialog("Attribute", {}, { lockedType: true }));
-  on("taskNewSkillForObjectBtn", "click", () => openAddNodeDialog("SkillCapability", {}, { lockedType: true }));
-  on("taskNewIntentBtn", "click", () => openAddNodeDialog("IntentProfile", {}, { lockedType: true }));
+  on("taskNewSkillForObjectBtn", "click", () => openSkillCoverageEditor({}));
+  on("taskNewIntentBtn", "click", () => openIntentTemplateEditor({}));
+  on("taskNewRelationTypeBtn", "click", () => openAddNodeDialog("RelationType", {}, { lockedType: true }));
   on("taskNewTableBtn", "click", () => openAddNodeDialog("DataTable", {}, { lockedType: true }));
   on("taskNewDataFieldBtn", "click", () => openAddNodeDialog("DataField", {}, { lockedType: true }));
-  on("taskNewEdgeBtn", "click", () => startEdgeCreation());
+  on("taskNewSemanticRelationBtn", "click", () => openSemanticRelationEditor({}));
+  on("taskNewEdgeBtn", "click", () => openEdgeDialog({}));
   on("taskSkillCoverageBtn", "click", () => filterDiagnostics("skills_without_attributes"));
   on("taskAttributeIssuesBtn", "click", () => filterDiagnostics("attributes_without_skill"));
   on("taskIntentIssuesBtn", "click", () => filterDiagnostics("intents_without_skill"));
@@ -786,7 +939,7 @@ function renderDiagnosticDashboard() {
         <div><strong>${summary.item_count || 0}</strong><span>问题项</span></div>
       </div>
       <div class="dashboard-list">
-        ${Object.entries(byType).map(([type, count]) => `<button data-diagnostic-type="${escapeHtml(type)}"><strong>${escapeHtml(type)}</strong><span>${count}</span></button>`).join("")}
+        ${Object.entries(byType).map(([type, count]) => `<button data-diagnostic-type="${escapeHtml(type)}"><strong>${escapeHtml(diagnosticTypeLabel(type))}</strong><span>${count}</span></button>`).join("")}
       </div>
     </div>
   `;
@@ -834,6 +987,1068 @@ function renderMappingRow(row) {
   `;
 }
 
+function renderOagPlanningDashboard() {
+  const example = exampleSemanticFrame("分析某基金近一年表现");
+  el("workbenchHome").classList.remove("hidden");
+  el("workbenchHome").classList.add("dashboard-home");
+  el("workbenchHome").innerHTML = `
+    <div class="workbench-panel dashboard-panel oag-plan-panel">
+      <div class="oag-page-head">
+        <div>
+          <h1>OAG 规划调试</h1>
+          <p>输入原始问题后自动生成 semantic_frame 草稿，再由 OAG 事实规划器生成执行计划。</p>
+        </div>
+        <div class="oag-tabs" role="tablist" aria-label="OAG 输入模式">
+          <button data-oag-tab="form" class="active">问题输入</button>
+          <button data-oag-tab="json">JSON 输入</button>
+        </div>
+      </div>
+      <section id="oagFormPanel" class="oag-form-shell">
+        <div class="oag-card oag-primary-card">
+          <h2>原始问题</h2>
+          <div class="oag-question-input">
+            <textarea id="oagRawQuestion" rows="3" placeholder="例如：分析000001近一年的表现">${escapeHtml(example.raw_question)}</textarea>
+            <div class="task-actions">
+              <button id="refreshOagDraftBtn">刷新语义草稿</button>
+              <button id="runOagPlanBtn" class="primary-action">生成事实规划</button>
+            </div>
+          </div>
+          <div class="example-buttons oag-example-strip">
+            ${oagExampleNames().slice(0, 8).map((name) => `<button data-example-frame="${escapeHtml(name)}">${escapeHtml(name)}</button>`).join("")}
+          </div>
+          <div id="oagAutoSummary" class="oag-auto-summary"></div>
+        </div>
+        <details id="oagStructuredDraft" class="oag-card">
+          <summary>结构化草稿（可选校正）</summary>
+          <label class="oag-debug-toggle"><input id="oagUseStructuredDraft" type="checkbox"> 使用下方结构化草稿覆盖自动识别结果</label>
+          <div class="oag-form-grid oag-core-grid">
+            <label>任务类型<select id="oagTaskType">${optionHtml(currentOagOptions.task_types, example.task_type)}</select></label>
+            <label>业务意图<select id="oagIntent">${optionHtml(currentOagOptions.intents, example.intent)}</select></label>
+            <label>目标对象类型<select id="oagObjectType">${optionHtml(currentOagOptions.object_types, "Fund")}</select></label>
+            <label>基金代码<input id="oagFundCode" value="000001" placeholder="000001"></label>
+            <label>对象集合<input id="oagFundUniverse" placeholder="all_funds / equity_funds"></label>
+            <label>周期<select id="oagPeriod">${optionHtml(currentOagOptions.periods, "1y")}</select></label>
+            <label>报告日期<input id="oagReportDate" placeholder="例如 2026-03-31 或 latest"></label>
+            <label>返回数量<input id="oagLimit" type="number" min="1" value="" placeholder="可选"></label>
+            <label class="wide">显式属性${checkboxList("oagAttributes", currentOagOptions.attributes, example.mentioned_attributes)}</label>
+            <label class="wide">目标对象列表<textarea id="oagTargets" rows="4" placeholder='例如 [{"object_type":"Fund","instance_ref":{"fund_code":"000001"},"role":"analysis_subject"}]'></textarea></label>
+            <label class="wide">关系查询<textarea id="oagRelationQueries" rows="3" placeholder='例如 [{"relation_type":"managed_by","target_object_type":"FundManager"}]'></textarea></label>
+            <label class="wide">筛选条件<textarea id="oagFilters" rows="3" placeholder='例如 [{"attribute":"max_drawdown","operator":"<","value":0.2}]'></textarea></label>
+            <label class="wide">排序条件<textarea id="oagRanking" rows="3" placeholder='例如 [{"attribute":"return_rate","direction":"desc"}]'></textarea></label>
+            <label class="wide">比较设置<textarea id="oagComparison" rows="3" placeholder='例如 {"mode":"side_by_side","attributes":["return_rate"],"target_object_policy":"all_targets"}'></textarea></label>
+            <label class="wide">规划选项<textarea id="oagOptions" rows="3" placeholder='例如 {"allow_relation_expansion":true,"include_supporting_context":true}'></textarea></label>
+          </div>
+        </details>
+        <div class="oag-runbar">
+          <label class="oag-debug-toggle"><input id="oagDebug" type="checkbox" checked> 保留高级调试信息</label>
+          <div class="task-actions">
+            <button id="syncOagJsonBtn">同步到 JSON</button>
+          </div>
+        </div>
+      </section>
+      <section id="oagJsonPanel" class="oag-json-panel" hidden>
+        <textarea id="oagJsonInput" rows="18">${escapeHtml(JSON.stringify(example, null, 2))}</textarea>
+      </section>
+      <div id="oagPlanSummary" class="oag-result-panel">
+        <div class="oag-empty-state">
+          <strong>尚未生成规划</strong>
+          <span>输入问题或选择场景后点击“生成事实规划”。生成后中间画布显示 task_graph，右侧显示执行摘要。</span>
+        </div>
+      </div>
+    </div>
+  `;
+  fillOagExample("分析某基金近一年表现");
+  document.querySelectorAll("[data-oag-tab]").forEach((button) => {
+    button.addEventListener("click", () => switchOagInputTab(button.dataset.oagTab));
+  });
+  document.querySelectorAll("[data-example-frame]").forEach((button) => {
+    button.addEventListener("click", () => fillOagExample(button.dataset.exampleFrame));
+  });
+  on("syncOagJsonBtn", "click", () => {
+    el("oagJsonInput").value = JSON.stringify(readSemanticFrameFromForm(), null, 2);
+    switchOagInputTab("json");
+  });
+  on("refreshOagDraftBtn", "click", () => refreshAutoSemanticPreview({ forceDraftControls: true }));
+  on("oagRawQuestion", "input", () => refreshAutoSemanticPreview());
+  on("runOagPlanBtn", "click", () => guarded(runOagPlan));
+  renderTaskCandidates();
+  renderOagPlanPlaceholder();
+}
+
+function switchOagInputTab(tab) {
+  document.querySelectorAll("[data-oag-tab]").forEach((button) => button.classList.toggle("active", button.dataset.oagTab === tab));
+  el("oagFormPanel").hidden = tab !== "form";
+  el("oagJsonPanel").hidden = tab !== "json";
+}
+
+function fillOagExample(name) {
+  const frame = exampleSemanticFrame(name);
+  fillOagFrame(frame);
+  if (el("oagUseStructuredDraft")) el("oagUseStructuredDraft").checked = false;
+  refreshAutoSemanticPreview({ frame, forceDraftControls: true });
+}
+
+function exampleSemanticFrame(name) {
+  const base = {
+    raw_question: "分析000001近一年的表现",
+    domain: "finance_market",
+    task_type: "analyze",
+    intent: "performance_overview",
+    target_objects: [{ object_type: "Fund", instance_ref: { fund_code: "000001" }, role: "analysis_subject" }],
+    constraints: { period: "1y" },
+    mentioned_attributes: [],
+  };
+  const examples = {
+    "查询某基金最大回撤和夏普": { raw_question: "查询000001近一年最大回撤和夏普", mentioned_attributes: ["max_drawdown", "sharpe_ratio"] },
+    "查询某基金经理": {
+      raw_question: "查询000001的基金经理",
+      task_type: "query",
+      intent: "",
+      mentioned_attributes: [],
+      relation_queries: [{ relation_type: "managed_by", target_object_type: "FundManager" }],
+      constraints: {},
+    },
+    "查询某基金公司": {
+      raw_question: "查询000001的基金公司",
+      task_type: "query",
+      intent: "",
+      mentioned_attributes: [],
+      relation_queries: [{ relation_type: "issued_by", target_object_type: "FundCompany" }],
+      constraints: {},
+    },
+    "查询某基金业绩基准": {
+      raw_question: "查询000001的业绩比较基准",
+      task_type: "query",
+      intent: "",
+      mentioned_attributes: [],
+      relation_queries: [{ relation_type: "has_benchmark", target_object_type: "Benchmark" }],
+      constraints: {},
+    },
+    "推荐收益高、回撤低的基金": {
+      raw_question: "推荐近一年收益高、回撤低的基金",
+      task_type: "recommend",
+      intent: "fund_recommendation",
+      target_objects: [{ object_type: "FundSet", instance_ref: { fund_universe: "all_funds" }, role: "candidate_set" }],
+      ranking: [{ attribute: "return_rate", direction: "desc" }],
+      filters: [{ attribute: "max_drawdown", operator: "<=", value: 0.1 }],
+      limit: 10,
+    },
+    "筛选最大回撤低于10%的基金": {
+      raw_question: "筛选近一年最大回撤低于10%的基金",
+      task_type: "screen",
+      intent: "fund_screening",
+      target_objects: [{ object_type: "FundSet", instance_ref: { fund_universe: "all_funds" }, role: "candidate_set" }],
+      ranking: [],
+      filters: [{ attribute: "max_drawdown", operator: "<=", value: 0.1 }],
+      limit: 20,
+    },
+    "比较两只基金收益": {
+      raw_question: "比较000001和000002近一年收益",
+      task_type: "compare",
+      intent: "fund_comparison",
+      target_objects: [
+        { object_type: "Fund", instance_ref: { fund_code: "000001" }, role: "comparison_subject" },
+        { object_type: "Fund", instance_ref: { fund_code: "000002" }, role: "comparison_subject" },
+      ],
+      mentioned_attributes: ["return_rate"],
+      comparison: { mode: "side_by_side", attributes: ["return_rate"], target_object_policy: "all_targets" },
+    },
+    "查询是否跑赢基准": { raw_question: "000001近一年是否跑赢基准", task_type: "compare", intent: "benchmark_comparison", mentioned_attributes: ["return_rate"] },
+    "查询同类排名": { raw_question: "000001近一年同类排名怎么样", task_type: "compare", intent: "peer_comparison", mentioned_attributes: [] },
+    "查询费率": { raw_question: "000001费率是多少", task_type: "query", intent: "fee_analysis", mentioned_attributes: [] },
+    "查询分红": { raw_question: "000001近几年分红情况", task_type: "query", intent: "dividend_analysis", mentioned_attributes: [], constraints: {} },
+    "查询持仓配置": {
+      raw_question: "000001当前持仓和资产配置如何",
+      task_type: "query",
+      intent: "holding_analysis",
+      mentioned_attributes: [],
+      constraints: { report_date: "latest" },
+    },
+  };
+  return { ...base, ...(examples[name] || {}) };
+}
+
+function readSemanticFrameFromForm() {
+  const inferred = inferSemanticFrameFromQuestion(el("oagRawQuestion").value.trim());
+  if (!el("oagUseStructuredDraft")?.checked) {
+    if (el("oagDebug")?.checked) inferred.debug = true;
+    return inferred;
+  }
+  const objectType = el("oagObjectType").value || "Fund";
+  const instanceRef = {};
+  if (el("oagFundCode").value.trim()) instanceRef.fund_code = el("oagFundCode").value.trim();
+  if (el("oagFundUniverse").value.trim()) instanceRef.fund_universe = el("oagFundUniverse").value.trim();
+  const defaultTarget = { object_type: objectType, instance_ref: instanceRef, role: objectType === "FundSet" ? "candidate_set" : "analysis_subject" };
+  const targetObjects = parseJsonField("oagTargets", [defaultTarget]);
+  const frame = {
+    raw_question: el("oagRawQuestion").value.trim(),
+    domain: "finance_market",
+    task_type: el("oagTaskType").value,
+    target_objects: targetObjects.length ? targetObjects : [defaultTarget],
+    constraints: {},
+    mentioned_attributes: checkedValues("oagAttributes"),
+  };
+  if (el("oagIntent").value) frame.intent = el("oagIntent").value;
+  if (el("oagPeriod").value) frame.constraints.period = el("oagPeriod").value;
+  if (el("oagReportDate").value.trim()) frame.constraints.report_date = el("oagReportDate").value.trim();
+  if (el("oagLimit").value) frame.limit = Number(el("oagLimit").value);
+  const filters = parseJsonField("oagFilters", []);
+  const ranking = parseJsonField("oagRanking", []);
+  const relationQueries = parseJsonField("oagRelationQueries", []);
+  const comparison = parseJsonField("oagComparison", {});
+  const options = parseJsonField("oagOptions", {});
+  if (filters.length) frame.filters = filters;
+  if (ranking.length) frame.ranking = ranking;
+  if (relationQueries.length) frame.relation_queries = relationQueries;
+  if (Object.keys(comparison).length) frame.comparison = comparison;
+  if (Object.keys(options).length) frame.options = options;
+  if (el("oagDebug").checked) frame.debug = true;
+  return frame;
+}
+
+function refreshAutoSemanticPreview({ frame = null, forceDraftControls = false } = {}) {
+  if (!el("oagRawQuestion")) return;
+  const inferred = frame || inferSemanticFrameFromQuestion(el("oagRawQuestion").value.trim());
+  const shouldSyncDraft = forceDraftControls || !el("oagUseStructuredDraft")?.checked;
+  if (shouldSyncDraft) fillOagFrame(inferred);
+  if (el("oagJsonPanel")?.hidden) el("oagJsonInput").value = JSON.stringify(inferred, null, 2);
+  const summary = [
+    ["任务", taskTypeLabel(inferred.task_type)],
+    ["意图", intentLabel(inferred.intent)],
+    ["目标", semanticTargetSummary(inferred.target_objects)],
+    ["指标", semanticAttributeSummary(inferred)],
+    ["约束", semanticConstraintSummary(inferred)],
+  ];
+  el("oagAutoSummary").innerHTML = `
+    <div class="oag-auto-title"><strong>自动语义草稿</strong><span>来自原始问题，可展开下方草稿校正。</span></div>
+    <div class="oag-auto-grid">
+      ${summary.map(([key, value]) => `<div><span>${escapeHtml(key)}</span><strong>${escapeHtml(value || "-")}</strong></div>`).join("")}
+    </div>
+  `;
+}
+
+function inferSemanticFrameFromQuestion(rawQuestion) {
+  const text = (rawQuestion || "").trim();
+  const taskType = inferTaskType(text);
+  const intent = inferIntent(text, taskType);
+  const codes = [...new Set((text.match(/\b\d{6}\b/g) || []))];
+  const isCollectionTask = ["rank", "screen", "recommend"].includes(taskType);
+  const targetObjects = isCollectionTask
+    ? [{ object_type: "FundSet", instance_ref: { fund_universe: "all_funds" }, role: "candidate_set" }]
+    : (codes.length ? codes : ["000001"]).map((code) => ({
+        object_type: "Fund",
+        instance_ref: { fund_code: code },
+        role: taskType === "compare" && codes.length > 1 ? "comparison_subject" : "analysis_subject",
+      }));
+  const frame = {
+    raw_question: text || "分析000001近一年的表现",
+    domain: "finance_market",
+    task_type: taskType,
+    target_objects: targetObjects,
+    constraints: inferConstraints(text, intent),
+    mentioned_attributes: inferMentionedAttributes(text, intent, taskType),
+  };
+  if (intent) frame.intent = intent;
+  const relations = inferRelationQueries(text, intent);
+  if (relations.length) frame.relation_queries = relations;
+  const ranking = inferRanking(text, taskType);
+  if (ranking.length) frame.ranking = ranking;
+  const filters = inferFilters(text, taskType);
+  if (filters.length) frame.filters = filters;
+  if (taskType === "compare" && codes.length > 1) {
+    const attrs = frame.mentioned_attributes.length ? frame.mentioned_attributes : ["return_rate"];
+    frame.comparison = { mode: "side_by_side", attributes: attrs, target_object_policy: "all_targets" };
+  }
+  const limit = inferLimit(text, taskType);
+  if (limit) frame.limit = limit;
+  if (!Object.keys(frame.constraints).length) delete frame.constraints;
+  return frame;
+}
+
+function inferTaskType(text) {
+  if (/推荐/.test(text)) return "recommend";
+  if (/筛选|选出|过滤/.test(text)) return "screen";
+  if (/排名|排行|前\s*\d+|前[一二三四五六七八九十]+/.test(text) && !/同类排名|排名怎么样|排第几/.test(text)) return "rank";
+  if (/比较|对比|跑赢|战胜|相对|基准|同类|和\d{6}|与\d{6}/.test(text)) return "compare";
+  if (/画像|概况|基本信息/.test(text)) return "profile";
+  if (/分析|表现|怎么样|如何/.test(text)) return "analyze";
+  return "query";
+}
+
+function inferIntent(text, taskType) {
+  if (/推荐/.test(text)) return "fund_recommendation";
+  if (/筛选|选出|过滤/.test(text)) return "fund_screening";
+  if (taskType === "rank") return "fund_ranking";
+  if (/比较|对比/.test(text) && (text.match(/\b\d{6}\b/g) || []).length > 1) return "fund_comparison";
+  if (/跑赢|基准|业绩比较基准|比较基准/.test(text)) return "benchmark_comparison";
+  if (/同类|排名|分位/.test(text)) return "peer_comparison";
+  if (/费率|费用|申购费|赎回费|管理费|托管费/.test(text)) return "fee_analysis";
+  if (/分红|派息/.test(text)) return "dividend_analysis";
+  if (/持仓|重仓|股票|债券|行业配置/.test(text)) return "holding_analysis";
+  if (/资产配置|仓位|股票资产|债券资产|现金资产/.test(text)) return "asset_allocation_analysis";
+  if (/画像|概况|基本信息/.test(text) || taskType === "profile") return "fund_profile";
+  if (/表现|收益|回撤|夏普|风险|波动|分析|怎么样|如何/.test(text)) return "performance_overview";
+  return "";
+}
+
+function inferConstraints(text, intent) {
+  const constraints = {};
+  const periodRules = [
+    [/近一周|一周|近1周/, "1w"],
+    [/近一月|一个月|近1月/, "1m"],
+    [/近三个月|三个月|近3月/, "3m"],
+    [/近六月|六个月|近6月/, "6m"],
+    [/近一年|最近一年|一年|近1年/, "1y"],
+    [/近两年|两年|近2年/, "2y"],
+    [/近三年|三年|近3年/, "3y"],
+    [/近五年|五年|近5年/, "5y"],
+    [/近十年|十年|近10年/, "10y"],
+    [/今年以来|本年以来|YTD/i, "ytd"],
+    [/成立以来|设立以来|SI/i, "si"],
+  ];
+  const match = periodRules.find(([pattern]) => pattern.test(text));
+  if (match) constraints.period = match[1];
+  const dateMatch = text.match(/\b(20\d{2}-\d{1,2}-\d{1,2}|20\d{2}\/\d{1,2}\/\d{1,2})\b/);
+  if (dateMatch) constraints.report_date = dateMatch[1].replace(/\//g, "-");
+  if (!constraints.report_date && (/最新|当前/.test(text) || ["holding_analysis", "asset_allocation_analysis"].includes(intent))) {
+    constraints.report_date = "latest";
+  }
+  return constraints;
+}
+
+function inferMentionedAttributes(text, intent, taskType) {
+  const attrs = [];
+  const add = (name) => {
+    if (!attrs.includes(name)) attrs.push(name);
+  };
+  [
+    ["max_drawdown", /最大回撤|回撤|最大跌幅/],
+    ["sharpe_ratio", /夏普|Sharpe/i],
+    ["return_rate", /收益率|收益|回报率|回报|涨幅/],
+    ["annualized_return", /年化收益|年化回报/],
+    ["benchmark_return", /基准收益|业绩基准收益/],
+    ["excess_return", /超额收益|跑赢|战胜/],
+    ["volatility", /波动率|波动/],
+    ["tracking_error", /跟踪误差|跟踪偏离/],
+    ["information_ratio", /信息比率|信息比|\bIR\b/i],
+    ["peer_return_rank", /同类收益排名|收益排名/],
+    ["rank", /同类排名|排名|排第几/],
+    ["percentile", /分位|百分位/],
+    ["fund_type", /基金类型|品种|分类/],
+    ["manager_name", /基金经理|经理/],
+    ["company_name", /基金公司|管理人/],
+    ["benchmark_name", /业绩比较基准|比较基准|基准名称/],
+    ["fee_value", /费率|费用比例/],
+    ["dividend_per_share", /分红金额|每份分红|派息/],
+    ["stock_name", /持仓|重仓股票|股票名称/],
+    ["stock_nav_ratio", /股票占比|持仓占比/],
+    ["asset_total_value", /总资产|资产总值/],
+    ["stock_asset_ratio", /股票仓位|股票资产占比/],
+    ["bond_asset_ratio", /债券仓位|债券资产占比/],
+    ["cash_asset_ratio", /现金仓位|现金资产占比/],
+  ].forEach(([name, pattern]) => {
+    if (pattern.test(text)) add(name);
+  });
+  if (!attrs.length && taskType === "compare" && intent === "fund_comparison") add("return_rate");
+  if (["fund_recommendation", "fund_screening"].includes(intent)) {
+    if (/收益高|高收益|收益/.test(text)) add("return_rate");
+    if (/回撤低|低回撤|回撤/.test(text)) add("max_drawdown");
+  }
+  return attrs;
+}
+
+function inferRelationQueries(text, intent) {
+  const rows = [];
+  const add = (relation_type, target_object_type) => {
+    if (!rows.some((item) => item.relation_type === relation_type && item.target_object_type === target_object_type)) {
+      rows.push({ relation_type, target_object_type });
+    }
+  };
+  if (/基金经理|经理/.test(text)) add("managed_by", "FundManager");
+  if (/基金公司|管理人/.test(text)) add("issued_by", "FundCompany");
+  if (/业绩比较基准|比较基准|基准名称/.test(text)) add("has_benchmark", "Benchmark");
+  if (/基金类型|品种|分类|同类/.test(text) && intent !== "peer_comparison") add("belongs_to_category", "FundCategory");
+  return rows;
+}
+
+function inferRanking(text, taskType) {
+  if (!["rank", "recommend"].includes(taskType)) return [];
+  const rows = [];
+  if (/收益高|高收益|收益|收益率/.test(text)) rows.push({ attribute: "return_rate", direction: "desc" });
+  if (/回撤低|低回撤/.test(text)) rows.push({ attribute: "max_drawdown", direction: "asc" });
+  if (/夏普高|高夏普|夏普/.test(text)) rows.push({ attribute: "sharpe_ratio", direction: "desc" });
+  return rows.length ? rows : [{ attribute: "return_rate", direction: "desc" }];
+}
+
+function inferFilters(text, taskType) {
+  if (!["screen", "recommend"].includes(taskType)) return [];
+  const rows = [];
+  const drawdown = text.match(/回撤(?:低于|小于|不超过|<=?|≤)\s*(\d+(?:\.\d+)?)\s*%?/);
+  if (drawdown) rows.push({ attribute: "max_drawdown", operator: "<=", value: percentOrNumber(drawdown[1], text) });
+  if (!rows.length && /回撤低|低回撤/.test(text)) rows.push({ attribute: "max_drawdown", operator: "<=", value: 0.1 });
+  return rows;
+}
+
+function inferLimit(text, taskType) {
+  if (!["rank", "screen", "recommend"].includes(taskType)) return null;
+  const arabic = text.match(/(?:前|top\s*)(\d+)/i);
+  if (arabic) return Number(arabic[1]);
+  const chinese = text.match(/前([一二三四五六七八九十]+)(?:只|个|名)?/);
+  if (chinese) return chineseNumber(chinese[1]);
+  return taskType === "recommend" ? 10 : taskType === "screen" ? 20 : null;
+}
+
+function percentOrNumber(value, text) {
+  const number = Number(value);
+  return text.includes("%") || number > 1 ? number / 100 : number;
+}
+
+function chineseNumber(text) {
+  const map = { 一: 1, 二: 2, 三: 3, 四: 4, 五: 5, 六: 6, 七: 7, 八: 8, 九: 9, 十: 10 };
+  if (text === "十") return 10;
+  if (text.startsWith("十")) return 10 + (map[text.slice(1)] || 0);
+  if (text.includes("十")) {
+    const [tens, ones] = text.split("十");
+    return (map[tens] || 1) * 10 + (map[ones] || 0);
+  }
+  return map[text] || null;
+}
+
+function semanticTargetSummary(targets = []) {
+  return (targets || []).map((target) => {
+    const ref = target.instance_ref || {};
+    if (target.object_type === "FundSet") return `基金集合 ${ref.fund_universe || "all_funds"}`;
+    return `${target.object_type || "Fund"} ${ref.fund_code || "-"}`;
+  }).join("、");
+}
+
+function semanticAttributeSummary(frame) {
+  const parts = [];
+  if ((frame.mentioned_attributes || []).length) parts.push((frame.mentioned_attributes || []).join("、"));
+  if ((frame.ranking || []).length) parts.push(`排序 ${frame.ranking.map((item) => `${item.attribute} ${item.direction || ""}`).join("、")}`);
+  if ((frame.filters || []).length) parts.push(`筛选 ${frame.filters.map((item) => `${item.attribute}${item.operator}${item.value}`).join("、")}`);
+  if ((frame.relation_queries || []).length) parts.push(`关系 ${(frame.relation_queries || []).map((item) => item.relation_type).join("、")}`);
+  return parts.join("；") || "由意图模板补全";
+}
+
+function semanticConstraintSummary(frame) {
+  const constraints = frame.constraints || {};
+  const parts = [];
+  if (constraints.period) parts.push(`周期 ${constraints.period}`);
+  if (constraints.report_date) parts.push(`报告日 ${constraints.report_date}`);
+  if (frame.limit) parts.push(`返回 ${frame.limit}`);
+  return parts.join("、");
+}
+
+function taskTypeLabel(value) {
+  const row = (currentOagOptions.task_types || []).find((item) => item.value === value);
+  return row?.label_zh || value || "-";
+}
+
+function intentLabel(value) {
+  if (!value) return "未指定，按显式指标/操作规则规划";
+  const row = (currentOagOptions.intents || []).find((item) => item.value === value);
+  return row?.label_zh || value;
+}
+
+async function runOagPlan() {
+  const frame = el("oagJsonPanel").hidden ? readSemanticFrameFromForm() : JSON.parse(el("oagJsonInput").value || "{}");
+  const runButton = el("runOagPlanBtn");
+  const originalText = runButton?.textContent || "";
+  if (runButton) {
+    runButton.disabled = true;
+    runButton.textContent = "生成中...";
+  }
+  el("oagPlanSummary").innerHTML = `<div class="oag-empty-state"><strong>正在生成事实规划...</strong><span>读取本体配置并计算事实需求、Skill 覆盖和任务子图。</span></div>`;
+  setGraphLoading(true, "正在生成事实规划", "正在计算事实需求、候选 Skill、覆盖情况和任务子图...");
+  try {
+    const result = await api("/api/oag/plan", {
+      method: "POST",
+      body: JSON.stringify({
+        semantic_frame: frame,
+        user_context: { permission_scopes: ["fund_public_data:read"], debug: Boolean(frame.debug) },
+        output_view: "editor",
+      }),
+    });
+    currentPlan = result.editor_plan || result.task_plan || result;
+    currentPlan.agent_plan = result.agent_plan || null;
+    currentPlan.plan_views = result.plan_views || {};
+    currentPlan.sent_semantic_frame = frame;
+    currentGraph = taskGraphToCytoscape(currentPlan.task_graph || { nodes: [], edges: [] });
+    el("workbenchHome").classList.add("hidden");
+    renderGraph();
+    updateCounts();
+    showOagPlanInspector(currentPlan);
+    writeOutput({ editor_plan: currentPlan, agent_plan: currentPlan.agent_plan });
+  } finally {
+    setGraphLoading(false);
+    if (runButton) {
+      runButton.disabled = false;
+      runButton.textContent = originalText || "生成事实规划";
+    }
+  }
+}
+
+function renderOagPlanPlaceholder() {
+  el("inspectorTitle").textContent = "OAG 执行摘要";
+  el("inspectorMeta").textContent = "等待生成规划";
+  el("basicInfo").innerHTML = [
+    ["当前阶段", "填写语义框架"],
+    ["下一步", "生成事实规划"],
+    ["输出视图", "Editor 完整计划"],
+    ["执行状态", "尚未计算"],
+  ].map(([key, value]) => `<div>${escapeHtml(key)}</div><strong>${escapeHtml(value)}</strong>`).join("");
+  el("quickForm").innerHTML = `
+    <div class="oag-result-panel">
+      <div class="oag-empty-state">
+        <strong>右侧会显示执行摘要</strong>
+        <span>生成规划后，这里展示事实覆盖、事实需求、诊断提醒和未覆盖事实。</span>
+      </div>
+    </div>
+  `;
+  el("relatedEdges").innerHTML = `<div class="muted">生成规划后可查看 task_graph 中的关系边说明。</div>`;
+  el("impactPanel").innerHTML = `<div class="muted">生成规划后显示诊断和提醒。</div>`;
+  el("pathPanel").innerHTML = "";
+  setRaw({});
+  setInspectorTab("overview");
+}
+
+function taskGraphToCytoscape(taskGraph) {
+  const nodes = (taskGraph.nodes || [])
+    .filter((node) => !["DataTable", "DataField", "QueryCapability"].includes(node.node_type))
+    .map((node) => ({
+      data: {
+        id: node.node_id,
+        type: node.node_type,
+        origin: "task_graph",
+        label: node.label_zh || node.node_id,
+        short_label: node.label_zh || node.node_id,
+        degree: 1,
+        raw: node,
+      },
+    }));
+  const ids = new Set(nodes.map((node) => node.data.id));
+  const edges = (taskGraph.edges || [])
+    .filter((edge) => ids.has(edge.source) && ids.has(edge.target))
+    .map((edge) => ({
+      data: {
+        id: edge.edge_id || `${edge.source}__${edge.relation_type}__${edge.target}`,
+        source: edge.source,
+        target: edge.target,
+        type: edge.relation_type,
+        label: edge.label_zh || relationTypeLabel(edge.relation_type),
+        origin: "task_graph",
+        raw: edge,
+      },
+    }));
+  return {
+    kind: "task_graph",
+    nodes,
+    edges,
+    summary: { node_count: nodes.length, edge_count: edges.length, total_node_count: nodes.length, total_edge_count: edges.length },
+    relation_groups: countBy(edges.map((edge) => edge.data), "type"),
+    hidden_counts: { data_fields: 0, inferred_edges: 0 },
+    search_results: [],
+  };
+}
+
+function showOagPlanInspector(plan) {
+  const summary = plan.coverage_summary || {};
+  const warnings = (plan.warnings || []).map((item) => item.message_zh || item).filter(Boolean);
+  const execution = oagExecutionState(plan);
+  el("inspectorTitle").textContent = "事实规划结果";
+  el("inspectorMeta").textContent = `${statusLabel(plan.status)} / ${execution.label}`;
+  el("basicInfo").innerHTML = [
+    ["规划状态", statusLabel(plan.status)],
+    ["执行状态", execution.label],
+    ["目标对象", (plan.target_instances || []).map((item) => item.display_name_zh).join("、") || "-"],
+    ["事实需求数量", (plan.fact_requirements || []).length],
+    ["必须事实覆盖", `${summary.covered_required_fact_count || 0}/${summary.required_fact_count || 0}`],
+    ["可选事实覆盖", `${summary.covered_optional_fact_count || 0}/${summary.optional_fact_count || 0}`],
+    ["候选 Skill 数量", summary.skill_count || 0],
+    ["缺失参数", execution.missingParams.length ? execution.missingParams.join("、") : "无"],
+    ["未覆盖事实", (summary.uncovered_required_facts || []).length ? "存在" : "无"],
+  ].map(([key, value]) => `<div>${escapeHtml(key)}</div><strong>${escapeHtml(value)}</strong>`).join("");
+  el("quickForm").innerHTML = `
+    <div class="oag-result-panel oag-inspector-plan">
+      <div class="oag-status-card ${escapeHtml(execution.status)}">
+        <strong>${escapeHtml(execution.label)}</strong>
+        <span>${escapeHtml(execution.message)}</span>
+      </div>
+      <div class="task-actions"><button id="editOagFrameBtn">返回修改输入</button></div>
+      ${renderPlanViewSplit(plan)}
+      ${renderCoverageOverview(summary, execution)}
+      ${renderFactRequirementOverview(plan.fact_requirements || [])}
+      ${renderInvocationOverview(plan.candidate_invocations || [])}
+      ${renderRelationExpansionPaths(plan)}
+      ${renderPlanningIssues(plan, warnings)}
+      ${renderYamlGovernanceEntry(plan)}
+      ${renderTaskGraphHint(plan)}
+      ${renderMissingParams(plan.missing_params || [])}
+      <details class="oag-debug-details"><summary>高级调试</summary><pre>${escapeHtml(JSON.stringify({ warnings, diagnostics: plan.diagnostics || [], debug_evidence: plan.debug_evidence || {} }, null, 2))}</pre></details>
+    </div>
+  `;
+  el("relatedEdges").innerHTML = renderTaskGraphEdgeList(plan.task_graph?.edges || []);
+  el("impactPanel").innerHTML = warnings.length ? warnings.map((warning) => `<div class="impact-card"><strong>规划提醒</strong><span>${escapeHtml(warning)}</span></div>`).join("") : `<div class="muted">没有规划提醒</div>`;
+  el("pathPanel").innerHTML = renderRelationExpansionPathList(plan, { compact: true });
+  setRaw(plan);
+  setInspectorTab("overview");
+  on("editOagFrameBtn", "click", () => {
+    const sentFrame = currentPlan?.sent_semantic_frame;
+    renderOagPlanningDashboard();
+    if (sentFrame) {
+      el("oagJsonInput").value = JSON.stringify(sentFrame, null, 2);
+      fillOagFrame(sentFrame);
+    }
+    writeOutput(currentPlan || {});
+  });
+  bindPlanListHighlights();
+  bindPlanGovernanceActions();
+}
+
+function fillOagFrame(frame) {
+  el("oagRawQuestion").value = frame.raw_question || "";
+  el("oagTaskType").value = frame.task_type || "analyze";
+  el("oagIntent").value = frame.intent || "";
+  el("oagObjectType").value = frame.target_objects?.[0]?.object_type || "Fund";
+  el("oagFundCode").value = frame.target_objects?.[0]?.instance_ref?.fund_code || "";
+  el("oagFundUniverse").value = frame.target_objects?.[0]?.instance_ref?.fund_universe || "";
+  el("oagPeriod").value = frame.constraints?.period || "1y";
+  el("oagReportDate").value = frame.constraints?.report_date || "";
+  el("oagLimit").value = frame.limit || "";
+  setCheckedValues("oagAttributes", frame.mentioned_attributes || []);
+  el("oagTargets").value = JSON.stringify(frame.target_objects || [], null, 2);
+  el("oagRelationQueries").value = JSON.stringify(frame.relation_queries || [], null, 2);
+  el("oagFilters").value = JSON.stringify(frame.filters || [], null, 2);
+  el("oagRanking").value = JSON.stringify(frame.ranking || [], null, 2);
+  el("oagComparison").value = JSON.stringify(frame.comparison || {}, null, 2);
+  el("oagOptions").value = JSON.stringify(frame.options || {}, null, 2);
+  el("oagJsonInput").value = JSON.stringify(frame, null, 2);
+}
+
+function oagExecutionState(plan) {
+  const missingRows = plan.missing_params || [];
+  const missingParams = [...new Set(missingRows.flatMap((item) => item.missing_params || []))];
+  const uncovered = plan.coverage_summary?.uncovered_required_facts || [];
+  if (uncovered.length) {
+    return {
+      status: "blocked",
+      label: "能力未覆盖",
+      message: "存在必需事实没有 Skill 覆盖，需要先补充能力声明。",
+      missingParams,
+    };
+  }
+  if (missingParams.length) {
+    return {
+      status: "blocked",
+      label: "缺少参数",
+      message: `补充 ${missingParams.join("、")} 后即可调用相关 Skill。`,
+      missingParams,
+    };
+  }
+  if ((plan.candidate_invocations || []).length) {
+    return { status: "ready", label: "可执行", message: "候选 Skill 参数齐全，可以进入后续调用。", missingParams };
+  }
+  return { status: "empty", label: "无候选调用", message: "当前规划没有生成可调用 Skill。", missingParams };
+}
+
+function renderMissingParams(rows) {
+  if (!rows.length) return "";
+  return `
+    <h3>缺失参数</h3>
+    <div class="mini-table">
+      ${rows.map((item) => `
+        <button data-highlight-node="SkillCapability:${escapeHtml(item.skill_id || "")}">
+          <strong>${escapeHtml(item.skill_name_zh || item.skill_id || "Skill")}</strong>
+          <span>${escapeHtml((item.missing_params || []).join("、"))}</span>
+          <em>${escapeHtml(item.message_zh || "")}</em>
+        </button>
+      `).join("")}
+    </div>
+  `;
+}
+
+function renderCoverageOverview(summary, execution) {
+  const requiredTotal = Number(summary.required_fact_count || 0);
+  const requiredCovered = Number(summary.covered_required_fact_count || 0);
+  const optionalTotal = Number(summary.optional_fact_count || 0);
+  const optionalCovered = Number(summary.covered_optional_fact_count || 0);
+  const requiredRate = requiredTotal ? Math.round((requiredCovered / requiredTotal) * 100) : 0;
+  const optionalRate = optionalTotal ? Math.round((optionalCovered / optionalTotal) * 100) : 0;
+  const chips = [
+    ["必须事实", `${requiredCovered}/${requiredTotal}`],
+    ["辅助事实", `${optionalCovered}/${optionalTotal}`],
+    ["Skill 覆盖", summary.skill_count || 0],
+    ["缺失参数", execution.missingParams.length || 0],
+  ];
+  return `
+    <section class="oag-summary-section">
+      <h3>覆盖摘要</h3>
+      <div class="oag-summary-chips">
+        ${chips.map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join("")}
+      </div>
+      <div class="oag-coverage-bars">
+        ${renderCoverageBar("必须事实覆盖", requiredRate)}
+        ${renderCoverageBar("辅助事实覆盖", optionalRate)}
+      </div>
+    </section>
+  `;
+}
+
+function renderCoverageBar(label, rate) {
+  const boundedRate = Math.max(0, Math.min(100, Number(rate) || 0));
+  return `
+    <div class="oag-coverage-row">
+      <span>${escapeHtml(label)}</span>
+      <strong>${boundedRate}%</strong>
+      <div class="oag-coverage-track"><i style="width:${boundedRate}%"></i></div>
+    </div>
+  `;
+}
+
+function renderFactRequirementOverview(rows) {
+  if (!rows.length) {
+    return `
+      <section class="oag-summary-section">
+        <h3>事实需求</h3>
+        <div class="muted">暂无事实需求</div>
+      </section>
+    `;
+  }
+  const required = rows.filter((item) => item.priority === "required");
+  const optional = rows.filter((item) => item.priority !== "required");
+  const visible = [...required, ...optional].slice(0, 10);
+  const hiddenCount = Math.max(0, rows.length - visible.length);
+  return `
+    <section class="oag-summary-section">
+      <h3>事实需求</h3>
+      <div class="oag-fact-summary">
+        <span>必须 ${required.length}</span>
+        <span>辅助 ${optional.length}</span>
+        <span>合计 ${rows.length}</span>
+      </div>
+      ${renderFactRequirementList(visible)}
+      ${hiddenCount ? `<div class="muted">还有 ${hiddenCount} 条事实需求，可在高级调试中查看完整结构。</div>` : ""}
+    </section>
+  `;
+}
+
+function renderPlanningIssues(plan, warnings) {
+  const diagnostics = plan.diagnostics || [];
+  const uncovered = plan.coverage_summary?.uncovered_required_facts || [];
+  const rows = [];
+  uncovered.forEach((item) => {
+    rows.push({
+      title: item.label_zh || item.fact_requirement_id || "未覆盖事实",
+      text: item.reason_zh || item.message_zh || "必须事实当前没有 Skill 覆盖。",
+      nodeId: item.fact_requirement_id || "",
+      severity: "warning",
+    });
+  });
+  diagnostics.slice(0, 6).forEach((item) => {
+    rows.push({
+      title: diagnosticTypeLabel(item.type),
+      text: item.diagnostic_message_zh || item.message_zh || item.message || "",
+      nodeId: item.node_id || "",
+      severity: item.severity || "info",
+    });
+  });
+  warnings.slice(0, 4).forEach((warning) => {
+    rows.push({ title: "规划提醒", text: warning, nodeId: "", severity: "info" });
+  });
+  if (!rows.length) {
+    return `
+      <section class="oag-summary-section">
+        <h3>缺口与诊断</h3>
+        <div class="muted">没有规划提醒或覆盖缺口</div>
+      </section>
+    `;
+  }
+  return `
+    <section class="oag-summary-section">
+      <h3>缺口与诊断</h3>
+      <div class="oag-issue-list">
+        ${rows.slice(0, 8).map((item) => `
+          <button class="${escapeHtml(item.severity)}" ${item.nodeId ? `data-highlight-node="${escapeHtml(item.nodeId)}"` : "disabled"}>
+            <strong>${escapeHtml(item.title)}</strong>
+            <span>${escapeHtml(item.text)}</span>
+          </button>
+        `).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderTaskGraphHint(plan) {
+  const graph = plan.task_graph || {};
+  const nodeCount = (graph.nodes || []).length;
+  const edgeCount = (graph.edges || []).length;
+  return `
+    <section class="oag-summary-section">
+      <h3>任务图</h3>
+      <div class="oag-task-graph-hint">
+        <strong>${escapeHtml(nodeCount)} 个节点 / ${escapeHtml(edgeCount)} 条边</strong>
+        <span>点击图中的事实、关系或 Skill 节点查看细节；空白处会回到本摘要。</span>
+      </div>
+    </section>
+  `;
+}
+
+function renderPlanViewSplit(plan) {
+  const agentPlan = plan.agent_plan || {};
+  const agentExecution = agentPlan.execution || {};
+  const agentCoverage = agentPlan.coverage || {};
+  const editorView = plan.plan_views?.editor || {};
+  const agentView = plan.plan_views?.agent || {};
+  return `
+    <section class="oag-summary-section">
+      <h3>Plan 分流</h3>
+      <div class="oag-view-split">
+        <div>
+          <strong>${escapeHtml(editorView.label_zh || "Editor 调试计划")}</strong>
+          <span>${escapeHtml(editorView.description_zh || "展示完整任务子图、诊断和调试证据。")}</span>
+          <em>事实 ${escapeHtml((plan.fact_requirements || []).length)} · Skill ${escapeHtml((plan.candidate_invocations || []).length)} · 图边 ${escapeHtml((plan.task_graph?.edges || []).length)}</em>
+        </div>
+        <div>
+          <strong>${escapeHtml(agentView.label_zh || "Agent 执行计划")}</strong>
+          <span>${escapeHtml(agentView.description_zh || "只保留后续智能体执行 Skill 所需结构。")}</span>
+          <em>${escapeHtml(executionStatusLabel(agentExecution.execution_status))} · 可执行 ${escapeHtml(agentExecution.ready_skill_count || 0)} · 覆盖 ${escapeHtml(coverageStatusLabel(agentCoverage.coverage_status))}</em>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderInvocationOverview(rows) {
+  const readyCount = rows.filter((item) => !(item.missing_params || []).length).length;
+  const blockedCount = rows.length - readyCount;
+  return `
+    <section class="oag-summary-section">
+      <h3>候选 Skill</h3>
+      <div class="oag-fact-summary">
+        <span>可执行 ${readyCount}</span>
+        <span>待补参 ${blockedCount}</span>
+        <span>合计 ${rows.length}</span>
+      </div>
+      ${renderInvocationList(rows.slice(0, 10))}
+    </section>
+  `;
+}
+
+function renderRelationExpansionPaths(plan) {
+  const html = renderRelationExpansionPathList(plan);
+  return `
+    <section class="oag-summary-section">
+      <h3>关系扩展路径</h3>
+      ${html}
+    </section>
+  `;
+}
+
+function renderRelationExpansionPathList(plan, { compact = false } = {}) {
+  const evidence = plan.debug_evidence?.relation_expansion_edges || [];
+  const relationEdges = (plan.task_graph?.edges || []).filter((edge) => {
+    const type = edge.relation_type || "";
+    return type.includes("relation") || type.includes("context") || type === "expanded_by_relation" || edge.reason_zh;
+  });
+  const rows = evidence.length
+    ? evidence.map((item) => ({
+        source: item.source_attribute || item.from_object_type || item.edge_id || "",
+        relation: item.relation_type_zh || relationTypeLabel(item.relation_type) || item.relation_type || "关系扩展",
+        target: item.target_attribute || item.to_object_type || item.target_object_type || "",
+        reason: item.reason_zh || "",
+        role: item.planning_role || item.answer_visibility || "",
+      }))
+    : relationEdges.map((edge) => ({
+        source: edge.source,
+        relation: edge.label_zh || relationTypeLabel(edge.relation_type),
+        target: edge.target,
+        reason: edge.reason_zh || "",
+        role: edge.relation_type || "",
+      }));
+  if (!rows.length) return `<div class="muted">本次规划没有触发本体关系扩展；显式指标或意图模板已能构造事实需求。</div>`;
+  return `
+    <div class="oag-path-list ${compact ? "compact" : ""}">
+      ${rows.slice(0, compact ? 6 : 10).map((item) => `
+        <div>
+          <strong>${escapeHtml(item.source || "-")} → ${escapeHtml(item.relation || "关系")} → ${escapeHtml(item.target || "-")}</strong>
+          <span>${escapeHtml(item.reason || "由本体关系治理配置触发。")}</span>
+          ${item.role ? `<em>${escapeHtml(item.role)}</em>` : ""}
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function renderYamlGovernanceEntry(plan) {
+  const uncovered = plan.coverage_summary?.uncovered_required_facts || [];
+  const diagnostics = plan.diagnostics || [];
+  const hasRelationEvidence = Boolean(plan.debug_evidence?.relation_expansion_edges?.length);
+  const hasMissingSkill = uncovered.length || diagnostics.some((item) => String(item.type || "").includes("skill") || String(item.diagnostic_type || "").includes("skill"));
+  const hasIntentIssue = diagnostics.some((item) => String(item.type || "").includes("intent") || String(item.diagnostic_type || "").includes("intent"));
+  const actions = [
+    { id: "skill_coverage", label: "维护 Skill 覆盖", active: hasMissingSkill },
+    { id: "semantic_relations", label: "维护关系治理", active: hasRelationEvidence || diagnostics.some((item) => String(item.type || "").includes("edge") || String(item.type || "").includes("relation")) },
+    { id: "intent_templates", label: "维护意图模板", active: hasIntentIssue || plan.semantic_frame_summary?.intent },
+    { id: "diagnostic", label: "查看诊断中心", active: diagnostics.length || uncovered.length },
+    { id: "yaml_files", label: "查看 YAML 文件", active: true },
+  ];
+  return `
+    <section class="oag-summary-section">
+      <h3>YAML 治理入口</h3>
+      <div class="oag-governance-actions">
+        ${actions.map((item) => `<button class="${item.active ? "active" : ""}" data-oag-governance="${escapeHtml(item.id)}">${escapeHtml(item.label)}</button>`).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderTaskGraphEdgeList(edges) {
+  if (!edges.length) return `<div class="muted">任务子图暂无关系边。</div>`;
+  return `<div class="mini-table oag-plan-list">${edges.slice(0, 40).map((edge) => `
+    <button data-highlight-node="${escapeHtml(edge.target || "")}">
+      <strong>${escapeHtml(edge.label_zh || relationTypeLabel(edge.relation_type))}</strong>
+      <span>${escapeHtml(edge.source || "-")} → ${escapeHtml(edge.target || "-")}</span>
+      <em>${escapeHtml(edge.reason_zh || sourceLabel(edge.source) || "")}</em>
+    </button>
+  `).join("")}</div>`;
+}
+
+function bindPlanGovernanceActions() {
+  document.querySelectorAll("[data-oag-governance]").forEach((button) => {
+    button.addEventListener("click", () => guarded(() => selectTask(button.dataset.oagGovernance)));
+  });
+}
+
+function renderFactRequirementList(rows) {
+  if (!rows.length) return `<div class="muted">暂无事实需求</div>`;
+  return `<div class="mini-table oag-plan-list">${rows.map((item) => `
+    <button data-highlight-node="${escapeHtml(item.fact_requirement_id)}" title="${escapeHtml(item.reason_zh || "")}">
+      <strong>${escapeHtml(item.label_zh || item.fact_requirement_id)}</strong>
+      <span>${escapeHtml(item.fact_type_zh || item.fact_type)} · ${escapeHtml(item.subject?.label_zh || item.subject?.object_type || "-")} · ${escapeHtml(item.attribute?.label_zh || item.predicate_zh || "-")}</span>
+      <em>${escapeHtml(item.priority_zh || priorityLabel(item.priority))} · ${escapeHtml(item.source_zh || sourceLabel(item.source))}</em>
+    </button>`).join("")}</div>`;
+}
+
+function renderInvocationList(rows) {
+  if (!rows.length) return `<div class="muted">暂无候选 Skill</div>`;
+  return `<div class="mini-table oag-plan-list">${rows.map((item) => `
+    <button data-highlight-node="SkillCapability:${escapeHtml(item.skill_id)}" title="${escapeHtml(item.coverage_reason_zh || "")}">
+      <strong>${escapeHtml(item.skill_name_zh || item.skill_name || item.skill_id)}</strong>
+      <span>覆盖事实：${escapeHtml((item.covers_fact_requirements || []).length)} · 覆盖评分：${escapeHtml(item.coverage_score ?? "-")}</span>
+      <em>缺失参数：${escapeHtml((item.missing_params || []).join("、") || "无")} · 权限：${escapeHtml(item.permission_scope || "未声明")}</em>
+    </button>`).join("")}</div>`;
+}
+
+function bindPlanListHighlights() {
+  document.querySelectorAll("[data-highlight-node]").forEach((button) => {
+    button.addEventListener("click", () => centerNode(button.dataset.highlightNode));
+  });
+}
+
+async function renderIntentTemplatesDashboard() {
+  const data = await api("/api/intent-profiles");
+  el("workbenchHome").classList.remove("hidden");
+  el("workbenchHome").classList.add("dashboard-home");
+  el("workbenchHome").innerHTML = `
+    <div class="workbench-panel dashboard-panel">
+      <h1>意图模板</h1>
+      <p>维护宽泛意图默认事实模板；保存后可直接用该意图生成示例规划。</p>
+      <div class="task-actions"><button id="newIntentTemplateBtn" data-edit-only>新增意图模板</button></div>
+      <div class="governance-list">
+        ${(data.items || []).map((item) => `
+          <button data-edit-intent="${escapeHtml(item.intent_name)}">
+            <strong>${escapeHtml(item.display_name_zh)}</strong>
+            <span>默认事实：${item.fact_template_count || 0} · ${escapeHtml(item.enabled_zh)}</span>
+            <em>${escapeHtml(item.description || "")}</em>
+          </button>
+        `).join("")}
+      </div>
+    </div>
+  `;
+  on("newIntentTemplateBtn", "click", () => openIntentTemplateEditor({}));
+  document.querySelectorAll("[data-edit-intent]").forEach((button) => {
+    const item = (data.items || []).find((row) => row.intent_name === button.dataset.editIntent);
+    button.addEventListener("click", () => openIntentTemplateEditor(item));
+  });
+  updateEditModeUi();
+}
+
+async function renderSemanticRelationsDashboard() {
+  const data = await api("/api/semantic-relations");
+  el("workbenchHome").classList.remove("hidden");
+  el("workbenchHome").classList.add("dashboard-home");
+  el("workbenchHome").innerHTML = `
+    <div class="workbench-panel dashboard-panel">
+      <h1>关系治理</h1>
+      <p>重点维护属性语义扩展关系和对象关系，并补齐适用任务、适用意图、权重和中文原因。</p>
+      <div class="task-actions"><button id="newSemanticRelationBtn" data-edit-only>新增关系边</button></div>
+      <div class="dashboard-metrics">
+        <div><strong>${data.summary?.edge_count || 0}</strong><span>治理关系</span></div>
+        <div><strong>${data.summary?.attribute_expansion_count || 0}</strong><span>属性扩展</span></div>
+        <div><strong>${data.summary?.object_relation_count || 0}</strong><span>对象关系</span></div>
+      </div>
+      <div class="governance-list">
+        ${(data.items || []).slice(0, 240).map((item) => `
+          <button data-edit-relation="${escapeHtml(item.edge_id)}">
+            <strong>${escapeHtml(item.display_name_zh)} · ${escapeHtml(item.group_zh)}</strong>
+            <span>${escapeHtml(item.source)} → ${escapeHtml(item.target)}</span>
+            <em>${escapeHtml(item.reason_zh || item.reason_status_zh)}</em>
+          </button>
+        `).join("")}
+      </div>
+    </div>
+  `;
+  on("newSemanticRelationBtn", "click", () => openSemanticRelationEditor({}));
+  document.querySelectorAll("[data-edit-relation]").forEach((button) => {
+    const item = (data.items || []).find((row) => row.edge_id === button.dataset.editRelation);
+    button.addEventListener("click", () => openSemanticRelationEditor(item));
+  });
+  updateEditModeUi();
+}
+
+async function renderSkillCoverageDashboard() {
+  const data = await api("/api/skills");
+  el("workbenchHome").classList.remove("hidden");
+  el("workbenchHome").classList.add("dashboard-home");
+  el("workbenchHome").innerHTML = `
+    <div class="workbench-panel dashboard-panel">
+      <h1>Skill 覆盖</h1>
+      <p>维护 Skill 的事实覆盖能力；诊断会据此判断必须事实是否可覆盖。</p>
+      <div class="task-actions"><button id="newSkillCoverageBtn" data-edit-only>新增 Skill</button></div>
+      <div class="governance-list">
+        ${(data.items || []).map((item) => `
+          <button data-edit-skill="${escapeHtml(item.skill_id)}">
+            <strong>${escapeHtml(item.display_name_zh)}</strong>
+            <span>事实类型：${item.fact_type_count || 0} · 支持属性：${item.supported_attribute_count || 0} · ${escapeHtml(item.enabled_zh)}</span>
+            <em>${escapeHtml(item.description || "")}</em>
+          </button>
+        `).join("")}
+      </div>
+    </div>
+  `;
+  on("newSkillCoverageBtn", "click", () => openSkillCoverageEditor({}));
+  document.querySelectorAll("[data-edit-skill]").forEach((button) => {
+    const item = (data.items || []).find((row) => row.skill_id === button.dataset.editSkill);
+    button.addEventListener("click", () => openSkillCoverageEditor(item));
+  });
+  updateEditModeUi();
+}
+
+function renderYamlFilesDashboard() {
+  el("workbenchHome").classList.remove("hidden");
+  el("workbenchHome").classList.add("dashboard-home");
+  el("workbenchHome").innerHTML = `
+    <div class="workbench-panel dashboard-panel">
+      <h1>YAML 文件</h1>
+      <p>左侧展示本体 YAML 文件状态；需要直接编辑原始文件时，请使用右侧原始数据页或 YAML 接口。</p>
+      <div class="task-actions"><a href="/api/export">导出当前 YAML</a><button id="validateYamlBtn">校验本体配置</button></div>
+      <div class="governance-list">${el("fileList").innerHTML || `<div class="muted">文件列表加载中</div>`}</div>
+    </div>
+  `;
+  on("validateYamlBtn", "click", validateOntology);
+}
+
 function mappingStatusLabel(status) {
   const labels = { mapped: "已映射", missing: "未映射", multi_mapped: "多重映射" };
   return labels[status] || status || "-";
@@ -852,6 +2067,483 @@ function countBy(items, key) {
   }, {});
 }
 
+function optionHtml(options = [], selected = "") {
+  return [`<option value="">请选择</option>`, ...(options || []).map((item) => {
+    const value = item.value || item.id || "";
+    const label = item.label_zh || item.label || value;
+    return `<option value="${escapeHtml(value)}" ${String(value) === String(selected || "") ? "selected" : ""}>${escapeHtml(label)}</option>`;
+  })].join("");
+}
+
+function checkboxList(name, options = [], selected = []) {
+  const selectedSet = new Set(selected || []);
+  return `<div class="multi-choice-list compact-choice-list" data-choice-list="${escapeHtml(name)}">
+    ${(options || []).slice(0, 80).map((item) => {
+      const value = item.value || item.id || "";
+      const label = item.label_zh || item.label || value;
+      return `<label class="multi-choice-item"><input type="checkbox" value="${escapeHtml(value)}" ${selectedSet.has(value) ? "checked" : ""}><span>${escapeHtml(label)}<br><em>${escapeHtml(value)}</em></span></label>`;
+    }).join("")}
+  </div>`;
+}
+
+function checkedValues(name) {
+  return [...document.querySelectorAll(`[data-choice-list="${CSS.escape(name)}"] input:checked`)].map((input) => input.value);
+}
+
+function setCheckedValues(name, values) {
+  const selected = new Set(values || []);
+  document.querySelectorAll(`[data-choice-list="${CSS.escape(name)}"] input`).forEach((input) => {
+    input.checked = selected.has(input.value);
+  });
+}
+
+function parseJsonField(id, fallback) {
+  const text = el(id).value.trim();
+  if (!text) return fallback;
+  try {
+    return JSON.parse(text);
+  } catch (error) {
+    throw new Error(`${el(id).closest("label")?.firstChild?.textContent || "JSON 字段"}格式不正确：${error.message}`);
+  }
+}
+
+function statusLabel(status) {
+  const labels = { success: "规划成功", need_clarification: "需要补充信息", error: "规划失败" };
+  return labels[status] || status || "-";
+}
+
+function executionStatusLabel(status) {
+  const labels = {
+    ready: "可执行",
+    blocked_missing_params: "缺少参数",
+    blocked_permission: "权限不足",
+    partial: "部分可执行",
+    no_skill_calls: "无 Skill 调用",
+    disabled: "Skill 不可用",
+  };
+  return labels[status] || status || "-";
+}
+
+function coverageStatusLabel(status) {
+  const labels = {
+    full_coverage: "完全覆盖",
+    partial_coverage: "部分覆盖",
+    no_coverage: "没有覆盖",
+    need_clarification: "需要补充信息",
+    permission_blocked: "权限受阻",
+  };
+  return labels[status] || status || "-";
+}
+
+function diagnosticTypeLabel(type) {
+  const labels = {
+    intent_missing_fact_requirements_template: "意图缺少事实模板",
+    skill_missing_provides_fact_types: "Skill 缺少事实类型",
+    skill_missing_supported_attributes: "Skill 缺少支持属性",
+    skill_missing_supported_subject_types: "Skill 缺少支持对象",
+    attribute_without_skill_coverage: "属性缺少 Skill 覆盖",
+    semantic_edge_missing_reason_zh: "关系边缺少中文原因",
+    semantic_edge_missing_applicability: "关系边缺少适用范围",
+    relation_edge_unknown_node: "关系边引用不存在节点",
+    required_fact_without_skill_coverage: "必须事实缺少 Skill 覆盖",
+    orphan_nodes: "孤立节点",
+    skills_without_attributes: "Skill 缺少属性声明",
+    attributes_without_skill: "属性没有 Skill 覆盖",
+    attributes_without_table_mapping: "属性缺少表字段映射",
+    intents_without_skill: "意图缺少候选 Skill",
+    relation_types_unused: "关系类型未使用",
+    disabled_skills_referenced: "停用 Skill 仍被引用",
+  };
+  return labels[type] || type || "诊断问题";
+}
+
+function priorityLabel(value) {
+  return value === "required" ? "必须查询" : "辅助参考";
+}
+
+function sourceLabel(value) {
+  const labels = {
+    explicit_attribute: "显式属性",
+    intent_template: "意图模板",
+    relation_expansion: "关系扩展",
+    operation_rule: "操作规则",
+    explicit_relation: "显式关系查询",
+  };
+  return labels[value] || value || "-";
+}
+
+async function openIntentTemplateEditor(item = {}) {
+  const isNew = !item.intent_name;
+  if (!(await requestEditModeForAction(isNew ? "新增意图模板" : "编辑意图模板"))) return;
+  await ensureOagOptions();
+  const draft = isNew ? newIntentTemplateDraft() : item;
+  el("modalTitle").textContent = isNew ? "新增意图模板" : "编辑意图事实模板";
+  const rows = draft.fact_requirements_template?.length ? draft.fact_requirements_template : [{ priority: "required" }];
+  el("modalBody").innerHTML = `
+    <div class="wizard-panel intent-template-editor">
+      <section class="intent-template-section">
+        <h3>1. 定义这个意图</h3>
+        <div class="oag-form-grid">
+          <label>意图标识<input id="intentName" value="${escapeHtml(draft.intent_name || "")}" ${isNew ? "" : "disabled"} placeholder="例如 performance_overview"></label>
+          <label>意图名称<input id="intentNameZh" value="${escapeHtml(draft.intent_name_zh || "")}" placeholder="例如 基金综合表现分析"></label>
+          <label class="wide">用户会怎么说<input id="intentTriggers" value="${escapeHtml((draft.trigger_aliases || []).join(", "))}" placeholder="多个表达用逗号分隔，例如 分析表现, 看一下收益风险"></label>
+          <label>适用对象<input id="intentObjects" value="${escapeHtml((draft.target_object_types || ["Fund"]).join(", "))}" placeholder="例如 Fund, FundSet"></label>
+          <label class="wide">说明<input id="intentDescription" value="${escapeHtml(draft.description || "")}" placeholder="这个意图解决什么问题，可选"></label>
+        </div>
+      </section>
+      <section class="intent-template-section">
+        <h3>2. 这个意图默认需要哪些事实</h3>
+        <p class="wizard-help">每一行就是一个事实需求：选择事实类型、事实名称，标记是否必须查询，并写清楚原因。</p>
+        <div class="template-editor-row template-editor-head">
+          <span>事实类型</span>
+          <span>事实名称</span>
+          <span>是否必须查询</span>
+          <span>原因</span>
+          <span></span>
+        </div>
+        <div id="intentFactRows" class="template-editor-list">
+          ${rows.map((row) => renderIntentFactEditorRow(row)).join("")}
+        </div>
+        <div class="task-actions">
+          <button id="addIntentFactBtn" type="button">添加事实需求</button>
+        </div>
+      </section>
+      <details><summary>高级：原始 YAML 数据</summary><textarea id="intentRawJson" rows="10">${escapeHtml(JSON.stringify(draft, null, 2))}</textarea></details>
+    </div>
+  `;
+  el("addIntentFactBtn").addEventListener("click", () => {
+    el("intentFactRows").insertAdjacentHTML("beforeend", renderIntentFactEditorRow({ priority: "required" }));
+  });
+  openModal(async () => {
+    const raw = JSON.parse(el("intentRawJson").value || "{}");
+    const intentName = isNew ? el("intentName").value.trim() : item.intent_name;
+    if (!intentName) throw new Error("请先填写意图标识");
+    const factRows = readIntentFactRows();
+    if (!factRows.length) throw new Error("请至少添加一个事实需求");
+    const next = { ...draft, ...raw };
+    next.intent_name = intentName;
+    next.intent_name_zh = el("intentNameZh").value.trim() || intentName;
+    next.description = el("intentDescription").value.trim();
+    next.trigger_aliases = splitCsv(el("intentTriggers").value);
+    next.target_object_types = splitCsv(el("intentObjects").value);
+    next.fact_requirements_template = factRows;
+    next.default_attributes = Array.from(new Set(factRows.map((row) => row.attribute_name).filter(Boolean)));
+    next.skill_priorities = Array.isArray(next.skill_priorities) ? next.skill_priorities : [];
+    await confirmPreviewAndSave(isNew ? "新增意图模板" : "保存意图模板", item, next, async () => {
+      const result = await api(`/api/intent-profiles/${encodeURIComponent(intentName)}`, {
+        method: "PUT",
+        body: JSON.stringify({ data: next }),
+      });
+      writeOutput(result);
+      await refreshAll({ loadGraph: false });
+      await renderIntentTemplatesDashboard();
+    });
+  });
+}
+
+function newIntentTemplateDraft() {
+  return {
+    intent_name: "",
+    intent_name_zh: "",
+    enabled: true,
+    trigger_aliases: [],
+    target_object_types: ["Fund"],
+    fact_requirements_template: [{ priority: "required", reason_zh: "" }],
+  };
+}
+
+function renderIntentFactEditorRow(row = {}) {
+  return `
+    <div class="template-editor-row">
+      <select data-template-field="fact_type">${optionHtml(currentOagOptions.fact_types, row.fact_type)}</select>
+      <select data-template-field="attribute_name">${optionHtml(currentOagOptions.attributes, row.attribute_name)}</select>
+      <select data-template-field="priority">
+        <option value="required" ${row.priority !== "optional" ? "selected" : ""}>必须查询</option>
+        <option value="optional" ${row.priority === "optional" ? "selected" : ""}>辅助参考</option>
+      </select>
+      <input data-template-field="reason_zh" value="${escapeHtml(row.reason_zh || "")}" placeholder="该事实用于说明什么？">
+      <button type="button" onclick="this.closest('.template-editor-row').remove()">删除</button>
+    </div>
+  `;
+}
+
+function readIntentFactRows() {
+  return [...document.querySelectorAll("#intentFactRows .template-editor-row")].map((row) => {
+    const get = (field) => row.querySelector(`[data-template-field="${field}"]`)?.value.trim();
+    return {
+      fact_type: get("fact_type"),
+      attribute_name: get("attribute_name"),
+      priority: get("priority") || "required",
+      reason_zh: get("reason_zh") || "该事实用于支撑当前意图回答。",
+    };
+  }).filter((row) => row.fact_type && row.attribute_name);
+}
+
+async function openSkillCoverageEditor(item = {}) {
+  const isNew = !item.skill_id;
+  if (!(await requestEditModeForAction(isNew ? "新增 Skill" : "编辑 Skill 覆盖"))) return;
+  await ensureOagOptions(["fact_requirements", "input_params"]);
+  const draft = isNew ? newSkillDraft(item) : item;
+  const selectedFactIds = selectedFactRequirementIdsForSkill(draft);
+  const selectedInputParams = draft.input_params?.length ? draft.input_params : DEFAULT_SKILL_INPUT_PARAMS;
+  el("modalTitle").textContent = isNew ? "新增 Skill" : "编辑 Skill 覆盖能力";
+  el("modalBody").innerHTML = `
+    <div class="wizard-panel skill-coverage-editor">
+      <section class="intent-template-section">
+        <h3>1. 定义这个 Skill</h3>
+        <div class="oag-form-grid">
+          <label>Skill 标识<input id="skillId" value="${escapeHtml(draft.skill_id || "")}" ${isNew ? "" : "disabled"} placeholder="例如 get_fund_metric_values"></label>
+          <label>Skill 名称<input id="skillName" value="${escapeHtml(draft.skill_name || "")}" placeholder="例如 获取基金指标值"></label>
+          <label>面向对象<select id="skillTargetObject">${optionHtml(currentOagOptions.object_types, draft.target_object_type || "Fund")}</select></label>
+          <label>权限要求<input id="skillPermission" value="${escapeHtml(draft.permission_scope || "fund_public_data:read")}"></label>
+          <div class="wide choice-field">
+            <span class="choice-field-title">输入参数</span>
+            <span class="wizard-help">选择调用这个 Skill 时需要用户或上游流程提供的信息。</span>
+            ${skillInputParamCheckboxList("skillInputParams", selectedInputParams)}
+          </div>
+          <label class="wide">说明<input id="skillDescription" value="${escapeHtml(draft.description || "")}" placeholder="这个 Skill 如何产出事实，可选"></label>
+        </div>
+      </section>
+      <section class="intent-template-section">
+        <h3>2. 这个 Skill 能满足哪些事实需求</h3>
+        <p class="wizard-help">勾选事实需求后，系统会自动生成事实类型、事实名称、对象类型和关系覆盖声明。</p>
+        ${factRequirementCheckboxList("skillFactRequirements", currentOagOptions.fact_requirements || [], selectedFactIds)}
+      </section>
+      <details><summary>高级：原始 YAML 数据</summary><textarea id="skillRawJson" rows="10">${escapeHtml(JSON.stringify(draft, null, 2))}</textarea></details>
+    </div>
+  `;
+  openModal(async () => {
+    const raw = JSON.parse(el("skillRawJson").value || "{}");
+    const skillId = isNew ? el("skillId").value.trim() : item.skill_id;
+    if (!skillId) throw new Error("请先填写 Skill 标识");
+    const inputParams = checkedValues("skillInputParams");
+    if (!inputParams.length) throw new Error("请至少选择一个输入参数");
+    const selectedFacts = selectedFactRequirements("skillFactRequirements");
+    if (!selectedFacts.length) throw new Error("请至少关联一个事实需求");
+    const coverage = deriveSkillCoverageFromFacts(selectedFacts, el("skillTargetObject").value || "Fund");
+    const next = { ...draft, ...raw };
+    next.skill_id = skillId;
+    next.skill_name = el("skillName").value.trim() || skillId;
+    next.description = el("skillDescription").value.trim();
+    next.target_object_type = el("skillTargetObject").value || coverage.supported_subject_types[0] || "Fund";
+    next.permission_scope = el("skillPermission").value.trim();
+    next.input_params = inputParams;
+    next.supported_fact_requirements = selectedFacts.map((fact) => fact.value);
+    next.provides_fact_types = coverage.provides_fact_types;
+    next.supported_subject_types = coverage.supported_subject_types;
+    next.supported_attributes = coverage.supported_attributes;
+    next.output_attributes = Array.from(new Set([...(next.output_attributes || []), ...next.supported_attributes]));
+    next.supported_relations = coverage.supported_relations;
+    await confirmPreviewAndSave(isNew ? "新增 Skill" : "保存 Skill 覆盖能力", item, next, async () => {
+      const result = await api(`/api/skills/${encodeURIComponent(skillId)}`, {
+        method: "PUT",
+        body: JSON.stringify({ data: next }),
+      });
+      writeOutput(result);
+      await refreshAll({ loadGraph: false });
+      await renderSkillCoverageDashboard();
+    });
+  });
+}
+
+function newSkillDraft(defaults = {}) {
+  return {
+    skill_id: "",
+    skill_name: "",
+    description: "",
+    target_object_type: defaults.target_object_type || "Fund",
+    input_params: DEFAULT_SKILL_INPUT_PARAMS,
+    permission_scope: "fund_public_data:read",
+    enabled: true,
+    supported_fact_requirements: [],
+    ...defaults,
+  };
+}
+
+function skillInputParamOptions(selected = []) {
+  const byValue = new Map();
+  [...FALLBACK_SKILL_INPUT_PARAM_OPTIONS, ...(currentOagOptions.input_params || [])].forEach((item) => {
+    const value = item.value || item.id || "";
+    if (!value) return;
+    byValue.set(value, {
+      value,
+      label_zh: item.label_zh || item.label || value,
+      group_zh: item.group_zh || "输入参数",
+    });
+  });
+  (selected || []).forEach((value) => {
+    if (value && !byValue.has(value)) {
+      byValue.set(value, { value, label_zh: String(value).replaceAll("_", " "), group_zh: "已保存参数" });
+    }
+  });
+  return [...byValue.values()];
+}
+
+function skillInputParamCheckboxList(name, selected = []) {
+  const selectedSet = new Set(selected || []);
+  return `<div class="multi-choice-list input-param-choice-list" data-choice-list="${escapeHtml(name)}">
+    ${skillInputParamOptions(selected).map((item) => `
+      <label class="multi-choice-item">
+        <input type="checkbox" value="${escapeHtml(item.value)}" ${selectedSet.has(item.value) ? "checked" : ""}>
+        <span>${escapeHtml(item.label_zh || item.label || item.value)}<br><em>${escapeHtml(item.group_zh || "输入参数")}</em></span>
+      </label>
+    `).join("")}
+  </div>`;
+}
+
+function factRequirementCheckboxList(name, options = [], selected = []) {
+  const selectedSet = new Set(selected || []);
+  if (!options.length) {
+    return `<div class="oag-empty-state"><strong>没有读取到事实需求模板</strong><span>请确认意图模板中已经配置事实需求；如果刚刚修改过模板，请刷新后再试。</span></div>`;
+  }
+  return `<div class="multi-choice-list fact-requirement-choice-list" data-choice-list="${escapeHtml(name)}">
+    ${options.map((item) => `
+      <label class="multi-choice-item fact-requirement-choice">
+        <input type="checkbox" value="${escapeHtml(item.value)}" ${selectedSet.has(item.value) ? "checked" : ""}>
+        <span>
+          <strong>${escapeHtml(item.label_zh || item.label || item.value)}</strong>
+          <em>${escapeHtml(item.fact_type_zh || item.fact_type || "事实")} · ${escapeHtml(item.priority_zh || priorityLabel(item.priority))}</em>
+          <small>${escapeHtml(item.reason_zh || "")}</small>
+        </span>
+      </label>
+    `).join("")}
+  </div>`;
+}
+
+function selectedFactRequirements(name) {
+  const selected = new Set(checkedValues(name));
+  return (currentOagOptions.fact_requirements || []).filter((item) => selected.has(item.value));
+}
+
+function selectedFactRequirementIdsForSkill(skill) {
+  const explicit = Array.isArray(skill.supported_fact_requirements) ? skill.supported_fact_requirements : [];
+  if (explicit.length) return explicit;
+  const factTypes = new Set(skill.provides_fact_types || []);
+  const attributes = new Set([...(skill.supported_attributes || []), ...(skill.output_attributes || [])]);
+  const relations = new Set(skill.supported_relations || []);
+  return (currentOagOptions.fact_requirements || [])
+    .filter((fact) => {
+      if (!factTypes.has(fact.fact_type)) return false;
+      if (fact.attribute_name) return attributes.has(fact.attribute_name);
+      if (fact.relation_type) return relations.has(fact.relation_type);
+      return true;
+    })
+    .map((fact) => fact.value);
+}
+
+function deriveSkillCoverageFromFacts(facts, fallbackSubjectType = "Fund") {
+  const factTypes = new Set();
+  const subjectTypes = new Set([fallbackSubjectType].filter(Boolean));
+  const attributes = new Set();
+  const relations = new Set();
+  facts.forEach((fact) => {
+    if (fact.fact_type) factTypes.add(fact.fact_type);
+    (fact.subject_types || []).forEach((type) => type && subjectTypes.add(type));
+    if (fact.attribute_name) attributes.add(fact.attribute_name);
+    if (fact.relation_type) relations.add(fact.relation_type);
+  });
+  return {
+    provides_fact_types: [...factTypes],
+    supported_subject_types: [...subjectTypes],
+    supported_attributes: [...attributes],
+    supported_relations: [...relations],
+  };
+}
+
+async function openSemanticRelationEditor(item = {}) {
+  if (!(await requestEditModeForAction("维护语义关系"))) return;
+  await ensureOptions();
+  const isNew = !item.edge_id;
+  el("modalTitle").textContent = isNew ? "新增语义关系边" : "编辑语义关系边";
+  el("modalBody").innerHTML = `
+    <div class="wizard-panel">
+      <label>起点节点<input id="relationSource" list="semanticNodeOptions" value="${escapeHtml(item.source || item.from || "")}"></label>
+      <label>终点节点<input id="relationTarget" list="semanticNodeOptions" value="${escapeHtml(item.target || item.to || "")}"></label>
+      <datalist id="semanticNodeOptions">${semanticNodeOptionsHtml()}</datalist>
+      <label>关系类型<select id="relationType">${optionHtml(currentOagOptions.relation_types, item.relation_type)}</select></label>
+      <label>适用任务<input id="relationTasks" value="${escapeHtml((item.applicable_tasks || []).join(", "))}" placeholder="analyze, compare"></label>
+      <label>适用意图<input id="relationIntents" value="${escapeHtml((item.applicable_intents || []).join(", "))}" placeholder="performance_overview"></label>
+      <label>默认优先级<select id="relationPriority"><option value="optional" ${item.default_priority !== "required" ? "selected" : ""}>辅助参考</option><option value="required" ${item.default_priority === "required" ? "selected" : ""}>必须查询</option></select></label>
+      <label>规划角色<input id="relationPlanningRole" value="${escapeHtml(item.planning_role || item.expansion_role || "")}" placeholder="risk_context / peer_context"></label>
+      <label>自动扩展模式<select id="relationAutoExpandMode">
+        ${["contextual", "explicit_only", "dependency_only", "debug_only", "disabled", "always"].map((mode) => `<option value="${mode}" ${item.auto_expand_mode === mode ? "selected" : ""}>${mode}</option>`).join("")}
+      </select></label>
+      <label>答案可见性<select id="relationAnswerVisibility">
+        ${["answer_fact", "supporting_context", "hidden_dependency", "debug_only"].map((visibility) => `<option value="${visibility}" ${(item.answer_visibility || "answer_fact") === visibility ? "selected" : ""}>${visibility}</option>`).join("")}
+      </select></label>
+      <label>扩展优先级<select id="relationExpansionPriority">
+        ${["optional", "required", "supporting", "debug"].map((priority) => `<option value="${priority}" ${(item.expansion_priority || item.default_priority || "optional") === priority ? "selected" : ""}>${priority}</option>`).join("")}
+      </select></label>
+      <label>触发策略 JSON<textarea id="relationTriggerPolicy" rows="5">${escapeHtml(JSON.stringify(item.trigger_policy || {}, null, 2))}</textarea></label>
+      <label>扩展限制 JSON<textarea id="relationExpansionLimits" rows="3">${escapeHtml(JSON.stringify(item.expansion_limits || {}, null, 2))}</textarea></label>
+      <label>权重<input id="relationWeight" type="number" step="0.01" min="0" max="1" value="${escapeHtml(item.weight ?? item.score ?? "")}"></label>
+      <label>中文原因<textarea id="relationReason" rows="3">${escapeHtml(item.reason_zh || "")}</textarea></label>
+      <details><summary>原始数据</summary><textarea id="relationRawJson" rows="8">${escapeHtml(JSON.stringify(item, null, 2))}</textarea></details>
+    </div>
+  `;
+  openModal(async () => {
+    const raw = JSON.parse(el("relationRawJson").value || "{}");
+    const source = el("relationSource").value.trim();
+    const target = el("relationTarget").value.trim();
+    const relationType = el("relationType").value.trim();
+    const next = {
+      ...raw,
+      edge_id: item.edge_id || `${source}__${relationType}__${target}`,
+      from: source,
+      to: target,
+      relation_type: relationType,
+      applicable_tasks: splitCsv(el("relationTasks").value),
+      applicable_intents: splitCsv(el("relationIntents").value),
+      default_priority: el("relationPriority").value,
+      planning_role: el("relationPlanningRole").value.trim(),
+      expansion_role: el("relationPlanningRole").value.trim(),
+      auto_expand_mode: el("relationAutoExpandMode").value,
+      answer_visibility: el("relationAnswerVisibility").value,
+      expansion_priority: el("relationExpansionPriority").value,
+      trigger_policy: JSON.parse(el("relationTriggerPolicy").value || "{}"),
+      expansion_limits: JSON.parse(el("relationExpansionLimits").value || "{}"),
+      reason_zh: el("relationReason").value.trim(),
+      weight: Number(el("relationWeight").value || raw.weight || raw.score || 0),
+    };
+    next.score = next.weight || raw.score || 0;
+    await confirmPreviewAndSave(isNew ? "新增关系边" : "保存关系边", item, next, async () => {
+      const url = isNew ? "/api/semantic-relations" : `/api/semantic-relations/${encodeURIComponent(item.edge_id)}`;
+      const result = await api(url, {
+        method: isNew ? "POST" : "PUT",
+        body: JSON.stringify({ source, target, relation_type: relationType, properties: next }),
+      });
+      writeOutput(result);
+      await refreshAll({ loadGraph: false });
+      await renderSemanticRelationsDashboard();
+    });
+  });
+}
+
+async function confirmPreviewAndSave(title, oldValue, newValue, saveFn) {
+  const diff = diffJson(oldValue || {}, newValue || {});
+  const preview = {
+    changed: diff.changed.map((row) => FIELD_LABELS[row.key] || row.key),
+    added: diff.added.map((row) => FIELD_LABELS[row.key] || row.key),
+    removed: diff.removed.map((row) => FIELD_LABELS[row.key] || row.key),
+  };
+  writeOutput({ title, preview, next: newValue });
+  const message = `${title}\n\n变更字段：${preview.changed.join("、") || "无"}\n新增字段：${preview.added.join("、") || "无"}\n删除字段：${preview.removed.join("、") || "无"}\n\n是否确认写回 YAML？`;
+  if (!confirm(message)) return;
+  await saveFn();
+}
+
+function splitCsv(value) {
+  return String(value || "").split(",").map((item) => item.trim()).filter(Boolean);
+}
+
+function semanticNodeOptionsHtml() {
+  return [
+    ...(currentOptions.attributes || []),
+    ...(currentOptions.object_types || []),
+    ...(currentOptions.fact_types || []),
+  ].map((item) => `<option value="${escapeHtml(item.id)}">${escapeHtml(item.label || item.id)}</option>`).join("");
+}
+
 function filterDiagnostics(type) {
   el("diagnosticFilter").value = type || "";
   renderDiagnostics();
@@ -861,6 +2553,7 @@ async function selectTask(taskId) {
   const task = TASKS.find((item) => item.id === taskId);
   if (!task) return;
   state.activeTaskId = task.id;
+  setTaskChromeMode();
   state.viewMode = task.viewMode;
   state.focusId = "";
   state.query = "";
@@ -872,10 +2565,63 @@ async function selectTask(taskId) {
   setDefaultLayoutForView();
   clearSelection();
   renderTaskCards();
-  renderTaskCandidates();
   renderTaskActionPanel();
   syncControls();
   renderEmptyInspector();
+  if (task.dashboard === "oag_plan") {
+    cy.elements().remove();
+    currentGraph = { nodes: [], edges: [], summary: { node_count: 0, edge_count: 0 }, search_results: [] };
+    renderTaskCandidates();
+    renderDashboardLoading("正在进入 OAG 规划调试", "正在准备语义输入选项，稍后即可填写或选择示例。");
+    updateCounts();
+    setGraphLoading(true, "正在进入 OAG 规划调试", "正在加载任务类型、意图、属性和事实类型选项...");
+    try {
+      await ensureOagOptions();
+    } finally {
+      setGraphLoading(false);
+    }
+    renderOagPlanningDashboard();
+    updateCounts();
+    return;
+  }
+  if (!currentOptions.object_types?.length || !currentOagOptions.task_types?.length) {
+    renderDashboardLoading(`正在进入${task.title}`, "正在读取本体选项和诊断信息...");
+    setGraphLoading(true, `正在进入${task.title}`, "正在读取 ontology YAML 和工作台选项...");
+    try {
+      await loadOptions();
+    } finally {
+      setGraphLoading(false);
+    }
+  }
+  renderTaskCandidates();
+  if (task.dashboard === "intent_templates") {
+    cy.elements().remove();
+    currentGraph = { nodes: [], edges: [], summary: { node_count: 0, edge_count: 0 }, search_results: [] };
+    await renderIntentTemplatesDashboard();
+    updateCounts();
+    return;
+  }
+  if (task.dashboard === "semantic_relations") {
+    cy.elements().remove();
+    currentGraph = { nodes: [], edges: [], summary: { node_count: 0, edge_count: 0 }, search_results: [] };
+    await renderSemanticRelationsDashboard();
+    updateCounts();
+    return;
+  }
+  if (task.dashboard === "skill_coverage") {
+    cy.elements().remove();
+    currentGraph = { nodes: [], edges: [], summary: { node_count: 0, edge_count: 0 }, search_results: [] };
+    await renderSkillCoverageDashboard();
+    updateCounts();
+    return;
+  }
+  if (task.dashboard === "yaml_files") {
+    cy.elements().remove();
+    currentGraph = { nodes: [], edges: [], summary: { node_count: 0, edge_count: 0 }, search_results: [] };
+    renderYamlFilesDashboard();
+    updateCounts();
+    return;
+  }
   if (task.dashboard === "diagnostic") {
     cy.elements().remove();
     currentGraph = { nodes: [], edges: [], summary: { node_count: 0, edge_count: 0 }, search_results: [] };
@@ -904,6 +2650,22 @@ function renderTaskCandidates() {
     return;
   }
   title.textContent = `${task.title}候选节点`;
+  if (task.id === "oag_plan") {
+    title.textContent = "OAG 调试流程";
+    box.innerHTML = `
+      <div class="oag-sidebar-flow">
+        <div class="oag-flow-step active"><strong>1 输入任务</strong><span>选择场景或填写语义框架</span></div>
+        <div class="oag-flow-step"><strong>2 生成规划</strong><span>计算事实需求和 Skill 覆盖</span></div>
+        <div class="oag-flow-step"><strong>3 查看执行</strong><span>确认参数缺口和可调用 Skill</span></div>
+      </div>
+      <div class="oag-sidebar-examples">
+        <h3>常用场景</h3>
+        ${oagExampleNames().map((name) => `<button data-oag-side-example="${escapeHtml(name)}">${escapeHtml(name)}</button>`).join("")}
+      </div>
+    `;
+    bindOagSidebarActions();
+    return;
+  }
   if (task.id === "diagnostic") {
     const items = (currentDiagnostics.items || []).slice(0, 80);
     box.innerHTML = items.length
@@ -914,7 +2676,7 @@ function renderTaskCandidates() {
             <em>${escapeHtml(item.suggested_action || "")}</em>
           </button>
         `).join("")
-      : `<div class="muted">当前没有 Diagnostic 检查项</div>`;
+      : `<div class="muted">当前没有诊断检查项</div>`;
     document.querySelectorAll("#taskCandidates [data-diagnostic-node]").forEach((button) => {
       button.addEventListener("click", () => {
         if (button.dataset.diagnosticNode) jumpToNode(button.dataset.diagnosticNode);
@@ -963,6 +2725,33 @@ function renderTaskCandidates() {
   });
 }
 
+function oagExampleNames() {
+  return [
+    "分析某基金近一年表现",
+    "查询某基金最大回撤和夏普",
+    "查询某基金经理",
+    "查询某基金公司",
+    "查询某基金业绩基准",
+    "比较两只基金收益",
+    "推荐收益高、回撤低的基金",
+    "筛选最大回撤低于10%的基金",
+    "查询同类排名",
+    "查询费率",
+    "查询分红",
+    "查询持仓配置",
+  ];
+}
+
+function bindOagSidebarActions() {
+  document.querySelectorAll("[data-oag-side-example]").forEach((button) => {
+    button.addEventListener("click", () => {
+      if (!el("oagRawQuestion")) return;
+      fillOagExample(button.dataset.oagSideExample);
+      document.querySelectorAll("[data-oag-side-example]").forEach((item) => item.classList.toggle("active", item === button));
+    });
+  });
+}
+
 async function enterTaskFocus(task, nodeId) {
   state.viewMode = task.viewMode;
   state.focusId = nodeId;
@@ -983,6 +2772,7 @@ function optionsForType(type) {
     SkillCapability: currentOptions.skills || [],
     QueryCapability: currentOptions.queries || [],
     RelationType: currentOptions.relation_types || [],
+    FactType: currentOptions.fact_types || [],
     DataTable: currentOptions.data_tables || [],
   };
   return map[type] || [];
@@ -1040,7 +2830,7 @@ function renderGraph() {
 function prepareGraphElements(graph) {
   let nodes = (graph.nodes || []).map((node) => ({ data: decorateNodeData(node.data) }));
   let edges = (graph.edges || []).map((edge) => ({ data: normalizeEdgeData(edge.data) }));
-  if (state.enableGroups && !state.focusId && ["overview", "requirement"].includes(state.viewMode)) {
+  if (graph.kind !== "task_graph" && state.enableGroups && !state.focusId && ["overview", "requirement"].includes(state.viewMode)) {
     const grouped = applyVirtualGroups(nodes, edges);
     nodes = grouped.nodes;
     edges = grouped.edges;
@@ -1144,6 +2934,10 @@ function toggleGroup(groupId) {
 }
 
 function runLayout() {
+  if (currentGraph.kind === "task_graph") {
+    runTaskGraphLayout();
+    return;
+  }
   const name = el("layoutSelect").value;
   if (name === "semantic") {
     runSemanticLayout();
@@ -1179,6 +2973,47 @@ function runLayout() {
     cy.fit(options.eles, 56);
   };
   cy.layout(options).run();
+}
+
+function runTaskGraphLayout() {
+  const eles = cy.elements().not(".hidden-by-type");
+  if (!eles.length) return;
+  const columns = new Map();
+  const columnOf = (node) => {
+    const type = node.data("type");
+    if (["SemanticFrame"].includes(type)) return 0;
+    if (["TaskType", "IntentProfile"].includes(type)) return 1;
+    if (["TargetInstance", "ObjectType", "Constraint"].includes(type)) return 2;
+    if (["FactRequirement"].includes(type)) return 3;
+    if (["Attribute"].includes(type)) return 4;
+    if (["SkillCapability", "Parameter"].includes(type)) return 5;
+    return 3;
+  };
+  eles.nodes().forEach((node) => {
+    const column = columnOf(node);
+    if (!columns.has(column)) columns.set(column, []);
+    columns.get(column).push(node);
+  });
+  const positions = {};
+  [...columns.entries()].forEach(([column, nodes]) => {
+    nodes.sort((a, b) => {
+      const typeRank = String(a.data("type")).localeCompare(String(b.data("type")));
+      return typeRank || String(a.data("label")).localeCompare(String(b.data("label")));
+    });
+    const spacing = nodes.length > 8 ? 58 : 72;
+    const total = (nodes.length - 1) * spacing;
+    nodes.forEach((node, index) => {
+      positions[node.id()] = { x: column * 132, y: index * spacing - total / 2 };
+    });
+  });
+  cy.layout({ name: "preset", positions, animate: false, fit: false }).run();
+  cy.fit(eles, 72);
+  const readableZoom = Math.min(0.78, Math.max(cy.zoom(), 0.56));
+  cy.zoom({
+    level: readableZoom,
+    renderedPosition: { x: Math.max(220, (cy.width() - 160) / 2), y: cy.height() / 2 },
+  });
+  cy.panBy({ x: 16, y: 8 });
 }
 
 function separateOverlappingNodes(nodes) {
@@ -1273,8 +3108,12 @@ function clearSelection() {
   selected = null;
   state.selectedNodeId = "";
   clearDirty({ keepEditor: false });
-  renderEmptyInspector();
   updateSelectedRelationSummary(null);
+  if (currentGraph.kind === "task_graph" && currentPlan) {
+    showOagPlanInspector(currentPlan);
+  } else {
+    renderEmptyInspector();
+  }
 }
 
 function clearHighlight() {
@@ -1406,11 +3245,9 @@ function renderInspectorActions(data) {
   if (data.type === "ObjectType") {
     buttons.push(`<button id="newAttrBtn" data-edit-only>新增属性</button>`);
     buttons.push(`<button id="newSkillBtn" data-edit-only>新增 Skill</button>`);
-    buttons.push(`<button id="newQueryBtn" data-edit-only>新增查询能力</button>`);
   }
   if (data.type === "Attribute") {
     buttons.push(`<button id="linkSkillBtn" data-edit-only>关联 Skill</button>`);
-    buttons.push(`<button id="linkQueryBtn" data-edit-only>关联查询能力</button>`);
     buttons.push(`<button id="linkFieldBtn" data-edit-only>关联表字段</button>`);
   }
   if (data.type === "SkillCapability") {
@@ -1428,13 +3265,11 @@ function renderInspectorActions(data) {
   el("drawEdgeBtn")?.addEventListener("click", () => startEdgeCreation(data.id));
   el("tableMappingBtnLocal").addEventListener("click", () => viewTableMapping(data.id));
   el("newAttrBtn")?.addEventListener("click", () => openAddNodeDialog("Attribute", { object_types: [data.identity] }));
-  el("newSkillBtn")?.addEventListener("click", () => openAddNodeDialog("SkillCapability", { target_object_type: data.identity }));
-  el("newQueryBtn")?.addEventListener("click", () => openAddNodeDialog("QueryCapability", { target_object_type: data.identity }));
+  el("newSkillBtn")?.addEventListener("click", () => openSkillCoverageEditor({ target_object_type: data.identity }));
   el("linkSkillBtn")?.addEventListener("click", () => openEdgeDialog({ target: data.id, relation_type: "supports_attribute" }));
-  el("linkQueryBtn")?.addEventListener("click", () => openEdgeDialog({ target: data.id, relation_type: "outputs_attribute" }));
   el("linkFieldBtn")?.addEventListener("click", () => openEdgeDialog({ source: data.id, relation_type: "maps_to_field" }));
   el("toggleSkillBtn")?.addEventListener("click", () => toggleSelectedSkillEnabled());
-  el("copySkillBtn")?.addEventListener("click", () => openAddNodeDialog("SkillCapability", { ...(data.raw || {}), skill_id: `${data.identity}_copy`, skill_name: `${data.label || data.identity} copy` }));
+  el("copySkillBtn")?.addEventListener("click", () => openSkillCoverageEditor({ ...(data.raw || {}), skill_id: `${data.identity}_copy`, skill_name: `${data.label || data.identity} copy` }));
   el("expandFieldsBtn")?.addEventListener("click", () => expandFields(data.id));
   updateEditModeUi();
 }
@@ -1968,7 +3803,7 @@ function renderDiagnostics() {
   const filter = el("diagnosticFilter").value;
   const existingOptions = [...el("diagnosticFilter").options].map((option) => option.value).join("|");
   if (existingOptions !== ["", ...types].join("|")) {
-    el("diagnosticFilter").innerHTML = `<option value="">全部类型</option>${types.map((type) => `<option value="${escapeHtml(type)}">${escapeHtml(type)}</option>`).join("")}`;
+    el("diagnosticFilter").innerHTML = `<option value="">全部类型</option>${types.map((type) => `<option value="${escapeHtml(type)}">${escapeHtml(diagnosticTypeLabel(type))}</option>`).join("")}`;
     el("diagnosticFilter").value = filter;
   }
   const filtered = list.filter((item) => !filter || item.type === filter).slice(0, 160);
@@ -1998,13 +3833,18 @@ function renderDiagnosticItem(item) {
   const editAction = item.node_id ? `<button data-diagnostic-edit="${escapeHtml(item.node_id)}" data-edit-only>打开编辑</button>` : "";
   return `
     <div class="diagnostic-item ${escapeHtml(item.severity)}">
-      <strong>${escapeHtml(item.type)} / ${escapeHtml(item.severity)}</strong>
-      <span>${escapeHtml(item.message)}</span>
+      <strong>${escapeHtml(diagnosticTypeLabel(item.type))} / ${escapeHtml(severityLabel(item.severity))}</strong>
+      <span>${escapeHtml(item.diagnostic_message_zh || item.message)}</span>
       <span>${escapeHtml(item.file || "-")} ${escapeHtml(item.node_id || "")}</span>
-      <span>${escapeHtml(item.suggested_action || "")}</span>
+      <span>${escapeHtml(item.suggested_action_zh || item.suggested_action || "")}</span>
       <div class="diagnostic-actions">${nodeAction}${editAction}</div>
     </div>
   `;
+}
+
+function severityLabel(severity) {
+  const labels = { error: "错误", warning: "警告", info: "提示" };
+  return labels[severity] || severity || "-";
 }
 
 function applyRelationFilter() {
@@ -2044,15 +3884,26 @@ function exitFocusMode() {
 
 async function toggleEditMode() {
   if (!state.editMode) {
-    if (!confirm("编辑会修改 ontology/*.yaml，保存前会自动备份。是否进入编辑模式？")) return;
-    state.editMode = true;
+    if (!(await requestEditModeForAction("编辑本体"))) return;
   } else {
     const decision = await confirmDirtyIfNeeded();
     if (decision === "cancel") return;
     state.editMode = false;
+    updateEditModeUi();
+    renderTaskActionPanel();
   }
+}
+
+async function requestEditModeForAction(actionLabel = "编辑") {
+  if (state.editMode) return true;
+  if (!confirm(`${actionLabel}会修改 ontology/*.yaml，保存前会自动备份。是否进入编辑模式？`)) {
+    writeOutput({ message: "已取消进入编辑模式。", action: actionLabel });
+    return false;
+  }
+  state.editMode = true;
   updateEditModeUi();
   renderTaskActionPanel();
+  return true;
 }
 
 function updateEditModeUi() {
@@ -2120,7 +3971,15 @@ async function confirmDirtyIfNeeded() {
 }
 
 async function openAddNodeDialog(initialType = "SkillCapability", defaults = {}, options = {}) {
-  if (!state.editMode) return;
+  if (initialType === "SkillCapability") {
+    await openSkillCoverageEditor(defaults || {});
+    return;
+  }
+  if (initialType === "IntentProfile") {
+    await openIntentTemplateEditor(defaults || {});
+    return;
+  }
+  if (!(await requestEditModeForAction(`新增${NODE_TYPE_LABELS[initialType] || "节点"}`))) return;
   await ensureOptions();
   const lockedType = options.lockedType !== false;
   const allowedTypes = options.allowedTypes || [initialType];
@@ -2209,8 +4068,8 @@ function renderNodeWizardForm(nodeType, defaults = {}) {
 function wizardFields(nodeType) {
   const common = {
     SkillCapability: [
-      ["skill_id"], ["skill_name"], ["description", "textarea"], ["enabled", "boolean"], ["target_object_type", "object"], ["input_params", "tags"],
-      ["supported_attributes", "attributes"], ["output_attributes", "attributes"], ["provides_fact_types", "tags"], ["related_queries", "queries"], ["permission_scope"],
+      ["skill_id"], ["skill_name"], ["description", "textarea"], ["enabled", "boolean"], ["target_object_type", "object"], ["supported_subject_types", "objects"], ["input_params", "tags"],
+      ["supported_attributes", "attributes"], ["output_attributes", "attributes"], ["provides_fact_types", "fact_types"], ["supported_relations", "relations"], ["related_queries", "queries"], ["permission_scope"],
     ],
     Attribute: [["attribute_name"], ["attribute_name_zh"], ["description", "textarea"], ["object_types", "objects"], ["value_type"], ["aliases", "tags"], ["enabled", "boolean"]],
     IntentProfile: [["intent_name"], ["intent_name_zh"], ["trigger_aliases", "tags"], ["default_attributes", "attributes"], ["skill_priorities", "skills"], ["fact_requirements_template", "json"]],
@@ -2251,7 +4110,7 @@ function createWizardInput(field, value) {
     select.value = value || "";
     return select;
   }
-  if (["objects", "attributes", "skills", "queries", "tables"].includes(field.kind)) {
+  if (["objects", "attributes", "skills", "queries", "tables", "fact_types", "relations"].includes(field.kind)) {
     const group = document.createElement("div");
     group.className = "multi-choice-list";
     const sourceMap = {
@@ -2260,6 +4119,8 @@ function createWizardInput(field, value) {
       skills: currentOptions.skills,
       queries: currentOptions.queries,
       tables: currentOptions.data_tables,
+      fact_types: currentOptions.fact_types,
+      relations: currentOptions.relation_types,
     };
     const selectedValues = new Set(Array.isArray(value) ? value : value ? [value] : []);
     const options = sourceMap[field.kind] || [];
@@ -2288,7 +4149,7 @@ function wizardFieldHelp(nodeType, field) {
   const explicit = FIELD_HELP[field.name];
   if (explicit) return normalizeRequiredHelp(explicit, required);
   if (field.kind === "tags") return required ? "请至少填写一个值；多个值用逗号分隔。" : "多个值用逗号分隔；不需要时留空。";
-  if (["objects", "attributes", "skills", "queries", "tables"].includes(field.kind)) {
+  if (["objects", "attributes", "skills", "queries", "tables", "fact_types", "relations"].includes(field.kind)) {
     return required ? "请至少勾选一项；可以直接勾选多个。" : "可直接勾选多个；不需要时留空。";
   }
   if (["object", "attribute", "table"].includes(field.kind)) return required ? "请从下拉列表中选择一项。" : "可从下拉列表中选择；不需要时留空。";
@@ -2352,7 +4213,7 @@ function primaryValueForNode(nodeType, data) {
 }
 
 async function openEdgeDialog(prefill = {}) {
-  if (!state.editMode) return;
+  if (!(await requestEditModeForAction("创建关系边"))) return;
   await ensureOptions();
   const nodes = allNodeOptions();
   const lockedEndpoints = Boolean(prefill.lockedEndpoints);
@@ -2369,27 +4230,51 @@ async function openEdgeDialog(prefill = {}) {
        <label>终点节点</label>
        <input id="edgeTarget" list="edgeNodeOptions" value="${escapeHtml(prefill.target || "")}" placeholder="搜索节点名称、ID 或类型">
        <datalist id="edgeNodeOptions">${nodes.map((node) => `<option value="${escapeHtml(node.id)}">${escapeHtml(readableNodeName(node.id))}</option>`).join("")}</datalist>`;
-  const relationOptions = edgeRelationOptions(prefill.source, prefill.target);
   el("modalBody").innerHTML = `
     <div class="wizard-panel">
       ${endpointFields}
       <label>关系类型</label>
-      <select id="edgeRelation">
-        <option value="">请选择关系类型</option>
-        ${relationOptions.map((item) => `<option value="${escapeHtml(item.value)}" ${item.value === prefill.relation_type ? "selected" : ""}>${escapeHtml(relationOptionLabel(item))}</option>`).join("")}
-      </select>
-      <small class="wizard-help">关系类型必须已存在于关系类型 YAML 中。</small>
+      <select id="edgeRelation"></select>
+      <small id="edgeRelationHelp" class="wizard-help">先选起点和终点，系统会优先推荐常用建模关系。</small>
       <label>关系来源</label>
       <input value="显式关系，将写入 YAML" disabled>
+      <label>中文原因</label>
+      <textarea id="edgeReason" rows="3" placeholder="说明为什么需要这条关系，便于诊断和规划解释">${escapeHtml(prefill.reason_zh || "")}</textarea>
+      <label>适用任务</label>
+      <input id="edgeApplicableTasks" value="${escapeHtml((prefill.applicable_tasks || []).join(", "))}" placeholder="例如 analyze, compare；不确定可留空">
+      <label>适用意图</label>
+      <input id="edgeApplicableIntents" value="${escapeHtml((prefill.applicable_intents || []).join(", "))}" placeholder="例如 performance_overview；不确定可留空">
       <label>附加属性 JSON</label>
       <textarea id="edgeProps" rows="6" placeholder="{}">{}</textarea>
     </div>
   `;
+  const refreshRelationOptions = () => {
+    const select = el("edgeRelation");
+    const source = el("edgeSource").value.trim();
+    const target = el("edgeTarget").value.trim();
+    const current = select.value || prefill.relation_type || "";
+    const relationOptions = edgeRelationOptions(source, target);
+    select.innerHTML = `<option value="">请选择关系类型</option>${relationOptions.map((item) => `<option value="${escapeHtml(item.value)}">${escapeHtml(relationOptionLabel(item))}</option>`).join("")}`;
+    if ([...select.options].some((option) => option.value === current)) select.value = current;
+    el("edgeRelationHelp").textContent = source && target ? "已根据起点和终点类型刷新推荐关系。" : "先选起点和终点，系统会优先推荐常用建模关系。";
+  };
+  ["edgeSource", "edgeTarget"].forEach((id) => {
+    const node = el(id);
+    node?.addEventListener("input", refreshRelationOptions);
+    node?.addEventListener("change", refreshRelationOptions);
+  });
+  refreshRelationOptions();
   openModal(async () => {
     const source = el("edgeSource").value.trim();
     const target = el("edgeTarget").value.trim();
     const relationType = el("edgeRelation").value.trim();
     const props = JSON.parse(el("edgeProps").value || "{}");
+    const reason = el("edgeReason").value.trim();
+    const applicableTasks = splitCsv(el("edgeApplicableTasks").value);
+    const applicableIntents = splitCsv(el("edgeApplicableIntents").value);
+    if (reason) props.reason_zh = reason;
+    if (applicableTasks.length) props.applicable_tasks = applicableTasks;
+    if (applicableIntents.length) props.applicable_intents = applicableIntents;
     if (!source || !target || !relationType) throw new Error("起点节点、终点节点、关系类型都不能为空");
     if (source === target && !confirm("这是自环边，是否确认？")) return;
     const result = await api("/api/graph/edge", {
@@ -2424,6 +4309,12 @@ function suggestedRelationsForEndpoints(source, target) {
       { value: "outputs_attribute", label: "Skill 输出这个属性" },
       { value: "provides_attribute", label: "Skill 提供这个属性" },
     );
+  }
+  if (sourceType === "SkillCapability" && targetType === "FactType") {
+    suggestions.push({ value: "provides_fact_type", label: "Skill 提供这个事实类型" });
+  }
+  if (sourceType === "IntentProfile" && targetType === "FactType") {
+    suggestions.push({ value: "requires_fact_type", label: "Intent 需要这个事实类型" });
   }
   if (sourceType === "SkillCapability" && targetType === "QueryCapability") {
     suggestions.push({ value: "related_query", label: "Skill 关联查询能力" });
@@ -2484,6 +4375,7 @@ function allNodeOptions() {
     ...(currentOptions.skills || []),
     ...(currentOptions.queries || []),
     ...(currentOptions.relation_types || []),
+    ...(currentOptions.fact_types || []),
     ...(currentOptions.data_tables || []),
   ];
   const map = new Map();
@@ -2495,8 +4387,8 @@ function allNodeOptions() {
   return [...map.values()].sort((a, b) => a.id.localeCompare(b.id));
 }
 
-function startEdgeCreation(initialSource = "") {
-  if (!state.editMode) return;
+async function startEdgeCreation(initialSource = "") {
+  if (!(await requestEditModeForAction("创建关系边"))) return;
   if (typeof initialSource !== "string") initialSource = "";
   state.edgeDrawMode = true;
   state.edgeDraftSource = initialSource || "";

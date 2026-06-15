@@ -19,6 +19,7 @@ def test_ontology_yaml_loads_and_sections_are_not_empty():
     assert catalog.object_types
     assert catalog.attributes
     assert catalog.relation_types
+    assert catalog.fact_types
     assert catalog.queries
     assert catalog.skills
     assert catalog.data_sources
@@ -73,6 +74,11 @@ def test_relation_catalog_contains_required_relations():
 
     assert {
         "managed_by",
+        "compared_with",
+        "derives",
+        "ranked_by_peer",
+        "risk_companion",
+        "has_benchmark",
         "has_performance_metric",
         "has_risk_metric",
         "holds_industry",
@@ -144,6 +150,7 @@ def test_seed_ontology_uses_ontology_payloads_without_hardcoded_catalog_lists():
     assert len(payloads["graph"]["edges"]) > 10
     node_ids = {item["id"] for item in payloads["graph"]["nodes"]}
     edge_ids = {item["edge_id"] for item in payloads["graph"]["edges"]}
+    assert "FactType:metric_value" in node_ids
     assert "Fund:003095" not in node_ids
     assert not any("Fund:003095" in edge_id for edge_id in edge_ids)
     assert {

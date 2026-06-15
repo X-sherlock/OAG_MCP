@@ -1,0 +1,111 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - text: OAG 事实规划工作台
+      - generic [ref=e5]: 工作台
+    - searchbox "搜索 Fund / return_rate / skill" [ref=e6]
+    - button "定位" [ref=e7] [cursor=pointer]
+    - button "进入编辑模式" [ref=e8] [cursor=pointer]
+    - generic [ref=e9]: 未保存修改：0
+    - button "保存当前修改" [disabled] [ref=e10]
+    - button "刷新" [ref=e11] [cursor=pointer]
+    - button "更多" [ref=e12] [cursor=pointer]
+  - complementary [ref=e13]:
+    - generic [ref=e14]:
+      - heading "主功能入口" [level=2] [ref=e15]
+      - generic [ref=e16]:
+        - button "OAG 规划调试 输入语义框架，生成事实需求、候选 Skill、覆盖情况和本次任务子图。" [ref=e17] [cursor=pointer]:
+          - strong [ref=e18]: OAG 规划调试
+          - generic [ref=e19]: 输入语义框架，生成事实需求、候选 Skill、覆盖情况和本次任务子图。
+        - button "本体核心图 保留现有图谱浏览能力，用于查看对象、属性、Intent、Skill 和关系。" [ref=e20] [cursor=pointer]:
+          - strong [ref=e21]: 本体核心图
+          - generic [ref=e22]: 保留现有图谱浏览能力，用于查看对象、属性、Intent、Skill 和关系。
+        - button "意图模板 维护宽泛意图默认需要哪些事实，编辑属性、事实类型、优先级和中文原因。" [ref=e23] [cursor=pointer]:
+          - strong [ref=e24]: 意图模板
+          - generic [ref=e25]: 维护宽泛意图默认需要哪些事实，编辑属性、事实类型、优先级和中文原因。
+        - button "关系治理 维护属性语义扩展边和对象关系边，检查适用任务、权重和中文原因。" [ref=e26] [cursor=pointer]:
+          - strong [ref=e27]: 关系治理
+          - generic [ref=e28]: 维护属性语义扩展边和对象关系边，检查适用任务、权重和中文原因。
+        - button "Skill 覆盖 维护 Skill 能提供的事实类型、支持对象、指标属性、关系和权限要求。" [ref=e29] [cursor=pointer]:
+          - strong [ref=e30]: Skill 覆盖
+          - generic [ref=e31]: 维护 Skill 能提供的事实类型、支持对象、指标属性、关系和权限要求。
+        - button "诊断中心 查看意图模板、Skill 能力、关系边、属性覆盖和必需事实覆盖问题。" [ref=e32] [cursor=pointer]:
+          - strong [ref=e33]: 诊断中心
+          - generic [ref=e34]: 查看意图模板、Skill 能力、关系边、属性覆盖和必需事实覆盖问题。
+        - button "YAML 文件 查看本体 YAML 文件状态，进入高级原始文件编辑和导出。" [ref=e35] [cursor=pointer]:
+          - strong [ref=e36]: YAML 文件
+          - generic [ref=e37]: 查看本体 YAML 文件状态，进入高级原始文件编辑和导出。
+    - generic [ref=e38]:
+      - heading "任务候选节点" [level=2] [ref=e39]
+      - searchbox "选择任务后搜索候选节点" [ref=e40]
+      - generic [ref=e42]: 先选择一个建模任务
+    - generic [ref=e43]:
+      - heading "搜索结果" [level=2] [ref=e44]
+      - generic [ref=e46]: 输入关键词后点击定位
+    - heading "当前视图关系统计" [level=2] [ref=e48]
+    - generic [ref=e49]:
+      - heading "选中节点关系统计" [level=2] [ref=e50]
+      - generic [ref=e52]: 未选择节点
+    - heading "YAML 文件" [level=2] [ref=e54]
+    - generic [ref=e55]:
+      - heading "诊断检查" [level=2] [ref=e56]
+      - combobox [ref=e57] [cursor=pointer]:
+        - option "全部类型" [selected]
+      - generic [ref=e59]: 尚未加载
+  - generic "拖动调整左栏宽度" [ref=e60]
+  - main [ref=e61]:
+    - generic: 0 nodes · 0 edges
+    - generic [ref=e62]:
+      - generic [ref=e63]: 节点类型
+      - generic [ref=e65]: 加载图谱后显示
+    - generic [ref=e67]:
+      - heading "OAG 事实规划与本体关系治理工作台" [level=1] [ref=e68]
+      - paragraph [ref=e69]: 从语义框架生成事实规划，查看任务子图，并维护意图模板、语义关系和 Skill 覆盖能力。
+      - generic [ref=e70]:
+        - button "OAG 规划调试 输入语义框架，生成事实需求、候选 Skill、覆盖情况和本次任务子图。" [ref=e71] [cursor=pointer]:
+          - strong [ref=e72]: OAG 规划调试
+          - generic [ref=e73]: 输入语义框架，生成事实需求、候选 Skill、覆盖情况和本次任务子图。
+        - button "本体核心图 保留现有图谱浏览能力，用于查看对象、属性、Intent、Skill 和关系。" [ref=e74] [cursor=pointer]:
+          - strong [ref=e75]: 本体核心图
+          - generic [ref=e76]: 保留现有图谱浏览能力，用于查看对象、属性、Intent、Skill 和关系。
+        - button "意图模板 维护宽泛意图默认需要哪些事实，编辑属性、事实类型、优先级和中文原因。" [ref=e77] [cursor=pointer]:
+          - strong [ref=e78]: 意图模板
+          - generic [ref=e79]: 维护宽泛意图默认需要哪些事实，编辑属性、事实类型、优先级和中文原因。
+        - button "关系治理 维护属性语义扩展边和对象关系边，检查适用任务、权重和中文原因。" [ref=e80] [cursor=pointer]:
+          - strong [ref=e81]: 关系治理
+          - generic [ref=e82]: 维护属性语义扩展边和对象关系边，检查适用任务、权重和中文原因。
+        - button "Skill 覆盖 维护 Skill 能提供的事实类型、支持对象、指标属性、关系和权限要求。" [ref=e83] [cursor=pointer]:
+          - strong [ref=e84]: Skill 覆盖
+          - generic [ref=e85]: 维护 Skill 能提供的事实类型、支持对象、指标属性、关系和权限要求。
+        - button "诊断中心 查看意图模板、Skill 能力、关系边、属性覆盖和必需事实覆盖问题。" [ref=e86] [cursor=pointer]:
+          - strong [ref=e87]: 诊断中心
+          - generic [ref=e88]: 查看意图模板、Skill 能力、关系边、属性覆盖和必需事实覆盖问题。
+        - button "YAML 文件 查看本体 YAML 文件状态，进入高级原始文件编辑和导出。" [ref=e89] [cursor=pointer]:
+          - strong [ref=e90]: YAML 文件
+          - generic [ref=e91]: 查看本体 YAML 文件状态，进入高级原始文件编辑和导出。
+  - generic "拖动调整右栏宽度" [ref=e97]
+  - complementary [ref=e98]:
+    - heading "未选择" [level=2] [ref=e100]
+    - heading "任务操作" [level=3] [ref=e102]
+    - generic [ref=e103]:
+      - button "概览" [ref=e104] [cursor=pointer]
+      - button "关联关系" [ref=e105] [cursor=pointer]
+      - button "上下游影响" [ref=e106] [cursor=pointer]
+      - button "原始数据" [ref=e107] [cursor=pointer]
+    - generic [ref=e108]:
+      - heading "基本信息" [level=3] [ref=e109]
+      - heading "核心表单" [level=3] [ref=e110]
+    - generic [ref=e111]:
+      - button "保存" [disabled] [ref=e112]
+      - button "删除" [disabled] [ref=e113]
+    - generic [ref=e114]:
+      - heading "校验结果" [level=3] [ref=e115]
+      - generic [ref=e117]: 尚未校验
+    - heading "输出" [level=3] [ref=e119]
+  - contentinfo [ref=e121]:
+    - generic [ref=e122]: 节点：0
+    - generic [ref=e123]: 关系：0
+    - generic [ref=e124]: 需求定位 / 隐藏表字段：0 / 隐藏推断关系：0
+    - generic [ref=e125]: 校验：未知
+    - generic [ref=e126]: 最近保存：-
+    - generic [ref=e127]: 本体目录：-

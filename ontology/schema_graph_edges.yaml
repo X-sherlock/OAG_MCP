@@ -15746,3 +15746,1095 @@
   to: Attribute:max_drawdown
   relation_type: outputs_attribute
   score: 0.92
+- edge_id: Attribute:return_rate__compared_with__Attribute:benchmark_return
+  from: Attribute:return_rate
+  to: Attribute:benchmark_return
+  relation_type: compared_with
+  relation_name_zh: 对比指标
+  score: 0.93
+  applicable_tasks:
+  - analyze
+  - compare
+  applicable_intents:
+  - performance_overview
+  - benchmark_comparison
+  default_priority: optional
+  reason_zh: 分析收益率时可补充基准收益率，用于判断相对表现。
+  weight: 0.93
+  planning_role: benchmark_context
+  auto_expand_mode: contextual
+  answer_visibility: answer_fact
+  expansion_priority: optional
+  trigger_policy:
+    tasks:
+    - analyze
+    - compare
+    intents:
+    - performance_overview
+    - benchmark_comparison
+    source_attributes:
+    - return_rate
+    source_fact_types:
+    - metric_value
+    - benchmark_metric_value
+    - excess_metric_value
+    - peer_rank
+    requires_existing_fact_types: []
+    requires_explicit_attribute: false
+    requires_relation_query: false
+  expansion_limits:
+    max_per_source_attribute: 3
+    max_global: 6
+    max_depth: 1
+- edge_id: Attribute:return_rate__derives__Attribute:excess_return
+  from: Attribute:return_rate
+  to: Attribute:excess_return
+  relation_type: derives
+  relation_name_zh: 派生指标
+  score: 0.9
+  applicable_tasks:
+  - analyze
+  - compare
+  applicable_intents:
+  - performance_overview
+  - benchmark_comparison
+  default_priority: optional
+  reason_zh: 分析收益率时可补充超额收益，用于判断是否跑赢基准。
+  weight: 0.9
+  planning_role: benchmark_context
+  auto_expand_mode: contextual
+  answer_visibility: answer_fact
+  expansion_priority: optional
+  trigger_policy:
+    tasks:
+    - analyze
+    - compare
+    intents:
+    - performance_overview
+    - benchmark_comparison
+    source_attributes:
+    - return_rate
+    source_fact_types:
+    - metric_value
+    - benchmark_metric_value
+    - excess_metric_value
+    - peer_rank
+    requires_existing_fact_types: []
+    requires_explicit_attribute: false
+    requires_relation_query: false
+  expansion_limits:
+    max_per_source_attribute: 3
+    max_global: 6
+    max_depth: 1
+- edge_id: Attribute:return_rate__ranked_by_peer__Attribute:rank
+  from: Attribute:return_rate
+  to: Attribute:rank
+  relation_type: ranked_by_peer
+  relation_name_zh: 同类排名
+  score: 0.88
+  applicable_tasks:
+  - analyze
+  - compare
+  - rank
+  - recommend
+  applicable_intents:
+  - performance_overview
+  - peer_comparison
+  default_priority: optional
+  reason_zh: 同类比较、排名或推荐任务中，可用收益排名判断相对位置。
+  weight: 0.88
+  planning_role: peer_context
+  auto_expand_mode: contextual
+  answer_visibility: answer_fact
+  expansion_priority: optional
+  trigger_policy:
+    tasks:
+    - compare
+    - rank
+    - recommend
+    intents:
+    - peer_comparison
+    source_attributes:
+    - return_rate
+    source_fact_types:
+    - metric_value
+    - benchmark_metric_value
+    - excess_metric_value
+    - peer_rank
+    requires_existing_fact_types: []
+    requires_explicit_attribute: false
+    requires_relation_query: false
+  expansion_limits:
+    max_per_source_attribute: 3
+    max_global: 6
+    max_depth: 1
+- edge_id: Attribute:max_drawdown__risk_companion__Attribute:volatility
+  from: Attribute:max_drawdown
+  to: Attribute:volatility
+  relation_type: risk_companion
+  relation_name_zh: 风险伴随指标
+  score: 0.86
+  applicable_tasks:
+  - analyze
+  - compare
+  applicable_intents:
+  - performance_overview
+  - risk_overview
+  default_priority: optional
+  reason_zh: 分析最大回撤时可补充波动率，共同说明风险水平。
+  weight: 0.86
+  planning_role: risk_context
+  auto_expand_mode: contextual
+  answer_visibility: answer_fact
+  expansion_priority: optional
+  trigger_policy:
+    tasks:
+    - analyze
+    - compare
+    intents:
+    - performance_overview
+    - risk_overview
+    source_attributes:
+    - max_drawdown
+    source_fact_types:
+    - metric_value
+    - benchmark_metric_value
+    - excess_metric_value
+    - peer_rank
+    requires_existing_fact_types: []
+    requires_explicit_attribute: false
+    requires_relation_query: false
+  expansion_limits:
+    max_per_source_attribute: 3
+    max_global: 6
+    max_depth: 1
+- edge_id: Attribute:max_drawdown__risk_companion__Attribute:sharpe_ratio
+  from: Attribute:max_drawdown
+  to: Attribute:sharpe_ratio
+  relation_type: risk_companion
+  relation_name_zh: 风险伴随指标
+  score: 0.84
+  applicable_tasks:
+  - analyze
+  - compare
+  applicable_intents:
+  - performance_overview
+  - risk_overview
+  default_priority: optional
+  reason_zh: 最大回撤分析可补充夏普比率，用于解释风险调整后收益。
+  weight: 0.84
+  planning_role: risk_context
+  auto_expand_mode: contextual
+  answer_visibility: answer_fact
+  expansion_priority: optional
+  trigger_policy:
+    tasks:
+    - analyze
+    - compare
+    intents:
+    - performance_overview
+    - risk_overview
+    source_attributes:
+    - max_drawdown
+    source_fact_types:
+    - metric_value
+    - benchmark_metric_value
+    - excess_metric_value
+    - peer_rank
+    requires_existing_fact_types: []
+    requires_explicit_attribute: false
+    requires_relation_query: false
+  expansion_limits:
+    max_per_source_attribute: 3
+    max_global: 6
+    max_depth: 1
+- edge_id: ObjectType:Fund__managed_by__ObjectType:FundManager
+  from: ObjectType:Fund
+  to: ObjectType:FundManager
+  relation_type: managed_by
+  relation_name_zh: 管理关系
+  score: 0.84
+  applicable_tasks:
+  - query
+  - explain
+  applicable_intents:
+  - profile_query
+  - manager_analysis
+  - explain_reason
+  default_priority: optional
+  reason_zh: 当用户查询基金经理或需要解释基金管理背景时，获取基金与基金经理关系。
+  weight: 0.84
+  planning_role: profile_context
+  auto_expand_mode: explicit_only
+  answer_visibility: answer_fact
+  expansion_priority: optional
+  trigger_policy:
+    tasks:
+    - query
+    - explain
+    intents:
+    - profile_query
+    - manager_analysis
+    - explain_reason
+    source_attributes: []
+    source_fact_types: []
+    requires_existing_fact_types: []
+    requires_explicit_attribute: true
+    explicit_attributes:
+    - fund_manager
+    - manager_name
+    requires_relation_query: true
+  expansion_limits:
+    max_per_source_attribute: 2
+    max_global: 6
+    max_depth: 1
+- edge_id: ObjectType:Fund__has_benchmark__ObjectType:Benchmark
+  from: ObjectType:Fund
+  to: ObjectType:Benchmark
+  relation_type: has_benchmark
+  relation_name_zh: 具有业绩基准
+  score: 0.86
+  applicable_tasks:
+  - analyze
+  - compare
+  applicable_intents:
+  - benchmark_comparison
+  - performance_overview
+  default_priority: supporting
+  reason_zh: 当任务已经需要基准收益、超额收益、跟踪误差或信息比率时，业绩基准关系作为支撑上下文。
+  weight: 0.86
+  planning_role: benchmark_context
+  auto_expand_mode: contextual
+  answer_visibility: supporting_context
+  expansion_priority: supporting
+  trigger_policy:
+    tasks:
+    - analyze
+    - compare
+    intents:
+    - benchmark_comparison
+    - performance_overview
+    source_attributes:
+    - benchmark_return
+    - excess_return
+    - tracking_error
+    - information_ratio
+    source_fact_types:
+    - benchmark_metric_value
+    - excess_metric_value
+    requires_existing_fact_types:
+    - benchmark_metric_value
+    - excess_metric_value
+    requires_explicit_attribute: false
+    requires_relation_query: false
+  expansion_limits:
+    max_per_source_attribute: 2
+    max_global: 6
+    max_depth: 1
+- edge_id: ObjectType:Fund__belongs_to_category__ObjectType:FundCategory
+  from: ObjectType:Fund
+  to: ObjectType:FundCategory
+  relation_type: belongs_to_category
+  relation_name_zh: 基金分类
+  score: 0.82
+  applicable_tasks:
+  - compare
+  - rank
+  - recommend
+  - screen
+  applicable_intents:
+  - peer_comparison
+  default_priority: supporting
+  reason_zh: 当任务涉及同类排名、同类均值、推荐或筛选时，基金分类作为同类比较的支撑上下文。
+  weight: 0.82
+  planning_role: peer_context
+  auto_expand_mode: contextual
+  answer_visibility: supporting_context
+  expansion_priority: supporting
+  trigger_policy:
+    tasks:
+    - compare
+    - rank
+    - recommend
+    - screen
+    intents:
+    - peer_comparison
+    - risk_overview
+    - performance_overview
+    source_attributes:
+    - rank
+    - percentile
+    - peer_return_rank
+    - peer_drawdown_rank
+    - peer_sharpe_rank
+    - peer_average
+    source_fact_types:
+    - peer_rank
+    - peer_average
+    - metric_ranking
+    - entity_set
+    requires_existing_fact_types:
+    - peer_rank
+    - peer_average
+    - metric_ranking
+    - entity_set
+    requires_explicit_attribute: false
+    requires_relation_query: false
+  expansion_limits:
+    max_per_source_attribute: 2
+    max_global: 6
+    max_depth: 1
+- edge_id: Attribute:return_rate__peer_metric_of__Attribute:peer_average
+  from: Attribute:return_rate
+  to: Attribute:peer_average
+  relation_type: peer_metric_of
+  relation_name_zh: 同类比较相关指标
+  score: 0.82
+  applicable_tasks:
+  - analyze
+  - compare
+  - rank
+  - recommend
+  applicable_intents:
+  - performance_overview
+  - peer_comparison
+  default_priority: optional
+  expansion_role: peer_context
+  reason_zh: 同类比较任务中可补充同类平均收益，帮助解释相对表现。
+  weight: 0.82
+  planning_role: peer_context
+  auto_expand_mode: contextual
+  answer_visibility: answer_fact
+  expansion_priority: optional
+  trigger_policy:
+    tasks:
+    - compare
+    - rank
+    - recommend
+    intents:
+    - peer_comparison
+    source_attributes:
+    - return_rate
+    source_fact_types:
+    - metric_value
+    - benchmark_metric_value
+    - excess_metric_value
+    - peer_rank
+    requires_existing_fact_types: []
+    requires_explicit_attribute: false
+    requires_relation_query: false
+  expansion_limits:
+    max_per_source_attribute: 3
+    max_global: 6
+    max_depth: 1
+- edge_id: Attribute:annualized_return__return_companion__Attribute:return_rate
+  from: Attribute:annualized_return
+  to: Attribute:return_rate
+  relation_type: return_companion
+  relation_name_zh: 收益伴随指标
+  score: 0.8
+  applicable_tasks:
+  - analyze
+  - compare
+  applicable_intents:
+  - performance_overview
+  - benchmark_comparison
+  default_priority: optional
+  expansion_role: return_context
+  reason_zh: 年化收益分析通常需要结合区间收益率，避免只看年化口径造成误读。
+  weight: 0.8
+  planning_role: return_context
+  auto_expand_mode: contextual
+  answer_visibility: answer_fact
+  expansion_priority: optional
+  trigger_policy:
+    tasks:
+    - analyze
+    - compare
+    intents:
+    - performance_overview
+    - benchmark_comparison
+    source_attributes:
+    - annualized_return
+    source_fact_types:
+    - metric_value
+    - benchmark_metric_value
+    - excess_metric_value
+    - peer_rank
+    requires_existing_fact_types: []
+    requires_explicit_attribute: false
+    requires_relation_query: false
+  expansion_limits:
+    max_per_source_attribute: 3
+    max_global: 6
+    max_depth: 1
+- edge_id: Attribute:volatility__risk_companion__Attribute:sharpe_ratio
+  from: Attribute:volatility
+  to: Attribute:sharpe_ratio
+  relation_type: risk_companion
+  relation_name_zh: 风险伴随指标
+  score: 0.84
+  applicable_tasks:
+  - analyze
+  - compare
+  applicable_intents:
+  - performance_overview
+  - risk_overview
+  default_priority: optional
+  expansion_role: risk_adjusted_return
+  reason_zh: 波动率分析通常需要结合夏普比率，说明单位风险带来的收益质量。
+  weight: 0.84
+  planning_role: risk_context
+  auto_expand_mode: contextual
+  answer_visibility: answer_fact
+  expansion_priority: optional
+  trigger_policy:
+    tasks:
+    - analyze
+    - compare
+    intents:
+    - performance_overview
+    - risk_overview
+    source_attributes:
+    - volatility
+    source_fact_types:
+    - metric_value
+    - benchmark_metric_value
+    - excess_metric_value
+    - peer_rank
+    requires_existing_fact_types: []
+    requires_explicit_attribute: false
+    requires_relation_query: false
+  expansion_limits:
+    max_per_source_attribute: 3
+    max_global: 6
+    max_depth: 1
+- edge_id: Attribute:max_drawdown__risk_companion__Attribute:calmar_ratio
+  from: Attribute:max_drawdown
+  to: Attribute:calmar_ratio
+  relation_type: risk_companion
+  relation_name_zh: 风险伴随指标
+  score: 0.83
+  applicable_tasks:
+  - analyze
+  - compare
+  applicable_intents:
+  - risk_overview
+  default_priority: optional
+  expansion_role: drawdown_adjusted_return
+  reason_zh: 风险分析中，最大回撤可补充 Calmar 比率，用于解释回撤调整后的收益表现。
+  weight: 0.83
+  planning_role: risk_context
+  auto_expand_mode: contextual
+  answer_visibility: answer_fact
+  expansion_priority: optional
+  trigger_policy:
+    tasks:
+    - analyze
+    - compare
+    intents:
+    - risk_overview
+    source_attributes:
+    - max_drawdown
+    source_fact_types:
+    - metric_value
+    - benchmark_metric_value
+    - excess_metric_value
+    - peer_rank
+    requires_existing_fact_types: []
+    requires_explicit_attribute: false
+    requires_relation_query: false
+  expansion_limits:
+    max_per_source_attribute: 3
+    max_global: 6
+    max_depth: 1
+- edge_id: Attribute:downside_risk__risk_companion__Attribute:sortino_ratio
+  from: Attribute:downside_risk
+  to: Attribute:sortino_ratio
+  relation_type: risk_companion
+  relation_name_zh: 风险伴随指标
+  score: 0.82
+  applicable_tasks:
+  - analyze
+  - compare
+  applicable_intents:
+  - risk_overview
+  default_priority: optional
+  expansion_role: downside_adjusted_return
+  reason_zh: 下行风险分析可补充 Sortino 比率，说明下行波动调整后的收益质量。
+  weight: 0.82
+  planning_role: risk_context
+  auto_expand_mode: contextual
+  answer_visibility: answer_fact
+  expansion_priority: optional
+  trigger_policy:
+    tasks:
+    - analyze
+    - compare
+    intents:
+    - risk_overview
+    source_attributes:
+    - downside_risk
+    source_fact_types:
+    - metric_value
+    - benchmark_metric_value
+    - excess_metric_value
+    - peer_rank
+    requires_existing_fact_types: []
+    requires_explicit_attribute: false
+    requires_relation_query: false
+  expansion_limits:
+    max_per_source_attribute: 3
+    max_global: 6
+    max_depth: 1
+- edge_id: Attribute:benchmark_return__derives__Attribute:excess_return
+  from: Attribute:benchmark_return
+  to: Attribute:excess_return
+  relation_type: derives
+  relation_name_zh: 派生解释
+  score: 0.88
+  applicable_tasks:
+  - analyze
+  - compare
+  applicable_intents:
+  - performance_overview
+  - benchmark_comparison
+  default_priority: optional
+  expansion_role: benchmark_excess
+  reason_zh: 基准收益率与基金收益率共同用于解释超额收益。
+  weight: 0.88
+  planning_role: benchmark_context
+  auto_expand_mode: contextual
+  answer_visibility: answer_fact
+  expansion_priority: optional
+  trigger_policy:
+    tasks:
+    - analyze
+    - compare
+    intents:
+    - performance_overview
+    - benchmark_comparison
+    source_attributes:
+    - benchmark_return
+    source_fact_types:
+    - metric_value
+    - benchmark_metric_value
+    - excess_metric_value
+    - peer_rank
+    requires_existing_fact_types: []
+    requires_explicit_attribute: false
+    requires_relation_query: false
+  expansion_limits:
+    max_per_source_attribute: 3
+    max_global: 6
+    max_depth: 1
+- edge_id: Attribute:tracking_error__benchmark_metric_of__Attribute:information_ratio
+  from: Attribute:tracking_error
+  to: Attribute:information_ratio
+  relation_type: benchmark_metric_of
+  relation_name_zh: 基准相关指标
+  score: 0.84
+  applicable_tasks:
+  - analyze
+  - compare
+  applicable_intents:
+  - benchmark_comparison
+  default_priority: optional
+  expansion_role: benchmark_quality
+  reason_zh: 跟踪误差分析可补充信息比率，用于判断主动偏离是否带来有效超额收益。
+  weight: 0.84
+  planning_role: benchmark_context
+  auto_expand_mode: contextual
+  answer_visibility: answer_fact
+  expansion_priority: optional
+  trigger_policy:
+    tasks:
+    - analyze
+    - compare
+    intents:
+    - benchmark_comparison
+    source_attributes:
+    - tracking_error
+    source_fact_types:
+    - metric_value
+    - benchmark_metric_value
+    - excess_metric_value
+    - peer_rank
+    requires_existing_fact_types: []
+    requires_explicit_attribute: false
+    requires_relation_query: false
+  expansion_limits:
+    max_per_source_attribute: 3
+    max_global: 6
+    max_depth: 1
+- edge_id: Attribute:excess_return__benchmark_metric_of__Attribute:information_ratio
+  from: Attribute:excess_return
+  to: Attribute:information_ratio
+  relation_type: benchmark_metric_of
+  relation_name_zh: 基准相关指标
+  score: 0.86
+  applicable_tasks:
+  - analyze
+  - compare
+  applicable_intents:
+  - benchmark_comparison
+  default_priority: optional
+  expansion_role: benchmark_quality
+  reason_zh: 基准比较中，超额收益可补充信息比率，用于说明超额收益相对跟踪误差是否充分。
+  weight: 0.86
+  planning_role: benchmark_context
+  auto_expand_mode: contextual
+  answer_visibility: answer_fact
+  expansion_priority: optional
+  trigger_policy:
+    tasks:
+    - analyze
+    - compare
+    intents:
+    - benchmark_comparison
+    source_attributes:
+    - excess_return
+    source_fact_types:
+    - metric_value
+    - benchmark_metric_value
+    - excess_metric_value
+    - peer_rank
+    requires_existing_fact_types: []
+    requires_explicit_attribute: false
+    requires_relation_query: false
+  expansion_limits:
+    max_per_source_attribute: 3
+    max_global: 6
+    max_depth: 1
+- edge_id: Attribute:rank__peer_metric_of__Attribute:peer_average
+  from: Attribute:rank
+  to: Attribute:peer_average
+  relation_type: peer_metric_of
+  relation_name_zh: 同类比较相关指标
+  score: 0.82
+  applicable_tasks:
+  - analyze
+  - compare
+  - rank
+  - recommend
+  applicable_intents:
+  - performance_overview
+  - peer_comparison
+  default_priority: optional
+  expansion_role: peer_context
+  reason_zh: 查看排名时可补充同类平均水平，帮助解释排名背后的实际差距。
+  weight: 0.82
+  planning_role: peer_context
+  auto_expand_mode: contextual
+  answer_visibility: answer_fact
+  expansion_priority: optional
+  trigger_policy:
+    tasks:
+    - compare
+    - rank
+    - recommend
+    intents:
+    - peer_comparison
+    source_attributes:
+    - rank
+    source_fact_types:
+    - metric_value
+    - benchmark_metric_value
+    - excess_metric_value
+    - peer_rank
+    requires_existing_fact_types: []
+    requires_explicit_attribute: false
+    requires_relation_query: false
+  expansion_limits:
+    max_per_source_attribute: 3
+    max_global: 6
+    max_depth: 1
+- edge_id: Attribute:return_rate__ranked_by_peer__Attribute:peer_return_rank
+  from: Attribute:return_rate
+  to: Attribute:peer_return_rank
+  relation_type: ranked_by_peer
+  relation_name_zh: 扩展为同类排名
+  score: 0.86
+  applicable_tasks:
+  - analyze
+  - compare
+  - rank
+  - recommend
+  applicable_intents:
+  - performance_overview
+  - peer_comparison
+  default_priority: optional
+  expansion_role: peer_rank
+  reason_zh: 收益率分析可扩展为同类收益排名，用于判断收益表现的相对位置。
+  weight: 0.86
+  planning_role: peer_context
+  auto_expand_mode: contextual
+  answer_visibility: answer_fact
+  expansion_priority: optional
+  trigger_policy:
+    tasks:
+    - compare
+    - rank
+    - recommend
+    intents:
+    - peer_comparison
+    source_attributes:
+    - return_rate
+    source_fact_types:
+    - metric_value
+    - benchmark_metric_value
+    - excess_metric_value
+    - peer_rank
+    requires_existing_fact_types: []
+    requires_explicit_attribute: false
+    requires_relation_query: false
+  expansion_limits:
+    max_per_source_attribute: 3
+    max_global: 6
+    max_depth: 1
+- edge_id: Attribute:max_drawdown__ranked_by_peer__Attribute:peer_drawdown_rank
+  from: Attribute:max_drawdown
+  to: Attribute:peer_drawdown_rank
+  relation_type: ranked_by_peer
+  relation_name_zh: 扩展为同类排名
+  score: 0.84
+  applicable_tasks:
+  - analyze
+  - compare
+  - rank
+  - recommend
+  applicable_intents:
+  - performance_overview
+  - peer_comparison
+  - risk_overview
+  default_priority: optional
+  expansion_role: peer_rank
+  reason_zh: 最大回撤分析可扩展为同类回撤排名，用于判断风险控制相对位置。
+  weight: 0.84
+  planning_role: peer_context
+  auto_expand_mode: contextual
+  answer_visibility: answer_fact
+  expansion_priority: optional
+  trigger_policy:
+    tasks:
+    - analyze
+    - compare
+    - rank
+    - recommend
+    intents:
+    - risk_overview
+    - peer_comparison
+    source_attributes:
+    - max_drawdown
+    source_fact_types:
+    - metric_value
+    - benchmark_metric_value
+    - excess_metric_value
+    - peer_rank
+    requires_existing_fact_types: []
+    requires_explicit_attribute: false
+    requires_relation_query: false
+  expansion_limits:
+    max_per_source_attribute: 3
+    max_global: 6
+    max_depth: 1
+- edge_id: Attribute:sharpe_ratio__ranked_by_peer__Attribute:peer_sharpe_rank
+  from: Attribute:sharpe_ratio
+  to: Attribute:peer_sharpe_rank
+  relation_type: ranked_by_peer
+  relation_name_zh: 扩展为同类排名
+  score: 0.84
+  applicable_tasks:
+  - analyze
+  - compare
+  - rank
+  - recommend
+  applicable_intents:
+  - performance_overview
+  - peer_comparison
+  - risk_overview
+  default_priority: optional
+  expansion_role: peer_rank
+  reason_zh: 夏普比率分析可扩展为同类夏普排名，用于判断风险调整收益的相对位置。
+  weight: 0.84
+  planning_role: peer_context
+  auto_expand_mode: contextual
+  answer_visibility: answer_fact
+  expansion_priority: optional
+  trigger_policy:
+    tasks:
+    - analyze
+    - compare
+    - rank
+    - recommend
+    intents:
+    - risk_overview
+    - peer_comparison
+    source_attributes:
+    - sharpe_ratio
+    source_fact_types:
+    - metric_value
+    - benchmark_metric_value
+    - excess_metric_value
+    - peer_rank
+    requires_existing_fact_types: []
+    requires_explicit_attribute: false
+    requires_relation_query: false
+  expansion_limits:
+    max_per_source_attribute: 3
+    max_global: 6
+    max_depth: 1
+- edge_id: ObjectType:Fund__issued_by__ObjectType:FundCompany
+  from: ObjectType:Fund
+  to: ObjectType:FundCompany
+  relation_type: issued_by
+  relation_name_zh: 基金公司发行或管理
+  score: 0.86
+  fact_type: relation_instance
+  applicable_tasks:
+  - query
+  - explain
+  applicable_intents:
+  - profile_query
+  - company_analysis
+  - explain_reason
+  default_priority: optional
+  reason_zh: 当用户查询基金公司或需要解释公司背景时，获取基金与基金公司关系。
+  weight: 0.86
+  planning_role: profile_context
+  auto_expand_mode: explicit_only
+  answer_visibility: answer_fact
+  expansion_priority: optional
+  trigger_policy:
+    tasks:
+    - query
+    - explain
+    intents:
+    - profile_query
+    - company_analysis
+    - explain_reason
+    source_attributes: []
+    source_fact_types: []
+    requires_existing_fact_types: []
+    requires_explicit_attribute: true
+    explicit_attributes:
+    - fund_company
+    - company_name
+    - company_code
+    requires_relation_query: true
+  expansion_limits:
+    max_per_source_attribute: 2
+    max_global: 6
+    max_depth: 1
+- edge_id: ObjectType:Fund__tracks_index__ObjectType:Index
+  from: ObjectType:Fund
+  to: ObjectType:Index
+  relation_type: tracks_index
+  relation_name_zh: 跟踪指数
+  score: 0.84
+  fact_type: relation_instance
+  applicable_tasks:
+  - query
+  - compare
+  - explain
+  applicable_intents:
+  - benchmark_comparison
+  - index_tracking
+  - explain_reason
+  default_priority: optional
+  reason_zh: 仅当用户查询跟踪指数、指数基金或基准偏离质量时，获取基金与指数关系。
+  weight: 0.84
+  planning_role: benchmark_context
+  auto_expand_mode: explicit_only
+  answer_visibility: answer_fact
+  expansion_priority: optional
+  trigger_policy:
+    tasks:
+    - query
+    - compare
+    - explain
+    intents:
+    - benchmark_comparison
+    - index_tracking
+    - explain_reason
+    source_attributes:
+    - tracking_error
+    - information_ratio
+    - tracking_index_code
+    - tracking_index_name
+    source_fact_types:
+    - metric_value
+    requires_existing_fact_types: []
+    requires_explicit_attribute: true
+    explicit_attributes:
+    - tracking_index_code
+    - tracking_index_name
+    requires_relation_query: true
+  expansion_limits:
+    max_per_source_attribute: 2
+    max_global: 6
+    max_depth: 1
+- edge_id: ObjectType:Fund__has_dividend__ObjectType:Dividend
+  from: ObjectType:Fund
+  to: ObjectType:Dividend
+  relation_type: has_dividend
+  relation_name_zh: 具有分红
+  score: 0.8
+  fact_type: relation_instance
+  applicable_tasks:
+  - query
+  - explain
+  applicable_intents:
+  - dividend_analysis
+  - explain_reason
+  default_priority: optional
+  reason_zh: 仅当用户查询分红或分红收益时，获取基金分红关系。
+  weight: 0.8
+  planning_role: profile_context
+  auto_expand_mode: explicit_only
+  answer_visibility: answer_fact
+  expansion_priority: optional
+  trigger_policy:
+    tasks:
+    - query
+    - explain
+    intents:
+    - dividend_analysis
+    - explain_reason
+    source_attributes: []
+    source_fact_types: []
+    requires_existing_fact_types: []
+    requires_explicit_attribute: true
+    explicit_attributes:
+    - dividend_date
+    - dividend_amount
+    - dividend_yield
+    requires_relation_query: true
+  expansion_limits:
+    max_per_source_attribute: 2
+    max_global: 6
+    max_depth: 1
+- edge_id: ObjectType:Fund__has_fee__ObjectType:FundFee
+  from: ObjectType:Fund
+  to: ObjectType:FundFee
+  relation_type: has_fee
+  relation_name_zh: 具有费率
+  score: 0.8
+  fact_type: relation_instance
+  applicable_tasks:
+  - query
+  - explain
+  applicable_intents:
+  - fee_analysis
+  - explain_reason
+  default_priority: optional
+  reason_zh: 仅当用户查询费率、成本、申购或赎回费用时，获取基金费率关系。
+  weight: 0.8
+  planning_role: profile_context
+  auto_expand_mode: explicit_only
+  answer_visibility: answer_fact
+  expansion_priority: optional
+  trigger_policy:
+    tasks:
+    - query
+    - explain
+    intents:
+    - fee_analysis
+    - explain_reason
+    source_attributes: []
+    source_fact_types: []
+    requires_existing_fact_types: []
+    requires_explicit_attribute: true
+    explicit_attributes:
+    - fee_type
+    - fee_rate
+    requires_relation_query: true
+  expansion_limits:
+    max_per_source_attribute: 2
+    max_global: 6
+    max_depth: 1
+- edge_id: ObjectType:Fund__has_asset_allocation__ObjectType:AssetAllocation
+  from: ObjectType:Fund
+  to: ObjectType:AssetAllocation
+  relation_type: has_asset_allocation
+  relation_name_zh: 具有资产配置
+  score: 0.82
+  fact_type: relation_instance
+  applicable_tasks:
+  - query
+  - explain
+  applicable_intents:
+  - asset_allocation_analysis
+  - holding_analysis
+  - explain_reason
+  default_priority: optional
+  reason_zh: 仅当用户查询资产配置、资产结构或风险归因时，获取基金资产配置关系。
+  weight: 0.82
+  planning_role: explain_context
+  auto_expand_mode: explicit_only
+  answer_visibility: answer_fact
+  expansion_priority: optional
+  trigger_policy:
+    tasks:
+    - query
+    - explain
+    intents:
+    - asset_allocation_analysis
+    - holding_analysis
+    - explain_reason
+    source_attributes: []
+    source_fact_types: []
+    requires_existing_fact_types: []
+    requires_explicit_attribute: true
+    explicit_attributes:
+    - asset_total_value
+    - asset_nav_ratio
+    - asset_type
+    requires_relation_query: true
+  expansion_limits:
+    max_per_source_attribute: 2
+    max_global: 6
+    max_depth: 1
+- edge_id: ObjectType:Fund__has_position__ObjectType:FundPosition
+  from: ObjectType:Fund
+  to: ObjectType:FundPosition
+  relation_type: has_position
+  relation_name_zh: 具有持仓
+  score: 0.82
+  fact_type: relation_instance
+  applicable_tasks:
+  - query
+  - explain
+  applicable_intents:
+  - holding_analysis
+  - asset_allocation_analysis
+  - explain_reason
+  default_priority: optional
+  reason_zh: 仅当用户查询持仓、配置、行业暴露或归因解释时，获取基金持仓关系。
+  weight: 0.82
+  planning_role: explain_context
+  auto_expand_mode: explicit_only
+  answer_visibility: answer_fact
+  expansion_priority: optional
+  trigger_policy:
+    tasks:
+    - query
+    - explain
+    intents:
+    - holding_analysis
+    - asset_allocation_analysis
+    - explain_reason
+    source_attributes: []
+    source_fact_types: []
+    requires_existing_fact_types: []
+    requires_explicit_attribute: true
+    explicit_attributes:
+    - stock_name
+    - bond_name
+    - stock_nav_ratio
+    - bond_nav_ratio
+    requires_relation_query: true
+  expansion_limits:
+    max_per_source_attribute: 2
+    max_global: 6
+    max_depth: 1

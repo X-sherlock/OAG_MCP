@@ -153,6 +153,7 @@ def _seed_skill(item: dict[str, Any], domain: str) -> dict[str, Any]:
         "provides_fact_types": item.get("provides_fact_types", []),
         "supported_subject_types": item.get("supported_subject_types", []),
         "supported_attributes": item.get("supported_attributes", []),
+        "supported_relations": item.get("supported_relations", []),
         "output_fact_schema": item.get("output_fact_schema", []),
         "supported_constraints": item.get("supported_constraints", []),
         "related_queries": item.get("related_queries", []),
@@ -227,6 +228,24 @@ def _schema_graph_nodes(catalog: Any, domain: str) -> list[dict[str, Any]]:
                     "source_tables": item.get("source_tables", []),
                     "source_fields": item.get("source_fields", []),
                     "object_types": item.get("object_types", []),
+                },
+            )
+        )
+    for item in catalog.fact_types:
+        fact_type = item["fact_type"]
+        nodes.append(
+            _node_payload(
+                domain,
+                f"FactType:{fact_type}",
+                "FactType",
+                fact_type,
+                item.get("fact_type_name_zh", fact_type),
+                [fact_type, item.get("fact_type_name_zh", "")],
+                {
+                    "description_zh": item.get("description_zh", ""),
+                    "applicable_subject_types": item.get("applicable_subject_types", []),
+                    "default_priority": item.get("default_priority"),
+                    "typical_attributes": item.get("typical_attributes", []),
                 },
             )
         )
@@ -330,6 +349,7 @@ def _schema_graph_nodes(catalog: Any, domain: str) -> list[dict[str, Any]]:
                     "provides_fact_types": skill.get("provides_fact_types", []),
                     "supported_subject_types": skill.get("supported_subject_types", []),
                     "supported_attributes": skill.get("supported_attributes", []),
+                    "supported_relations": skill.get("supported_relations", []),
                     "output_fact_schema": skill.get("output_fact_schema", []),
                     "supported_constraints": skill.get("supported_constraints", []),
                     "related_queries": skill.get("related_queries", []),

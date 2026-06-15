@@ -17,6 +17,7 @@ class OntologyCatalog:
     object_types: list[dict[str, Any]]
     attributes: list[dict[str, Any]]
     relation_types: list[dict[str, Any]]
+    fact_types: list[dict[str, Any]]
     queries: list[dict[str, Any]]
     skills: list[dict[str, Any]]
     data_sources: list[dict[str, Any]]
@@ -55,6 +56,7 @@ ONTOLOGY_FILE_NAMES = {
     "object_types": "object_types.yaml",
     "attributes": "attributes.yaml",
     "relation_types": "relation_types.yaml",
+    "fact_types": "fact_types.yaml",
     "queries": "queries.yaml",
     "skills": "skills.yaml",
     "data_sources": "data_sources.yaml",

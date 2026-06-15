@@ -6,8 +6,10 @@ from typing import Any
 
 from oag_mcp.config import load_config
 from oag_mcp.errors import OAGRepositoryError
+from oag_mcp.fact_planner import FactPlanner, semantic_frame_required_response
 from oag_mcp.intent_matcher import PRIORITY_RANK, IntentMatcher
 from oag_mcp.param_extractor import extract_params
+from oag_mcp.plan_projector import project_plan
 from oag_mcp.repositories import (
     GraphRepository,
     MySQLGraphRepository,
@@ -151,18 +153,38 @@ class OAGContextService:
 
     def retrieve_context(
         self,
+        semantic_frame: dict[str, Any] | None = None,
+        domain: str | None = None,
+        user_context: dict[str, Any] | None = None,
+        output_view: str = "agent",
+    ) -> dict[str, Any]:
+        """基于 semantic_frame 规划本次回答所需的本体事实任务子图。"""
+
+        domain = domain or self.domain
+        if semantic_frame is None:
+            return project_plan(semantic_frame_required_response(domain), output_view)
+        try:
+            full_plan = FactPlanner(
+                ontology_repository=self.ontology_repository,
+                graph_repository=self.graph_repository,
+                domain=self.domain,
+                intent_profiles=self.intent_profiles,
+                skills=self.ontology_repository.get_skill_capabilities(domain),
+            ).plan(semantic_frame=semantic_frame, user_context=user_context or {})
+            return project_plan(full_plan, output_view)
+        except (OAGRepositoryError, ValueError) as exc:
+            full_plan = _task_planning_error_response(domain=domain, semantic_frame=semantic_frame, message=str(exc))
+            return project_plan(full_plan, output_view)
+
+    def _retrieve_context_legacy(
+        self,
         question: str,
         intent: str | dict[str, Any] = "structured_query",
         domain: str | None = None,
         user_context: dict[str, Any] | None = None,
         options: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
-        """围绕一个自然语言问题构造 MCP 上下文响应。
-
-        兼容旧调用方式：如果第二个位置参数传入 dict，则视作 user_context。
-        主流程依次完成健康检查、对象召回、属性召回、关系/路径召回、参数抽取、
-        候选查询筛选、候选调用构造和置信度汇总。
-        """
+        """旧版自然语言大图召回链路，保留为内部参考，不作为正式入口调用。"""
 
         if isinstance(intent, dict) and user_context is None:
             user_context = intent
@@ -903,6 +925,42 @@ def error_response(domain: str, question: str, intent: str, message: str) -> dic
             "query_match": 0.0,
         },
         "warnings": [message],
+    }
+
+
+def _task_planning_error_response(
+    domain: str, semantic_frame: dict[str, Any], message: str
+) -> dict[str, Any]:
+    return {
+        "status": "error",
+        "domain": domain,
+        "raw_question": semantic_frame.get("raw_question") or "",
+        "error_code": "OAG_TASK_PLANNING_FAILED",
+        "message_zh": f"OAG 事实规划失败：{message}",
+        "semantic_frame_summary": {
+            "task_type": semantic_frame.get("task_type"),
+            "intent": semantic_frame.get("intent"),
+            "target_objects": semantic_frame.get("target_objects") or [],
+            "constraints": semantic_frame.get("constraints") or {},
+        },
+        "target_instances": [],
+        "fact_requirements": [],
+        "candidate_invocations": [],
+        "task_graph": {"nodes": [], "edges": []},
+        "coverage_summary": {
+            "required_fact_count": 0,
+            "covered_required_fact_count": 0,
+            "uncovered_required_facts": [],
+            "optional_fact_count": 0,
+            "covered_optional_fact_count": 0,
+        },
+        "missing_params": [],
+        "warnings": [
+            {
+                "warning_code": "TASK_PLANNING_EXCEPTION",
+                "message_zh": f"OAG 事实规划过程中发生异常：{message}",
+            }
+        ],
     }
 
 

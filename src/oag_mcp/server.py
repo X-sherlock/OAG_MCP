@@ -18,31 +18,30 @@ mcp = FastMCP("OAG MCP Server")
 
 @mcp.tool()
 def oag_retrieve_context(
-    question: str,
-    intent: str = "structured_query",
-    domain: str = "finance_market",
+    semantic_frame: dict[str, Any] | None = None,
     user_context: dict[str, Any] | None = None,
-    options: dict[str, Any] | None = None,
+    output_view: str = "agent",
 ) -> dict[str, Any]:
-    """返回 OAG 上下文，不查询业务数据、不生成 SQL、不执行写操作。
+    """基于 semantic_frame 返回 OAG 事实规划结果。
 
-    该工具只做“面向后续查询/技能调用的上下文准备”：识别对象、属性、关系路径、
-    候选查询、候选调用参数和缺失参数提示。真正的数据查询应由调用端基于返回的
-    candidate_invocations 再决定是否执行。
+    semantic_frame 必须由前置意图识别节点提供；question/raw_question 仅作为
+    追踪字段保留在 semantic_frame 中，OAG 不再自行解析自然语言问题。
+    默认返回面向后续智能体执行的 agent_plan；output_view=editor 时返回完整
+    editor_plan。
     """
 
     try:
         # 每次请求创建服务实例，可以让环境配置和仓储连接保持简单、无共享状态。
         return create_context_service().retrieve_context(
-            question=question,
-            intent=intent,
-            domain=domain,
+            semantic_frame=semantic_frame,
             user_context=user_context,
-            options=options,
+            output_view=output_view,
         )
     except (OAGConfigError, OAGRepositoryError, ValueError) as exc:
         # MCP 工具入口统一返回结构化错误，避免异常直接泄漏给客户端。
-        return error_response(domain=domain, question=question, intent=intent, message=str(exc))
+        domain = (semantic_frame or {}).get("domain") or "finance_market"
+        raw_question = (semantic_frame or {}).get("raw_question") or ""
+        return error_response(domain=domain, question=raw_question, intent="", message=str(exc))
 
 
 def main() -> None:

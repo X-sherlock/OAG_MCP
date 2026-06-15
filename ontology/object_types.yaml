@@ -21,7 +21,9 @@
   {"object_type":"FundCategory","object_type_zh":"基金分类","description":"基金一级、二级、三级分类及 WIND 分类对象。","source_tables":["dwd_fund_sctr","dim_fund_info"],"enabled":true},
   {"object_type":"PeerRanking","object_type_zh":"同类排名","description":"同类收益、风险、夏普和回撤排名对象。","source_tables":["DWD_FUND_NAV_GRTH","dws_fund_risk ret_peer_xx","DWS_FUND_RISK_PEER_xx"],"enabled":true},
   {"object_type":"SinglePeriodPerformance","object_type_zh":"单周期表现","description":"单月度、单季度、单年度表现对象。","source_tables":["SFNPRFPERIOD_STAT"],"enabled":true},
+  {"object_type":"FundPosition","object_type_zh":"基金持仓","description":"基金股票、债券和其他基金持仓的统一业务对象。","source_tables":["DWD_FUND_STOCK HOLD","DWD_FUND_BOND_HOLD","DWD FUND_OTHER PORTFOLIO HOLD"],"enabled":true},
   {"object_type":"ResearchReport","object_type_zh":"研报","description":"非结构化研报占位对象，当前不生成实例。","source_tables":[],"enabled":false},
   {"object_type":"News","object_type_zh":"新闻","description":"非结构化新闻占位对象，当前不生成实例。","source_tables":[],"enabled":false},
-  {"object_type":"PolicyDocument","object_type_zh":"政策文件","description":"非结构化政策文件占位对象，当前不生成实例。","source_tables":[],"enabled":false}
+  {"object_type":"PolicyDocument","object_type_zh":"政策文件","description":"非结构化政策文件占位对象，当前不生成实例。","source_tables":[],"enabled":false},
+  {"object_type":"FundSet","object_type_zh":"基金集合","description":"基金筛选、排序或推荐任务中的候选基金集合，不表示真实业务数据表。","source_tables":[],"enabled":true}
 ]

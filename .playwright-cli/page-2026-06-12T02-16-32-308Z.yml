@@ -1,0 +1,193 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - text: OAG 事实规划工作台
+      - generic [ref=e5]: OAG 规划调试
+    - searchbox "搜索任务图节点 / 事实 / Skill" [ref=e128]
+    - button "搜索图" [ref=e129] [cursor=pointer]
+    - button "刷新" [ref=e11] [cursor=pointer]
+    - button "更多" [ref=e12] [cursor=pointer]
+  - complementary [ref=e13]:
+    - generic [ref=e14]:
+      - heading "主功能入口" [level=2] [ref=e15]
+      - generic [ref=e16]:
+        - button "OAG 规划调试 输入语义框架，生成事实需求、候选 Skill、覆盖情况和本次任务子图。" [ref=e130] [cursor=pointer]:
+          - strong [ref=e131]: OAG 规划调试
+          - generic [ref=e132]: 输入语义框架，生成事实需求、候选 Skill、覆盖情况和本次任务子图。
+        - button "本体核心图" [ref=e133] [cursor=pointer]:
+          - strong [ref=e134]: 本体核心图
+        - button "意图模板" [ref=e135] [cursor=pointer]:
+          - strong [ref=e136]: 意图模板
+        - button "关系治理" [ref=e137] [cursor=pointer]:
+          - strong [ref=e138]: 关系治理
+        - button "Skill 覆盖" [ref=e139] [cursor=pointer]:
+          - strong [ref=e140]: Skill 覆盖
+        - button "诊断中心" [ref=e141] [cursor=pointer]:
+          - strong [ref=e142]: 诊断中心
+        - button "YAML 文件" [ref=e143] [cursor=pointer]:
+          - strong [ref=e144]: YAML 文件
+    - generic [ref=e38]:
+      - heading "OAG 调试流程" [level=2] [ref=e145]
+      - generic [ref=e41]:
+        - generic [ref=e146]:
+          - generic [ref=e147]:
+            - strong [ref=e148]: 1 输入任务
+            - generic [ref=e149]: 选择场景或填写语义框架
+          - generic [ref=e150]:
+            - strong [ref=e151]: 2 生成规划
+            - generic [ref=e152]: 计算事实需求和 Skill 覆盖
+          - generic [ref=e153]:
+            - strong [ref=e154]: 3 查看执行
+            - generic [ref=e155]: 确认参数缺口和可调用 Skill
+        - generic [ref=e156]:
+          - heading "常用场景" [level=3] [ref=e157]
+          - button "分析某基金近一年表现" [ref=e158] [cursor=pointer]
+          - button "查询某基金最大回撤和夏普" [ref=e159] [cursor=pointer]
+          - button "查询某基金经理" [ref=e160] [cursor=pointer]
+          - button "查询某基金公司" [ref=e161] [cursor=pointer]
+          - button "查询某基金业绩基准" [ref=e162] [cursor=pointer]
+          - button "比较两只基金收益" [ref=e163] [cursor=pointer]
+          - button "推荐收益高、回撤低的基金" [ref=e164] [cursor=pointer]
+          - button "筛选最大回撤低于10%的基金" [ref=e165] [cursor=pointer]
+          - button "查询同类排名" [ref=e166] [cursor=pointer]
+          - button "查询费率" [ref=e167] [cursor=pointer]
+          - button "查询分红" [ref=e168] [cursor=pointer]
+          - button "查询持仓配置" [ref=e169] [cursor=pointer]
+  - generic "拖动调整左栏宽度" [ref=e60]
+  - main [ref=e61]:
+    - generic: 27 个节点 · 53 条关系 · 隐藏表字段 0 · 隐藏推断关系 0
+    - generic [ref=e62]:
+      - generic [ref=e63]: 节点类型
+      - generic [ref=e64]:
+        - generic [ref=e232]:
+          - checkbox "对象属性 8" [checked] [ref=e233]
+          - generic [ref=e235]: 对象属性
+          - emphasis [ref=e236]: "8"
+        - generic [ref=e237]:
+          - checkbox "约束条件 1" [checked] [ref=e238]
+          - generic [ref=e240]: 约束条件
+          - emphasis [ref=e241]: "1"
+        - generic [ref=e242]:
+          - checkbox "事实需求 8" [checked] [ref=e243]
+          - generic [ref=e245]: 事实需求
+          - emphasis [ref=e246]: "8"
+        - generic [ref=e247]:
+          - checkbox "Intent 编排 1" [checked] [ref=e248]
+          - generic [ref=e250]: Intent 编排
+          - emphasis [ref=e251]: "1"
+        - generic [ref=e252]:
+          - checkbox "对象类型 2" [checked] [ref=e253]
+          - generic [ref=e255]: 对象类型
+          - emphasis [ref=e256]: "2"
+        - generic [ref=e257]:
+          - checkbox "语义输入 1" [checked] [ref=e258]
+          - generic [ref=e260]: 语义输入
+          - emphasis [ref=e261]: "1"
+        - generic [ref=e262]:
+          - checkbox "Skill 能力 4" [checked] [ref=e263]
+          - generic [ref=e265]: Skill 能力
+          - emphasis [ref=e266]: "4"
+        - generic [ref=e267]:
+          - checkbox "目标对象 1" [checked] [ref=e268]
+          - generic [ref=e270]: 目标对象
+          - emphasis [ref=e271]: "1"
+        - generic [ref=e272]:
+          - checkbox "任务类型 1" [checked] [ref=e273]
+          - generic [ref=e275]: 任务类型
+          - emphasis [ref=e276]: "1"
+  - generic "拖动调整右栏宽度" [ref=e97]
+  - complementary [ref=e98]:
+    - generic [ref=e99]:
+      - heading "事实规划结果" [level=2] [ref=e277]
+      - generic [ref=e215]: 规划成功 / 可执行
+    - generic [ref=e103]:
+      - button "概览" [ref=e104] [cursor=pointer]
+      - button "关联关系任务图" [ref=e216] [cursor=pointer]
+      - button "上下游影响提醒" [ref=e217] [cursor=pointer]
+      - button "原始数据" [ref=e107] [cursor=pointer]
+    - generic [ref=e108]:
+      - generic [ref=e218]:
+        - generic [ref=e278]: 规划状态
+        - strong [ref=e279]: 规划成功
+        - generic [ref=e280]: 执行状态
+        - strong [ref=e281]: 可执行
+        - generic [ref=e282]: 目标对象
+        - strong [ref=e283]: 基金 000001
+        - generic [ref=e284]: 事实需求数量
+        - strong [ref=e285]: "8"
+        - generic [ref=e286]: 必须事实覆盖
+        - strong [ref=e287]: 4/4
+        - generic [ref=e288]: 可选事实覆盖
+        - strong [ref=e289]: 3/3
+        - generic [ref=e290]: 候选 Skill 数量
+        - strong [ref=e291]: "4"
+        - generic [ref=e292]: 缺失参数
+        - strong [ref=e293]: 无
+        - generic [ref=e294]: 未覆盖事实
+        - strong [ref=e295]: 无
+      - generic [ref=e296]:
+        - generic [ref=e297]:
+          - strong [ref=e298]: 可执行
+          - generic [ref=e299]: 候选 Skill 参数齐全，可以进入后续调用。
+        - button "返回修改输入" [ref=e301] [cursor=pointer]
+        - heading "事实需求" [level=3] [ref=e302]
+        - generic [ref=e303]:
+          - button "区间收益率事实需求 指标值 · 基金产品 · 区间收益率 必需 · 意图模板" [ref=e304] [cursor=pointer]:
+            - strong [ref=e305]: 区间收益率事实需求
+            - generic [ref=e306]: 指标值 · 基金产品 · 区间收益率
+            - emphasis [ref=e307]: 必需 · 意图模板
+          - button "基准收益率事实需求 基准指标值 · 基金产品 · 基准收益率 必需 · 意图模板" [ref=e308] [cursor=pointer]:
+            - strong [ref=e309]: 基准收益率事实需求
+            - generic [ref=e310]: 基准指标值 · 基金产品 · 基准收益率
+            - emphasis [ref=e311]: 必需 · 意图模板
+          - button "超额收益率事实需求 超额指标值 · 基金产品 · 超额收益率 必需 · 意图模板" [ref=e312] [cursor=pointer]:
+            - strong [ref=e313]: 超额收益率事实需求
+            - generic [ref=e314]: 超额指标值 · 基金产品 · 超额收益率
+            - emphasis [ref=e315]: 必需 · 意图模板
+          - button "最大回撤事实需求 指标值 · 基金产品 · 最大回撤 必需 · 意图模板" [ref=e316] [cursor=pointer]:
+            - strong [ref=e317]: 最大回撤事实需求
+            - generic [ref=e318]: 指标值 · 基金产品 · 最大回撤
+            - emphasis [ref=e319]: 必需 · 意图模板
+          - button "波动率事实需求 指标值 · 基金产品 · 波动率 可选 · 意图模板" [ref=e320] [cursor=pointer]:
+            - strong [ref=e321]: 波动率事实需求
+            - generic [ref=e322]: 指标值 · 基金产品 · 波动率
+            - emphasis [ref=e323]: 可选 · 意图模板
+          - button "夏普比率事实需求 指标值 · 基金产品 · 夏普比率 可选 · 意图模板" [ref=e324] [cursor=pointer]:
+            - strong [ref=e325]: 夏普比率事实需求
+            - generic [ref=e326]: 指标值 · 基金产品 · 夏普比率
+            - emphasis [ref=e327]: 可选 · 意图模板
+          - button "排名事实需求 同类排名 · 基金产品 · 排名 可选 · 意图模板" [ref=e328] [cursor=pointer]:
+            - strong [ref=e329]: 排名事实需求
+            - generic [ref=e330]: 同类排名 · 基金产品 · 排名
+            - emphasis [ref=e331]: 可选 · 意图模板
+          - button "基金产品与Benchmark关系事实 关系事实 · 基金产品 · benchmark_name 支撑上下文 · 本体关系扩展" [ref=e332] [cursor=pointer]:
+            - strong [ref=e333]: 基金产品与Benchmark关系事实
+            - generic [ref=e334]: 关系事实 · 基金产品 · benchmark_name
+            - emphasis [ref=e335]: 支撑上下文 · 本体关系扩展
+        - heading "候选 Skill 调用" [level=3] [ref=e336]
+        - generic [ref=e337]:
+          - button "获取基金指标值 覆盖事实：4 · 覆盖评分：0.5 缺失参数：无 · 权限：fund_public_data:read" [ref=e338] [cursor=pointer]:
+            - strong [ref=e339]: 获取基金指标值
+            - generic [ref=e340]: 覆盖事实：4 · 覆盖评分：0.5
+            - emphasis [ref=e341]: 缺失参数：无 · 权限：fund_public_data:read
+          - button "获取基金基准对比事实 覆盖事实：2 · 覆盖评分：0.333 缺失参数：无 · 权限：fund_public_data:read" [ref=e342] [cursor=pointer]:
+            - strong [ref=e343]: 获取基金基准对比事实
+            - generic [ref=e344]: 覆盖事实：2 · 覆盖评分：0.333
+            - emphasis [ref=e345]: 缺失参数：无 · 权限：fund_public_data:read
+          - button "获取基金同类排名事实 覆盖事实：1 · 覆盖评分：0.083 缺失参数：无 · 权限：fund_public_data:read" [ref=e346] [cursor=pointer]:
+            - strong [ref=e347]: 获取基金同类排名事实
+            - generic [ref=e348]: 覆盖事实：1 · 覆盖评分：0.083
+            - emphasis [ref=e349]: 缺失参数：无 · 权限：fund_public_data:read
+          - button "获取基金基础事实 覆盖事实：1 · 覆盖评分：0.083 缺失参数：无 · 权限：fund_public_data:read" [ref=e350] [cursor=pointer]:
+            - strong [ref=e351]: 获取基金基础事实
+            - generic [ref=e352]: 覆盖事实：1 · 覆盖评分：0.083
+            - emphasis [ref=e353]: 缺失参数：无 · 权限：fund_public_data:read
+        - group [ref=e354]:
+          - generic "高级调试" [ref=e355]
+  - contentinfo [ref=e121]:
+    - generic [ref=e122]: 节点：27/27
+    - generic [ref=e123]: 关系：53/53
+    - generic [ref=e124]: 需求定位 / 隐藏表字段：0 / 隐藏推断关系：0
+    - generic [ref=e125]: 校验：未知
+    - generic [ref=e126]: 最近保存：-
+    - generic [ref=e127]: 本体目录：D:\Data\Workspace\OAGdemo\OAG_MCP\ontology

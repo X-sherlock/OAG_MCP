@@ -1,0 +1,8 @@
+[  259775ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:8011/api/node-context/FactRequirement%3Afr_volatility_000001_1y?include_inferred=true:0
+[  262893ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:8011/api/node-context/FactRequirement%3Afr_excess_return_000001_1y?include_inferred=true:0
+[  269340ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:8011/api/node-context/FactRequirement%3Afr_has_benchmark_Benchmark_1y?include_inferred=true:0
+[  270284ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:8011/api/node-context/FactRequirement%3Afr_benchmark_return_000001_1y?include_inferred=true:0
+[  272176ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:8011/api/node-context/FactRequirement%3Afr_rank_000001_1y?include_inferred=true:0
+[  274012ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:8011/api/node-context/FactRequirement%3Afr_return_rate_000001_1y?include_inferred=true:0
+[  274824ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:8011/api/node-context/FactRequirement%3Afr_sharpe_ratio_000001_1y?include_inferred=true:0
+[  275007ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:8011/api/node-context/FactRequirement%3Afr_max_drawdown_000001_1y?include_inferred=true:0

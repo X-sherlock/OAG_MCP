@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>OAG Ontology Editor</title>
-    <link rel="stylesheet" href="/static/style.css" />
+    <title>OAG 事实规划与本体治理工作台</title>
+    <link rel="stylesheet" href="/static/style.css?v=oag-ui-20260612h" />
     <script src="/static/vendor/cytoscape.min.js"></script>
   </head>
   <body>
     <div class="app-shell">
       <header class="toolbar">
-        <div class="brand">OAG Ontology Editor <span id="currentTaskTitle">工作台</span></div>
+        <div class="brand">OAG 事实规划工作台 <span id="currentTaskTitle">工作台</span></div>
         <input id="searchInput" type="search" placeholder="搜索 Fund / return_rate / skill" />
         <button id="searchBtn">定位</button>
         <button id="editModeBtn">进入编辑模式</button>
@@ -26,7 +26,7 @@
             <button id="validateBtn">校验</button>
             <button id="seedBtn" class="danger">执行 seed</button>
             <a id="exportBtn" href="/api/export">导出 YAML</a>
-            <section class="more-group">
+            <section id="moreLayoutGroup" class="more-group">
               <h3>布局</h3>
               <label>布局方式
                 <select id="layoutSelect">
@@ -42,15 +42,15 @@
                 <button id="autoLayoutBtn">自动布局</button>
               </div>
             </section>
-            <section class="more-group">
+            <section id="moreDisplayGroup" class="more-group">
               <h3>显示</h3>
-              <label><input id="includeInferred" type="checkbox" checked /> 显示推断关系</label>
-              <label><input id="includeFields" type="checkbox" /> 展开表字段</label>
-              <label><input id="showEdgeLabels" type="checkbox" /> 显示关系标签</label>
-              <label><input id="aggregateEdges" type="checkbox" checked /> 聚合重复关系</label>
-              <label><input id="enableGroups" type="checkbox" checked /> 使用折叠分组</label>
+              <label id="includeInferredRow"><input id="includeInferred" type="checkbox" checked /> 显示推断关系</label>
+              <label id="includeFieldsRow"><input id="includeFields" type="checkbox" /> 展开表字段</label>
+              <label id="showEdgeLabelsRow"><input id="showEdgeLabels" type="checkbox" /> 显示关系标签</label>
+              <label id="aggregateEdgesRow"><input id="aggregateEdges" type="checkbox" checked /> 聚合重复关系</label>
+              <label id="enableGroupsRow"><input id="enableGroups" type="checkbox" checked /> 使用折叠分组</label>
             </section>
-            <section class="more-group">
+            <section id="moreScopeGroup" class="more-group">
               <h3>高级图谱范围</h3>
               <p>这里只控制底层图谱范围，不是建模任务入口。</p>
               <select id="modeSelect">
@@ -73,7 +73,7 @@
 
       <aside class="sidebar">
         <section>
-          <h2>建模任务</h2>
+          <h2>主功能入口</h2>
           <div id="taskCards" class="task-cards"></div>
         </section>
         <section id="taskSearchSection">
@@ -104,7 +104,7 @@
           <div id="fileList" class="file-list"></div>
         </section>
         <section>
-          <h2>Diagnostic 检查</h2>
+          <h2>诊断检查</h2>
           <select id="diagnosticFilter" class="wide-select">
             <option value="">全部类型</option>
           </select>
@@ -151,7 +151,7 @@
           <button data-tab="overview" class="active">概览</button>
           <button data-tab="relations">关联关系</button>
           <button data-tab="impact">上下游影响</button>
-          <button data-tab="raw">Raw JSON</button>
+          <button data-tab="raw">原始数据</button>
         </div>
         <div id="contextActions" class="context-actions"></div>
         <section class="inspector-tab" data-panel="overview">
@@ -170,7 +170,7 @@
           <div id="pathPanel" class="path-panel"></div>
         </section>
         <section class="inspector-tab raw-details" data-panel="raw" hidden>
-          <h3>Raw JSON</h3>
+          <h3>原始数据</h3>
           <textarea id="rawEditor" spellcheck="false"></textarea>
         </section>
         <div class="inspector-actions">
@@ -211,6 +211,6 @@
       </form>
     </dialog>
 
-    <script src="/static/app.js"></script>
+    <script src="/static/app.js?v=oag-ui-20260612h"></script>
   </body>
 </html>

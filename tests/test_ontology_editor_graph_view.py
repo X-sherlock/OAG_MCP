@@ -28,6 +28,27 @@ def test_requirement_view_hides_data_fields_by_default():
     assert all(node["data"]["type"] != "DataField" for node in view["nodes"])
 
 
+def test_core_requirement_view_hides_query_capabilities():
+    view = build_graph_view(view_mode="requirement", include_inferred=True)
+    node_types = {node["data"]["type"] for node in view["nodes"]}
+    edge_types = {edge["data"]["type"] for edge in view["edges"]}
+
+    assert "QueryCapability" not in node_types
+    assert "has_query" not in edge_types
+    assert "related_query" not in edge_types
+
+
+def test_fact_types_are_linked_to_covering_skills():
+    view = build_graph_view(view_mode="requirement", include_inferred=True)
+
+    assert any(
+        edge["data"]["type"] == "provides_fact_type"
+        and edge["data"]["source"].startswith("SkillCapability:")
+        and edge["data"]["target"].startswith("FactType:")
+        for edge in view["edges"]
+    )
+
+
 def test_skill_focus_view_returns_focused_subgraph():
     full = build_graph()
     skill = next(node for node in full["nodes"] if node["data"]["type"] == "SkillCapability")

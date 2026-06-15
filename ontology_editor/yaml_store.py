@@ -17,6 +17,7 @@ BACKUP_DIR = ONTOLOGY_DIR / ".backups"
 SUPPORTED_FILES: tuple[str, ...] = (
     "attributes.yaml",
     "data_sources.yaml",
+    "fact_types.yaml",
     "instance_rules.yaml",
     "intent_profiles.yaml",
     "object_types.yaml",
@@ -31,6 +32,7 @@ SUPPORTED_FILES: tuple[str, ...] = (
 SECTION_BY_FILE = {
     "attributes.yaml": "attributes",
     "data_sources.yaml": "data_sources",
+    "fact_types.yaml": "fact_types",
     "instance_rules.yaml": "instance_rules",
     "intent_profiles.yaml": "intent_profiles",
     "object_types.yaml": "object_types",
@@ -166,6 +168,7 @@ def primary_key_for_node_type(node_type: str) -> tuple[str, str, str | None]:
     mapping: dict[str, tuple[str, str, str | None]] = {
         "ObjectType": ("object_types.yaml", "object_type", None),
         "Attribute": ("attributes.yaml", "attribute_name", None),
+        "FactType": ("fact_types.yaml", "fact_type", None),
         "RelationType": ("relation_types.yaml", "relation_type", None),
         "QueryCapability": ("queries.yaml", "query_id", None),
         "SkillCapability": ("skills.yaml", "skill_id", None),

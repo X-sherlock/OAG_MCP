@@ -1,0 +1,198 @@
+- fact_type: metric_value
+  fact_type_name_zh: 指标值事实
+  description_zh: 基金或相关对象在指定约束下的单个指标取值。
+  applicable_subject_types:
+    - Fund
+    - FundSet
+    - PerformanceMetric
+    - RiskMetric
+  default_priority: required
+  typical_attributes:
+    - return_rate
+    - annualized_return
+    - max_drawdown
+    - volatility
+    - sharpe_ratio
+
+- fact_type: benchmark_metric_value
+  fact_type_name_zh: 基准指标事实
+  description_zh: 业绩比较基准或跟踪指数的指标取值，用于相对表现分析。
+  applicable_subject_types:
+    - Fund
+    - Benchmark
+    - Index
+  default_priority: optional
+  typical_attributes:
+    - benchmark_return
+    - tracking_error
+
+- fact_type: excess_metric_value
+  fact_type_name_zh: 超额收益事实
+  description_zh: 基金相对业绩基准或指数的超额收益、信息比率等事实。
+  applicable_subject_types:
+    - Fund
+    - Benchmark
+    - Index
+  default_priority: optional
+  typical_attributes:
+    - excess_return
+    - information_ratio
+
+- fact_type: peer_rank
+  fact_type_name_zh: 同类排名事实
+  description_zh: 基金在同类集合中的收益、风险、回撤或综合排名。
+  applicable_subject_types:
+    - Fund
+    - FundSet
+    - PeerRanking
+  default_priority: optional
+  typical_attributes:
+    - rank
+    - percentile
+    - peer_return_rank
+    - peer_drawdown_rank
+    - peer_sharpe_rank
+
+- fact_type: peer_average
+  fact_type_name_zh: 同类均值事实
+  description_zh: 同类基金在指定指标上的平均或基准水平。
+  applicable_subject_types:
+    - Fund
+    - FundSet
+    - PeerRanking
+  default_priority: optional
+  typical_attributes:
+    - peer_average
+
+- fact_type: object_profile
+  fact_type_name_zh: 对象基础信息事实
+  description_zh: 基金、基金经理、基金公司等对象的基础档案字段。
+  applicable_subject_types:
+    - Fund
+    - FundManager
+    - FundCompany
+    - Benchmark
+    - Index
+  default_priority: optional
+  typical_attributes:
+    - fund_name
+    - fund_company
+    - fund_manager
+    - benchmark_name
+
+- fact_type: relation_instance
+  fact_type_name_zh: 对象关系事实
+  description_zh: 两类业务对象之间是否存在具体关系及关系目标对象。
+  applicable_subject_types:
+    - Fund
+    - FundManager
+    - FundCompany
+    - Benchmark
+    - FundCategory
+    - Index
+  default_priority: optional
+  typical_attributes:
+    - fund_manager
+    - fund_company
+    - benchmark
+
+- fact_type: entity_set
+  fact_type_name_zh: 实体集合事实
+  description_zh: 筛选、排序或推荐任务中的候选对象集合。
+  applicable_subject_types:
+    - FundSet
+  default_priority: required
+  typical_attributes: []
+
+- fact_type: metric_ranking
+  fact_type_name_zh: 指标排序事实
+  description_zh: 按指定指标和方向对候选实体集合进行排序的事实需求。
+  applicable_subject_types:
+    - Fund
+    - FundSet
+  default_priority: required
+  typical_attributes:
+    - return_rate
+    - max_drawdown
+    - sharpe_ratio
+
+- fact_type: filter_condition
+  fact_type_name_zh: 筛选条件事实
+  description_zh: 对候选实体集合应用属性过滤条件所需的事实。
+  applicable_subject_types:
+    - Fund
+    - FundSet
+  default_priority: required
+  typical_attributes: []
+
+- fact_type: comparison_result
+  fact_type_name_zh: 比较结果事实
+  description_zh: 多对象或多指标之间形成的比较判断结果。
+  applicable_subject_types:
+    - Fund
+    - FundSet
+  default_priority: optional
+  typical_attributes:
+    - return_rate
+    - benchmark_return
+    - excess_return
+
+- fact_type: holding_fact
+  fact_type_name_zh: 持仓事实
+  description_zh: 基金股票、债券、基金或其他组合持仓相关事实。
+  applicable_subject_types:
+    - Fund
+    - FundPosition
+  default_priority: required
+  typical_attributes:
+    - stock_name
+    - stock_nav_ratio
+    - bond_name
+    - bond_nav_ratio
+
+- fact_type: allocation_fact
+  fact_type_name_zh: 配置事实
+  description_zh: 基金资产配置、行业配置或大类资产占比事实。
+  applicable_subject_types:
+    - Fund
+    - AssetAllocation
+  default_priority: required
+  typical_attributes:
+    - asset_total_value
+    - stock_asset_ratio
+    - bond_asset_ratio
+    - cash_asset_ratio
+
+- fact_type: fee_fact
+  fact_type_name_zh: 费率事实
+  description_zh: 基金管理费、托管费、申购费、赎回费等费用事实。
+  applicable_subject_types:
+    - Fund
+    - FundFee
+  default_priority: required
+  typical_attributes:
+    - fee_type
+    - fee_value
+    - fee_effective_date
+
+- fact_type: dividend_fact
+  fact_type_name_zh: 分红事实
+  description_zh: 基金分红金额、分红日期、分红频率或现金分红收益相关事实。
+  applicable_subject_types:
+    - Fund
+    - Dividend
+  default_priority: required
+  typical_attributes:
+    - dividend_per_share
+    - dividend_date
+
+- fact_type: document_fact
+  fact_type_name_zh: 文档事实
+  description_zh: 研报、公告、新闻或政策文件等非结构化文档事实占位。
+  applicable_subject_types:
+    - Fund
+    - ResearchReport
+    - News
+    - PolicyDocument
+  default_priority: optional
+  typical_attributes: []

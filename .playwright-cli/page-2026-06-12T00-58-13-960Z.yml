@@ -1,0 +1,211 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - text: OAG 事实规划工作台
+      - generic [ref=e5]: OAG 规划调试
+    - searchbox "搜索 Fund / return_rate / skill" [ref=e6]
+    - button "定位" [ref=e7] [cursor=pointer]
+    - button "刷新" [ref=e11] [cursor=pointer]
+    - button "更多" [ref=e12] [cursor=pointer]
+  - complementary [ref=e13]:
+    - generic [ref=e14]:
+      - heading "主功能入口" [level=2] [ref=e15]
+      - generic [ref=e16]:
+        - button "OAG 规划调试 输入语义框架，生成事实需求、候选 Skill、覆盖情况和本次任务子图。" [ref=e1319] [cursor=pointer]:
+          - strong [ref=e1320]: OAG 规划调试
+          - generic [ref=e1321]: 输入语义框架，生成事实需求、候选 Skill、覆盖情况和本次任务子图。
+        - button "本体核心图" [ref=e1322] [cursor=pointer]:
+          - strong [ref=e1323]: 本体核心图
+        - button "意图模板" [ref=e1324] [cursor=pointer]:
+          - strong [ref=e1325]: 意图模板
+        - button "关系治理" [ref=e1326] [cursor=pointer]:
+          - strong [ref=e1327]: 关系治理
+        - button "Skill 覆盖" [ref=e1328] [cursor=pointer]:
+          - strong [ref=e1329]: Skill 覆盖
+        - button "诊断中心" [ref=e1330] [cursor=pointer]:
+          - strong [ref=e1331]: 诊断中心
+        - button "YAML 文件" [ref=e1332] [cursor=pointer]:
+          - strong [ref=e1333]: YAML 文件
+    - generic [ref=e38]:
+      - heading "OAG 调试流程" [level=2] [ref=e1334]
+      - generic [ref=e41]:
+        - generic [ref=e1335]:
+          - generic [ref=e1336]:
+            - strong [ref=e1337]: 1 输入任务
+            - generic [ref=e1338]: 选择场景或填写语义框架
+          - generic [ref=e1339]:
+            - strong [ref=e1340]: 2 生成规划
+            - generic [ref=e1341]: 计算事实需求和 Skill 覆盖
+          - generic [ref=e1342]:
+            - strong [ref=e1343]: 3 查看执行
+            - generic [ref=e1344]: 确认参数缺口和可调用 Skill
+        - generic [ref=e1345]:
+          - heading "常用场景" [level=3] [ref=e1346]
+          - button "分析某基金近一年表现" [ref=e1347] [cursor=pointer]
+          - button "查询某基金最大回撤和夏普" [ref=e1348] [cursor=pointer]
+          - button "查询某基金经理" [ref=e1349] [cursor=pointer]
+          - button "查询某基金公司" [ref=e1350] [cursor=pointer]
+          - button "查询某基金业绩基准" [ref=e1351] [cursor=pointer]
+          - button "比较两只基金收益" [ref=e1352] [cursor=pointer]
+          - button "推荐收益高、回撤低的基金" [ref=e1353] [cursor=pointer]
+          - button "筛选最大回撤低于10%的基金" [ref=e1354] [cursor=pointer]
+          - button "查询同类排名" [ref=e1355] [cursor=pointer]
+          - button "查询费率" [ref=e1356] [cursor=pointer]
+          - button "查询分红" [ref=e1357] [cursor=pointer]
+          - button "查询持仓配置" [ref=e1358] [cursor=pointer]
+  - generic "拖动调整左栏宽度" [ref=e60]
+  - main [ref=e61]:
+    - generic: 0 个节点 · 0 条关系 · 隐藏表字段 0 · 隐藏推断关系 0
+    - generic [ref=e62]:
+      - generic [ref=e63]: 节点类型
+      - generic [ref=e65]: 加载图谱后显示
+    - generic [ref=e1359]:
+      - generic [ref=e1360]:
+        - generic [ref=e1361]:
+          - heading "OAG 规划调试" [level=1] [ref=e1362]
+          - paragraph [ref=e1363]: 先描述任务，再生成事实规划。页面默认展示执行视角；完整结构放在高级调试。
+        - tablist "OAG 输入模式" [ref=e1364]:
+          - button "表单输入" [ref=e1365] [cursor=pointer]
+          - button "JSON 输入" [ref=e1366] [cursor=pointer]
+      - generic [ref=e1367]:
+        - generic [ref=e1368]:
+          - heading "1. 任务" [level=2] [ref=e1369]
+          - generic [ref=e1370]:
+            - generic [ref=e1371]:
+              - text: 原始问题
+              - textbox "原始问题" [ref=e1372]: 分析000001近一年的表现
+            - generic [ref=e1373]:
+              - text: 任务类型
+              - combobox "任务类型" [ref=e1374] [cursor=pointer]:
+                - option "请选择"
+                - option "分析" [selected]
+                - option "比较"
+                - option "排序"
+                - option "筛选"
+                - option "推荐"
+                - option "解释"
+                - option "查询"
+            - generic [ref=e1375]:
+              - text: 宽泛意图
+              - combobox "宽泛意图" [ref=e1376] [cursor=pointer]:
+                - option "请选择"
+                - option "基金综合表现分析" [selected]
+                - option "基金风险分析"
+                - option "基金相对基准表现"
+                - option "基金同类比较"
+                - option "基金画像查询"
+                - option "基金费率查询"
+                - option "基金分红查询"
+                - option "基金持仓查询"
+                - option "基金资产配置查询"
+                - option "多基金比较"
+                - option "基金集合排序"
+                - option "基金集合筛选"
+                - option "基金推荐"
+            - generic [ref=e1377]:
+              - text: 目标对象类型
+              - combobox "目标对象类型" [ref=e1378] [cursor=pointer]:
+                - option "请选择"
+                - option "基金产品" [selected]
+                - option "基金公司"
+                - option "基金经理"
+                - option "业绩比较基准"
+                - option "指数"
+                - option "业绩指标"
+                - option "风险指标"
+                - option "净值"
+                - option "货币基金收益"
+                - option "持仓行业"
+                - option "行业"
+                - option "持有股票"
+                - option "持有债券"
+                - option "持有基金"
+                - option "资产配置"
+                - option "持有人结构"
+                - option "基金费率"
+                - option "基金分红"
+                - option "基金发行"
+                - option "基金分类"
+                - option "同类排名"
+                - option "单周期表现"
+                - option "基金持仓"
+                - option "研报"
+                - option "新闻"
+                - option "政策文件"
+                - option "基金集合"
+            - generic [ref=e1379]:
+              - text: 基金代码
+              - textbox "基金代码" [ref=e1380]:
+                - /placeholder: "000001"
+                - text: "000001"
+            - generic [ref=e1381]:
+              - text: 对象集合
+              - textbox "对象集合" [ref=e1382]:
+                - /placeholder: all_funds / equity_funds
+            - generic [ref=e1383]:
+              - text: 周期
+              - combobox "周期" [ref=e1384] [cursor=pointer]:
+                - option "请选择"
+                - option "近一周"
+                - option "近一月"
+                - option "近三个月"
+                - option "近六月"
+                - option "近一年" [selected]
+                - option "近三年"
+                - option "近五年"
+                - option "今年以来"
+                - option "成立以来"
+            - generic [ref=e1385]:
+              - text: 报告日期
+              - textbox "报告日期" [ref=e1386]:
+                - /placeholder: 例如 2026-03-31 或 latest
+            - generic [ref=e1387]:
+              - text: 返回数量
+              - spinbutton "返回数量" [ref=e1388]
+        - group [ref=e1389]:
+          - generic "2. 补充语义：显式属性" [ref=e1390] [cursor=pointer]
+        - group [ref=e1391]:
+          - generic "3. 高级结构：多目标、关系、筛选、排序、比较" [ref=e1392] [cursor=pointer]
+        - generic [ref=e1393]:
+          - generic [ref=e1394]:
+            - checkbox "保留高级调试信息" [checked] [ref=e1395]
+            - text: 保留高级调试信息
+          - generic [ref=e1396]:
+            - button "生成事实规划" [ref=e1397] [cursor=pointer]
+            - button "同步到 JSON" [ref=e1398] [cursor=pointer]
+      - textbox [ref=e1400]: "{ \"raw_question\": \"分析000001近一年的表现\", \"domain\": \"finance_market\", \"task_type\": \"analyze\", \"intent\": \"performance_overview\", \"target_objects\": [ { \"object_type\": \"Fund\", \"instance_ref\": { \"fund_code\": \"000001\" }, \"role\": \"analysis_subject\" } ], \"constraints\": { \"period\": \"1y\" }, \"mentioned_attributes\": [] }"
+      - generic [ref=e1402]:
+        - strong [ref=e1403]: 尚未生成规划
+        - generic [ref=e1404]: 选择左侧场景或填写表单后点击“生成事实规划”。生成后中间画布显示 task_graph，右侧显示执行摘要。
+  - generic "拖动调整右栏宽度" [ref=e97]
+  - complementary [ref=e98]:
+    - generic [ref=e99]:
+      - heading "OAG 执行摘要" [level=2] [ref=e1405]
+      - generic [ref=e1406]: 等待生成规划
+    - generic [ref=e103]:
+      - button "概览" [ref=e104] [cursor=pointer]
+      - button "关联关系任务图" [ref=e1407] [cursor=pointer]
+      - button "上下游影响提醒" [ref=e1408] [cursor=pointer]
+      - button "原始数据" [ref=e107] [cursor=pointer]
+    - generic [ref=e108]:
+      - heading "基本信息" [level=3] [ref=e109]
+      - generic [ref=e1409]:
+        - generic [ref=e1410]: 当前阶段
+        - strong [ref=e1411]: 填写语义框架
+        - generic [ref=e1412]: 下一步
+        - strong [ref=e1413]: 生成事实规划
+        - generic [ref=e1414]: 输出视图
+        - strong [ref=e1415]: Editor 完整计划
+        - generic [ref=e1416]: 执行状态
+        - strong [ref=e1417]: 尚未计算
+      - heading "核心表单" [level=3] [ref=e110]
+      - generic [ref=e1420]:
+        - strong [ref=e1421]: 右侧会显示执行摘要
+        - generic [ref=e1422]: 生成规划后，这里展示事实覆盖、缺失参数、Skill 调用建议和未覆盖事实。
+  - contentinfo [ref=e121]:
+    - generic [ref=e122]: 节点：0/0
+    - generic [ref=e123]: 关系：0/0
+    - generic [ref=e124]: 需求定位 / 隐藏表字段：0 / 隐藏推断关系：0
+    - generic [ref=e125]: 校验：未知
+    - generic [ref=e126]: 最近保存：-
+    - generic [ref=e127]: 本体目录：D:\Data\Workspace\OAGdemo\OAG_MCP\ontology

@@ -9,22 +9,23 @@ from .yaml_store import read_all
 CORE_NODE_TYPES = {
     "ObjectType",
     "Attribute",
-    "QueryCapability",
     "SkillCapability",
     "IntentProfile",
+    "FactType",
     "DataSource",
     "DataTable",
 }
 VIEW_NODE_TYPES = {
-    "overview": {"ObjectType", "IntentProfile", "SkillCapability", "QueryCapability"},
-    "requirement": {"IntentProfile", "ObjectType", "Attribute", "SkillCapability", "QueryCapability"},
-    "skill": {"SkillCapability", "Attribute", "QueryCapability", "ObjectType", "DataTable"},
-    "object_attribute": {"ObjectType", "Attribute", "SkillCapability", "QueryCapability"},
+    "overview": {"ObjectType", "IntentProfile", "SkillCapability", "FactType"},
+    "requirement": {"IntentProfile", "ObjectType", "Attribute", "SkillCapability", "FactType"},
+    "skill": {"SkillCapability", "Attribute", "QueryCapability", "ObjectType", "DataTable", "FactType"},
+    "object_attribute": {"ObjectType", "Attribute", "SkillCapability"},
     "table_mapping": {"Attribute", "DataTable", "DataField"},
     "full": set(NODE_TYPE_ORDER := (
         "ObjectType",
         "Attribute",
         "RelationType",
+        "FactType",
         "QueryCapability",
         "SkillCapability",
         "IntentProfile",
@@ -39,14 +40,15 @@ VIEW_NODE_TYPES = {
 VIEW_EDGE_TYPES = {
     "overview": {
         "targets_object_type",
-        "uses_query",
-        "related_query",
-        "has_query",
         "has_skill",
         "recommends_skill",
+        "requires_fact_type",
+        "provides_fact_type",
     },
     "requirement": {
         "requires_attribute",
+        "requires_fact_type",
+        "provides_fact_type",
         "recommends_skill",
         "has_attribute",
         "supports_attribute",
@@ -54,8 +56,6 @@ VIEW_EDGE_TYPES = {
         "outputs_attribute",
         "targets_object_type",
         "has_skill",
-        "related_query",
-        "uses_query",
     },
     "skill": {
         "supports_attribute",
@@ -71,11 +71,9 @@ VIEW_EDGE_TYPES = {
     "object_attribute": {
         "has_attribute",
         "has_skill",
-        "has_query",
         "supports_attribute",
         "provides_attribute",
         "outputs_attribute",
-        "related_query",
     },
     "table_mapping": {
         "maps_to_field",
@@ -94,6 +92,8 @@ OVERVIEW_EDGE_TYPES = {
     "stored_in_table",
     "targets_object_type",
     "uses_query",
+    "requires_fact_type",
+    "provides_fact_type",
     "outputs_attribute",
     "returns_attribute",
     "has_attribute",
@@ -126,6 +126,7 @@ NODE_SOURCE_FILES = {
     "ObjectType": "object_types.yaml",
     "Attribute": "attributes.yaml",
     "RelationType": "relation_types.yaml",
+    "FactType": "fact_types.yaml",
     "QueryCapability": "queries.yaml",
     "SkillCapability": "skills.yaml",
     "IntentProfile": "intent_profiles.yaml",
@@ -155,6 +156,10 @@ def build_graph() -> dict[str, Any]:
         name = item.get("relation_type")
         if name:
             add_node(nodes, "RelationType", name, name, item)
+    for item in as_list(sections.get("fact_types")):
+        name = item.get("fact_type")
+        if name:
+            add_node(nodes, "FactType", name, item.get("fact_type_name_zh") or name, item)
     for item in as_list(sections.get("queries")):
         query_id = item.get("query_id")
         if query_id:
@@ -578,6 +583,15 @@ def infer_edges(
             add_inferred(edges, node_ids, skill_node, f"Attribute:{attr}", "provides_attribute", {"from_file": "skills.yaml"})
         for attr in as_list(skill.get("supported_attributes")):
             add_inferred(edges, node_ids, skill_node, f"Attribute:{attr}", "supports_attribute", {"from_file": "skills.yaml"})
+        for fact_type in as_list(skill.get("provides_fact_types")):
+            add_inferred(
+                edges,
+                node_ids,
+                skill_node,
+                f"FactType:{fact_type}",
+                "provides_fact_type",
+                {"from_file": "skills.yaml", "skill_id": skill_id},
+            )
         for query_id in as_list(skill.get("related_queries")):
             add_inferred(edges, node_ids, skill_node, f"QueryCapability:{query_id}", "related_query", {"from_file": "skills.yaml"})
 
@@ -586,6 +600,18 @@ def infer_edges(
         intent_node = f"IntentProfile:{intent}"
         for attr in as_list(profile.get("default_attributes")):
             add_inferred(edges, node_ids, intent_node, f"Attribute:{attr}", "requires_attribute", {"from_file": "intent_profiles.yaml"})
+        for fact in as_list(profile.get("fact_requirements_template")):
+            if isinstance(fact, dict):
+                fact_type = fact.get("fact_type")
+                if fact_type:
+                    add_inferred(
+                        edges,
+                        node_ids,
+                        intent_node,
+                        f"FactType:{fact_type}",
+                        "requires_fact_type",
+                        {"from_file": "intent_profiles.yaml", "intent_name": intent},
+                    )
         for field in ("primary_skills", "secondary_skills", "optional_skills", "skill_priorities"):
             values = profile.get(field)
             if isinstance(values, dict):

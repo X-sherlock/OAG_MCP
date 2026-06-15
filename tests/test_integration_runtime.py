@@ -72,16 +72,27 @@ def test_mysql_only_backend_seed_and_retrieve_context():
     assert graph.recall_paths("finance_market", entity, max_hops=2, top_k=10)
 
     result = create_context_service().retrieve_context(
-        question="分析003095近一年收益率和最大回撤表现",
+        semantic_frame={
+            "raw_question": "分析003095近一年收益率和最大回撤表现",
+            "domain": "finance_market",
+            "task_type": "analyze",
+            "target_objects": [
+                {
+                    "object_type": "Fund",
+                    "instance_ref": {"fund_code": "003095"},
+                    "role": "analysis_subject",
+                }
+            ],
+            "constraints": {"period": "1y"},
+            "mentioned_attributes": ["return_rate", "max_drawdown"],
+        },
         user_context={"permission_scopes": ["fund_public_data:read"]},
+        output_view="editor",
     )
 
     assert result["status"] == "success"
-    assert result["matched_objects"]
-    assert result["matched_objects"][0]["node_id"] == "ObjectType:Fund"
-    assert result["matched_attributes"]
-    assert result["resolved_params"]["fund_code"] == "003095"
-    assert result["resolved_params"]["period"] == "1y"
-    assert result["relation_subgraph"]["nodes"]
-    assert result["relation_subgraph"]["edges"]
-    assert "Fund:003095" not in {node["node_id"] for node in result["relation_subgraph"]["nodes"]}
+    assert result["target_instances"][0]["instance_ref"]["fund_code"] == "003095"
+    assert result["semantic_frame_summary"]["constraints"]["period"] == "1y"
+    assert result["fact_requirements"]
+    assert result["task_graph"]["nodes"]
+    assert "DataTable" not in {node["node_type"] for node in result["task_graph"]["nodes"]}

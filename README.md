@@ -1,20 +1,22 @@
 # OAG_MCP
 
-OAG_MCP is a MySQL-only MCP Server for ontology-augmented context retrieval and downstream Skill recommendation in the fund domain.
+OAG_MCP is a MySQL-only MCP Server for semantic-frame-driven ontology fact planning and downstream Skill recommendation in the fund domain.
+
+Python OAG now treats `semantic_frame` as the only formal input. It does not parse natural language questions, query business data, execute business SQL, or generate final answers. Its standard output is the task-level `fact_requirements`, `candidate_invocations`, and `task_graph` needed by the next model or orchestration step.
+
+Design details: [docs/oag_task_planning_design.md](docs/oag_task_planning_design.md).
 
 The MCP tool name remains `oag_retrieve_context`.
 
 ## Responsibility Boundary
 
-The online MCP Server only reads initialized MySQL ontology metadata and returns OAG context for a user question:
+The online MCP Server only reads initialized MySQL ontology metadata and returns a fact-planning task graph for a structured `semantic_frame`:
 
-- matched object types
-- matched attributes
-- matched intents
 - target instances
 - fact requirements
-- fact groups
 - candidate invocations
+- task graph
+- coverage summary
 - missing parameter hints
 
 The online MCP Server does not:

@@ -7,6 +7,7 @@ from typing import Any
 
 from oag_ontology_loader.loader import load_ontology
 from oag_mcp.service import OAGContextService
+from oag_task_planner_helpers import frame, retrieve
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -94,10 +95,7 @@ def test_edges_expanded():
 
 
 def test_runtime_no_xx_in_compact_output():
-    result = _service().retrieve_context(
-        "分析000001近一年的表现",
-        {"permission_scopes": ["fund_public_data:read"]},
-    )
+    result = retrieve(frame())
     text = json.dumps(result, ensure_ascii=False)
 
     assert result["status"] == "success"
@@ -108,34 +106,24 @@ def test_runtime_no_xx_in_compact_output():
 
 
 def test_runtime_period_specific_tables():
-    result = _service().retrieve_context(
-        "分析000001近一年的表现",
-        {"permission_scopes": ["fund_public_data:read"], "detail_level": "full", "debug": True},
-    )
+    result = retrieve(frame(), debug=True)
 
-    assert result["retrieval_summary"]["period"] == "1y"
-    assert any(
-        "dws_fund_perf_1y" in (query.get("source_tables") or [])
-        for query in result["schema_evidence"]["candidate_queries"]
-    )
-    node_ids = {node["node_id"] for node in result["relation_subgraph"]["nodes"]}
-    assert "DataTable:dws_fund_perf_1y" in node_ids
-    assert any(node.get("period_code") == "1y" for node in result["relation_subgraph"]["nodes"])
+    assert result["semantic_frame_summary"]["constraints"]["period"] == "1y"
+    assert "debug_evidence" in result
+    assert all(node["node_type"] not in {"DataTable", "DataField"} for node in result["task_graph"]["nodes"])
 
 
 def test_runtime_period_3y():
-    result = _service().retrieve_context(
-        "分析000001近三年的表现",
-        {"permission_scopes": ["fund_public_data:read"], "detail_level": "full", "debug": True},
+    result = retrieve(
+        frame(
+            raw_question="分析000001近三年的表现",
+            constraints={"period": "3y"},
+        ),
+        debug=True,
     )
 
-    assert result["resolved_params"]["period"] == "3y"
-    assert any(
-        "dws_fund_perf_3y" in (query.get("source_tables") or [])
-        for query in result["schema_evidence"]["candidate_queries"]
-    )
-    node_ids = {node["node_id"] for node in result["relation_subgraph"]["nodes"]}
-    assert any(node.get("period_code") == "3y" for node in result["relation_subgraph"]["nodes"])
+    assert result["semantic_frame_summary"]["constraints"]["period"] == "3y"
+    assert all(item["constraints"]["period"] == "3y" for item in result["fact_requirements"])
 
 
 def test_no_unconfirmed_physical_claim():

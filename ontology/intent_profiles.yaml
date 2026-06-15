@@ -2,115 +2,448 @@
   intent_name_zh: 基金综合表现分析
   description: 基金综合表现分析。
   trigger_aliases:
-    - 表现
-    - 业绩
-    - 走势
-    - 表现如何
-    - 业绩表现
-    - 收益表现
-    - 收益率
-    - 收益
-    - 回报
-    - 近一年表现
-    - 近三年表现
-    - 今年以来表现
+  - 表现
+  - 业绩
+  - 走势
+  - 表现如何
+  - 业绩表现
+  - 收益表现
+  - 收益率
+  - 收益
+  - 回报
+  - 近一年表现
+  - 近三年表现
+  - 今年以来表现
   default_attributes:
-    - return_rate
-    - benchmark_return
-    - excess_return
-    - max_drawdown
-    - volatility
-    - sharpe_ratio
-    - rank
+  - return_rate
+  - benchmark_return
+  - excess_return
+  - max_drawdown
+  - volatility
+  - sharpe_ratio
+  - rank
   primary_skills:
-    - get_fund_metric_values
+  - get_fund_metric_values
   secondary_skills:
-    - get_fund_benchmark_facts
+  - get_fund_benchmark_facts
   optional_skills:
-    - get_fund_peer_ranking_facts
+  - get_fund_peer_ranking_facts
   required_params:
-    - fund_code
-    - period
-
+  - fund_code
+  - period
+  fact_requirements_template:
+  - fact_type: metric_value
+    attribute_name: return_rate
+    priority: required
+    reason_zh: 综合表现分析需要先获取基金区间收益率。
+  - fact_type: benchmark_metric_value
+    attribute_name: benchmark_return
+    priority: required
+    reason_zh: 综合表现分析需要用基准收益判断相对表现。
+  - fact_type: excess_metric_value
+    attribute_name: excess_return
+    priority: required
+    reason_zh: 综合表现分析需要识别基金相对基准的超额收益。
+  - fact_type: metric_value
+    attribute_name: max_drawdown
+    priority: required
+    reason_zh: 综合表现分析需要同时查看回撤风险。
+  - fact_type: metric_value
+    attribute_name: volatility
+    priority: optional
+    reason_zh: 波动率可补充说明收益波动情况，不作为综合表现的强制事实。
+  - fact_type: metric_value
+    attribute_name: sharpe_ratio
+    priority: optional
+    reason_zh: 夏普比率可补充说明风险调整后收益，不作为综合表现的强制事实。
+  - fact_type: peer_rank
+    attribute_name: rank
+    priority: optional
+    reason_zh: 同类排名可增强相对位置解释，不作为综合表现的强制事实。
 - intent_name: risk_overview
   intent_name_zh: 基金风险分析
   description: 基金风险分析。
   trigger_aliases:
-    - 风险
-    - 风险表现
-    - 回撤
-    - 波动
-    - 稳定性
-    - 抗跌
-    - 风险收益
+  - 风险
+  - 风险表现
+  - 回撤
+  - 波动
+  - 稳定性
+  - 抗跌
+  - 风险收益
   default_attributes:
-    - max_drawdown
-    - volatility
-    - sharpe_ratio
-    - downside_deviation
-    - var
-    - calmar_ratio
+  - max_drawdown
+  - volatility
+  - sharpe_ratio
+  - calmar_ratio
+  - downside_risk
+  - var
+  - cvar
+  - peer_drawdown_rank
+  - peer_sharpe_rank
   primary_skills:
-    - get_fund_metric_values
+  - get_fund_metric_values
   secondary_skills:
-    - get_fund_benchmark_facts
+  - get_fund_benchmark_facts
   optional_skills:
-    - get_fund_peer_ranking_facts
+  - get_fund_peer_ranking_facts
   required_params:
-    - fund_code
-    - period
-
+  - fund_code
+  - period
+  fact_requirements_template:
+  - fact_type: metric_value
+    attribute_name: max_drawdown
+    priority: required
+    reason_zh: 风险分析需要获取最大回撤。
+  - fact_type: metric_value
+    attribute_name: volatility
+    priority: required
+    reason_zh: 风险分析需要获取波动率。
+  - fact_type: metric_value
+    attribute_name: sharpe_ratio
+    priority: optional
+    reason_zh: 夏普比率可补充评估风险调整收益；用户显式提及时提升为必需事实。
+  - fact_type: metric_value
+    attribute_name: calmar_ratio
+    priority: optional
+    reason_zh: Calmar 比率可补充回撤调整后的收益表现。
+  - fact_type: metric_value
+    attribute_name: downside_risk
+    priority: optional
+    reason_zh: 下行风险可补充说明下行波动。
+  - fact_type: metric_value
+    attribute_name: var
+    priority: optional
+    reason_zh: VaR 可作为极端损失风险的补充事实。
+  - fact_type: metric_value
+    attribute_name: cvar
+    priority: optional
+    reason_zh: CVaR 可作为尾部损失风险的补充事实。
+  - fact_type: peer_rank
+    attribute_name: peer_drawdown_rank
+    priority: optional
+    reason_zh: 同类回撤排名可补充风险控制的相对位置。
+  - fact_type: peer_rank
+    attribute_name: peer_sharpe_rank
+    priority: optional
+    reason_zh: 同类夏普排名可补充风险调整收益的相对位置。
 - intent_name: benchmark_comparison
   intent_name_zh: 基金相对基准表现
   description: 基金相对基准表现。
   trigger_aliases:
-    - 跑赢基准
-    - 超额收益
-    - 相对基准
-    - 基准比较
-    - 战胜基准
-    - 业绩基准
-    - 基准
-    - 跑赢
+  - 跑赢基准
+  - 超额收益
+  - 相对基准
+  - 基准比较
+  - 战胜基准
+  - 业绩基准
+  - 基准
+  - 跑赢
   default_attributes:
-    - return_rate
-    - benchmark_return
-    - excess_return
-    - tracking_error
-    - information_ratio
+  - return_rate
+  - benchmark_return
+  - excess_return
+  - tracking_error
+  - information_ratio
   primary_skills:
-    - get_fund_benchmark_facts
+  - get_fund_benchmark_facts
   secondary_skills:
-    - get_fund_metric_values
+  - get_fund_metric_values
   optional_skills:
-    - get_fund_peer_ranking_facts
+  - get_fund_peer_ranking_facts
   required_params:
-    - fund_code
-    - period
-
+  - fund_code
+  - period
+  fact_requirements_template:
+  - fact_type: metric_value
+    attribute_name: return_rate
+    priority: required
+    reason_zh: 基准比较需要获取基金自身收益率。
+  - fact_type: benchmark_metric_value
+    attribute_name: benchmark_return
+    priority: required
+    reason_zh: 基准比较需要获取业绩比较基准收益率。
+  - fact_type: excess_metric_value
+    attribute_name: excess_return
+    priority: required
+    reason_zh: 基准比较需要获取超额收益判断是否跑赢基准。
+  - fact_type: metric_value
+    attribute_name: tracking_error
+    priority: optional
+    reason_zh: 跟踪误差可补充说明相对基准的偏离程度。
+  - fact_type: metric_value
+    attribute_name: information_ratio
+    priority: optional
+    reason_zh: 信息比率可补充说明超额收益质量。
 - intent_name: peer_comparison
   intent_name_zh: 基金同类比较
   description: 基金同类比较。
   trigger_aliases:
-    - 同类
-    - 排名
-    - 同类排名
-    - 同类表现
-    - 排第几
-    - 百分位
-    - 分位
+  - 同类
+  - 排名
+  - 同类排名
+  - 同类表现
+  - 排第几
+  - 百分位
+  - 分位
   default_attributes:
-    - rank
-    - percentile
-    - return_rate
-    - max_drawdown
-    - sharpe_ratio
+  - rank
+  - percentile
+  - return_rate
+  - max_drawdown
+  - sharpe_ratio
   primary_skills:
-    - get_fund_peer_ranking_facts
+  - get_fund_peer_ranking_facts
   secondary_skills:
-    - get_fund_metric_values
+  - get_fund_metric_values
   optional_skills:
-    - get_fund_benchmark_facts
+  - get_fund_benchmark_facts
   required_params:
-    - fund_code
-    - period
+  - fund_code
+  - period
+  fact_requirements_template:
+  - fact_type: peer_rank
+    attribute_name: rank
+    priority: required
+    reason_zh: 同类比较需要获取同类排名。
+  - fact_type: peer_rank
+    attribute_name: percentile
+    priority: required
+    reason_zh: 同类比较需要获取排名分位。
+  - fact_type: metric_value
+    attribute_name: return_rate
+    priority: optional
+    reason_zh: 同类比较需要用收益率解释排名结果。
+  - fact_type: metric_value
+    attribute_name: max_drawdown
+    priority: optional
+    reason_zh: 最大回撤可补充比较风险表现。
+  - fact_type: metric_value
+    attribute_name: sharpe_ratio
+    priority: optional
+    reason_zh: 夏普比率可补充比较风险调整收益。
+- intent_name: fund_profile
+  intent_name_zh: 基金画像查询
+  description: 查询基金基本信息、基金经理、基金公司、基金类型和业绩基准。
+  trigger_aliases:
+  - 基本信息
+  - 画像
+  - 档案
+  - 基金经理
+  - 基金公司
+  - 基金类型
+  default_attributes:
+  - fund_name
+  - fund_type
+  - manager_name
+  - company_name
+  - benchmark_name
+  primary_skills:
+  - get_fund_profile_facts
+  secondary_skills: []
+  optional_skills: []
+  required_params:
+  - fund_code
+  fact_requirements_template:
+  - fact_type: object_profile
+    attribute_name: fund_name
+    priority: required
+    reason_zh: 基金画像需要基金名称。
+  - fact_type: object_profile
+    attribute_name: fund_type
+    priority: required
+    reason_zh: 基金画像需要基金类型。
+  - fact_type: object_profile
+    attribute_name: manager_name
+    priority: required
+    reason_zh: 基金画像需要基金经理信息。
+  - fact_type: object_profile
+    attribute_name: company_name
+    priority: required
+    reason_zh: 基金画像需要基金公司信息。
+  - fact_type: object_profile
+    attribute_name: benchmark_name
+    priority: required
+    reason_zh: 基金画像需要业绩比较基准信息。
+- intent_name: fee_analysis
+  intent_name_zh: 基金费率查询
+  description: 查询基金管理费、托管费、申购费、赎回费等费率。
+  trigger_aliases:
+  - 费率
+  - 费用
+  - 申购费
+  - 赎回费
+  default_attributes:
+  - fee_type
+  - fee_value
+  - fee_effective_date
+  primary_skills:
+  - get_fund_fee_facts
+  secondary_skills: []
+  optional_skills: []
+  required_params:
+  - fund_code
+  fact_requirements_template:
+  - fact_type: fee_fact
+    attribute_name: fee_value
+    priority: required
+    reason_zh: 费率查询需要获取费率值事实。
+- intent_name: dividend_analysis
+  intent_name_zh: 基金分红查询
+  description: 查询基金分红金额、分红日期和分红稳定性。
+  trigger_aliases:
+  - 分红
+  - 派息
+  default_attributes:
+  - dividend_per_share
+  - dividend_date
+  primary_skills:
+  - get_fund_dividend_facts
+  secondary_skills: []
+  optional_skills: []
+  required_params:
+  - fund_code
+  fact_requirements_template:
+  - fact_type: dividend_fact
+    attribute_name: dividend_per_share
+    priority: required
+    reason_zh: 分红查询需要获取每份分红金额事实。
+- intent_name: holding_analysis
+  intent_name_zh: 基金持仓查询
+  description: 查询基金股票、债券和其他持仓情况。
+  trigger_aliases:
+  - 持仓
+  - 股票持仓
+  - 债券持仓
+  default_attributes:
+  - stock_name
+  - stock_nav_ratio
+  - bond_name
+  - bond_nav_ratio
+  primary_skills:
+  - get_fund_holding_facts
+  secondary_skills: []
+  optional_skills: []
+  required_params:
+  - fund_code
+  - report_date
+  fact_requirements_template:
+  - fact_type: holding_fact
+    attribute_name: stock_name
+    priority: required
+    reason_zh: 持仓查询需要获取主要持仓名称事实。
+- intent_name: asset_allocation_analysis
+  intent_name_zh: 基金资产配置查询
+  description: 查询基金股票、债券、现金、基金和其他资产配置。
+  trigger_aliases:
+  - 资产配置
+  - 配置
+  - 仓位
+  default_attributes:
+  - asset_total_value
+  - stock_asset_ratio
+  - bond_asset_ratio
+  - cash_asset_ratio
+  primary_skills:
+  - get_fund_holding_facts
+  secondary_skills: []
+  optional_skills: []
+  required_params:
+  - fund_code
+  - report_date
+  fact_requirements_template:
+  - fact_type: allocation_fact
+    attribute_name: stock_asset_ratio
+    priority: required
+    reason_zh: 资产配置查询需要获取股票资产占比事实。
+- intent_name: fund_comparison
+  intent_name_zh: 多基金比较
+  description: 比较多只基金的收益、风险或风险调整收益。
+  trigger_aliases:
+  - 比较
+  - 对比
+  default_attributes:
+  - return_rate
+  primary_skills:
+  - get_fund_metric_values
+  - compare_funds_by_metric
+  secondary_skills: []
+  optional_skills: []
+  required_params:
+  - fund_code
+  - period
+  fact_requirements_template:
+  - fact_type: metric_value
+    attribute_name: return_rate
+    priority: required
+    reason_zh: 多基金比较默认需要比较收益率事实。
+- intent_name: fund_ranking
+  intent_name_zh: 基金集合排序
+  description: 按指定指标对基金集合排序。
+  trigger_aliases:
+  - 最高
+  - 排序
+  - 排名前
+  default_attributes:
+  - return_rate
+  primary_skills:
+  - rank_funds_by_metric
+  secondary_skills: []
+  optional_skills: []
+  required_params:
+  - fund_universe
+  - period
+  fact_requirements_template:
+  - fact_type: metric_ranking
+    attribute_name: return_rate
+    priority: required
+    reason_zh: 基金集合排序默认按收益率生成排序事实。
+- intent_name: fund_screening
+  intent_name_zh: 基金集合筛选
+  description: 按指定指标条件筛选基金集合。
+  trigger_aliases:
+  - 筛选
+  - 小于
+  - 低于
+  default_attributes:
+  - max_drawdown
+  primary_skills:
+  - screen_funds_by_metric_condition
+  secondary_skills: []
+  optional_skills: []
+  required_params:
+  - fund_universe
+  - period
+  fact_requirements_template:
+  - fact_type: filter_condition
+    attribute_name: max_drawdown
+    priority: required
+    reason_zh: 基金集合筛选默认按最大回撤生成过滤条件事实。
+- intent_name: fund_recommendation
+  intent_name_zh: 基金推荐
+  description: 根据收益、风险和筛选条件推荐基金集合。
+  trigger_aliases:
+  - 推荐
+  - 收益高
+  - 回撤低
+  default_attributes:
+  - return_rate
+  - max_drawdown
+  primary_skills:
+  - recommend_funds_by_risk_return
+  secondary_skills:
+  - rank_funds_by_metric
+  - screen_funds_by_metric_condition
+  optional_skills: []
+  required_params:
+  - fund_universe
+  - period
+  fact_requirements_template:
+  - fact_type: metric_ranking
+    attribute_name: return_rate
+    priority: required
+    reason_zh: 推荐任务需要按收益率生成排序事实。
+  - fact_type: filter_condition
+    attribute_name: max_drawdown
+    priority: required
+    reason_zh: 推荐任务需要按最大回撤生成风险筛选事实。

@@ -1,0 +1,751 @@
+{
+  "status": "success",
+  "domain": "finance_market",
+  "raw_question": "000001当前持仓和资产配置如何",
+  "semantic_frame_summary": {
+    "task_type": "query",
+    "intent": "holding_analysis",
+    "target_objects": [
+      {
+        "object_type": "Fund",
+        "instance_ref": {
+          "fund_code": "000001"
+        },
+        "role": "analysis_subject",
+        "target_index": 1
+      }
+    ],
+    "constraints": {
+      "period": "1y"
+    },
+    "mentioned_attributes": [],
+    "relation_queries": [],
+    "filters": [],
+    "ranking": [],
+    "comparison": {},
+    "limit": null
+  },
+  "normalized_semantic_frame": {
+    "raw_question": "000001当前持仓和资产配置如何",
+    "domain": "finance_market",
+    "task_type": "query",
+    "target_objects": [
+      {
+        "object_type": "Fund",
+        "instance_ref": {
+          "fund_code": "000001"
+        },
+        "role": "analysis_subject",
+        "target_index": 1
+      }
+    ],
+    "constraints": {
+      "period": "1y"
+    },
+    "mentioned_attributes": [],
+    "intent": "holding_analysis",
+    "debug": true,
+    "relation_queries": [],
+    "filters": [],
+    "ranking": [],
+    "comparison": {},
+    "options": {
+      "allow_relation_expansion": true,
+      "allow_peer_expansion": true,
+      "include_supporting_context": true
+    }
+  },
+  "target_instances": [
+    {
+      "target_instance_id": "TargetInstance:Fund:1",
+      "object_type": "Fund",
+      "object_type_zh": "基金产品",
+      "instance_ref": {
+        "fund_code": "000001"
+      },
+      "role": "analysis_subject",
+      "display_name_zh": "基金 000001",
+      "description_zh": "基金产品主对象，承载基金代码、名称、类型、状态、基准和跟踪指数等基础信息。"
+    }
+  ],
+  "fact_requirements": [
+    {
+      "fact_requirement_id": "FactRequirement:fr_stock_name_000001_1y",
+      "fact_type": "holding_fact",
+      "fact_type_zh": "持仓事实",
+      "subject": {
+        "object_type": "Fund",
+        "subject_id": "Fund:000001",
+        "instance_ref": {
+          "fund_code": "000001"
+        },
+        "label_zh": "基金产品",
+        "target_index": 1,
+        "target_role": "analysis_subject",
+        "target_instance_id": "TargetInstance:Fund:1"
+      },
+      "attribute_name": "stock_name",
+      "attribute": {
+        "attribute_name": "stock_name",
+        "attribute_name_zh": "股票名称",
+        "label_zh": "股票名称",
+        "description_zh": "持有股票名称。"
+      },
+      "constraints": {
+        "period": "1y"
+      },
+      "priority": "required",
+      "priority_zh": "必需",
+      "source": "intent_template",
+      "source_zh": "意图模板",
+      "reason_zh": "持仓查询需要获取主要持仓名称事实。",
+      "answer_visibility": "answer_fact",
+      "planning_role": "required",
+      "label_zh": "股票名称事实需求",
+      "description_zh": "持仓查询需要获取主要持仓名称事实。"
+    },
+    {
+      "fact_requirement_id": "FactRequirement:fr_stock_nav_ratio_000001_1y",
+      "fact_type": "holding_fact",
+      "fact_type_zh": "持仓事实",
+      "subject": {
+        "object_type": "Fund",
+        "subject_id": "Fund:000001",
+        "instance_ref": {
+          "fund_code": "000001"
+        },
+        "label_zh": "基金产品",
+        "target_index": 1,
+        "target_role": "analysis_subject",
+        "target_instance_id": "TargetInstance:Fund:1"
+      },
+      "attribute_name": "stock_nav_ratio",
+      "attribute": {
+        "attribute_name": "stock_nav_ratio",
+        "attribute_name_zh": "持有股票占净值比例",
+        "label_zh": "持有股票占净值比例",
+        "description_zh": "持有股票市值占基金净值比。"
+      },
+      "constraints": {
+        "period": "1y"
+      },
+      "priority": "required",
+      "priority_zh": "必需",
+      "source": "scenario_rule",
+      "source_zh": "场景规划规则",
+      "reason_zh": "持仓查询需要基金持仓事实。",
+      "answer_visibility": "answer_fact",
+      "planning_role": "holding",
+      "label_zh": "持有股票占净值比例事实需求",
+      "description_zh": "持仓查询需要基金持仓事实。"
+    },
+    {
+      "fact_requirement_id": "FactRequirement:fr_bond_name_000001_1y",
+      "fact_type": "holding_fact",
+      "fact_type_zh": "持仓事实",
+      "subject": {
+        "object_type": "Fund",
+        "subject_id": "Fund:000001",
+        "instance_ref": {
+          "fund_code": "000001"
+        },
+        "label_zh": "基金产品",
+        "target_index": 1,
+        "target_role": "analysis_subject",
+        "target_instance_id": "TargetInstance:Fund:1"
+      },
+      "attribute_name": "bond_name",
+      "attribute": {
+        "attribute_name": "bond_name",
+        "attribute_name_zh": "债券名称",
+        "label_zh": "债券名称",
+        "description_zh": "持有债券名称。"
+      },
+      "constraints": {
+        "period": "1y"
+      },
+      "priority": "required",
+      "priority_zh": "必需",
+      "source": "scenario_rule",
+      "source_zh": "场景规划规则",
+      "reason_zh": "持仓查询需要基金持仓事实。",
+      "answer_visibility": "answer_fact",
+      "planning_role": "holding",
+      "label_zh": "债券名称事实需求",
+      "description_zh": "持仓查询需要基金持仓事实。"
+    },
+    {
+      "fact_requirement_id": "FactRequirement:fr_bond_nav_ratio_000001_1y",
+      "fact_type": "holding_fact",
+      "fact_type_zh": "持仓事实",
+      "subject": {
+        "object_type": "Fund",
+        "subject_id": "Fund:000001",
+        "instance_ref": {
+          "fund_code": "000001"
+        },
+        "label_zh": "基金产品",
+        "target_index": 1,
+        "target_role": "analysis_subject",
+        "target_instance_id": "TargetInstance:Fund:1"
+      },
+      "attribute_name": "bond_nav_ratio",
+      "attribute": {
+        "attribute_name": "bond_nav_ratio",
+        "attribute_name_zh": "持有债券占净值比例",
+        "label_zh": "持有债券占净值比例",
+        "description_zh": "持有债券市值占基金净值比。"
+      },
+      "constraints": {
+        "period": "1y"
+      },
+      "priority": "required",
+      "priority_zh": "必需",
+      "source": "scenario_rule",
+      "source_zh": "场景规划规则",
+      "reason_zh": "持仓查询需要基金持仓事实。",
+      "answer_visibility": "answer_fact",
+      "planning_role": "holding",
+      "label_zh": "持有债券占净值比例事实需求",
+      "description_zh": "持仓查询需要基金持仓事实。"
+    }
+  ],
+  "candidate_invocations": [
+    {
+      "invocation_id": "SkillInvocation:get_fund_holding_facts:1",
+      "skill_id": "get_fund_holding_facts",
+      "skill_name_zh": "获取基金持仓与配置事实",
+      "description_zh": "获取基金持仓、行业配置和资产配置事实声明。",
+      "covers_fact_requirements": [
+        "FactRequirement:fr_stock_name_000001_1y",
+        "FactRequirement:fr_stock_nav_ratio_000001_1y",
+        "FactRequirement:fr_bond_name_000001_1y",
+        "FactRequirement:fr_bond_nav_ratio_000001_1y"
+      ],
+      "covered_subjects": [
+        "Fund:000001"
+      ],
+      "params": {
+        "fund_code": "000001"
+      },
+      "missing_params": [
+        "report_date"
+      ],
+      "permission_scope": "fund_public_data:read",
+      "coverage_score": 1,
+      "covers_required_count": 4,
+      "covers_optional_count": 0,
+      "covers_supporting_count": 0,
+      "covers_derived_count": 0,
+      "coverage_reason_zh": "该 Skill 声明支持 Fund 的 股票名称、持有股票占净值比例、债券名称、持有债券占净值比例 查询，并且 fact_type 与事实需求匹配。",
+      "uncovered_reason_zh": ""
+    }
+  ],
+  "task_graph": {
+    "nodes": [
+      {
+        "node_id": "SemanticFrame:current",
+        "node_type": "SemanticFrame",
+        "label_zh": "当前语义框架",
+        "description_zh": "前置意图识别节点输出的结构化语义结果。",
+        "role": "input_context"
+      },
+      {
+        "node_id": "TaskType:query",
+        "node_type": "TaskType",
+        "label_zh": "查询任务",
+        "description_zh": "本次问题的通用任务类型。",
+        "role": "task_control"
+      },
+      {
+        "node_id": "IntentProfile:holding_analysis",
+        "node_type": "IntentProfile",
+        "label_zh": "基金持仓查询",
+        "description_zh": "查询基金股票、债券和其他持仓情况。",
+        "role": "intent_context"
+      },
+      {
+        "node_id": "ObjectType:Fund",
+        "node_type": "ObjectType",
+        "label_zh": "基金产品",
+        "description_zh": "基金产品主对象，承载基金代码、名称、类型、状态、基准和跟踪指数等基础信息。",
+        "role": "ontology_object"
+      },
+      {
+        "node_id": "TargetInstance:Fund:1",
+        "node_type": "TargetInstance",
+        "label_zh": "基金 000001",
+        "description_zh": "基金产品主对象，承载基金代码、名称、类型、状态、基准和跟踪指数等基础信息。",
+        "target_instance_id": "TargetInstance:Fund:1",
+        "object_type": "Fund",
+        "object_type_zh": "基金产品",
+        "instance_ref": {
+          "fund_code": "000001"
+        },
+        "role": "analysis_subject",
+        "display_name_zh": "基金 000001"
+      },
+      {
+        "node_id": "Constraint:period",
+        "node_type": "Constraint",
+        "label_zh": "时间周期：1y",
+        "description_zh": "时间周期为 1y。",
+        "constraint_name": "period",
+        "constraint_value": "1y",
+        "role": "constraint"
+      },
+      {
+        "node_id": "FactRequirement:fr_stock_name_000001_1y",
+        "node_type": "FactRequirement",
+        "label_zh": "股票名称事实需求",
+        "description_zh": "持仓查询需要获取主要持仓名称事实。",
+        "fact_requirement_id": "FactRequirement:fr_stock_name_000001_1y",
+        "fact_type": "holding_fact",
+        "fact_type_zh": "持仓事实",
+        "subject": {
+          "object_type": "Fund",
+          "subject_id": "Fund:000001",
+          "instance_ref": {
+            "fund_code": "000001"
+          },
+          "label_zh": "基金产品",
+          "target_index": 1,
+          "target_role": "analysis_subject",
+          "target_instance_id": "TargetInstance:Fund:1"
+        },
+        "attribute_name": "stock_name",
+        "attribute": {
+          "attribute_name": "stock_name",
+          "attribute_name_zh": "股票名称",
+          "label_zh": "股票名称",
+          "description_zh": "持有股票名称。"
+        },
+        "constraints": {
+          "period": "1y"
+        },
+        "priority": "required",
+        "priority_zh": "必需",
+        "source": "intent_template",
+        "source_zh": "意图模板",
+        "reason_zh": "持仓查询需要获取主要持仓名称事实。",
+        "answer_visibility": "answer_fact",
+        "planning_role": "required",
+        "role": "fact_requirement"
+      },
+      {
+        "node_id": "Attribute:stock_name",
+        "node_type": "Attribute",
+        "label_zh": "股票名称",
+        "description_zh": "持有股票名称。",
+        "attribute_name": "stock_name",
+        "role": "fact_attribute"
+      },
+      {
+        "node_id": "FactRequirement:fr_stock_nav_ratio_000001_1y",
+        "node_type": "FactRequirement",
+        "label_zh": "持有股票占净值比例事实需求",
+        "description_zh": "持仓查询需要基金持仓事实。",
+        "fact_requirement_id": "FactRequirement:fr_stock_nav_ratio_000001_1y",
+        "fact_type": "holding_fact",
+        "fact_type_zh": "持仓事实",
+        "subject": {
+          "object_type": "Fund",
+          "subject_id": "Fund:000001",
+          "instance_ref": {
+            "fund_code": "000001"
+          },
+          "label_zh": "基金产品",
+          "target_index": 1,
+          "target_role": "analysis_subject",
+          "target_instance_id": "TargetInstance:Fund:1"
+        },
+        "attribute_name": "stock_nav_ratio",
+        "attribute": {
+          "attribute_name": "stock_nav_ratio",
+          "attribute_name_zh": "持有股票占净值比例",
+          "label_zh": "持有股票占净值比例",
+          "description_zh": "持有股票市值占基金净值比。"
+        },
+        "constraints": {
+          "period": "1y"
+        },
+        "priority": "required",
+        "priority_zh": "必需",
+        "source": "scenario_rule",
+        "source_zh": "场景规划规则",
+        "reason_zh": "持仓查询需要基金持仓事实。",
+        "answer_visibility": "answer_fact",
+        "planning_role": "holding",
+        "role": "fact_requirement"
+      },
+      {
+        "node_id": "Attribute:stock_nav_ratio",
+        "node_type": "Attribute",
+        "label_zh": "持有股票占净值比例",
+        "description_zh": "持有股票市值占基金净值比。",
+        "attribute_name": "stock_nav_ratio",
+        "role": "fact_attribute"
+      },
+      {
+        "node_id": "FactRequirement:fr_bond_name_000001_1y",
+        "node_type": "FactRequirement",
+        "label_zh": "债券名称事实需求",
+        "description_zh": "持仓查询需要基金持仓事实。",
+        "fact_requirement_id": "FactRequirement:fr_bond_name_000001_1y",
+        "fact_type": "holding_fact",
+        "fact_type_zh": "持仓事实",
+        "subject": {
+          "object_type": "Fund",
+          "subject_id": "Fund:000001",
+          "instance_ref": {
+            "fund_code": "000001"
+          },
+          "label_zh": "基金产品",
+          "target_index": 1,
+          "target_role": "analysis_subject",
+          "target_instance_id": "TargetInstance:Fund:1"
+        },
+        "attribute_name": "bond_name",
+        "attribute": {
+          "attribute_name": "bond_name",
+          "attribute_name_zh": "债券名称",
+          "label_zh": "债券名称",
+          "description_zh": "持有债券名称。"
+        },
+        "constraints": {
+          "period": "1y"
+        },
+        "priority": "required",
+        "priority_zh": "必需",
+        "source": "scenario_rule",
+        "source_zh": "场景规划规则",
+        "reason_zh": "持仓查询需要基金持仓事实。",
+        "answer_visibility": "answer_fact",
+        "planning_role": "holding",
+        "role": "fact_requirement"
+      },
+      {
+        "node_id": "Attribute:bond_name",
+        "node_type": "Attribute",
+        "label_zh": "债券名称",
+        "description_zh": "持有债券名称。",
+        "attribute_name": "bond_name",
+        "role": "fact_attribute"
+      },
+      {
+        "node_id": "FactRequirement:fr_bond_nav_ratio_000001_1y",
+        "node_type": "FactRequirement",
+        "label_zh": "持有债券占净值比例事实需求",
+        "description_zh": "持仓查询需要基金持仓事实。",
+        "fact_requirement_id": "FactRequirement:fr_bond_nav_ratio_000001_1y",
+        "fact_type": "holding_fact",
+        "fact_type_zh": "持仓事实",
+        "subject": {
+          "object_type": "Fund",
+          "subject_id": "Fund:000001",
+          "instance_ref": {
+            "fund_code": "000001"
+          },
+          "label_zh": "基金产品",
+          "target_index": 1,
+          "target_role": "analysis_subject",
+          "target_instance_id": "TargetInstance:Fund:1"
+        },
+        "attribute_name": "bond_nav_ratio",
+        "attribute": {
+          "attribute_name": "bond_nav_ratio",
+          "attribute_name_zh": "持有债券占净值比例",
+          "label_zh": "持有债券占净值比例",
+          "description_zh": "持有债券市值占基金净值比。"
+        },
+        "constraints": {
+          "period": "1y"
+        },
+        "priority": "required",
+        "priority_zh": "必需",
+        "source": "scenario_rule",
+        "source_zh": "场景规划规则",
+        "reason_zh": "持仓查询需要基金持仓事实。",
+        "answer_visibility": "answer_fact",
+        "planning_role": "holding",
+        "role": "fact_requirement"
+      },
+      {
+        "node_id": "Attribute:bond_nav_ratio",
+        "node_type": "Attribute",
+        "label_zh": "持有债券占净值比例",
+        "description_zh": "持有债券市值占基金净值比。",
+        "attribute_name": "bond_nav_ratio",
+        "role": "fact_attribute"
+      },
+      {
+        "node_id": "SkillCapability:get_fund_holding_facts",
+        "node_type": "SkillCapability",
+        "label_zh": "获取基金持仓与配置事实",
+        "description_zh": "获取基金持仓、行业配置和资产配置事实声明。",
+        "skill_id": "get_fund_holding_facts",
+        "role": "skill_candidate"
+      },
+      {
+        "node_id": "Parameter:report_date",
+        "node_type": "Parameter",
+        "label_zh": "缺失参数：report_date",
+        "description_zh": "调用 Skill 前需要补充的结构化参数。",
+        "param_name": "report_date",
+        "role": "missing_param"
+      }
+    ],
+    "edges": [
+      {
+        "edge_id": "SemanticFrame:current__has_task_type__TaskType:query",
+        "source": "SemanticFrame:current",
+        "target": "TaskType:query",
+        "relation_type": "has_task_type",
+        "label_zh": "具有任务类型",
+        "reason_zh": "semantic_frame 显式给出 task_type。"
+      },
+      {
+        "edge_id": "SemanticFrame:current__has_intent__IntentProfile:holding_analysis",
+        "source": "SemanticFrame:current",
+        "target": "IntentProfile:holding_analysis",
+        "relation_type": "has_intent",
+        "label_zh": "具有意图",
+        "reason_zh": "semantic_frame 显式给出 intent。"
+      },
+      {
+        "edge_id": "SemanticFrame:current__has_target__TargetInstance:Fund:1",
+        "source": "SemanticFrame:current",
+        "target": "TargetInstance:Fund:1",
+        "relation_type": "has_target",
+        "label_zh": "包含目标对象",
+        "reason_zh": "semantic_frame 的 target_objects 指定该对象。"
+      },
+      {
+        "edge_id": "TargetInstance:Fund:1__has_subject__ObjectType:Fund",
+        "source": "TargetInstance:Fund:1",
+        "target": "ObjectType:Fund",
+        "relation_type": "has_subject",
+        "label_zh": "属于对象类型",
+        "reason_zh": "目标对象实例对应该本体对象类型。"
+      },
+      {
+        "edge_id": "SemanticFrame:current__has_constraint__Constraint:period",
+        "source": "SemanticFrame:current",
+        "target": "Constraint:period",
+        "relation_type": "has_constraint",
+        "label_zh": "包含约束",
+        "reason_zh": "semantic_frame 给出该约束参数。"
+      },
+      {
+        "edge_id": "SemanticFrame:current__requires_fact__FactRequirement:fr_stock_name_000001_1y",
+        "source": "SemanticFrame:current",
+        "target": "FactRequirement:fr_stock_name_000001_1y",
+        "relation_type": "requires_fact",
+        "label_zh": "需要事实",
+        "reason_zh": "持仓查询需要获取主要持仓名称事实。"
+      },
+      {
+        "edge_id": "TargetInstance:Fund:1__requires_subject_fact__FactRequirement:fr_stock_name_000001_1y",
+        "source": "TargetInstance:Fund:1",
+        "target": "FactRequirement:fr_stock_name_000001_1y",
+        "relation_type": "requires_subject_fact",
+        "label_zh": "主体需要事实",
+        "reason_zh": "该事实需求归属于这个目标对象。"
+      },
+      {
+        "edge_id": "FactRequirement:fr_stock_name_000001_1y__has_attribute__Attribute:stock_name",
+        "source": "FactRequirement:fr_stock_name_000001_1y",
+        "target": "Attribute:stock_name",
+        "relation_type": "has_attribute",
+        "label_zh": "对应属性",
+        "reason_zh": "该事实需求需要查询这个属性。"
+      },
+      {
+        "edge_id": "SemanticFrame:current__requires_fact__FactRequirement:fr_stock_nav_ratio_000001_1y",
+        "source": "SemanticFrame:current",
+        "target": "FactRequirement:fr_stock_nav_ratio_000001_1y",
+        "relation_type": "requires_fact",
+        "label_zh": "需要事实",
+        "reason_zh": "持仓查询需要基金持仓事实。"
+      },
+      {
+        "edge_id": "TargetInstance:Fund:1__requires_subject_fact__FactRequirement:fr_stock_nav_ratio_000001_1y",
+        "source": "TargetInstance:Fund:1",
+        "target": "FactRequirement:fr_stock_nav_ratio_000001_1y",
+        "relation_type": "requires_subject_fact",
+        "label_zh": "主体需要事实",
+        "reason_zh": "该事实需求归属于这个目标对象。"
+      },
+      {
+        "edge_id": "FactRequirement:fr_stock_nav_ratio_000001_1y__has_attribute__Attribute:stock_nav_ratio",
+        "source": "FactRequirement:fr_stock_nav_ratio_000001_1y",
+        "target": "Attribute:stock_nav_ratio",
+        "relation_type": "has_attribute",
+        "label_zh": "对应属性",
+        "reason_zh": "该事实需求需要查询这个属性。"
+      },
+      {
+        "edge_id": "SemanticFrame:current__requires_fact__FactRequirement:fr_bond_name_000001_1y",
+        "source": "SemanticFrame:current",
+        "target": "FactRequirement:fr_bond_name_000001_1y",
+        "relation_type": "requires_fact",
+        "label_zh": "需要事实",
+        "reason_zh": "持仓查询需要基金持仓事实。"
+      },
+      {
+        "edge_id": "TargetInstance:Fund:1__requires_subject_fact__FactRequirement:fr_bond_name_000001_1y",
+        "source": "TargetInstance:Fund:1",
+        "target": "FactRequirement:fr_bond_name_000001_1y",
+        "relation_type": "requires_subject_fact",
+        "label_zh": "主体需要事实",
+        "reason_zh": "该事实需求归属于这个目标对象。"
+      },
+      {
+        "edge_id": "FactRequirement:fr_bond_name_000001_1y__has_attribute__Attribute:bond_name",
+        "source": "FactRequirement:fr_bond_name_000001_1y",
+        "target": "Attribute:bond_name",
+        "relation_type": "has_attribute",
+        "label_zh": "对应属性",
+        "reason_zh": "该事实需求需要查询这个属性。"
+      },
+      {
+        "edge_id": "SemanticFrame:current__requires_fact__FactRequirement:fr_bond_nav_ratio_000001_1y",
+        "source": "SemanticFrame:current",
+        "target": "FactRequirement:fr_bond_nav_ratio_000001_1y",
+        "relation_type": "requires_fact",
+        "label_zh": "需要事实",
+        "reason_zh": "持仓查询需要基金持仓事实。"
+      },
+      {
+        "edge_id": "TargetInstance:Fund:1__requires_subject_fact__FactRequirement:fr_bond_nav_ratio_000001_1y",
+        "source": "TargetInstance:Fund:1",
+        "target": "FactRequirement:fr_bond_nav_ratio_000001_1y",
+        "relation_type": "requires_subject_fact",
+        "label_zh": "主体需要事实",
+        "reason_zh": "该事实需求归属于这个目标对象。"
+      },
+      {
+        "edge_id": "FactRequirement:fr_bond_nav_ratio_000001_1y__has_attribute__Attribute:bond_nav_ratio",
+        "source": "FactRequirement:fr_bond_nav_ratio_000001_1y",
+        "target": "Attribute:bond_nav_ratio",
+        "relation_type": "has_attribute",
+        "label_zh": "对应属性",
+        "reason_zh": "该事实需求需要查询这个属性。"
+      },
+      {
+        "edge_id": "FactRequirement:fr_stock_name_000001_1y__covered_by_skill__SkillCapability:get_fund_holding_facts",
+        "source": "FactRequirement:fr_stock_name_000001_1y",
+        "target": "SkillCapability:get_fund_holding_facts",
+        "relation_type": "covered_by_skill",
+        "label_zh": "由该 Skill 获取",
+        "reason_zh": "该 Skill 声明支持 Fund 的 股票名称、持有股票占净值比例、债券名称、持有债券占净值比例 查询，并且 fact_type 与事实需求匹配。"
+      },
+      {
+        "edge_id": "FactRequirement:fr_stock_nav_ratio_000001_1y__covered_by_skill__SkillCapability:get_fund_holding_facts",
+        "source": "FactRequirement:fr_stock_nav_ratio_000001_1y",
+        "target": "SkillCapability:get_fund_holding_facts",
+        "relation_type": "covered_by_skill",
+        "label_zh": "由该 Skill 获取",
+        "reason_zh": "该 Skill 声明支持 Fund 的 股票名称、持有股票占净值比例、债券名称、持有债券占净值比例 查询，并且 fact_type 与事实需求匹配。"
+      },
+      {
+        "edge_id": "FactRequirement:fr_bond_name_000001_1y__covered_by_skill__SkillCapability:get_fund_holding_facts",
+        "source": "FactRequirement:fr_bond_name_000001_1y",
+        "target": "SkillCapability:get_fund_holding_facts",
+        "relation_type": "covered_by_skill",
+        "label_zh": "由该 Skill 获取",
+        "reason_zh": "该 Skill 声明支持 Fund 的 股票名称、持有股票占净值比例、债券名称、持有债券占净值比例 查询，并且 fact_type 与事实需求匹配。"
+      },
+      {
+        "edge_id": "FactRequirement:fr_bond_nav_ratio_000001_1y__covered_by_skill__SkillCapability:get_fund_holding_facts",
+        "source": "FactRequirement:fr_bond_nav_ratio_000001_1y",
+        "target": "SkillCapability:get_fund_holding_facts",
+        "relation_type": "covered_by_skill",
+        "label_zh": "由该 Skill 获取",
+        "reason_zh": "该 Skill 声明支持 Fund 的 股票名称、持有股票占净值比例、债券名称、持有债券占净值比例 查询，并且 fact_type 与事实需求匹配。"
+      },
+      {
+        "edge_id": "SkillCapability:get_fund_holding_facts__requires_param__Parameter:report_date",
+        "source": "SkillCapability:get_fund_holding_facts",
+        "target": "Parameter:report_date",
+        "relation_type": "requires_param",
+        "label_zh": "需要参数",
+        "reason_zh": "调用该 Skill 还缺少参数 report_date。"
+      }
+    ]
+  },
+  "coverage_summary": {
+    "required_fact_count": 4,
+    "covered_required_fact_count": 4,
+    "uncovered_required_facts": [],
+    "optional_fact_count": 0,
+    "covered_optional_fact_count": 0,
+    "uncovered_optional_facts": [],
+    "supporting_context_count": 0,
+    "covered_supporting_context_count": 0,
+    "uncovered_supporting_context": [],
+    "derived_fact_count": 0,
+    "covered_derived_fact_count": 0,
+    "uncovered_derived_facts": [],
+    "skill_count": 1,
+    "has_permission_blocked_facts": false,
+    "coverage_status": "full_coverage",
+    "coverage_message_zh": "必需事实均有 Skill 覆盖，规划可以继续执行。"
+  },
+  "missing_params": [
+    {
+      "skill_id": "get_fund_holding_facts",
+      "skill_name_zh": "获取基金持仓与配置事实",
+      "missing_params": [
+        "report_date"
+      ],
+      "message_zh": "调用该 Skill 前需要补充参数：report_date"
+    }
+  ],
+  "uncovered_facts": [],
+  "diagnostics": [
+    {
+      "diagnostic_code": "SKILL_PARAMS_MISSING",
+      "severity": "warning",
+      "message_zh": "Skill 获取基金持仓与配置事实 缺少必要调用参数：report_date。",
+      "suggestion_zh": "请在 semantic_frame 的 target_objects、constraints 或 options 中补充参数。"
+    }
+  ],
+  "warnings": [
+    {
+      "warning_code": "SKILL_PARAMS_MISSING",
+      "skill_id": "get_fund_holding_facts",
+      "skill_name_zh": "获取基金持仓与配置事实",
+      "missing_params": [
+        "report_date"
+      ],
+      "message_zh": "Skill 获取基金持仓与配置事实 缺少必要调用参数：report_date。"
+    }
+  ],
+  "debug_evidence": {
+    "message_zh": "调试证据仅用于排查事实规划过程，正常大模型消费可忽略。",
+    "relation_expansion_edges": [],
+    "skill_count": 27,
+    "relation_edge_count": 87
+  },
+  "sent_semantic_frame": {
+    "raw_question": "000001当前持仓和资产配置如何",
+    "domain": "finance_market",
+    "task_type": "query",
+    "target_objects": [
+      {
+        "object_type": "Fund",
+        "instance_ref": {
+          "fund_code": "000001"
+        },
+        "role": "analysis_subject"
+      }
+    ],
+    "constraints": {
+      "period": "1y"
+    },
+    "mentioned_attributes": [],
+    "intent": "holding_analysis",
+    "debug": true
+  }
+}

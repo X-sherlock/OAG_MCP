@@ -142,10 +142,14 @@
   - attributes
   output_attributes:
   - fund_name
-  - fund_category
-  - fund_company
-  - fund_manager
-  - benchmark
+  - fund_type
+  - company_code
+  - company_name
+  - manager_id
+  - manager_name
+  - benchmark_name
+  - tracking_index_code
+  - tracking_index_name
   provides_fact_types:
   - object_profile
   - relation_instance
@@ -153,10 +157,20 @@
   - Fund
   supported_attributes:
   - fund_name
-  - fund_category
-  - fund_company
-  - fund_manager
-  - benchmark
+  - fund_type
+  - company_code
+  - company_name
+  - manager_id
+  - manager_name
+  - benchmark_name
+  - tracking_index_code
+  - tracking_index_name
+  supported_relations:
+  - managed_by
+  - issued_by
+  - has_benchmark
+  - belongs_to_category
+  - tracks_index
   supported_constraints: []
   output_fact_schema:
   - fact_requirement_id
@@ -468,6 +482,222 @@
   permission_scope: fund_public_data:read
   enabled: false
   disabled_reason: 非结构化政策文件数据暂未接入
+- skill_id: rank_funds_by_metric
+  skill_name: 按指标排序基金集合
+  description: 对候选基金集合按收益、回撤、夏普等指标排序，仅声明规划能力，不直接查询真实业务数据。
+  target_object_type: FundSet
+  input_params:
+  - fund_universe
+  - period
+  - attributes
+  - ranking
+  output_attributes:
+  - return_rate
+  - max_drawdown
+  - sharpe_ratio
+  provides_fact_types:
+  - metric_ranking
+  supported_subject_types:
+  - FundSet
+  supported_attributes:
+  - return_rate
+  - annualized_return
+  - max_drawdown
+  - volatility
+  - sharpe_ratio
+  - calmar_ratio
+  supported_constraints:
+  - period
+  related_queries: []
+  permission_scope: fund_public_data:read
+  enabled: true
+- skill_id: screen_funds_by_metric_condition
+  skill_name: 按指标条件筛选基金集合
+  description: 对候选基金集合应用指标阈值条件，产出筛选条件和结果集合事实。
+  target_object_type: FundSet
+  input_params:
+  - fund_universe
+  - period
+  - filters
+  output_attributes:
+  - return_rate
+  - max_drawdown
+  - sharpe_ratio
+  provides_fact_types:
+  - filter_condition
+  - entity_set
+  supported_subject_types:
+  - FundSet
+  supported_attributes:
+  - return_rate
+  - annualized_return
+  - max_drawdown
+  - volatility
+  - sharpe_ratio
+  - calmar_ratio
+  supported_constraints:
+  - period
+  related_queries: []
+  permission_scope: fund_public_data:read
+  enabled: true
+- skill_id: recommend_funds_by_risk_return
+  skill_name: 收益风险综合推荐基金
+  description: 面向收益高、回撤低等组合偏好生成候选基金集合、排序和筛选事实。
+  target_object_type: FundSet
+  input_params:
+  - fund_universe
+  - period
+  - ranking
+  - filters
+  - limit
+  output_attributes:
+  - return_rate
+  - max_drawdown
+  - sharpe_ratio
+  provides_fact_types:
+  - entity_set
+  - metric_ranking
+  - filter_condition
+  supported_subject_types:
+  - FundSet
+  supported_attributes:
+  - return_rate
+  - annualized_return
+  - max_drawdown
+  - volatility
+  - sharpe_ratio
+  - calmar_ratio
+  supported_constraints:
+  - period
+  related_queries: []
+  permission_scope: fund_public_data:read
+  enabled: true
+- skill_id: compare_funds_by_metric
+  skill_name: 多基金指标比较
+  description: 对多只基金的同一指标形成比较结果；如果暂不执行，可由单基金指标事实派生。
+  target_object_type: Fund
+  input_params:
+  - fund_codes
+  - period
+  - attributes
+  output_attributes:
+  - return_rate
+  - max_drawdown
+  - sharpe_ratio
+  provides_fact_types:
+  - comparison_result
+  supported_subject_types:
+  - Fund
+  supported_attributes:
+  - return_rate
+  - annualized_return
+  - max_drawdown
+  - volatility
+  - sharpe_ratio
+  supported_constraints:
+  - period
+  related_queries: []
+  permission_scope: fund_public_data:read
+  enabled: true
+- skill_id: get_fund_fee_facts
+  skill_name: 获取基金费率事实
+  description: 获取基金管理费、托管费、申购费、赎回费等费率事实声明。
+  target_object_type: Fund
+  input_params:
+  - fund_code
+  output_attributes:
+  - fee_type
+  - fee_value
+  - fee_effective_date
+  provides_fact_types:
+  - fee_fact
+  supported_subject_types:
+  - Fund
+  supported_attributes:
+  - fee_type
+  - fee_value
+  - fee_effective_date
+  supported_relations:
+  - has_fee
+  related_queries:
+  - fund_fee_query
+  permission_scope: fund_public_data:read
+  enabled: true
+- skill_id: get_fund_dividend_facts
+  skill_name: 获取基金分红事实
+  description: 获取基金分红金额、分红日期和稳定分红标志等事实声明。
+  target_object_type: Fund
+  input_params:
+  - fund_code
+  output_attributes:
+  - dividend_per_share
+  - dividend_date
+  - stable_monthly_dividend
+  - stable_quarterly_dividend
+  - stable_yearly_dividend
+  provides_fact_types:
+  - dividend_fact
+  supported_subject_types:
+  - Fund
+  supported_attributes:
+  - dividend_per_share
+  - dividend_date
+  - stable_monthly_dividend
+  - stable_quarterly_dividend
+  - stable_yearly_dividend
+  supported_relations:
+  - has_dividend
+  related_queries:
+  - fund_dividend_query
+  permission_scope: fund_public_data:read
+  enabled: true
+- skill_id: get_fund_holding_facts
+  skill_name: 获取基金持仓与配置事实
+  description: 获取基金持仓、行业配置和资产配置事实声明。
+  target_object_type: Fund
+  input_params:
+  - fund_code
+  - report_date
+  output_attributes:
+  - stock_name
+  - stock_nav_ratio
+  - bond_name
+  - bond_nav_ratio
+  - holding_industry
+  - asset_total_value
+  - asset_net_value
+  - stock_asset_ratio
+  - bond_asset_ratio
+  - cash_asset_ratio
+  - fund_asset_ratio
+  - other_asset_ratio
+  provides_fact_types:
+  - holding_fact
+  - allocation_fact
+  supported_subject_types:
+  - Fund
+  supported_attributes:
+  - stock_name
+  - stock_nav_ratio
+  - bond_name
+  - bond_nav_ratio
+  - holding_industry
+  - asset_total_value
+  - asset_net_value
+  - stock_asset_ratio
+  - bond_asset_ratio
+  - cash_asset_ratio
+  - fund_asset_ratio
+  - other_asset_ratio
+  supported_relations:
+  - has_position
+  - has_asset_allocation
+  related_queries:
+  - fund_stock_holding_query
+  - fund_bond_holding_query
+  - fund_asset_allocation_query
+  permission_scope: fund_public_data:read
+  enabled: true
 - skill_id: test_fund_query
   skill_name: test_基金指标查询
   description: test_基金指标查询

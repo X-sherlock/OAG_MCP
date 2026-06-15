@@ -1,0 +1,272 @@
+INFO:     127.0.0.1:4597 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4597 - "GET /static/style.css?v=oag-ui-20260612h HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5248 - "GET /static/app.js?v=oag-ui-20260612h HTTP/1.1" 200 OK
+INFO:     127.0.0.1:8773 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:11853 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:8773 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:11851 - "GET /api/mapping-matrix HTTP/1.1" 200 OK
+INFO:     127.0.0.1:9886 - "GET /api/options HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2722 - "GET /api/oag/options HTTP/1.1" 200 OK
+INFO:     127.0.0.1:11870 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:11851 - "GET /api/options HTTP/1.1" 200 OK
+INFO:     127.0.0.1:9886 - "GET /api/oag/options HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4327 - "GET /api/diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:9886 - "GET /api/graph?view_mode=requirement&depth=2&include_fields=false&include_inferred=true&aggregate_edges=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:9886 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4327 - "GET /api/node-context/FactType%3Ametric_value?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5748 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4327 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5748 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5748 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4327 - "GET /api/node-context/FactType%3Ametric_value?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7663 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4327 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5748 - "GET /api/node-context/IntentProfile%3Aperformance_overview?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7663 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5748 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7663 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5748 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7663 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5941 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:12338 - "GET /api/node-context/IntentProfile%3Aperformance_overview?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2190 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:12338 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2190 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:12474 - "POST /api/oag/plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5081 - "GET /api/node-context/FactRequirement%3Afr_max_drawdown_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:5081 - "GET /api/node-context/TaskType%3Aanalyze?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:13459 - "POST /api/oag/plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5342 - "POST /api/oag/plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4259 - "POST /api/oag/plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1553 - "GET /api/node-context/FactRequirement%3Afr_entity_set_FundSet_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:1553 - "GET /api/node-context/FactRequirement%3Afr_return_rate_FundSet_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:14894 - "GET /api/node-context/FactRequirement%3Afr_max_drawdown_FundSet_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:12649 - "GET /api/node-context/FactRequirement%3Afr_entity_set_FundSet_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:12649 - "GET /api/node-context/Parameter%3Alimit?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:12649 - "GET /api/node-context/Parameter%3Afund_universe?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:3193 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:3193 - "GET /static/style.css?v=oag-ui-20260612h HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7416 - "GET /static/app.js?v=oag-ui-20260612h HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7416 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:3193 - "GET /api/options HTTP/1.1" 200 OK
+INFO:     127.0.0.1:12272 - "GET /api/oag/options HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10494 - "GET /api/mapping-matrix HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4716 - "GET /api/diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2998 - "POST /api/oag/plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14113 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14113 - "GET /static/style.css?v=oag-ui-20260612h HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7139 - "GET /static/app.js?v=oag-ui-20260612h HTTP/1.1" 200 OK
+INFO:     127.0.0.1:7139 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14113 - "GET /api/options HTTP/1.1" 200 OK
+INFO:     127.0.0.1:13875 - "GET /api/oag/options HTTP/1.1" 200 OK
+INFO:     127.0.0.1:11811 - "GET /api/mapping-matrix HTTP/1.1" 200 OK
+INFO:     127.0.0.1:3654 - "GET /api/diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:11811 - "GET /api/graph?view_mode=requirement&depth=2&include_fields=false&include_inferred=true&aggregate_edges=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:6973 - "POST /api/oag/plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:6831 - "POST /api/oag/plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14593 - "POST /api/oag/plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14335 - "GET /api/node-context/FactRequirement%3Afr_max_drawdown_all_funds_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:12505 - "GET /api/node-context/FactRequirement%3Afr_return_rate_all_funds_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:14335 - "GET /api/node-context/FactRequirement%3Afr_entity_set_all_funds_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:3740 - "GET /api/node-context/FactRequirement%3Afr_max_drawdown_all_funds_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:5419 - "GET /api/node-context/FactRequirement%3Afr_return_rate_all_funds_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:12505 - "GET /api/node-context/FactRequirement%3Afr_entity_set_all_funds_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:12505 - "POST /api/oag/plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5336 - "GET /api/node-context/SkillCapability%3Ascreen_funds_by_metric_condition?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4147 - "GET /static/style.css?v=oag-ui-20260612h HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1769 - "GET /static/app.js?v=oag-ui-20260612h HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1769 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:13673 - "GET /api/oag/options HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4147 - "GET /api/options HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1647 - "GET /api/mapping-matrix HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2031 - "GET /api/diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2049 - "POST /api/oag/plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:9149 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:9149 - "GET /static/style.css?v=oag-ui-20260612h HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1483 - "GET /static/app.js?v=oag-ui-20260612h HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1103 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1103 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:6110 - "GET /api/oag/options HTTP/1.1" 200 OK
+INFO:     127.0.0.1:6481 - "GET /api/mapping-matrix HTTP/1.1" 200 OK
+INFO:     127.0.0.1:13257 - "GET /api/options HTTP/1.1" 200 OK
+INFO:     127.0.0.1:9061 - "GET /api/oag/options HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5942 - "GET /api/diagnostics HTTP/1.1" 200 OK
+INFO:     127.0.0.1:13379 - "POST /api/oag/plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4091 - "POST /api/oag/plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4091 - "GET /api/node-context/FactRequirement%3Afr_has_benchmark_Benchmark_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:8278 - "GET /api/node-context/FactRequirement%3Afr_benchmark_return_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:9914 - "GET /api/node-context/FactRequirement%3Afr_rank_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:4091 - "GET /api/node-context/FactRequirement%3Afr_return_rate_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:5465 - "GET /api/node-context/FactRequirement%3Afr_max_drawdown_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:2360 - "GET /api/node-context/FactRequirement%3Afr_benchmark_return_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:8278 - "GET /api/node-context/FactRequirement%3Afr_rank_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:9914 - "GET /api/node-context/FactRequirement%3Afr_has_benchmark_Benchmark_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:4028 - "GET /api/node-context/FactRequirement%3Afr_excess_return_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:4091 - "GET /api/node-context/FactRequirement%3Afr_volatility_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:2360 - "GET /api/node-context/FactRequirement%3Afr_sharpe_ratio_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:5465 - "GET /api/node-context/FactRequirement%3Afr_return_rate_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:9914 - "GET /api/node-context/FactRequirement%3Afr_max_drawdown_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:8278 - "GET /api/node-context/FactRequirement%3Afr_benchmark_return_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:4028 - "GET /api/node-context/FactRequirement%3Afr_rank_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:4091 - "GET /api/node-context/FactRequirement%3Afr_has_benchmark_Benchmark_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:5465 - "GET /api/node-context/FactRequirement%3Afr_volatility_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:2360 - "GET /api/node-context/FactRequirement%3Afr_excess_return_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:1705 - "GET /api/node-context/FactRequirement%3Afr_return_rate_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:1705 - "GET /api/graph?view_mode=table_mapping&depth=2&include_fields=true&include_inferred=true&aggregate_edges=true&focus_id=FactRequirement%3Afr_return_rate_000001_1y HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2406 - "POST /api/oag/plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:8021 - "POST /api/oag/plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14643 - "GET /api/graph?view_mode=requirement&depth=2&include_fields=false&include_inferred=true&aggregate_edges=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:3198 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:13429 - "GET /api/node-context/ObjectType%3AFund?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14877 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:13429 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14877 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14877 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:13429 - "GET /api/node-context/ObjectType%3AFundManager?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:3198 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:13429 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14877 - "GET /api/node-context/ObjectType%3APerformanceMetric?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10489 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:3198 - "GET /api/node-context/ObjectType%3AFund?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:13429 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14877 - "GET /api/node-context/ObjectType%3ABenchmark?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:3198 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14877 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:3198 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14877 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:3198 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14877 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:3198 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14877 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:3198 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14877 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:3198 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:3198 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14877 - "GET /api/node-context/IntentProfile%3Afund_recommendation?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:13429 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14877 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:13429 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14877 - "GET /api/node-context/ObjectType%3AFund?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:3198 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14877 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:3198 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14877 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14877 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:3198 - "GET /api/node-context/SkillCapability%3Afund_peer_comparison?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:13429 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:3198 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:13429 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14685 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10237 - "GET /api/node-context/SkillCapability%3Afund_dividend_analysis?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:8861 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10237 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:8861 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:8861 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10237 - "GET /api/node-context/SkillCapability%3Atest_fund_query?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:6791 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10237 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:6791 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:6791 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10237 - "GET /api/node-context/SkillCapability%3Afund_index_tracking_analysis?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5439 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10237 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5439 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5439 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10237 - "GET /api/node-context/SkillCapability%3Aget_fund_metric_values?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:6791 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10237 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:6791 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:6791 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10237 - "GET /api/node-context/IntentProfile%3Aperformance_overview?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:6098 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10237 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:6098 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:6098 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10237 - "GET /api/node-context/IntentProfile%3Arisk_overview?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:6791 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:6098 - "GET /api/node-context/IntentProfile%3Apeer_comparison?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10237 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:6098 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:6791 - "GET /api/node-context/IntentProfile%3Afund_recommendation?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4240 - "GET /api/node-context/IntentProfile%3Afund_ranking?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:13088 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10237 - "GET /api/node-context/IntentProfile%3Afund_screening?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4240 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10237 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4240 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10237 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4240 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10237 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4240 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10237 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4240 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10237 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4240 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10237 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4240 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10237 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4240 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4240 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10237 - "GET /api/node-context/IntentProfile%3Aholding_analysis?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:8530 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10237 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4240 - "GET /api/node-context/IntentProfile%3Aasset_allocation_analysis?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:3646 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:8530 - "GET /api/node-context/IntentProfile%3Afee_analysis?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4240 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:8530 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4240 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:8530 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4240 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:8530 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:4240 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:8530 - "GET /api/files HTTP/1.1" 200 OK
+INFO:     127.0.0.1:12698 - "GET /api/skills HTTP/1.1" 200 OK
+INFO:     127.0.0.1:12698 - "GET /api/semantic-relations HTTP/1.1" 200 OK
+INFO:     127.0.0.1:12698 - "GET /api/skills HTTP/1.1" 200 OK
+INFO:     127.0.0.1:12698 - "GET /api/intent-profiles HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14791 - "GET /api/intent-profiles HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1500 - "POST /api/oag/plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1500 - "GET /api/node-context/IntentProfile%3Aperformance_overview?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1500 - "GET /api/node-context/IntentProfile%3Aperformance_overview?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2845 - "POST /api/oag/plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2845 - "GET /api/node-context/IntentProfile%3Aperformance_overview?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:2845 - "GET /api/node-context/FactRequirement%3Afr_volatility_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:14822 - "GET /api/node-context/FactRequirement%3Afr_excess_return_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:3083 - "GET /api/node-context/FactRequirement%3Afr_has_benchmark_Benchmark_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:3102 - "GET /api/node-context/FactRequirement%3Afr_benchmark_return_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:7679 - "GET /api/node-context/FactRequirement%3Afr_rank_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:2845 - "GET /api/node-context/FactRequirement%3Afr_return_rate_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:2196 - "GET /api/node-context/FactRequirement%3Afr_sharpe_ratio_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:14822 - "GET /api/node-context/FactRequirement%3Afr_max_drawdown_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:3083 - "GET /api/node-context/FactRequirement%3Afr_volatility_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:7679 - "GET /api/node-context/FactRequirement%3Afr_has_benchmark_Benchmark_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:3102 - "GET /api/node-context/FactRequirement%3Afr_excess_return_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:3555 - "GET /api/node-context/FactRequirement%3Afr_rank_000001_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:3555 - "GET /api/node-context/Attribute%3Arank?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5553 - "GET /api/node-context/Attribute%3Areturn_rate?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:5553 - "GET /api/node-context/Attribute%3Areturn_rate?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:13291 - "GET /api/node-context/TargetInstance%3AFund%3A1?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:13291 - "GET /api/node-context/Attribute%3Areturn_rate?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:6535 - "GET /api/node-context/Attribute%3Arank?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10904 - "GET /api/node-context/Attribute%3Asharpe_ratio?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:13291 - "GET /api/node-context/Attribute%3Abenchmark_name?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:8184 - "GET /api/node-context/Attribute%3Amax_drawdown?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:8184 - "GET /api/node-context/Attribute%3Asharpe_ratio?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:8184 - "GET /api/node-context/SemanticFrame%3Acurrent?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:8184 - "GET /api/node-context/TaskType%3Aanalyze?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:11528 - "GET /api/node-context/IntentProfile%3Aperformance_overview?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:11088 - "GET /api/node-context/SemanticFrame%3Acurrent?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:8828 - "POST /api/oag/plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1084 - "POST /api/oag/plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:12859 - "GET /api/node-context/FactRequirement%3Afr_max_drawdown_all_funds_recommend?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:12859 - "GET /api/node-context/Attribute%3Amax_drawdown?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:12859 - "GET /api/node-context/SkillCapability%3Arecommend_funds_by_risk_return?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:12859 - "GET /api/node-context/SkillCapability%3Ascreen_funds_by_metric_condition?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:12859 - "GET /api/node-context/SkillCapability%3Arank_funds_by_metric?include_inferred=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:1123 - "POST /api/oag/plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:13373 - "POST /api/oag/plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:10553 - "POST /api/oag/plan HTTP/1.1" 200 OK
+INFO:     127.0.0.1:14857 - "GET /api/node-context/FactRequirement%3Afr_return_rate_all_funds_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:14857 - "GET /api/node-context/FactRequirement%3Afr_max_drawdown_all_funds_1y?include_inferred=true HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:3788 - "GET /api/node-context/FactRequirement%3Afr_entity_set_all_funds_1y?include_inferred=true HTTP/1.1" 404 Not Found

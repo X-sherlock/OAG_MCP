@@ -1,5 +1,7 @@
 package com.example.oagmcp.vo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -8,18 +10,42 @@ import java.util.Map;
 public class OAGVO {
 
     public static class RetrieveRequest {
+        @JsonProperty("raw_question")
+        public String rawQuestion;
         public String question;
         public String intent = "structured_query";
         public String domain;
+        @JsonProperty("semantic_frame")
+        public Map<String, Object> semanticFrame = new LinkedHashMap<>();
+        @JsonProperty("recognized_intents")
+        public List<Map<String, Object>> recognizedIntents = new ArrayList<>();
+        @JsonProperty("selector_mode")
+        public String selectorMode = "rule";
+        @JsonProperty("planning_options")
+        public Map<String, Object> planningOptions = new LinkedHashMap<>();
+        @JsonProperty("user_context")
         public Map<String, Object> userContext = new LinkedHashMap<>();
         public Map<String, Object> options = new LinkedHashMap<>();
     }
 
     public static class RetrieveResponse {
         public String status = "success";
+        public String oagVersion = "v2";
         public String domain;
+        public String rawQuestion;
         public String question;
         public String intent;
+        public String selectorMode = "rule";
+        public Map<String, Object> normalizedSemanticFrame = new LinkedHashMap<>();
+        public List<Map<String, Object>> recognizedIntents = new ArrayList<>();
+        public Map<String, Object> ontologySubgraph = new LinkedHashMap<>();
+        public List<Map<String, Object>> candidateFactPool = new ArrayList<>();
+        public List<Map<String, Object>> selectedFacts = new ArrayList<>();
+        public Map<String, Object> validationResult = new LinkedHashMap<>();
+        public Map<String, Object> dependencyCompletion = new LinkedHashMap<>();
+        public List<CandidateInvocation> skillBindings = new ArrayList<>();
+        public Map<String, Object> agentPlan = new LinkedHashMap<>();
+        public Map<String, Object> editorPlan = new LinkedHashMap<>();
         public List<Map<String, Object>> matchedIntents = new ArrayList<>();
         public List<Map<String, Object>> matchedAttributes = new ArrayList<>();
         public Map<String, Object> resolvedParams = new LinkedHashMap<>();

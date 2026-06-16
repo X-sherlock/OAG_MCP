@@ -5,8 +5,77 @@ OAG_MCP is a MySQL-only MCP Server for semantic-frame-driven ontology fact plann
 Python OAG now treats `semantic_frame` as the only formal input. It does not parse natural language questions, query business data, execute business SQL, or generate final answers. Its standard output is the task-level `fact_requirements`, `candidate_invocations`, and `task_graph` needed by the next model or orchestration step.
 
 Design details: [docs/oag_task_planning_design.md](docs/oag_task_planning_design.md).
+OAG V2 design: [docs/oag_v2_design.md](docs/oag_v2_design.md).
 
 The MCP tool name remains `oag_retrieve_context`.
+
+## OAG V2 Main Path
+
+The current main path is:
+
+```text
+semantic_frame + recognized_intents
+-> ontology_subgraph
+-> candidate_fact_pool
+-> selected_facts
+-> validation_result
+-> dependency_completion
+-> skill_bindings
+-> agent_plan / editor_plan
+```
+
+OAG V2 keeps `candidate_fact_pool` as the required precondition for fact selection. LLM selector mode may only choose existing `fact_id` values from that pool and provide reasons. It cannot create attributes, relations, facts, or Skill calls. Fact validation, dependency completion, budget control, parameter checks, and Skill binding are deterministic.
+
+`schema_graph_edges.yaml` remains a lower-level ontology relation and data-mapping asset, but it is no longer the main fact reasoning path. Legacy fields such as `fact_requirements`, `candidate_invocations`, and `task_graph` remain in the response for compatibility.
+
+### MCP V2 Input Example
+
+```json
+{
+  "raw_question": "分析000001近一年表现",
+  "semantic_frame": {
+    "raw_question": "分析000001近一年表现",
+    "domain": "finance_market",
+    "task_type": "analyze",
+    "intent": "performance_overview",
+    "target_objects": [
+      {"object_type": "Fund", "instance_ref": {"fund_code": "000001"}, "role": "analysis_subject"}
+    ],
+    "constraints": {"period": "1y"},
+    "mentioned_attributes": []
+  },
+  "recognized_intents": [
+    {"intent_name": "performance_overview", "confidence": 0.92}
+  ],
+  "selector_mode": "rule",
+  "planning_options": {"fact_budget": 20},
+  "output_view": "editor"
+}
+```
+
+### Tongyi Bailian Configuration
+
+Copy `.env.example` to `.env`, or set environment variables directly. Environment variables take priority.
+
+```text
+OAG_LLM_PROVIDER=bailian
+OAG_LLM_MODEL=qwen3.7-max-2026-06-08
+OAG_LLM_API_KEY=
+OAG_LLM_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions
+OAG_LLM_TIMEOUT_SECONDS=60
+OAG_LLM_TEMPERATURE=0.1
+OAG_LLM_ENABLED=true
+```
+
+`.env` is ignored by git. Do not commit real API keys. Missing `OAG_LLM_API_KEY` returns `LLM_API_KEY_MISSING` in `selector_mode=llm`; `selector_mode=rule` runs offline.
+
+### Editor V2
+
+The “OAG 规划调试” workbench shows the V2 chain: input, LLM status, `ontology_subgraph`, `candidate_fact_pool`, `selected_facts`, `validation_result`, `dependency_completion`, `skill_bindings`, `agent_plan`, `editor_plan`, and golden question regression.
+
+### Java V2
+
+`OAG_MCP_JAVA` keeps service / logic / dao layering, exposes `POST /oag/retrieve-context`, and is Java 8 compatible. Java plans ontology facts and deterministic Skill bindings only; it does not query ClickHouse, MRS, Hudi, or business data stores.
 
 ## Responsibility Boundary
 

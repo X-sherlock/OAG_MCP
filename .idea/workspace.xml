@@ -5,33 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5119a13a-d11e-4d57-9e83-14b497f5f441" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OAG_MCP.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/OAG_MCP_JAVA/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/OAG_MCP_JAVA/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OAG_MCP_JAVA/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/OAG_MCP_JAVA/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OAG_MCP_JAVA/src/main/java/com/example/oagmcp/OAG_MCP.java" beforeDir="false" afterPath="$PROJECT_DIR$/OAG_MCP_JAVA/src/main/java/com/example/oagmcp/OAG_MCP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OAG_MCP_JAVA/src/main/java/com/example/oagmcp/logic/OAGLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/OAG_MCP_JAVA/src/main/java/com/example/oagmcp/logic/OAGLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OAG_MCP_JAVA/src/main/java/com/example/oagmcp/vo/OAGVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/OAG_MCP_JAVA/src/main/java/com/example/oagmcp/vo/OAGVO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ontology/intent_profiles.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/ontology/intent_profiles.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ontology/object_types.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/ontology/object_types.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ontology/relation_types.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/ontology/relation_types.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ontology/schema_graph_edges.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/ontology/schema_graph_edges.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ontology/skills.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/ontology/skills.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ontology_editor/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/ontology_editor/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ontology.zip" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/ontology_editor/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/ontology_editor/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ontology_editor/graph_builder.py" beforeDir="false" afterPath="$PROJECT_DIR$/ontology_editor/graph_builder.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ontology_editor/static/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/ontology_editor/static/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ontology_editor/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/ontology_editor/static/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ontology_editor/static/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/ontology_editor/static/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ontology_editor/yaml_store.py" beforeDir="false" afterPath="$PROJECT_DIR$/ontology_editor/yaml_store.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/seed_ontology.py" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/seed_ontology.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/skills/get-fund-metric-values.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/oag_mcp/plan_projector.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/oag_mcp/plan_projector.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/oag_mcp/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/oag_mcp/server.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/oag_mcp/service.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/oag_mcp/service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/oag_ontology_loader/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/oag_ontology_loader/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/oag_ontology_loader/validator.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/oag_ontology_loader/validator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_fact_requirements_output.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_fact_requirements_output.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_integration_runtime.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_integration_runtime.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_intent_profiles.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_intent_profiles.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_oag_retrieve_context.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_oag_retrieve_context.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_ontology_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_ontology_config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_ontology_editor_graph_view.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_ontology_editor_graph_view.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_output_control.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_output_control.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_period_template_expansion.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_period_template_expansion.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_ontology_editor_oag_workbench.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_ontology_editor_oag_workbench.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -8,3 +8,6 @@ pytest-cache-files-*/
 .venv/
 venv/
 env/
+.env
+.env.*
+!.env.example

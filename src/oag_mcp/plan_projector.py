@@ -16,6 +16,9 @@ def to_editor_plan(full_plan: dict[str, Any]) -> dict[str, Any]:
 def to_agent_plan(full_plan: dict[str, Any]) -> dict[str, Any]:
     """Project the full OAG plan into a compact execution plan for agents."""
 
+    if full_plan.get("oag_version") == "v2" and isinstance(full_plan.get("agent_plan"), dict):
+        return deepcopy(full_plan["agent_plan"])
+
     plan = deepcopy(full_plan)
     facts = plan.get("fact_requirements") or []
     invocations = plan.get("candidate_invocations") or []

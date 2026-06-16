@@ -1,8 +1,11 @@
 from __future__ import annotations
 
 import io
+import json
 import sys
 import zipfile
+from collections import Counter
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -10,12 +13,14 @@ from fastapi import Body, FastAPI, HTTPException, Query, Request
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
+import yaml
 
 PROJECT_SRC = Path(__file__).resolve().parents[1] / "src"
 if str(PROJECT_SRC) not in sys.path:
     sys.path.insert(0, str(PROJECT_SRC))
 
-from oag_mcp.fact_planner import FactPlanner
+from oag_mcp.llm_config import load_llm_config
+from oag_mcp.oag_v2_planner import OAGV2Planner
 from oag_mcp.ontology_diagnostics import diagnose_ontology
 from oag_mcp.plan_projector import project_plan
 from oag_ontology_loader.loader import load_ontology
@@ -31,6 +36,7 @@ if __package__ in (None, ""):
         StoreError,
         allowed_path,
         delete_node_payload,
+        dump_yaml,
         file_infos,
         read_all,
         read_yaml_file,
@@ -47,6 +53,7 @@ else:
         StoreError,
         allowed_path,
         delete_node_payload,
+        dump_yaml,
         file_infos,
         read_all,
         read_yaml_file,
@@ -107,9 +114,21 @@ class EdgePayload(BaseModel):
 
 
 class OAGPlanPayload(BaseModel):
+    raw_question: str | None = None
     semantic_frame: dict[str, Any]
+    recognized_intents: list[dict[str, Any]] = Field(default_factory=list)
+    selector_mode: str = "rule"
+    planning_options: dict[str, Any] = Field(default_factory=dict)
     user_context: dict[str, Any] = Field(default_factory=dict)
     output_view: str = "editor"
+
+
+class ScenarioDraftPayload(BaseModel):
+    semantic_frame: dict[str, Any]
+    intent_name: str | None = None
+    intent_name_zh: str | None = None
+    trigger_aliases: list[str] = Field(default_factory=list)
+    user_context: dict[str, Any] = Field(default_factory=dict)
 
 
 class IntentProfilePayload(BaseModel):
@@ -126,6 +145,10 @@ class SemanticRelationPayload(BaseModel):
     target: str | None = None
     relation_type: str | None = None
     properties: dict[str, Any] = Field(default_factory=dict)
+
+
+class RelationStrategyDraftsPayload(BaseModel):
+    items: list[dict[str, Any]] = Field(default_factory=list)
 
 
 @app.get("/")
@@ -233,15 +256,57 @@ def api_oag_options() -> dict[str, Any]:
         raise http_error(400, str(exc)) from exc
 
 
-@app.post("/api/oag/plan")
-def api_oag_plan(payload: OAGPlanPayload, output_view: str | None = Query(None)) -> dict[str, Any]:
+@app.get("/api/oag/workbench")
+def api_oag_workbench() -> dict[str, Any]:
     try:
-        planner = FactPlanner(
+        sections = read_all()
+        diagnostics = build_oag_diagnostics()
+        return build_oag_workbench(sections, diagnostics)
+    except StoreError as exc:
+        raise http_error(400, str(exc)) from exc
+
+
+@app.get("/api/oag/workbench/sample-plans")
+def api_oag_workbench_sample_plans() -> dict[str, Any]:
+    try:
+        sections = read_all()
+        diagnostics = build_oag_diagnostics()
+        workbench = build_oag_workbench(sections, diagnostics)
+        return build_sample_plan_validation(workbench)
+    except StoreError as exc:
+        raise http_error(400, str(exc)) from exc
+
+
+@app.post("/api/oag/scenario-draft")
+def api_oag_scenario_draft(payload: ScenarioDraftPayload) -> dict[str, Any]:
+    try:
+        planner = OAGV2Planner(
             ontology_repository=EditorCatalogRepository(),
             graph_repository=EditorSchemaGraphRepository(),
         )
         result = planner.plan(
             semantic_frame=payload.semantic_frame,
+            selector_mode="rule",
+            user_context={**payload.user_context, "debug": True},
+        )
+        return build_scenario_draft(payload, result)
+    except (StoreError, ValueError) as exc:
+        raise http_error(400, str(exc)) from exc
+
+
+@app.post("/api/oag/plan")
+def api_oag_plan(payload: OAGPlanPayload, output_view: str | None = Query(None)) -> dict[str, Any]:
+    try:
+        planner = OAGV2Planner(
+            ontology_repository=EditorCatalogRepository(),
+            graph_repository=EditorSchemaGraphRepository(),
+        )
+        result = planner.plan(
+            semantic_frame=payload.semantic_frame,
+            raw_question=payload.raw_question,
+            recognized_intents=payload.recognized_intents,
+            selector_mode=payload.selector_mode,
+            planning_options=payload.planning_options,
             user_context=payload.user_context,
         )
         selected_view = output_view or payload.output_view or "editor"
@@ -252,6 +317,7 @@ def api_oag_plan(payload: OAGPlanPayload, output_view: str | None = Query(None))
             **selected_plan,
             "ok": editor_plan.get("status") in {"success", "need_clarification"},
             "output_view": selected_view,
+            "llm_config_status": result.get("llm_config_status") or load_llm_config(PROJECT_ROOT).status(),
             "task_plan": selected_plan,
             "editor_plan": editor_plan,
             "agent_plan": agent_plan,
@@ -267,6 +333,19 @@ def api_oag_plan(payload: OAGPlanPayload, output_view: str | None = Query(None))
             },
         }
     except (StoreError, ValueError) as exc:
+        raise http_error(400, str(exc)) from exc
+
+
+@app.get("/api/oag/llm-status")
+def api_oag_llm_status() -> dict[str, Any]:
+    return load_llm_config(PROJECT_ROOT).status()
+
+
+@app.get("/api/oag/golden-questions")
+def api_oag_golden_questions() -> dict[str, Any]:
+    try:
+        return run_golden_questions()
+    except StoreError as exc:
         raise http_error(400, str(exc)) from exc
 
 
@@ -337,6 +416,18 @@ def api_create_semantic_relation(payload: SemanticRelationPayload) -> dict[str, 
     try:
         edge = semantic_relation_payload_to_edge(payload)
         result = upsert_schema_edge(edge)
+        return {"ok": True, **result, "validation": validate_ontology()}
+    except StoreError as exc:
+        raise http_error(400, str(exc)) from exc
+
+
+@app.post("/api/oag/relation-strategy-drafts")
+def api_apply_relation_strategy_drafts(payload: RelationStrategyDraftsPayload) -> dict[str, Any]:
+    try:
+        edges = [relation_strategy_draft_to_edge(item) for item in payload.items]
+        if not edges:
+            raise StoreError("没有可写入的关系策略建议。")
+        result = upsert_schema_edges(edges)
         return {"ok": True, **result, "validation": validate_ontology()}
     except StoreError as exc:
         raise http_error(400, str(exc)) from exc
@@ -563,6 +654,24 @@ def api_export() -> StreamingResponse:
     )
 
 
+@app.get("/api/oag/publish-package")
+def api_oag_publish_package() -> StreamingResponse:
+    try:
+        sections = read_all()
+        diagnostics = build_oag_diagnostics()
+        workbench = build_oag_workbench(sections, diagnostics)
+        sample_validation = build_sample_plan_validation(workbench)
+        manifest = build_publish_manifest(workbench, sample_validation)
+        buffer = build_publish_package_zip(sections, workbench, sample_validation, manifest)
+        return StreamingResponse(
+            buffer,
+            media_type="application/zip",
+            headers={"Content-Disposition": 'attachment; filename="oag_model_publish_package.zip"'},
+        )
+    except StoreError as exc:
+        raise http_error(400, str(exc)) from exc
+
+
 class EditorCatalogRepository:
     def __init__(self) -> None:
         self.catalog = load_ontology(PROJECT_ROOT / "ontology")
@@ -714,6 +823,910 @@ def build_oag_options(sections: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def build_oag_workbench(sections: dict[str, Any], diagnostics: dict[str, Any]) -> dict[str, Any]:
+    options = build_oag_options(sections)
+    skills = [item for item in list_rows(sections.get("skills")) if item.get("enabled", True)]
+    intent_profiles = [item for item in list_rows(sections.get("intent_profiles")) if item.get("enabled", True)]
+    governed_edges = [
+        enrich_semantic_relation(item)
+        for item in list_rows(sections.get("schema_graph_edges"))
+        if is_governed_relation(item)
+    ]
+    coverage_rows = build_skill_coverage_matrix(options["fact_requirements"], skills)
+    scenario_rows = build_scenario_matrix(intent_profiles, coverage_rows)
+    relation_strategy = build_relation_strategy_summary(governed_edges)
+    diagnostic_items = diagnostics.get("items") or []
+    release_readiness = build_release_readiness(diagnostics, coverage_rows, relation_strategy)
+    return {
+        "summary": {
+            "domain_zh": "基金投研",
+            "domain": "finance_market",
+            "object_type_count": len(list_rows(sections.get("object_types"))),
+            "attribute_count": len(list_rows(sections.get("attributes"))),
+            "fact_type_count": len(list_rows(sections.get("fact_types"))),
+            "scenario_count": len(scenario_rows),
+            "skill_count": len(skills),
+            "relation_policy_count": len(governed_edges),
+            "diagnostic_count": diagnostics.get("summary", {}).get("item_count", len(diagnostic_items)),
+            "publish_status_zh": release_readiness["status_zh"],
+        },
+        "modeling_guide": build_modeling_guide(sections, scenario_rows, coverage_rows, relation_strategy, diagnostics),
+        "scenario_matrix": scenario_rows,
+        "skill_coverage_matrix": coverage_rows,
+        "relation_strategy": relation_strategy,
+        "diagnostics_governance": {
+            "summary": diagnostics.get("summary", {}),
+            "items": diagnostic_items[:12],
+            "top_actions": build_top_diagnostic_actions(diagnostic_items),
+        },
+        "test_publish": {
+            "sample_scenarios": build_sample_scenarios(scenario_rows),
+            "release_readiness": release_readiness,
+        },
+    }
+
+
+def build_skill_coverage_matrix(fact_requirements: list[dict[str, Any]], skills: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    rows = []
+    for fact in fact_requirements:
+        covering_skills = [skill for skill in skills if skill_covers_fact(skill, fact)]
+        required = fact.get("priority") == "required"
+        rows.append(
+            {
+                "fact_requirement_id": fact["value"],
+                "label_zh": fact.get("label_zh") or fact["value"],
+                "intent_name": fact.get("intent_name"),
+                "intent_name_zh": fact.get("intent_name_zh") or fact.get("intent_name"),
+                "fact_type": fact.get("fact_type"),
+                "fact_type_zh": fact.get("fact_type_zh") or fact.get("fact_type"),
+                "attribute_name": fact.get("attribute_name"),
+                "attribute_name_zh": fact.get("attribute_name_zh") or fact.get("attribute_name"),
+                "relation_type": fact.get("relation_type"),
+                "relation_type_zh": fact.get("relation_type_zh") or fact.get("relation_type"),
+                "priority": fact.get("priority") or "required",
+                "priority_zh": fact.get("priority_zh") or ("必须查询" if required else "辅助参考"),
+                "reason_zh": fact.get("reason_zh") or "该事实用于支撑当前意图回答。",
+                "covering_skills": [
+                    {
+                        "skill_id": skill.get("skill_id"),
+                        "skill_name_zh": skill.get("skill_name") or skill.get("skill_id"),
+                        "input_params": list_field(skill, "input_params"),
+                        "permission_scope": skill.get("permission_scope") or "",
+                    }
+                    for skill in covering_skills
+                ],
+                "covering_skill_count": len(covering_skills),
+                "execution_status": "covered" if covering_skills else ("blocked_required" if required else "uncovered_optional"),
+                "execution_status_zh": "已有 Skill 覆盖" if covering_skills else ("必须补 Skill" if required else "辅助事实未覆盖"),
+                "suggested_action_zh": "可直接进入样例规划验证。" if covering_skills else "新增或编辑 Skill 覆盖，关联该事实需求。",
+            }
+        )
+    return rows
+
+
+def skill_covers_fact(skill: dict[str, Any], fact: dict[str, Any]) -> bool:
+    explicit = set(list_field(skill, "supported_fact_requirements"))
+    if fact.get("value") in explicit:
+        return True
+    fact_type = fact.get("fact_type")
+    if fact_type and fact_type not in set(list_field(skill, "provides_fact_types")):
+        return False
+    subject_types = set(fact.get("subject_types") or [])
+    supported_subjects = set(list_field(skill, "supported_subject_types"))
+    target_type = skill.get("target_object_type")
+    if target_type:
+        supported_subjects.add(str(target_type))
+    if subject_types and supported_subjects and subject_types.isdisjoint(supported_subjects):
+        return False
+    attribute_name = fact.get("attribute_name")
+    if attribute_name:
+        attributes = set(list_field(skill, "supported_attributes")) | set(list_field(skill, "output_attributes"))
+        return attribute_name in attributes
+    relation_type = fact.get("relation_type")
+    if relation_type:
+        return relation_type in set(list_field(skill, "supported_relations"))
+    return bool(fact_type)
+
+
+def build_scenario_matrix(
+    intent_profiles: list[dict[str, Any]],
+    coverage_rows: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    by_intent: dict[str, list[dict[str, Any]]] = {}
+    for row in coverage_rows:
+        by_intent.setdefault(str(row.get("intent_name") or ""), []).append(row)
+    scenarios = []
+    for intent in intent_profiles:
+        intent_name = str(intent.get("intent_name") or "")
+        facts = by_intent.get(intent_name, [])
+        required = [item for item in facts if item.get("priority") == "required"]
+        blocked = [item for item in required if not item.get("covering_skill_count")]
+        optional_uncovered = [
+            item for item in facts if item.get("priority") != "required" and not item.get("covering_skill_count")
+        ]
+        status = "ready" if facts and not blocked else ("no_template" if not facts else "blocked")
+        task_type = infer_task_type_from_intent(intent_name)
+        target_object_types = list_field(intent, "target_object_types") or ["Fund"]
+        sample_question = build_scenario_question_zh(intent.get("intent_name_zh") or intent_name, task_type, target_object_types)
+        semantic_frame = build_scenario_semantic_frame(
+            intent_name=intent_name,
+            task_type=task_type,
+            target_object_types=target_object_types,
+            sample_question=sample_question,
+            facts=facts,
+        )
+        scenarios.append(
+            {
+                "intent_name": intent_name,
+                "intent_name_zh": intent.get("intent_name_zh") or intent_name,
+                "task_type": task_type,
+                "target_object_types": target_object_types,
+                "trigger_aliases": list_field(intent, "trigger_aliases")[:6],
+                "sample_question_zh": sample_question,
+                "semantic_frame": semantic_frame,
+                "fact_count": len(facts),
+                "fact_requirements": scenario_fact_requirement_details(facts),
+                "required_fact_count": len(required),
+                "covered_required_fact_count": len(required) - len(blocked),
+                "skill_count": len({skill["skill_id"] for fact in facts for skill in fact.get("covering_skills", [])}),
+                "missing_required_facts": blocked[:5],
+                "optional_gap_count": len(optional_uncovered),
+                "execution_status": status,
+                "execution_status_zh": {
+                    "ready": "可运行样例验证",
+                    "blocked": "必须事实缺 Skill",
+                    "no_template": "缺少事实需求模板",
+                }[status],
+                "next_action_zh": (
+                    "进入规划调试台运行样例问题。"
+                    if status == "ready"
+                    else "先补齐事实需求模板或 Skill 覆盖。"
+                ),
+            }
+        )
+    return scenarios
+
+
+def scenario_fact_requirement_details(facts: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    rows = []
+    for fact in facts:
+        skills = fact.get("covering_skills") or []
+        rows.append(
+            {
+                "fact_requirement_id": fact.get("fact_requirement_id"),
+                "label_zh": fact.get("label_zh") or fact.get("fact_requirement_id"),
+                "fact_type_zh": fact.get("fact_type_zh") or fact.get("fact_type"),
+                "priority_zh": fact.get("priority_zh") or priority_label_zh(fact.get("priority")),
+                "covering_skill_count": len(skills),
+                "covering_skill_names_zh": [
+                    skill.get("skill_name_zh") or skill.get("skill_id")
+                    for skill in skills[:4]
+                ],
+                "execution_status": fact.get("execution_status"),
+                "execution_status_zh": fact.get("execution_status_zh"),
+                "suggested_action_zh": fact.get("suggested_action_zh"),
+            }
+        )
+    return rows
+
+
+def priority_label_zh(priority: Any) -> str:
+    return "必须查询" if str(priority or "required") == "required" else "辅助参考"
+
+
+def build_scenario_question_zh(intent_label: str, task_type: str, target_object_types: list[Any]) -> str:
+    if task_type == "compare":
+        return f"{intent_label}：比较000001和000002近一年表现"
+    if task_type == "recommend":
+        return f"{intent_label}：推荐近一年收益高、回撤低的基金"
+    if task_type == "screen":
+        return f"{intent_label}：筛选近一年最大回撤低于10%的基金"
+    if task_type == "rank":
+        return f"{intent_label}：查询近一年收益排名前十的基金"
+    if "FundSet" in {str(item) for item in target_object_types}:
+        return f"{intent_label}：分析基金池近一年表现"
+    return f"{intent_label}：分析000001近一年表现"
+
+
+def build_scenario_semantic_frame(
+    *,
+    intent_name: str,
+    task_type: str,
+    target_object_types: list[Any],
+    sample_question: str,
+    facts: list[dict[str, Any]],
+) -> dict[str, Any]:
+    target_type_set = {str(item) for item in target_object_types}
+    is_collection = task_type in {"rank", "screen", "recommend"} or "FundSet" in target_type_set
+    if task_type == "compare":
+        targets = [
+            {"object_type": "Fund", "instance_ref": {"fund_code": "000001"}, "role": "comparison_subject"},
+            {"object_type": "Fund", "instance_ref": {"fund_code": "000002"}, "role": "comparison_subject"},
+        ]
+    elif is_collection:
+        targets = [{"object_type": "FundSet", "instance_ref": {"fund_universe": "all_funds"}, "role": "candidate_set"}]
+    else:
+        targets = [{"object_type": "Fund", "instance_ref": {"fund_code": "000001"}, "role": "analysis_subject"}]
+
+    attributes = [str(item.get("attribute_name")) for item in facts if item.get("attribute_name")]
+    frame: dict[str, Any] = {
+        "raw_question": sample_question,
+        "domain": "finance_market",
+        "task_type": task_type,
+        "intent": intent_name,
+        "target_objects": targets,
+        "constraints": {"period": "1y"},
+        "mentioned_attributes": list(dict.fromkeys(attributes))[:6],
+        "debug": True,
+    }
+    relation_queries = [
+        {
+            "relation_type": item.get("relation_type"),
+            "target_object_type": item.get("relation_target_object_type") or "RelatedObject",
+        }
+        for item in facts
+        if item.get("relation_type")
+    ]
+    if relation_queries:
+        frame["relation_queries"] = relation_queries[:4]
+    if task_type == "compare":
+        frame["comparison"] = {
+            "mode": "side_by_side",
+            "attributes": frame["mentioned_attributes"] or ["return_rate"],
+            "target_object_policy": "all_targets",
+        }
+    if task_type in {"rank", "recommend"}:
+        frame["ranking"] = [{"attribute": frame["mentioned_attributes"][0] if frame["mentioned_attributes"] else "return_rate", "direction": "desc"}]
+        frame["limit"] = 10
+    if task_type in {"screen", "recommend"}:
+        frame["filters"] = [{"attribute": "max_drawdown", "operator": "<=", "value": 0.1}]
+    if "holding" in intent_name or "allocation" in intent_name:
+        frame["constraints"] = {"report_date": "latest"}
+    return frame
+
+
+def infer_task_type_from_intent(intent_name: str) -> str:
+    if "recommend" in intent_name:
+        return "recommend"
+    if "screen" in intent_name:
+        return "screen"
+    if "ranking" in intent_name or "rank" in intent_name:
+        return "rank"
+    if "comparison" in intent_name or "compare" in intent_name:
+        return "compare"
+    if any(token in intent_name for token in ("profile", "fee", "dividend", "holding", "allocation")):
+        return "query"
+    return "analyze"
+
+
+def build_relation_strategy_summary(edges: list[dict[str, Any]]) -> dict[str, Any]:
+    by_mode = Counter(str(edge.get("auto_expand_mode") or "未配置") for edge in edges)
+    by_role = Counter(str(edge.get("planning_role") or edge.get("expansion_role") or "未配置") for edge in edges)
+    missing_policy = [
+        edge
+        for edge in edges
+        if not edge.get("planning_role")
+        or not edge.get("auto_expand_mode")
+        or not edge.get("reason_zh")
+        or (not edge.get("applicable_tasks") and not edge.get("applicable_intents"))
+    ]
+    over_expanded = [
+        edge
+        for edge in edges
+        if edge.get("auto_expand_mode") == "always"
+        and str(edge.get("group")) == "object_relation"
+    ]
+    return {
+        "summary": {
+            "edge_count": len(edges),
+            "attribute_expansion_count": len([edge for edge in edges if edge.get("group") == "attribute_expansion"]),
+            "object_relation_count": len([edge for edge in edges if edge.get("group") == "object_relation"]),
+            "missing_policy_count": len(missing_policy),
+            "over_expanded_count": len(over_expanded),
+        },
+        "auto_expand_modes": [{"mode": key, "count": value} for key, value in by_mode.most_common()],
+        "planning_roles": [{"role": key, "count": value} for key, value in by_role.most_common()],
+        "policy_gaps": [
+            {
+                "edge_id": edge.get("edge_id"),
+                "display_name_zh": edge.get("display_name_zh"),
+                "source": edge.get("source"),
+                "target": edge.get("target"),
+                "message_zh": relation_policy_gap_message(edge),
+                "suggested_action_zh": "补齐 planning_role、auto_expand_mode、适用范围和中文原因，避免关系过度扩展。",
+            }
+            for edge in missing_policy[:12]
+        ],
+        "over_expanded_edges": over_expanded[:12],
+    }
+
+
+def relation_policy_gap_message(edge: dict[str, Any]) -> str:
+    missing = []
+    if not edge.get("planning_role"):
+        missing.append("规划角色")
+    if not edge.get("auto_expand_mode"):
+        missing.append("自动扩展模式")
+    if not edge.get("reason_zh"):
+        missing.append("中文原因")
+    if not edge.get("applicable_tasks") and not edge.get("applicable_intents"):
+        missing.append("适用范围")
+    return f"{edge.get('edge_id') or '关系边'} 缺少{'、'.join(missing)}。"
+
+
+def build_modeling_guide(
+    sections: dict[str, Any],
+    scenarios: list[dict[str, Any]],
+    coverage_rows: list[dict[str, Any]],
+    relation_strategy: dict[str, Any],
+    diagnostics: dict[str, Any],
+) -> list[dict[str, Any]]:
+    required_gaps = [row for row in coverage_rows if row.get("execution_status") == "blocked_required"]
+    return [
+        guide_step("domain", "定义领域", len(list_rows(sections.get("object_types"))) > 0, "确认对象类型和领域边界。"),
+        guide_step("attributes", "导入对象与属性", len(list_rows(sections.get("attributes"))) > 0, "补充对象属性和表字段映射。"),
+        guide_step("facts", "设计事实类型", len(list_rows(sections.get("fact_types"))) > 0, "定义事实类型和典型属性。"),
+        guide_step("skills", "注册 Skill 能力", len(list_rows(sections.get("skills"))) > 0, "声明 Skill 输入、权限和事实覆盖。"),
+        guide_step("scenarios", "选择或生成场景矩阵", bool(scenarios), "用典型问题沉淀意图事实模板。"),
+        guide_step("coverage", "形成事实需求与 Skill 覆盖矩阵", not required_gaps and bool(coverage_rows), "修复必须事实无 Skill 覆盖。"),
+        guide_step("relations", "配置关系扩展策略", relation_strategy["summary"]["missing_policy_count"] == 0, "补齐关系策略字段，控制扩展范围。"),
+        guide_step("debug", "运行规划调试台", bool(scenarios), "用样例问题验证 agent_plan 和 editor_plan。"),
+        guide_step("diagnostics", "诊断治理", (diagnostics.get("summary") or {}).get("error_count", 0) == 0, "处理中文诊断和建议动作。"),
+        guide_step("publish", "测试发布", not required_gaps and relation_strategy["summary"]["missing_policy_count"] == 0, "导出 YAML 或交给后续智能体消费。"),
+    ]
+
+
+def guide_step(step_id: str, title_zh: str, done: bool, action_zh: str) -> dict[str, Any]:
+    return {
+        "id": step_id,
+        "title_zh": title_zh,
+        "status": "done" if done else "needs_work",
+        "status_zh": "已具备" if done else "待补齐",
+        "action_zh": action_zh,
+    }
+
+
+def build_top_diagnostic_actions(items: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    grouped: dict[str, list[dict[str, Any]]] = {}
+    for item in items:
+        grouped.setdefault(str(item.get("action_kind") or "inspect"), []).append(item)
+
+    actions = []
+    for kind, rows in sorted(grouped.items(), key=lambda pair: len(pair[1]), reverse=True)[:6]:
+        target = diagnostic_repair_target(kind)
+        diagnostic_types = [name for name, _ in Counter(str(row.get("diagnostic_type") or row.get("type")) for row in rows).most_common(4)]
+        target_ids = []
+        for row in rows:
+            target_id = row.get("target_id") or row.get("node_id") or row.get("edge_id")
+            if target_id and target_id not in target_ids:
+                target_ids.append(str(target_id))
+        actions.append(
+            {
+                "action_kind": kind,
+                "label_zh": target["label_zh"],
+                "count": len(rows),
+                "suggested_task_id": target["task_id"],
+                "suggested_task_title_zh": target["task_title_zh"],
+                "suggested_action_zh": target["suggested_action_zh"],
+                "diagnostic_types": diagnostic_types,
+                "target_ids": target_ids[:5],
+            }
+        )
+    return actions
+
+
+def diagnostic_repair_target(action_kind: str) -> dict[str, str]:
+    targets = {
+        "edit_intent_template": {
+            "label_zh": "补齐意图事实模板",
+            "task_id": "intent_templates",
+            "task_title_zh": "意图事实模板",
+            "suggested_action_zh": "进入意图模板工作台，补齐 fact_requirements_template、事实类型、优先级和中文原因。",
+        },
+        "edit_skill_coverage": {
+            "label_zh": "维护 Skill 覆盖",
+            "task_id": "skill_coverage",
+            "task_title_zh": "Skill 覆盖矩阵",
+            "suggested_action_zh": "进入 Skill 覆盖矩阵，补齐支持事实、属性、主体对象、权限范围和必填输入参数。",
+        },
+        "edit_relation": {
+            "label_zh": "治理关系扩展策略",
+            "task_id": "semantic_relations",
+            "task_title_zh": "关系策略工作台",
+            "suggested_action_zh": "进入关系策略工作台，补齐 planning_role、auto_expand_mode、适用范围和中文原因。",
+        },
+        "edit_domain_model": {
+            "label_zh": "补齐领域对象属性",
+            "task_id": "core_graph",
+            "task_title_zh": "领域对象与属性",
+            "suggested_action_zh": "进入领域对象与属性视图，补齐对象、属性和表字段映射等基础模型配置。",
+        },
+        "inspect": {
+            "label_zh": "检查配置对象",
+            "task_id": "diagnostic",
+            "task_title_zh": "诊断中心",
+            "suggested_action_zh": "进入诊断中心，按类型定位具体对象后再编辑。",
+        },
+    }
+    return targets.get(action_kind, targets["inspect"])
+
+
+def build_sample_scenarios(scenarios: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    rows = []
+    for item in scenarios[:12]:
+        rows.append(
+            {
+                "intent_name": item.get("intent_name"),
+                "intent_name_zh": item.get("intent_name_zh"),
+                "question_zh": item.get("sample_question_zh"),
+                "task_type": item.get("task_type"),
+                "semantic_frame": item.get("semantic_frame"),
+                "can_run": item.get("execution_status") == "ready",
+                "can_run_zh": "可运行" if item.get("execution_status") == "ready" else "需先补齐配置",
+            }
+        )
+    return rows
+
+
+def build_release_readiness(
+    diagnostics: dict[str, Any],
+    coverage_rows: list[dict[str, Any]],
+    relation_strategy: dict[str, Any],
+) -> dict[str, Any]:
+    summary = diagnostics.get("summary") or {}
+    blockers: list[dict[str, Any]] = []
+    required_gaps = [row for row in coverage_rows if row.get("execution_status") == "blocked_required"]
+    if summary.get("error_count", 0):
+        blockers.append({"type": "diagnostic_error", "message_zh": f"仍有 {summary.get('error_count')} 个错误诊断。"})
+    if required_gaps:
+        blockers.append({"type": "required_fact_gap", "message_zh": f"仍有 {len(required_gaps)} 个必须事实缺少 Skill 覆盖。"})
+    missing_policy = relation_strategy.get("summary", {}).get("missing_policy_count", 0)
+    if missing_policy:
+        blockers.append({"type": "relation_policy_gap", "message_zh": f"仍有 {missing_policy} 条关系缺少治理策略字段。"})
+    status = "ready" if not blockers else "needs_work"
+    return {
+        "status": status,
+        "status_zh": "可以进入测试发布" if status == "ready" else "暂不建议发布",
+        "blockers": blockers,
+        "message_zh": "关键事实、Skill 覆盖和关系策略已具备。" if status == "ready" else "先修复阻塞项，再发布给智能体消费。",
+    }
+
+
+def build_publish_manifest(workbench: dict[str, Any], sample_validation: dict[str, Any]) -> dict[str, Any]:
+    summary = workbench.get("summary") or {}
+    readiness = (workbench.get("test_publish") or {}).get("release_readiness") or {}
+    validation_summary = sample_validation.get("summary") or {}
+    return {
+        "package_type": "oag_model_publish_package",
+        "package_version": "1.0",
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "domain": summary.get("domain") or "finance_market",
+        "domain_zh": summary.get("domain_zh") or "基金投研",
+        "publish_status": readiness.get("status") or "needs_work",
+        "publish_status_zh": readiness.get("status_zh") or "暂不建议发布",
+        "publish_message_zh": readiness.get("message_zh") or "",
+        "agent_plan_validation": {
+            "sample_count": validation_summary.get("sample_count", 0),
+            "ready_count": validation_summary.get("ready_count", 0),
+            "needs_fix_count": validation_summary.get("needs_fix_count", 0),
+            "missing_param_count": validation_summary.get("missing_param_count", 0),
+            "uncovered_fact_count": validation_summary.get("uncovered_fact_count", 0),
+            "status_zh": validation_summary.get("status_zh") or "",
+        },
+        "contents": [
+            "manifest.json",
+            "workbench_summary.json",
+            "sample_agent_plan_validation.json",
+            "ontology/*.yaml",
+        ],
+        "consumer_hint_zh": "后续智能体可读取 ontology/*.yaml 作为 OAG 模型配置，并使用 sample_agent_plan_validation.json 查看样例 agent_plan 覆盖与缺口。",
+    }
+
+
+def build_publish_package_zip(
+    sections: dict[str, Any],
+    workbench: dict[str, Any],
+    sample_validation: dict[str, Any],
+    manifest: dict[str, Any],
+) -> io.BytesIO:
+    buffer = io.BytesIO()
+    with zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED) as archive:
+        archive.writestr("manifest.json", json_dumps_pretty(manifest))
+        archive.writestr("workbench_summary.json", json_dumps_pretty(workbench))
+        archive.writestr("sample_agent_plan_validation.json", json_dumps_pretty(sample_validation))
+        section_by_file = {
+            "attributes.yaml": "attributes",
+            "data_sources.yaml": "data_sources",
+            "fact_types.yaml": "fact_types",
+            "instance_rules.yaml": "instance_rules",
+            "intent_profiles.yaml": "intent_profiles",
+            "object_types.yaml": "object_types",
+            "period_variants.yaml": "period_variants",
+            "queries.yaml": "queries",
+            "relation_types.yaml": "relation_types",
+            "schema_graph_edges.yaml": "schema_graph_edges",
+            "skills.yaml": "skills",
+            "table_schemas.yaml": "table_schemas",
+        }
+        for file_name in SUPPORTED_FILES:
+            section = section_by_file[file_name]
+            archive.writestr(f"ontology/{file_name}", dump_yaml(sections.get(section)))
+    buffer.seek(0)
+    return buffer
+
+
+def json_dumps_pretty(value: Any) -> str:
+    return json.dumps(value, ensure_ascii=False, indent=2, default=str)
+
+
+def build_sample_plan_validation(workbench: dict[str, Any]) -> dict[str, Any]:
+    planner = OAGV2Planner(
+        ontology_repository=EditorCatalogRepository(),
+        graph_repository=EditorSchemaGraphRepository(),
+    )
+    rows = []
+    for sample in (workbench.get("test_publish") or {}).get("sample_scenarios") or []:
+        frame = sample.get("semantic_frame") or {}
+        try:
+            full_plan = planner.plan(
+                semantic_frame=frame,
+                selector_mode="rule",
+                user_context={"permission_scopes": ["fund_public_data:read"], "debug": True},
+            )
+            agent_plan = project_plan(full_plan, "agent")
+            execution = agent_plan.get("execution") or {}
+            coverage = agent_plan.get("coverage") or {}
+            blocking_issues = execution.get("blocking_issues") or []
+            uncovered_facts = agent_plan.get("uncovered_facts") or coverage.get("uncovered_required_facts") or []
+            row_status = sample_plan_status(execution, coverage, uncovered_facts)
+            rows.append(
+                {
+                    "intent_name": sample.get("intent_name"),
+                    "intent_name_zh": sample.get("intent_name_zh"),
+                    "question_zh": sample.get("question_zh"),
+                    "status": row_status,
+                    "status_zh": sample_plan_status_zh(row_status),
+                    "execution_status": execution.get("execution_status"),
+                    "execution_status_zh": execution_status_zh(execution.get("execution_status")),
+                    "coverage_status": coverage.get("coverage_status"),
+                    "coverage_status_zh": coverage_status_zh(coverage.get("coverage_status")),
+                    "ready_skill_count": execution.get("ready_skill_count", 0),
+                    "blocked_skill_count": execution.get("blocked_skill_count", 0),
+                    "required_fact_count": coverage.get("required_fact_count", 0),
+                    "covered_required_fact_count": coverage.get("covered_required_fact_count", 0),
+                    "missing_params": [
+                        {
+                            "skill_id": item.get("skill_id"),
+                            "skill_name_zh": item.get("skill_name_zh"),
+                            "missing_params": item.get("missing_params") or [],
+                            "message_zh": item.get("message_zh") or "",
+                        }
+                        for item in blocking_issues
+                        if item.get("code") == "SKILL_PARAMS_MISSING"
+                    ],
+                    "uncovered_facts": uncovered_facts,
+                    "message_zh": execution.get("message_zh") or coverage.get("message_zh") or "",
+                }
+            )
+        except Exception as exc:
+            rows.append(
+                {
+                    "intent_name": sample.get("intent_name"),
+                    "intent_name_zh": sample.get("intent_name_zh"),
+                    "question_zh": sample.get("question_zh"),
+                    "status": "error",
+                    "status_zh": "规划失败",
+                    "message_zh": f"样例规划失败：{exc}",
+                    "missing_params": [],
+                    "uncovered_facts": [],
+                }
+            )
+    summary = {
+        "sample_count": len(rows),
+        "ready_count": len([item for item in rows if item.get("status") == "ready"]),
+        "needs_fix_count": len([item for item in rows if item.get("status") != "ready"]),
+        "missing_param_count": sum(len(item.get("missing_params") or []) for item in rows),
+        "uncovered_fact_count": sum(len(item.get("uncovered_facts") or []) for item in rows),
+    }
+    return {
+        "summary": {
+            **summary,
+            "status_zh": "样例验证通过" if summary["needs_fix_count"] == 0 else "样例验证发现缺口",
+        },
+        "items": rows,
+    }
+
+
+def run_golden_questions() -> dict[str, Any]:
+    path = PROJECT_ROOT / "ontology" / "golden_questions.yaml"
+    rows = yaml.safe_load(path.read_text(encoding="utf-8")) if path.exists() else []
+    planner = OAGV2Planner(
+        ontology_repository=EditorCatalogRepository(),
+        graph_repository=EditorSchemaGraphRepository(),
+    )
+    items = []
+    for item in rows or []:
+        plan = planner.plan(
+            semantic_frame=item.get("semantic_frame") or {},
+            raw_question=item.get("question_zh"),
+            recognized_intents=item.get("recognized_intents") or [],
+            selector_mode=item.get("selector_mode") or "rule",
+            planning_options=item.get("planning_options") or {},
+            user_context={"permission_scopes": ["fund_public_data:read"], "debug": True},
+        )
+        validation = plan.get("validation_result") or {}
+        coverage = plan.get("coverage_summary") or {}
+        items.append(
+            {
+                "id": item.get("id"),
+                "question_zh": item.get("question_zh"),
+                "status": plan.get("status"),
+                "status_zh": golden_status_zh(plan),
+                "selector_mode": item.get("selector_mode") or "rule",
+                "candidate_fact_count": len(plan.get("candidate_fact_pool") or []),
+                "selected_fact_count": len(plan.get("selected_facts") or []),
+                "dependency_count": len((plan.get("dependency_completion") or {}).get("completed_facts") or []),
+                "skill_binding_count": len(plan.get("skill_bindings") or []),
+                "validation_ok": validation.get("ok"),
+                "coverage_status": coverage.get("coverage_status"),
+                "missing_params": plan.get("missing_params") or [],
+                "diagnostics": plan.get("diagnostics") or [],
+            }
+        )
+    failed = [
+        item
+        for item in items
+        if item["status"] not in {"success", "need_clarification"}
+        or item["candidate_fact_count"] <= 0
+        or not item["validation_ok"]
+    ]
+    return {
+        "summary": {
+            "sample_count": len(items),
+            "passed_count": len(items) - len(failed),
+            "failed_count": len(failed),
+            "status": "passed" if not failed else "failed",
+            "status_zh": "全部 golden questions 通过" if not failed else "存在 golden questions 未通过",
+        },
+        "items": items,
+    }
+
+
+def golden_status_zh(plan: dict[str, Any]) -> str:
+    if plan.get("status") == "success":
+        return "通过"
+    if plan.get("status") == "need_clarification":
+        return "需补参数"
+    return "失败"
+
+
+def build_scenario_draft(payload: ScenarioDraftPayload, plan: dict[str, Any]) -> dict[str, Any]:
+    frame = plan.get("normalized_semantic_frame") or payload.semantic_frame
+    intent_name = payload.intent_name or frame.get("intent") or slugify_identifier(frame.get("raw_question") or "new_oag_scenario")
+    intent_name_zh = payload.intent_name_zh or infer_intent_label_zh(intent_name, frame)
+    trigger_aliases = payload.trigger_aliases or [frame.get("raw_question") or intent_name_zh]
+    fact_template = build_fact_template_from_plan(plan)
+    relation_drafts = build_relation_strategy_drafts_from_plan(plan, frame)
+    skill_gaps = build_scenario_skill_gaps(plan)
+    intent_draft = {
+        "intent_name": intent_name,
+        "intent_name_zh": intent_name_zh,
+        "enabled": True,
+        "trigger_aliases": trigger_aliases,
+        "target_object_types": list(dict.fromkeys(target.get("object_type") for target in frame.get("target_objects") or [] if target.get("object_type"))) or ["Fund"],
+        "fact_requirements_template": fact_template,
+        "default_attributes": list(dict.fromkeys(item.get("attribute_name") for item in fact_template if item.get("attribute_name"))),
+        "description": f"由典型问题自动生成：{frame.get('raw_question') or intent_name_zh}",
+    }
+    return {
+        "ok": plan.get("status") in {"success", "need_clarification"},
+        "status": plan.get("status"),
+        "message_zh": scenario_draft_message(plan, fact_template, relation_drafts, skill_gaps),
+        "semantic_frame": frame,
+        "intent_profile_draft": intent_draft,
+        "fact_requirements_template": fact_template,
+        "relation_strategy_drafts": relation_drafts,
+        "skill_coverage_gaps": skill_gaps,
+        "agent_plan": project_plan(plan, "agent"),
+        "editor_plan": project_plan(plan, "editor"),
+    }
+
+
+def build_fact_template_from_plan(plan: dict[str, Any]) -> list[dict[str, Any]]:
+    rows = []
+    seen: set[tuple[str, str, str]] = set()
+    for fact in plan.get("fact_requirements") or []:
+        attribute = fact.get("attribute") if isinstance(fact.get("attribute"), dict) else {}
+        fact_type = str(fact.get("fact_type") or "")
+        attribute_name = str(fact.get("attribute_name") or attribute.get("attribute_name") or "")
+        relation_type = str(fact.get("predicate") or fact.get("relation_type") or "")
+        if not fact_type:
+            continue
+        key = (fact_type, attribute_name, relation_type)
+        if key in seen:
+            continue
+        seen.add(key)
+        row = {
+            "fact_type": fact_type,
+            "priority": fact.get("priority") or "required",
+            "reason_zh": fact.get("reason_zh") or fact.get("source_zh") or "该事实由典型问题自动生成，用于支撑场景回答。",
+        }
+        if attribute_name:
+            row["attribute_name"] = attribute_name
+        if relation_type and not attribute_name:
+            row["relation_type"] = relation_type
+        rows.append(row)
+    return rows
+
+
+def build_relation_strategy_drafts_from_plan(plan: dict[str, Any], frame: dict[str, Any]) -> list[dict[str, Any]]:
+    rows = []
+    seen: set[str] = set()
+    for item in (plan.get("debug_evidence") or {}).get("relation_expansion_edges") or []:
+        source = item.get("from") or item.get("source") or item.get("source_attribute") or item.get("from_object_type")
+        target = (
+            item.get("to")
+            or item.get("target")
+            or item.get("target_attribute")
+            or item.get("to_object_type")
+            or item.get("target_object_type")
+        )
+        relation_type = item.get("relation_type")
+        if not relation_type:
+            continue
+        source_id = normalize_relation_endpoint(source, relation_endpoint_default_type(item, "source"))
+        target_id = normalize_relation_endpoint(target, relation_endpoint_default_type(item, "target"))
+        edge_id = item.get("edge_id") or f"{source_id}__{relation_type}__{target_id}"
+        if edge_id in seen:
+            continue
+        seen.add(edge_id)
+        rows.append(
+            {
+                "edge_id": edge_id,
+                "from": source_id,
+                "to": target_id,
+                "relation_type": relation_type,
+                "applicable_tasks": [frame.get("task_type")] if frame.get("task_type") else [],
+                "applicable_intents": [frame.get("intent")] if frame.get("intent") else [],
+                "default_priority": item.get("default_priority") or "optional",
+                "planning_role": item.get("planning_role") or item.get("expansion_role") or "scenario_context",
+                "auto_expand_mode": item.get("auto_expand_mode") or "contextual",
+                "answer_visibility": item.get("answer_visibility") or "supporting_context",
+                "expansion_priority": item.get("expansion_priority") or item.get("default_priority") or "optional",
+                "trigger_policy": item.get("trigger_policy") or {"match_intents": [frame.get("intent")] if frame.get("intent") else []},
+                "expansion_limits": item.get("expansion_limits") or {"max_edges_per_seed": 3},
+                "reason_zh": item.get("reason_zh") or "由典型问题规划过程自动建议，用于补齐关系扩展策略。",
+                "weight": item.get("weight") or item.get("score") or 0.6,
+            }
+        )
+    return rows
+
+
+def build_scenario_skill_gaps(plan: dict[str, Any]) -> list[dict[str, Any]]:
+    coverage = plan.get("coverage_summary") or {}
+    rows = []
+    for fact in coverage.get("uncovered_required_facts") or plan.get("uncovered_facts") or []:
+        rows.append(
+            {
+                "fact_requirement_id": fact.get("fact_requirement_id") or fact.get("fact_id"),
+                "label_zh": fact.get("label_zh") or fact.get("fact_requirement_id") or "未覆盖事实",
+                "message_zh": "该必需事实当前没有 Skill 覆盖。",
+                "suggested_action_zh": "注册或编辑 Skill 能力，并勾选该事实需求。",
+            }
+        )
+    for item in plan.get("missing_params") or []:
+        rows.append(
+            {
+                "skill_id": item.get("skill_id"),
+                "skill_name_zh": item.get("skill_name_zh") or item.get("skill_id"),
+                "missing_params": item.get("missing_params") or [],
+                "message_zh": item.get("message_zh") or "Skill 调用缺失参数。",
+                "suggested_action_zh": "在 semantic_frame 的目标对象、约束或选项中补齐参数，或调整 Skill 输入参数声明。",
+            }
+        )
+    return rows
+
+
+def scenario_draft_message(
+    plan: dict[str, Any],
+    facts: list[dict[str, Any]],
+    relations: list[dict[str, Any]],
+    gaps: list[dict[str, Any]],
+) -> str:
+    if plan.get("status") == "error":
+        return plan.get("message_zh") or "场景草稿生成失败。"
+    return f"已生成 {len(facts)} 条事实需求模板、{len(relations)} 条关系策略建议、{len(gaps)} 个覆盖缺口。"
+
+
+def normalize_relation_endpoint(value: Any, default_type: str) -> str:
+    text = str(value or "").strip()
+    if not text:
+        return f"{default_type}:unknown"
+    if ":" in text:
+        return text
+    return f"{default_type}:{text}"
+
+
+def relation_endpoint_default_type(item: dict[str, Any], side: str) -> str:
+    if side == "source" and item.get("from_object_type"):
+        return "ObjectType"
+    if side == "target" and (item.get("to_object_type") or item.get("target_object_type")):
+        return "ObjectType"
+    return "Attribute"
+
+
+def infer_intent_label_zh(intent_name: str, frame: dict[str, Any]) -> str:
+    raw_question = str(frame.get("raw_question") or "").strip()
+    if raw_question:
+        return raw_question[:24]
+    labels = {
+        "performance_overview": "基金综合表现分析",
+        "benchmark_comparison": "基金相对基准表现",
+        "peer_comparison": "基金同类比较",
+        "fund_comparison": "基金对比分析",
+        "fund_ranking": "基金排序",
+        "fund_screening": "基金筛选",
+        "fund_recommendation": "基金推荐",
+    }
+    return labels.get(intent_name, intent_name)
+
+
+def slugify_identifier(value: Any) -> str:
+    text = str(value or "new_oag_scenario").strip().lower()
+    chars = []
+    for char in text:
+        if char.isalnum():
+            chars.append(char)
+        elif chars and chars[-1] != "_":
+            chars.append("_")
+    slug = "".join(chars).strip("_")
+    return slug[:48] or "new_oag_scenario"
+
+
+def sample_plan_status(execution: dict[str, Any], coverage: dict[str, Any], uncovered_facts: list[Any]) -> str:
+    if uncovered_facts or coverage.get("coverage_status") in {"no_coverage", "partial_coverage"}:
+        return "uncovered_facts"
+    if execution.get("execution_status") == "blocked_missing_params":
+        return "missing_params"
+    if execution.get("execution_status") == "blocked_permission":
+        return "permission_blocked"
+    if execution.get("execution_status") == "ready":
+        return "ready"
+    return "needs_review"
+
+
+def sample_plan_status_zh(status: str) -> str:
+    return {
+        "ready": "agent_plan 可执行",
+        "missing_params": "缺失参数",
+        "permission_blocked": "权限不足",
+        "uncovered_facts": "存在未覆盖事实",
+        "needs_review": "需要人工确认",
+        "error": "规划失败",
+    }.get(status, "需要人工确认")
+
+
+def execution_status_zh(status: Any) -> str:
+    return {
+        "ready": "可执行",
+        "blocked_missing_params": "缺失参数",
+        "blocked_permission": "权限不足",
+        "partial": "部分可执行",
+        "no_skill_calls": "无 Skill 调用",
+        "disabled": "Skill 不可用",
+    }.get(str(status or ""), str(status or "未知"))
+
+
+def coverage_status_zh(status: Any) -> str:
+    return {
+        "full_coverage": "完全覆盖",
+        "partial_coverage": "部分覆盖",
+        "no_coverage": "没有覆盖",
+        "need_clarification": "需要补充信息",
+        "permission_blocked": "权限受阻",
+    }.get(str(status or ""), str(status or "未知"))
+
+
 def build_fact_requirement_options(
     intent_profiles: list[dict[str, Any]],
     attributes: list[dict[str, Any]],
@@ -858,6 +1871,8 @@ def normalize_diagnostic_row(item: dict[str, Any]) -> dict[str, Any]:
     node_id = item.get("node_id") or ""
     edge_id = item.get("edge_id") or ""
     target_id = node_id or edge_id
+    action_kind = diagnostic_action_kind(item_type)
+    repair_target = diagnostic_repair_target(action_kind)
     return {
         **item,
         "diagnostic_type": item_type,
@@ -867,7 +1882,10 @@ def normalize_diagnostic_row(item: dict[str, Any]) -> dict[str, Any]:
         "edge_id": edge_id,
         "target_id": target_id,
         "node_type": item.get("node_type") or (node_id.split(":", 1)[0] if ":" in node_id else ""),
-        "action_kind": item.get("action_kind") or diagnostic_action_kind(item_type),
+        "raw_action_kind": item.get("action_kind") or "",
+        "action_kind": action_kind,
+        "suggested_task_id": repair_target["task_id"],
+        "suggested_task_title_zh": repair_target["task_title_zh"],
         "diagnostic_message_zh": message,
         "suggested_action_zh": action,
         "message": message,
@@ -941,17 +1959,23 @@ def chinese_diagnostic_action(item_type: str) -> str:
 def diagnostic_action_kind(item_type: str) -> str:
     mapping = {
         "intent_missing_fact_requirements_template": "edit_intent_template",
+        "intents_without_skill": "edit_intent_template",
         "skill_missing_provides_fact_types": "edit_skill_coverage",
         "skill_missing_supported_attributes": "edit_skill_coverage",
         "skill_missing_supported_subject_types": "edit_skill_coverage",
         "attribute_without_skill_coverage": "edit_skill_coverage",
+        "attributes_without_skill": "edit_skill_coverage",
+        "skills_without_attributes": "edit_skill_coverage",
+        "disabled_skills_referenced": "edit_skill_coverage",
         "semantic_edge_missing_reason_zh": "edit_relation",
         "semantic_edge_missing_applicability": "edit_relation",
         "planning_edge_missing_planning_role": "edit_relation",
         "planning_edge_missing_auto_expand_mode": "edit_relation",
         "object_profile_relation_auto_expands_always": "edit_relation",
         "relation_edge_unknown_node": "edit_relation",
+        "relation_types_unused": "edit_relation",
         "required_fact_without_skill_coverage": "edit_skill_coverage",
+        "attributes_without_table_mapping": "edit_domain_model",
     }
     return mapping.get(item_type, "inspect")
 
@@ -1094,6 +2118,19 @@ def semantic_relation_payload_to_edge(
     return {"edge_id": edge_id, "from": source, "to": target, "relation_type": relation_type, **props}
 
 
+def relation_strategy_draft_to_edge(draft: dict[str, Any]) -> dict[str, Any]:
+    source = draft.get("source") or draft.get("from")
+    target = draft.get("target") or draft.get("to")
+    relation_type = draft.get("relation_type")
+    if not source or not target or not relation_type:
+        raise StoreError("关系策略建议缺少起点、终点或关系类型。")
+    edge_id = draft.get("edge_id") or f"{source}__{relation_type}__{target}"
+    props = dict(draft)
+    for key in ("edge_id", "source", "target", "from", "to", "relation_type"):
+        props.pop(key, None)
+    return {"edge_id": edge_id, "from": source, "to": target, "relation_type": relation_type, **props}
+
+
 def upsert_schema_edge(edge: dict[str, Any]) -> dict[str, Any]:
     validate_schema_edge_endpoints(edge)
     rows = read_yaml_file("schema_graph_edges.yaml")
@@ -1109,6 +2146,27 @@ def upsert_schema_edge(edge: dict[str, Any]) -> dict[str, Any]:
         action = "created"
     result = write_yaml_file("schema_graph_edges.yaml", rows)
     return {"action": action, "edge": edge, "write": result}
+
+
+def upsert_schema_edges(edges: list[dict[str, Any]]) -> dict[str, Any]:
+    for edge in edges:
+        validate_schema_edge_endpoints(edge)
+    rows = read_yaml_file("schema_graph_edges.yaml")
+    if not isinstance(rows, list):
+        raise StoreError("schema_graph_edges.yaml must contain a list")
+    applied = []
+    for edge in edges:
+        existing = next((item for item in rows if isinstance(item, dict) and item.get("edge_id") == edge["edge_id"]), None)
+        action = "updated"
+        if existing:
+            existing.clear()
+            existing.update(edge)
+        else:
+            rows.append(edge)
+            action = "created"
+        applied.append({"action": action, "edge": edge})
+    result = write_yaml_file("schema_graph_edges.yaml", rows)
+    return {"applied_count": len(applied), "items": applied, "write": result}
 
 
 def validate_schema_edge_endpoints(edge: dict[str, Any]) -> None:

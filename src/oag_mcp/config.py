@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass
+from pathlib import Path
 
 from oag_mcp.errors import OAGConfigError
+from oag_mcp.llm_config import _read_dotenv
 
 
 @dataclass(frozen=True)
@@ -40,31 +42,39 @@ def load_config() -> OAGConfig:
     避免运行到仓储访问阶段才暴露不完整配置。
     """
 
+    dotenv_values = _read_dotenv(Path(__file__).resolve().parents[2])
     return OAGConfig(
         tdsql=TDSQLConfig(
-            host=_required("OAG_TDSQL_HOST"),
-            port=_required_int("OAG_TDSQL_PORT"),
-            user=_required("OAG_TDSQL_USER"),
-            password=_required("OAG_TDSQL_PASSWORD"),
-            database=_required("OAG_TDSQL_DATABASE"),
+            host=_required("OAG_TDSQL_HOST", dotenv_values),
+            port=_required_int("OAG_TDSQL_PORT", dotenv_values),
+            user=_required("OAG_TDSQL_USER", dotenv_values),
+            password=_required("OAG_TDSQL_PASSWORD", dotenv_values),
+            database=_required("OAG_TDSQL_DATABASE", dotenv_values),
         ),
-        domain=os.getenv("OAG_DOMAIN", "finance_market").strip() or "finance_market",
+        domain=_config_value("OAG_DOMAIN", dotenv_values, "finance_market"),
     )
 
 
-def _required(name: str) -> str:
+def _config_value(name: str, dotenv_values: dict[str, str], default: str) -> str:
+    value = os.getenv(name)
+    if value is None:
+        value = dotenv_values.get(name, default)
+    return str(value or "").strip()
+
+
+def _required(name: str, dotenv_values: dict[str, str]) -> str:
     """读取必填环境变量，并把空字符串视为未配置。"""
 
-    value = os.getenv(name)
+    value = _config_value(name, dotenv_values, "")
     if not value:
         raise OAGConfigError(f"Missing required environment variable: {name}")
     return value
 
 
-def _required_int(name: str) -> int:
+def _required_int(name: str, dotenv_values: dict[str, str]) -> int:
     """读取必须为整数的环境变量，主要用于端口号等数值配置。"""
 
-    value = _required(name)
+    value = _required(name, dotenv_values)
     try:
         return int(value)
     except ValueError as exc:

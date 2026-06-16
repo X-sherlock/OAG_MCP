@@ -6,7 +6,8 @@ from typing import Any
 
 from oag_mcp.config import load_config
 from oag_mcp.errors import OAGRepositoryError
-from oag_mcp.fact_planner import FactPlanner, semantic_frame_required_response
+from oag_mcp.fact_planner import semantic_frame_required_response
+from oag_mcp.oag_v2_planner import OAGV2Planner
 from oag_mcp.intent_matcher import PRIORITY_RANK, IntentMatcher
 from oag_mcp.param_extractor import extract_params
 from oag_mcp.plan_projector import project_plan
@@ -154,23 +155,34 @@ class OAGContextService:
     def retrieve_context(
         self,
         semantic_frame: dict[str, Any] | None = None,
+        raw_question: str | None = None,
+        recognized_intents: list[dict[str, Any]] | None = None,
+        selector_mode: str = "rule",
+        planning_options: dict[str, Any] | None = None,
         domain: str | None = None,
         user_context: dict[str, Any] | None = None,
         output_view: str = "agent",
     ) -> dict[str, Any]:
-        """基于 semantic_frame 规划本次回答所需的本体事实任务子图。"""
+        """Run the OAG V2 planning chain and project it for the caller."""
 
         domain = domain or self.domain
         if semantic_frame is None:
             return project_plan(semantic_frame_required_response(domain), output_view)
         try:
-            full_plan = FactPlanner(
+            full_plan = OAGV2Planner(
                 ontology_repository=self.ontology_repository,
                 graph_repository=self.graph_repository,
                 domain=self.domain,
                 intent_profiles=self.intent_profiles,
                 skills=self.ontology_repository.get_skill_capabilities(domain),
-            ).plan(semantic_frame=semantic_frame, user_context=user_context or {})
+            ).plan(
+                semantic_frame=semantic_frame,
+                raw_question=raw_question,
+                recognized_intents=recognized_intents,
+                selector_mode=selector_mode,
+                planning_options=planning_options or {},
+                user_context=user_context or {},
+            )
             return project_plan(full_plan, output_view)
         except (OAGRepositoryError, ValueError) as exc:
             full_plan = _task_planning_error_response(domain=domain, semantic_frame=semantic_frame, message=str(exc))

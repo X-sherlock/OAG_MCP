@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.oagmcp.dao.OAGDAO">
+
+    <select id="countEnabledDomain" resultType="int">
+        SELECT COUNT(1)
+        FROM oag_domains
+        WHERE domain = #{domain}
+          AND enabled = 1
+    </select>
+
+    <select id="searchObjects" resultType="com.example.oagmcp.dao.entity.OAGEntity$OAGObject">
+        SELECT
+            a.object_type AS objectType,
+            a.object_id AS objectId,
+            o.object_name AS objectName,
+            o.aliases_json AS aliasesJson,
+            o.params_json AS paramsJson,
+            MAX(
+                CASE
+                    WHEN a.normalized_alias = #{normalized} THEN 1.0
+                    WHEN #{normalized} LIKE CONCAT('%', a.normalized_alias, '%') THEN 0.86
+                    WHEN #{question} LIKE CONCAT('%', a.alias, '%') THEN 0.82
+                    ELSE 0.65
+                END
+            ) AS score
+        FROM oag_object_aliases a
+        JOIN oag_objects o
+          ON o.domain = a.domain
+         AND o.object_type = a.object_type
+         AND o.object_id = a.object_id
+        WHERE a.domain = #{domain}
+          AND (
+              a.normalized_alias = #{normalized}
+              OR #{normalized} LIKE CONCAT('%', a.normalized_alias, '%')
+              OR #{question} LIKE CONCAT('%', a.alias, '%')
+          )
+        GROUP BY a.object_type, a.object_id, o.object_name, o.aliases_json, o.params_json
+        ORDER BY score DESC
+        LIMIT #{topK}
+    </select>
+
+    <select id="searchAttributes" resultType="com.example.oagmcp.dao.entity.OAGEntity$OAGAttribute">
+        SELECT
+            attr.object_type AS objectType,
+            a.attribute_name AS attributeName,
+            attr.attribute_name_zh AS attributeNameZh,
+            attr.aliases_json AS aliasesJson,
+            MAX(
+                CASE
+                    WHEN a.normalized_alias = #{normalized} THEN 1.0
+                    WHEN #{normalized} LIKE CONCAT('%', a.normalized_alias, '%') THEN 0.86
+                    WHEN #{question} LIKE CONCAT('%', a.alias, '%') THEN 0.82
+                    ELSE 0.65
+                END
+            ) AS score
+        FROM oag_attribute_aliases a
+        JOIN oag_attributes attr
+          ON attr.domain = a.domain
+         AND attr.attribute_name = a.attribute_name
+        WHERE a.domain = #{domain}
+          AND (
+              a.normalized_alias = #{normalized}
+              OR #{normalized} LIKE CONCAT('%', a.normalized_alias, '%')
+              OR #{question} LIKE CONCAT('%', a.alias, '%')
+          )
+        GROUP BY attr.object_type, a.attribute_name, attr.attribute_name_zh, attr.aliases_json
+        ORDER BY score DESC
+        LIMIT #{topK}
+    </select>
+
+    <select id="listAttributesByNames" resultType="com.example.oagmcp.dao.entity.OAGEntity$OAGAttribute">
+        SELECT object_type AS objectType,
+               attribute_name AS attributeName,
+               attribute_name_zh AS attributeNameZh,
+               aliases_json AS aliasesJson
+        FROM oag_attributes
+        WHERE domain = #{domain}
+          AND attribute_name IN
+          <foreach collection="names" item="name" open="(" separator="," close=")">
+              #{name}
+          </foreach>
+    </select>
+
+    <select id="listIntentProfiles" resultType="com.example.oagmcp.dao.entity.OAGEntity$IntentProfile">
+        SELECT intent_name AS intentName,
+               intent_name_zh AS intentNameZh,
+               trigger_aliases_json AS triggerAliasesJson,
+               default_attributes_json AS defaultAttributesJson,
+               primary_skills_json AS primarySkillsJson,
+               secondary_skills_json AS secondarySkillsJson,
+               optional_skills_json AS optionalSkillsJson,
+               required_params_json AS requiredParamsJson,
+               fact_requirements_template_json AS factRequirementsTemplateJson
+        FROM oag_intent_profiles
+        WHERE domain = #{domain}
+          AND enabled = 1
+    </select>
+
+    <select id="listSkillCapabilities" resultType="com.example.oagmcp.dao.entity.OAGEntity$SkillCapability">
+        SELECT skill_id AS skillId,
+               skill_name AS skillName,
+               description AS description,
+               target_object_type AS targetObjectType,
+               input_params_json AS inputParamsJson,
+               output_attributes_json AS outputAttributesJson,
+               related_queries_json AS relatedQueriesJson,
+               permission_scope AS permissionScope,
+               provides_fact_types_json AS providesFactTypesJson,
+               supported_subject_types_json AS supportedSubjectTypesJson,
+               supported_attributes_json AS supportedAttributesJson,
+               output_fact_schema_json AS outputFactSchemaJson,
+               supported_constraints_json AS supportedConstraintsJson
+        FROM oag_skill_capabilities
+        WHERE domain = #{domain}
+          AND enabled = 1
+    </select>
+</mapper>

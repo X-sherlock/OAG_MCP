@@ -18,22 +18,29 @@ mcp = FastMCP("OAG MCP Server")
 
 @mcp.tool()
 def oag_retrieve_context(
+    raw_question: str | None = None,
     semantic_frame: dict[str, Any] | None = None,
+    recognized_intents: list[dict[str, Any]] | None = None,
+    selector_mode: str = "rule",
+    planning_options: dict[str, Any] | None = None,
     user_context: dict[str, Any] | None = None,
-    output_view: str = "agent",
+    output_view: str = "editor",
 ) -> dict[str, Any]:
-    """基于 semantic_frame 返回 OAG 事实规划结果。
+    """Return the OAG V2 planning chain for a semantic_frame.
 
     semantic_frame 必须由前置意图识别节点提供；question/raw_question 仅作为
-    追踪字段保留在 semantic_frame 中，OAG 不再自行解析自然语言问题。
-    默认返回面向后续智能体执行的 agent_plan；output_view=editor 时返回完整
-    editor_plan。
+    追踪字段保留。LLM selector 只能选择 candidate_fact_pool 内的 fact_id，
+    Skill 绑定始终由系统确定性完成。
     """
 
     try:
         # 每次请求创建服务实例，可以让环境配置和仓储连接保持简单、无共享状态。
         return create_context_service().retrieve_context(
             semantic_frame=semantic_frame,
+            raw_question=raw_question,
+            recognized_intents=recognized_intents,
+            selector_mode=selector_mode,
+            planning_options=planning_options,
             user_context=user_context,
             output_view=output_view,
         )

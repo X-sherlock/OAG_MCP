@@ -1,0 +1,150 @@
+- id: performance_overview_000001_1y
+  question_zh: 分析000001近一年表现
+  selector_mode: rule
+  semantic_frame:
+    raw_question: 分析000001近一年表现
+    domain: finance_market
+    task_type: analyze
+    intent: performance_overview
+    target_objects:
+    - object_type: Fund
+      instance_ref:
+        fund_code: '000001'
+      role: analysis_subject
+    constraints:
+      period: 1y
+    mentioned_attributes: []
+  recognized_intents:
+  - intent_name: performance_overview
+    confidence: 0.92
+- id: max_drawdown_000001_1y
+  question_zh: 查询000001近一年最大回撤
+  selector_mode: rule
+  semantic_frame:
+    raw_question: 查询000001近一年最大回撤
+    domain: finance_market
+    task_type: query
+    target_objects:
+    - object_type: Fund
+      instance_ref:
+        fund_code: '000001'
+      role: analysis_subject
+    constraints:
+      period: 1y
+    mentioned_attributes:
+    - max_drawdown
+  recognized_intents:
+  - intent_name: risk_overview
+    confidence: 0.86
+- id: compare_000001_000002_return_1y
+  question_zh: 比较000001和000002近一年收益
+  selector_mode: rule
+  semantic_frame:
+    raw_question: 比较000001和000002近一年收益
+    domain: finance_market
+    task_type: compare
+    intent: fund_comparison
+    target_objects:
+    - object_type: Fund
+      instance_ref:
+        fund_code: '000001'
+      role: comparison_subject
+    - object_type: Fund
+      instance_ref:
+        fund_code: '000002'
+      role: comparison_subject
+    constraints:
+      period: 1y
+    mentioned_attributes:
+    - return_rate
+    comparison:
+      mode: side_by_side
+      attributes:
+      - return_rate
+  recognized_intents:
+  - intent_name: fund_comparison
+    confidence: 0.9
+- id: manager_000001
+  question_zh: 000001的基金经理是谁
+  selector_mode: rule
+  semantic_frame:
+    raw_question: 000001的基金经理是谁
+    domain: finance_market
+    task_type: query
+    target_objects:
+    - object_type: Fund
+      instance_ref:
+        fund_code: '000001'
+      role: analysis_subject
+    constraints: {}
+    mentioned_attributes:
+    - manager_name
+  recognized_intents:
+  - intent_name: fund_profile
+    confidence: 0.88
+- id: benchmark_000001
+  question_zh: 000001的业绩比较基准是什么
+  selector_mode: rule
+  semantic_frame:
+    raw_question: 000001的业绩比较基准是什么
+    domain: finance_market
+    task_type: query
+    target_objects:
+    - object_type: Fund
+      instance_ref:
+        fund_code: '000001'
+      role: analysis_subject
+    constraints: {}
+    mentioned_attributes:
+    - benchmark_name
+  recognized_intents:
+  - intent_name: fund_profile
+    confidence: 0.88
+- id: return_risk_000001_1y
+  question_zh: 分析000001近一年收益和风险
+  selector_mode: rule
+  semantic_frame:
+    raw_question: 分析000001近一年收益和风险
+    domain: finance_market
+    task_type: analyze
+    intent: performance_overview
+    target_objects:
+    - object_type: Fund
+      instance_ref:
+        fund_code: '000001'
+      role: analysis_subject
+    constraints:
+      period: 1y
+    mentioned_attributes:
+    - return_rate
+    - max_drawdown
+    - volatility
+  recognized_intents:
+  - intent_name: performance_overview
+    confidence: 0.9
+- id: screen_high_return_low_drawdown_1y
+  question_zh: 筛选近一年收益率高、最大回撤低的基金
+  selector_mode: rule
+  semantic_frame:
+    raw_question: 筛选近一年收益率高、最大回撤低的基金
+    domain: finance_market
+    task_type: screen
+    intent: fund_screening
+    target_objects:
+    - object_type: FundSet
+      instance_ref:
+        fund_universe: all_funds
+      role: candidate_set
+    constraints:
+      period: 1y
+    mentioned_attributes:
+    - return_rate
+    - max_drawdown
+    filters:
+    - attribute: return_rate
+      operator: high
+    - attribute: max_drawdown
+      operator: low
+  recognized_intents:
+  - intent_name: fund_screening
+    confidence: 0.91

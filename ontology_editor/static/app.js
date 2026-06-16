@@ -63,6 +63,15 @@ const QUICK_FIELDS = {
 
 const TASKS = [
   {
+    id: "model_workbench",
+    title: "模型搭建向导",
+    description: "按领域、对象属性、事实类型、Skill、场景、关系策略、诊断和发布顺序搭建 OAG 模型。",
+    viewMode: "requirement",
+    recommendedTypes: ["ObjectType", "Attribute", "FactType", "SkillCapability", "IntentProfile"],
+    dashboard: "model_workbench",
+    includeInferred: true,
+  },
+  {
     id: "oag_plan",
     title: "OAG 规划调试",
     description: "输入语义框架，生成事实需求、候选 Skill、覆盖情况和本次任务子图。",
@@ -73,8 +82,8 @@ const TASKS = [
   },
   {
     id: "core_graph",
-    title: "本体核心图",
-    description: "查看对象、属性、事实类型、Intent、Skill 和本体关系。",
+    title: "高级本体图",
+    description: "查看对象、属性、事实类型、Intent、Skill 和本体关系，适合高级排障。",
     viewMode: "requirement",
     recommendedTypes: ["ObjectType", "Attribute", "SkillCapability", "IntentProfile"],
     dashboard: "core_graph",
@@ -422,6 +431,8 @@ let currentOagOptions = {};
 let currentPlan = null;
 let currentDiagnostics = { items: [], summary: {} };
 let currentMappingMatrix = { rows: [], summary: {} };
+let currentWorkbench = { summary: {}, modeling_guide: [], scenario_matrix: [], skill_coverage_matrix: [], relation_strategy: {}, diagnostics_governance: {}, test_publish: {} };
+let currentWorkbenchValidation = null;
 let selected = null;
 let edgeCreationSource = null;
 
@@ -726,8 +737,9 @@ async function guarded(action) {
 }
 
 async function refreshAll({ loadGraph = false } = {}) {
-  await Promise.all([loadFiles(), loadOptions(), loadDiagnostics(), loadMappingMatrix()]);
+  await Promise.all([loadFiles(), loadOptions(), loadDiagnostics(), loadMappingMatrix(), loadWorkbenchSummary()]);
   if (loadGraph) await loadGraphView();
+  if (!state.activeTaskId) renderWorkbenchHome();
   renderTaskCandidates();
   renderTaskActionPanel();
   updateEditModeUi();
@@ -775,6 +787,10 @@ async function loadMappingMatrix() {
   currentMappingMatrix = await api("/api/mapping-matrix");
 }
 
+async function loadWorkbenchSummary() {
+  currentWorkbench = await api("/api/oag/workbench");
+}
+
 function renderTaskCards() {
   const html = TASKS.map(
     (task) => `
@@ -804,27 +820,584 @@ function setTaskChromeMode() {
 }
 
 function renderWorkbenchHome() {
+  const summary = currentWorkbench.summary || {};
+  const readiness = currentWorkbench.test_publish?.release_readiness || {};
+  const scenarios = currentWorkbench.scenario_matrix || [];
+  const coverageRows = currentWorkbench.skill_coverage_matrix || [];
+  const diagnosticsSummary = currentWorkbench.diagnostics_governance?.summary || currentDiagnostics.summary || {};
   el("workbenchHome").classList.remove("hidden");
-  el("workbenchHome").classList.remove("dashboard-home");
+  el("workbenchHome").classList.add("dashboard-home");
   el("workbenchHome").innerHTML = `
-    <div class="workbench-panel">
-      <h1>OAG 事实规划与本体关系治理工作台</h1>
-      <p>从语义框架生成事实规划，查看任务子图，并维护意图模板、语义关系和 Skill 覆盖能力。</p>
-      <div class="workbench-grid">
-        ${TASKS.map(
-          (task) => `
+    <div class="workbench-panel dashboard-panel model-workbench">
+      <div class="model-workbench-head">
+        <div>
+          <h1>面向场景的 OAG 模型工作台</h1>
+          <p>默认从业务视图搭建模型：先定义领域、对象和事实，再注册 Skill、生成场景矩阵、治理关系策略，并用样例问题验证 agent_plan。</p>
+        </div>
+        <div class="publish-card ${readiness.status === "ready" ? "ready" : "needs-work"}">
+          <span>测试发布</span>
+          <strong>${escapeHtml(readiness.status_zh || summary.publish_status_zh || "待评估")}</strong>
+          <em>${escapeHtml(readiness.message_zh || "加载后显示发布建议。")}</em>
+        </div>
+      </div>
+      <div class="workbench-metrics">
+        ${renderWorkbenchMetric("领域对象", summary.object_type_count)}
+        ${renderWorkbenchMetric("属性", summary.attribute_count)}
+        ${renderWorkbenchMetric("事实类型", summary.fact_type_count)}
+        ${renderWorkbenchMetric("场景", summary.scenario_count)}
+        ${renderWorkbenchMetric("Skill", summary.skill_count)}
+        ${renderWorkbenchMetric("关系策略", summary.relation_policy_count)}
+        ${renderWorkbenchMetric("诊断项", diagnosticsSummary.item_count ?? summary.diagnostic_count)}
+      </div>
+      ${renderModelingGuide(currentWorkbench.modeling_guide || [])}
+      ${renderModelingActionRail()}
+      <div class="workbench-two-col">
+        ${renderScenarioMatrix(scenarios)}
+        ${renderCoverageMatrix(coverageRows)}
+      </div>
+      <div class="workbench-two-col">
+        ${renderRelationPolicyWorkbench(currentWorkbench.relation_strategy || {})}
+        ${renderDiagnosticGovernance(currentWorkbench.diagnostics_governance || {})}
+      </div>
+      ${renderTestPublishPanel(currentWorkbench.test_publish || {})}
+      <details class="advanced-workbench-tools">
+        <summary>高级功能：YAML、完整 editor_plan、任务子图和 debug 信息</summary>
+        <div class="workbench-grid compact">
+          ${TASKS.filter((task) => task.id !== "model_workbench").map((task) => `
             <button data-home-task="${task.id}">
               <strong>${escapeHtml(task.title)}</strong>
               <span>${escapeHtml(task.description)}</span>
             </button>
-          `,
-        ).join("")}
-      </div>
+          `).join("")}
+        </div>
+      </details>
     </div>
   `;
   document.querySelectorAll("[data-home-task]").forEach((button) => {
     button.addEventListener("click", () => guarded(() => selectTask(button.dataset.homeTask)));
   });
+  bindWorkbenchActions();
+}
+
+function renderWorkbenchMetric(label, value) {
+  return `<div><strong>${escapeHtml(value ?? 0)}</strong><span>${escapeHtml(label)}</span></div>`;
+}
+
+function renderModelingActionRail() {
+  const actions = [
+    ["new_object", "定义领域对象", "新增对象类型，例如 Fund、FundSet、FundManager。"],
+    ["new_attribute", "导入对象属性", "新增业务属性，后续可映射表字段并关联 Skill。"],
+    ["new_fact_type", "设计事实类型", "新增事实类型，描述 agent_plan 需要的事实形态。"],
+    ["new_skill", "注册 Skill 能力", "用事实需求勾选方式声明 Skill 覆盖范围。"],
+    ["new_scenario", "生成典型场景", "维护意图事实模板，沉淀场景矩阵。"],
+    ["new_relation", "配置关系策略", "新增关系边并补齐扩展策略和中文原因。"],
+    ["debug_plan", "验证 agent_plan", "载入样例 semantic_frame 进入规划调试台。"],
+  ];
+  return `
+    <section class="workbench-section modeling-action-rail">
+      <div class="section-title-row">
+        <h2>从 0 建模动作</h2>
+        <span>直接创建业务配置，不必先编辑 YAML 或大图</span>
+      </div>
+      <div class="modeling-action-grid">
+        ${actions.map(([id, label, help]) => `
+          <button data-model-action="${id}">
+            <strong>${escapeHtml(label)}</strong>
+            <span>${escapeHtml(help)}</span>
+          </button>
+        `).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderModelingGuide(steps) {
+  const rows = steps.length ? steps : [
+    { id: "domain", title_zh: "定义领域", status_zh: "加载中", action_zh: "正在读取本体摘要。" },
+  ];
+  return `
+    <section class="workbench-section">
+      <div class="section-title-row">
+        <h2>模型搭建向导</h2>
+        <span>按从 0 建模到发布的顺序推进</span>
+      </div>
+      <div class="guide-timeline">
+        ${rows.map((step, index) => `
+          <button class="${step.status === "done" ? "done" : "needs-work"}" data-guide-step="${escapeHtml(step.id || "")}">
+            <em>${index + 1}</em>
+            <strong>${escapeHtml(step.title_zh || step.id)}</strong>
+            <span>${escapeHtml(step.status_zh || "")} · ${escapeHtml(step.action_zh || "")}</span>
+          </button>
+        `).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderScenarioMatrix(rows) {
+  return `
+    <section class="workbench-section">
+      <div class="section-title-row">
+        <h2>场景矩阵</h2>
+        <button data-workbench-action="oag_plan">运行样例问题</button>
+      </div>
+      <div class="scenario-matrix">
+        ${(rows || []).slice(0, 10).map((item) => `
+          <button class="${item.execution_status === "ready" ? "ready" : "blocked"}" data-scenario-intent="${escapeHtml(item.intent_name || "")}">
+            <strong>${escapeHtml(item.intent_name_zh || item.intent_name)}</strong>
+            <span>${escapeHtml(item.sample_question_zh || "")}</span>
+            <span>事实 ${escapeHtml(item.covered_required_fact_count || 0)}/${escapeHtml(item.required_fact_count || 0)} · Skill ${escapeHtml(item.skill_count || 0)}</span>
+            ${renderScenarioFactSummary(item.fact_requirements || [])}
+            <em>${escapeHtml(item.execution_status_zh || "")} · ${escapeHtml(item.next_action_zh || "")}</em>
+          </button>
+        `).join("") || `<div class="muted">尚未生成场景矩阵，请先维护意图事实模板。</div>`}
+      </div>
+    </section>
+  `;
+}
+
+function renderScenarioFactSummary(facts) {
+  const visible = (facts || []).slice(0, 3);
+  if (!visible.length) return `<small class="scenario-fact-empty">场景需要的事实：尚未配置事实需求模板</small>`;
+  const hiddenCount = Math.max(0, facts.length - visible.length);
+  return `
+    <div class="scenario-fact-summary">
+      <b>场景需要的事实</b>
+      ${visible.map((fact) => `
+        <span class="${fact.covering_skill_count ? "covered" : "gap"}">
+          ${escapeHtml(fact.label_zh || fact.fact_requirement_id)}
+          <em>${escapeHtml(fact.covering_skill_names_zh?.join("、") || fact.suggested_action_zh || "缺少 Skill 覆盖")}</em>
+        </span>
+      `).join("")}
+      ${hiddenCount ? `<small>还有 ${hiddenCount} 条事实需求</small>` : ""}
+    </div>
+  `;
+}
+
+function renderCoverageMatrix(rows) {
+  const requiredGaps = (rows || []).filter((item) => item.execution_status === "blocked_required");
+  const visible = requiredGaps.length ? requiredGaps : (rows || []).slice(0, 8);
+  return `
+    <section class="workbench-section">
+      <div class="section-title-row">
+        <h2>Skill 覆盖矩阵</h2>
+        <button data-workbench-action="skill_coverage">维护 Skill</button>
+      </div>
+      <div class="coverage-matrix">
+        ${visible.map((item) => `
+          <button class="${item.covering_skill_count ? "covered" : "gap"}" data-coverage-fact="${escapeHtml(item.fact_requirement_id || "")}">
+            <strong>${escapeHtml(item.label_zh || item.fact_requirement_id)}</strong>
+            <span>${escapeHtml(item.fact_type_zh || item.fact_type)} · ${escapeHtml(item.priority_zh || "")}</span>
+            <em>${escapeHtml(item.execution_status_zh || "")} · ${escapeHtml((item.covering_skills || []).map((skill) => skill.skill_name_zh).join("、") || item.suggested_action_zh || "")}</em>
+          </button>
+        `).join("") || `<div class="muted">暂无事实需求覆盖数据。</div>`}
+      </div>
+    </section>
+  `;
+}
+
+function renderRelationPolicyWorkbench(strategy) {
+  const summary = strategy.summary || {};
+  const gaps = strategy.policy_gaps || [];
+  return `
+    <section class="workbench-section">
+      <div class="section-title-row">
+        <h2>关系策略工作台</h2>
+        <button data-workbench-action="semantic_relations">治理关系</button>
+      </div>
+      <div class="relation-policy-metrics">
+        ${renderWorkbenchMetric("关系边", summary.edge_count)}
+        ${renderWorkbenchMetric("策略缺口", summary.missing_policy_count)}
+        ${renderWorkbenchMetric("过度扩展", summary.over_expanded_count)}
+      </div>
+      <div class="policy-gap-list">
+        ${gaps.slice(0, 6).map((item) => `
+          <button data-policy-edge="${escapeHtml(item.edge_id || "")}">
+            <strong>${escapeHtml(item.display_name_zh || item.edge_id)}</strong>
+            <span>${escapeHtml(item.source || "-")} → ${escapeHtml(item.target || "-")}</span>
+            <em>${escapeHtml(item.message_zh || item.suggested_action_zh || "")}</em>
+          </button>
+        `).join("") || `<div class="muted">关系扩展策略没有阻塞缺口。</div>`}
+      </div>
+    </section>
+  `;
+}
+
+function renderDiagnosticGovernance(governance) {
+  const summary = governance.summary || {};
+  const actions = governance.top_actions || [];
+  return `
+    <section class="workbench-section">
+      <div class="section-title-row">
+        <h2>诊断治理</h2>
+        <button data-workbench-action="diagnostic">查看诊断</button>
+      </div>
+      <div class="relation-policy-metrics">
+        ${renderWorkbenchMetric("错误", summary.error_count)}
+        ${renderWorkbenchMetric("警告", summary.warning_count)}
+        ${renderWorkbenchMetric("建议", summary.suggestion_count)}
+      </div>
+      <div class="diagnostic-action-list">
+        ${actions.map((item) => `
+          <button
+            data-diagnostic-action="${escapeHtml(item.action_kind || "")}"
+            data-diagnostic-task="${escapeHtml(item.suggested_task_id || "")}"
+            data-diagnostic-types="${escapeHtml((item.diagnostic_types || []).join("|"))}"
+          >
+            <strong>${escapeHtml(item.label_zh || item.action_kind)}</strong>
+            <span>${escapeHtml(item.count || 0)} 个待处理项 · 进入${escapeHtml(item.suggested_task_title_zh || "治理视图")}</span>
+            <em>${escapeHtml(item.suggested_action_zh || "打开对应治理视图补齐配置。")}</em>
+          </button>
+        `).join("") || `<div class="muted">暂无需要治理的诊断动作。</div>`}
+      </div>
+    </section>
+  `;
+}
+
+function renderTestPublishPanel(testPublish) {
+  const readiness = testPublish.release_readiness || {};
+  const blockers = readiness.blockers || [];
+  const samples = testPublish.sample_scenarios || [];
+  return `
+    <section class="workbench-section test-publish-panel">
+      <div class="section-title-row">
+        <h2>测试发布</h2>
+        <div class="task-actions">
+          <button data-workbench-action="oag_plan">打开规划调试台</button>
+          <button id="runWorkbenchValidationBtn">运行全部样例验证</button>
+          <a href="/api/oag/publish-package">生成 OAG 发布包</a>
+          <button data-workbench-action="yaml_files">导出 YAML</button>
+        </div>
+      </div>
+      <div class="publish-readiness ${readiness.status === "ready" ? "ready" : "needs-work"}">
+        <strong>${escapeHtml(readiness.status_zh || "待评估")}</strong>
+        <span>${escapeHtml(readiness.message_zh || "")}</span>
+      </div>
+      <div class="sample-scenario-list">
+        ${samples.slice(0, 6).map((item, index) => `
+          <button data-sample-index="${index}">
+            <strong>${escapeHtml(item.intent_name_zh || item.intent_name)}</strong>
+            <span>${escapeHtml(item.question_zh || "")}</span>
+            <em>${escapeHtml(item.can_run_zh || "")}</em>
+          </button>
+        `).join("")}
+      </div>
+      <div id="workbenchValidationResult" class="sample-validation-result">
+        ${renderWorkbenchValidationResult(currentWorkbenchValidation)}
+      </div>
+      ${blockers.length ? `<div class="blocker-list">${blockers.map((item) => `<div>${escapeHtml(item.message_zh || item.type)}</div>`).join("")}</div>` : ""}
+    </section>
+  `;
+}
+
+function renderWorkbenchValidationResult(data) {
+  if (!data) {
+    return `<div class="muted">尚未运行样例验证。运行后会显示每个样例的 agent_plan 覆盖、缺失参数和可执行状态。</div>`;
+  }
+  const summary = data.summary || {};
+  const items = data.items || [];
+  return `
+    <div class="validation-summary ${summary.needs_fix_count ? "needs-work" : "ready"}">
+      <strong>${escapeHtml(summary.status_zh || "样例验证结果")}</strong>
+      <span>通过 ${escapeHtml(summary.ready_count || 0)}/${escapeHtml(summary.sample_count || 0)} · 待修复 ${escapeHtml(summary.needs_fix_count || 0)} · 缺参 ${escapeHtml(summary.missing_param_count || 0)} · 未覆盖事实 ${escapeHtml(summary.uncovered_fact_count || 0)}</span>
+    </div>
+    <div class="sample-validation-list">
+      ${items.slice(0, 12).map((item) => `
+        <button class="${item.status === "ready" ? "ready" : "needs-work"}">
+          <strong>${escapeHtml(item.intent_name_zh || item.intent_name)} · ${escapeHtml(item.status_zh || "")}</strong>
+          <span>${escapeHtml(item.question_zh || "")}</span>
+          <em>${escapeHtml(item.execution_status_zh || "")} · ${escapeHtml(item.coverage_status_zh || "")} · Skill ${escapeHtml(item.ready_skill_count || 0)} 可执行/${escapeHtml(item.blocked_skill_count || 0)} 阻塞</em>
+          ${item.missing_params?.length ? `<small>缺失参数：${escapeHtml(item.missing_params.map((row) => `${row.skill_name_zh || row.skill_id}:${(row.missing_params || []).join("、")}`).join("；"))}</small>` : ""}
+          ${item.uncovered_facts?.length ? `<small>未覆盖事实：${escapeHtml(item.uncovered_facts.map((row) => row.label_zh || row.fact_id || row.fact_requirement_id).join("、"))}</small>` : ""}
+        </button>
+      `).join("")}
+    </div>
+  `;
+}
+
+function bindWorkbenchActions() {
+  const guideTaskMap = {
+    domain: "core_graph",
+    attributes: "core_graph",
+    facts: "intent_templates",
+    skills: "skill_coverage",
+    scenarios: "intent_templates",
+    coverage: "skill_coverage",
+    relations: "semantic_relations",
+    debug: "oag_plan",
+    diagnostics: "diagnostic",
+    publish: "yaml_files",
+  };
+  document.querySelectorAll("[data-guide-step]").forEach((button) => {
+    button.addEventListener("click", () => guarded(() => selectTask(guideTaskMap[button.dataset.guideStep] || "core_graph")));
+  });
+  document.querySelectorAll("[data-workbench-action]").forEach((button) => {
+    button.addEventListener("click", () => guarded(() => selectTask(button.dataset.workbenchAction)));
+  });
+  document.querySelectorAll("[data-scenario-intent]").forEach((button) => {
+    button.addEventListener("click", () => guarded(() => openWorkbenchScenario(button.dataset.scenarioIntent)));
+  });
+  document.querySelectorAll("[data-sample-index]").forEach((button) => {
+    button.addEventListener("click", () => guarded(() => openWorkbenchSampleScenario(Number(button.dataset.sampleIndex))));
+  });
+  document.querySelectorAll("[data-coverage-fact]").forEach((button) => {
+    button.addEventListener("click", () => guarded(() => selectTask("skill_coverage")));
+  });
+  document.querySelectorAll("[data-policy-edge]").forEach((button) => {
+    button.addEventListener("click", () => guarded(() => selectTask("semantic_relations")));
+  });
+  document.querySelectorAll("[data-diagnostic-action]").forEach((button) => {
+    button.addEventListener("click", () => guarded(() => openDiagnosticRepairAction(button)));
+  });
+  document.querySelectorAll("[data-model-action]").forEach((button) => {
+    button.addEventListener("click", () => guarded(() => runModelingAction(button.dataset.modelAction)));
+  });
+  on("runWorkbenchValidationBtn", "click", () => guarded(runWorkbenchScenarioValidation));
+}
+
+async function openDiagnosticRepairAction(buttonOrAction) {
+  const dataset = buttonOrAction?.dataset || {};
+  const actionKind = dataset.diagnosticAction || "";
+  const taskId = dataset.diagnosticTask || diagnosticActionTask(actionKind);
+  const diagnosticTypes = String(dataset.diagnosticTypes || "").split("|").filter(Boolean);
+  await selectTask(taskId || "diagnostic");
+  if (taskId === "diagnostic" && diagnosticTypes.length && el("diagnosticFilter")) {
+    el("diagnosticFilter").value = diagnosticTypes[0];
+    renderDiagnostics();
+  }
+}
+
+function diagnosticActionTask(actionKind) {
+  const map = {
+    edit_intent_template: "intent_templates",
+    edit_skill_coverage: "skill_coverage",
+    edit_relation: "semantic_relations",
+    edit_domain_model: "core_graph",
+    inspect: "diagnostic",
+  };
+  return map[actionKind] || "diagnostic";
+}
+
+async function runModelingAction(action) {
+  if (action === "new_object") return openAddNodeDialog("ObjectType");
+  if (action === "new_attribute") return openAddNodeDialog("Attribute");
+  if (action === "new_fact_type") return openAddNodeDialog("FactType");
+  if (action === "new_skill") return openSkillCoverageEditor({});
+  if (action === "new_scenario") return openScenarioDraftGenerator();
+  if (action === "new_relation") return openSemanticRelationEditor({});
+  if (action === "debug_plan") return selectTask("oag_plan");
+  return selectTask("model_workbench");
+}
+
+async function openScenarioDraftGenerator() {
+  await ensureOagOptions();
+  el("modalTitle").textContent = "生成典型场景";
+  el("modalBody").innerHTML = `
+    <div class="wizard-panel scenario-draft-generator">
+      <section class="intent-template-section">
+        <h3>1. 输入典型问题</h3>
+        <p class="wizard-help">系统会先生成 semantic_frame，再运行事实规划，自动形成事实需求模板和关系策略建议。</p>
+        <div class="oag-form-grid">
+          <label class="wide">典型问题<textarea id="scenarioDraftQuestion" rows="3" placeholder="例如：分析000001近一年的收益、回撤和夏普">分析000001近一年的表现</textarea></label>
+          <label>意图标识<input id="scenarioDraftIntent" placeholder="可选，例如 performance_overview"></label>
+          <label>意图名称<input id="scenarioDraftIntentZh" placeholder="可选，例如 基金综合表现分析"></label>
+        </div>
+      </section>
+      <section class="intent-template-section">
+        <h3>2. 生成内容</h3>
+        <div class="scenario-draft-hint">
+          <span>事实需求模板：写入 Intent 的 fact_requirements_template。</span>
+          <span>关系策略建议：用于后续关系治理，不会自动写入 YAML。</span>
+          <span>覆盖缺口：提示哪些事实还缺 Skill 或参数。</span>
+        </div>
+      </section>
+    </div>
+  `;
+  openModal(async () => {
+    const question = el("scenarioDraftQuestion").value.trim();
+    if (!question) throw new Error("请先输入典型问题");
+    const frame = inferSemanticFrameFromQuestion(question);
+    const intentName = el("scenarioDraftIntent").value.trim();
+    const intentNameZh = el("scenarioDraftIntentZh").value.trim();
+    if (intentName) frame.intent = intentName;
+    frame.raw_question = question;
+    frame.debug = true;
+    const result = await api("/api/oag/scenario-draft", {
+      method: "POST",
+      body: JSON.stringify({
+        semantic_frame: frame,
+        intent_name: intentName || frame.intent || "",
+        intent_name_zh: intentNameZh || "",
+        trigger_aliases: [question],
+        user_context: { permission_scopes: ["fund_public_data:read"], debug: true },
+      }),
+    });
+    writeOutput(result);
+    setTimeout(() => openScenarioDraftReview(result), 0);
+  });
+}
+
+function openScenarioDraftReview(result) {
+  const modal = el("modal");
+  const facts = result.fact_requirements_template || [];
+  const relations = result.relation_strategy_drafts || [];
+  const gaps = result.skill_coverage_gaps || [];
+  el("modalTitle").textContent = "场景草稿结果";
+  el("modalBody").innerHTML = `
+    <div class="wizard-panel scenario-draft-review">
+      <section class="intent-template-section">
+        <h3>场景草稿已生成</h3>
+        <p class="wizard-help">${escapeHtml(result.message_zh || "已生成场景草稿。")}</p>
+        <div class="dashboard-metrics">
+          <div><strong>${facts.length}</strong><span>事实需求模板</span></div>
+          <div><strong>${relations.length}</strong><span>关系策略建议</span></div>
+          <div><strong>${gaps.length}</strong><span>覆盖缺口</span></div>
+        </div>
+      </section>
+      <section class="intent-template-section">
+        <h3>事实需求模板</h3>
+        ${renderScenarioDraftFactList(facts)}
+      </section>
+      <section class="intent-template-section">
+        <h3>关系策略建议</h3>
+        ${renderScenarioDraftRelationList(relations)}
+      </section>
+      <section class="intent-template-section">
+        <h3>覆盖缺口</h3>
+        ${renderScenarioDraftGapList(gaps)}
+      </section>
+      <details><summary>高级：完整草稿 JSON</summary><textarea rows="12">${escapeHtml(JSON.stringify(result, null, 2))}</textarea></details>
+    </div>
+  `;
+  const actions = modal.querySelector(".modal-actions");
+  actions.innerHTML = `
+    <button id="scenarioDraftCloseBtn" type="button">关闭</button>
+    <button id="scenarioDraftPlanBtn" type="button">送入规划调试台</button>
+    <button id="scenarioDraftSaveRelationsBtn" type="button">保存关系策略建议</button>
+    <button id="scenarioDraftEditIntentBtn" type="button">编辑并保存意图模板</button>
+  `;
+  const finish = () => {
+    modal.close();
+    restoreModalActions();
+  };
+  el("scenarioDraftCloseBtn").addEventListener("click", finish);
+  el("scenarioDraftPlanBtn").addEventListener("click", () => {
+    finish();
+    guarded(() => openWorkbenchSemanticFrame(result.semantic_frame));
+  });
+  el("scenarioDraftSaveRelationsBtn").addEventListener("click", () => guarded(() => saveScenarioRelationDrafts(result)));
+  el("scenarioDraftEditIntentBtn").addEventListener("click", () => {
+    finish();
+    guarded(() => openIntentTemplateEditor(result.intent_profile_draft || {}));
+  });
+  modal.showModal();
+}
+
+async function saveScenarioRelationDrafts(result) {
+  const relations = result.relation_strategy_drafts || [];
+  if (!relations.length) throw new Error("当前场景没有关系策略建议可保存");
+  const ok = confirm(`将写入 ${relations.length} 条关系策略建议到 schema_graph_edges.yaml，是否继续？`);
+  if (!ok) return;
+  const button = el("scenarioDraftSaveRelationsBtn");
+  if (button) button.disabled = true;
+  try {
+    const saveResult = await api("/api/oag/relation-strategy-drafts", {
+      method: "POST",
+      body: JSON.stringify({ items: relations }),
+    });
+    writeOutput(saveResult);
+    await refreshAll({ loadGraph: false });
+    const review = document.querySelector(".scenario-draft-review");
+    if (review) {
+      review.insertAdjacentHTML(
+        "afterbegin",
+        `<div class="modal-success"><strong>关系策略已保存</strong><span>已写入 ${escapeHtml(saveResult.applied_count || 0)} 条关系策略建议，并完成本体校验。</span></div>`,
+      );
+    }
+  } finally {
+    if (button) button.disabled = false;
+  }
+}
+
+function renderScenarioDraftFactList(rows) {
+  if (!rows.length) return `<div class="muted">没有生成事实需求模板，请检查典型问题是否包含可规划对象或属性。</div>`;
+  return `<div class="scenario-draft-list">${rows.map((item) => `
+    <div>
+      <strong>${escapeHtml(item.attribute_name || item.relation_type || item.fact_type)}</strong>
+      <span>${escapeHtml(item.fact_type)} · ${escapeHtml(priorityLabel(item.priority))}</span>
+      <em>${escapeHtml(item.reason_zh || "")}</em>
+    </div>
+  `).join("")}</div>`;
+}
+
+function renderScenarioDraftRelationList(rows) {
+  if (!rows.length) return `<div class="muted">本场景没有触发新的关系策略建议。</div>`;
+  return `<div class="scenario-draft-list">${rows.slice(0, 8).map((item) => `
+    <div>
+      <strong>${escapeHtml(item.from)} → ${escapeHtml(item.relation_type)} → ${escapeHtml(item.to)}</strong>
+      <span>${escapeHtml(item.auto_expand_mode)} · ${escapeHtml(item.planning_role)}</span>
+      <em>${escapeHtml(item.reason_zh || "")}</em>
+    </div>
+  `).join("")}</div>`;
+}
+
+function renderScenarioDraftGapList(rows) {
+  if (!rows.length) return `<div class="muted">没有发现必须事实缺口或 Skill 参数缺口。</div>`;
+  return `<div class="scenario-draft-list">${rows.slice(0, 10).map((item) => `
+    <div>
+      <strong>${escapeHtml(item.label_zh || item.skill_name_zh || item.fact_requirement_id || item.skill_id || "配置缺口")}</strong>
+      <span>${escapeHtml(item.missing_params?.join("、") || item.message_zh || "")}</span>
+      <em>${escapeHtml(item.suggested_action_zh || "")}</em>
+    </div>
+  `).join("")}</div>`;
+}
+
+async function openWorkbenchScenario(intentName) {
+  const scenario = (currentWorkbench.scenario_matrix || []).find((item) => item.intent_name === intentName);
+  await openWorkbenchSemanticFrame(scenario?.semantic_frame);
+}
+
+async function openWorkbenchSampleScenario(index) {
+  const sample = (currentWorkbench.test_publish?.sample_scenarios || [])[index];
+  await openWorkbenchSemanticFrame(sample?.semantic_frame);
+}
+
+async function openWorkbenchSemanticFrame(frame) {
+  await selectTask("oag_plan");
+  if (!frame || !el("oagRawQuestion")) return;
+  fillOagFrame(frame);
+  if (el("oagUseStructuredDraft")) el("oagUseStructuredDraft").checked = true;
+  refreshAutoSemanticPreview({ frame, forceDraftControls: true });
+  el("oagPlanSummary").innerHTML = `
+    <div class="oag-empty-state">
+      <strong>已载入场景样例</strong>
+      <span>已根据场景矩阵填入 semantic_frame，点击“生成事实规划”即可验证 agent_plan。</span>
+    </div>
+  `;
+}
+
+async function runWorkbenchScenarioValidation() {
+  const button = el("runWorkbenchValidationBtn");
+  const resultBox = el("workbenchValidationResult");
+  if (button) button.disabled = true;
+  if (resultBox) {
+    resultBox.innerHTML = `
+      <div class="dashboard-loading compact-loading">
+        <div class="loading-card inline-loading-card">
+          <div class="loading-spinner"></div>
+          <strong>正在验证样例 agent_plan</strong>
+          <span>逐个运行场景矩阵中的 semantic_frame，检查 Skill 覆盖和缺失参数...</span>
+        </div>
+      </div>
+    `;
+  }
+  try {
+    currentWorkbenchValidation = await api("/api/oag/workbench/sample-plans");
+    if (resultBox) resultBox.innerHTML = renderWorkbenchValidationResult(currentWorkbenchValidation);
+    writeOutput(currentWorkbenchValidation);
+  } finally {
+    if (button) button.disabled = false;
+  }
 }
 
 function renderDashboardLoading(title, message) {
@@ -1577,6 +2150,7 @@ function showOagPlanInspector(plan) {
       </div>
       <div class="task-actions"><button id="editOagFrameBtn">返回修改输入</button></div>
       ${renderPlanViewSplit(plan)}
+      ${renderOagV2PlanningChain(plan)}
       ${renderCoverageOverview(summary, execution)}
       ${renderFactRequirementOverview(plan.fact_requirements || [])}
       ${renderInvocationOverview(plan.candidate_invocations || [])}
@@ -1604,6 +2178,60 @@ function showOagPlanInspector(plan) {
   });
   bindPlanListHighlights();
   bindPlanGovernanceActions();
+}
+
+function renderOagV2PlanningChain(plan) {
+  const llm = plan.llm_config_status || {};
+  const input = {
+    raw_question: plan.raw_question || plan.normalized_semantic_frame?.raw_question || "",
+    semantic_frame: plan.normalized_semantic_frame || {},
+    recognized_intents: plan.recognized_intents || [],
+    selector_mode: plan.selector_mode || "rule",
+  };
+  const sections = [
+    ["输入", input],
+    ["LLM 配置状态", llm],
+    ["ontology_subgraph", plan.ontology_subgraph || {}],
+    ["candidate_fact_pool", plan.candidate_fact_pool || []],
+    ["selected_facts", plan.selected_facts || []],
+    ["validation_result", plan.validation_result || {}],
+    ["dependency_completion", plan.dependency_completion || {}],
+    ["skill_bindings", plan.skill_bindings || []],
+    ["agent_plan / editor_plan", { agent_plan: plan.agent_plan || {}, editor_plan: plan.editor_plan || {} }],
+  ];
+  return `
+    <section class="oag-summary-section oag-v2-chain">
+      <h3>OAG V2 规划链路</h3>
+      <div class="oag-v2-chain-grid">
+        ${sections.map(([title, value]) => `
+          <details>
+            <summary>${escapeHtml(title)}</summary>
+            <pre>${escapeHtml(JSON.stringify(value, null, 2))}</pre>
+          </details>
+        `).join("")}
+      </div>
+      <button class="secondary" type="button" onclick="runGoldenQuestionsRegression()">运行 golden questions 回归</button>
+      <div id="goldenQuestionsResult" class="oag-golden-result"></div>
+    </section>
+  `;
+}
+
+async function runGoldenQuestionsRegression() {
+  const result = await api("/api/oag/golden-questions");
+  const rows = result.items || [];
+  const box = el("goldenQuestionsResult");
+  if (!box) return;
+  box.innerHTML = `
+    <strong>${escapeHtml(result.summary?.status_zh || "golden questions 回归完成")}</strong>
+    <div class="compact-list">
+      ${rows.map((item) => `
+        <div>
+          <span>${escapeHtml(item.question_zh || item.id || "")}</span>
+          <em>${escapeHtml(item.status_zh || item.status || "")} · 候选 ${escapeHtml(item.candidate_fact_count || 0)} · 绑定 ${escapeHtml(item.skill_binding_count || 0)}</em>
+        </div>
+      `).join("")}
+    </div>
+  `;
 }
 
 function fillOagFrame(frame) {
@@ -2594,6 +3222,17 @@ async function selectTask(taskId) {
     }
   }
   renderTaskCandidates();
+  if (task.dashboard === "model_workbench") {
+    cy.elements().remove();
+    currentGraph = { nodes: [], edges: [], summary: { node_count: 0, edge_count: 0 }, search_results: [] };
+    if (!currentWorkbench.summary?.domain) {
+      renderDashboardLoading("正在进入模型搭建向导", "正在汇总场景、Skill 覆盖、关系策略和诊断治理状态...");
+      await loadWorkbenchSummary();
+    }
+    renderWorkbenchHome();
+    updateCounts();
+    return;
+  }
   if (task.dashboard === "intent_templates") {
     cy.elements().remove();
     currentGraph = { nodes: [], edges: [], summary: { node_count: 0, edge_count: 0 }, search_results: [] };
@@ -3825,19 +4464,31 @@ function renderDiagnostics() {
     await jumpToNode(nodeId);
     if (!state.editMode) await toggleEditMode();
   }));
+  document.querySelectorAll("[data-diagnostic-repair-task]").forEach((button) => {
+    button.addEventListener("click", () => guarded(() => openDiagnosticRepairAction(button)));
+  });
   updateEditModeUi();
 }
 
 function renderDiagnosticItem(item) {
   const nodeAction = item.node_id ? `<button data-diagnostic-node="${escapeHtml(item.node_id)}">定位节点</button>` : "";
   const editAction = item.node_id ? `<button data-diagnostic-edit="${escapeHtml(item.node_id)}" data-edit-only>打开编辑</button>` : "";
+  const repairAction = `
+    <button
+      data-diagnostic-action="${escapeHtml(item.action_kind || "")}"
+      data-diagnostic-repair-task="${escapeHtml(item.suggested_task_id || "")}"
+      data-diagnostic-task="${escapeHtml(item.suggested_task_id || "")}"
+      data-diagnostic-types="${escapeHtml(item.diagnostic_type || item.type || "")}"
+    >进入修复</button>
+  `;
   return `
     <div class="diagnostic-item ${escapeHtml(item.severity)}">
       <strong>${escapeHtml(diagnosticTypeLabel(item.type))} / ${escapeHtml(severityLabel(item.severity))}</strong>
       <span>${escapeHtml(item.diagnostic_message_zh || item.message)}</span>
       <span>${escapeHtml(item.file || "-")} ${escapeHtml(item.node_id || "")}</span>
       <span>${escapeHtml(item.suggested_action_zh || item.suggested_action || "")}</span>
-      <div class="diagnostic-actions">${nodeAction}${editAction}</div>
+      <em>建议视图：${escapeHtml(item.suggested_task_title_zh || "诊断中心")}</em>
+      <div class="diagnostic-actions">${repairAction}${nodeAction}${editAction}</div>
     </div>
   `;
 }

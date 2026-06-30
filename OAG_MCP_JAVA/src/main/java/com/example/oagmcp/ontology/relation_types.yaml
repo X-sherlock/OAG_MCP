@@ -1,0 +1,1065 @@
+- relation_type: has_attribute
+  relation_name_zh: 拥有属性
+  description: 对象类型拥有某个可查询属性。
+  description_zh: 对象类型拥有某个可查询属性。
+  relation_group: object_structure
+  from_object_type: ObjectType
+  to_object_type: Attribute
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - Attribute
+  direction: outbound
+  default_score: 0.9
+  source_tables: []
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+- relation_type: managed_by
+  relation_name_zh: 基金经理管理
+  description: 基金由基金经理管理。
+  description_zh: 基金由基金经理管理。
+  relation_group: object_structure
+  from_object_type: Fund
+  to_object_type: FundManager
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+  direction: outbound
+  default_score: 0.95
+  source_tables:
+  - dim_fund_magr_rln
+  - dim_fund_magr
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: profile_context
+  auto_expand_mode: explicit_only
+  answer_visibility: answer_fact
+  default_attribute_name: manager_name
+  alias_attributes:
+  - fund_manager
+  - manager_name
+  default_expansion_priority: optional
+  expansion_priority: optional
+  expansion_limits:
+    max_global: 2
+    max_depth: 1
+- relation_type: issued_by
+  relation_name_zh: 基金公司发行或管理
+  description: 基金由基金公司发行或管理。
+  description_zh: 基金由基金公司发行或管理。
+  relation_group: object_structure
+  from_object_type: Fund
+  to_object_type: FundCompany
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+  direction: outbound
+  default_score: 0.9
+  source_tables:
+  - dim_fund_info
+  - dwd_fund_info
+  - DIM_FUND_CMPY
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: profile_context
+  auto_expand_mode: explicit_only
+  answer_visibility: answer_fact
+  default_attribute_name: company_name
+  alias_attributes:
+  - fund_company
+  - company_name
+  default_expansion_priority: optional
+  expansion_priority: optional
+  expansion_limits:
+    max_global: 2
+    max_depth: 1
+- relation_type: managed_by_company
+  relation_name_zh: 基金公司管理
+  description: 兼容旧配置的基金公司管理关系。
+  description_zh: 兼容旧配置的基金公司管理关系，规划时等价于 issued_by 的实现证据。
+  relation_group: object_structure
+  from_object_type: Fund
+  to_object_type: FundCompany
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+  direction: outbound
+  default_score: 0.9
+  source_tables:
+  - dim_fund_info
+  - dwd_fund_info
+  - DIM_FUND_CMPY
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: profile_context
+  auto_expand_mode: explicit_only
+  answer_visibility: answer_fact
+  default_attribute_name: company_name
+  alias_attributes:
+  - fund_company
+  - company_name
+  default_expansion_priority: optional
+  expansion_priority: optional
+  expansion_limits:
+    max_global: 2
+    max_depth: 1
+- relation_type: has_benchmark
+  relation_name_zh: 具有业绩比较基准
+  description: 基金具有业绩比较基准。
+  description_zh: 基金具有业绩比较基准，可用于相对表现分析。
+  relation_group: object_structure
+  from_object_type: Fund
+  to_object_type: Benchmark
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+  direction: outbound
+  default_score: 0.9
+  source_tables:
+  - dim_fund_info
+  - dwd_fund_bm_grth_rate
+  - dws_bm_perf_xx
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: benchmark_context
+  auto_expand_mode: contextual
+  answer_visibility: supporting_context
+  default_attribute_name: benchmark_name
+  alias_attributes:
+  - benchmark
+  - benchmark_name
+  default_expansion_priority: supporting
+  expansion_priority: supporting
+  expansion_limits:
+    max_global: 2
+    max_depth: 1
+- relation_type: compares_to_benchmark
+  relation_name_zh: 对比业绩基准
+  description: 兼容旧配置的基金与基准比较关系。
+  description_zh: 兼容旧配置的基金与基准比较关系。
+  relation_group: object_structure
+  from_object_type: Fund
+  to_object_type: Benchmark
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+  direction: outbound
+  default_score: 0.9
+  source_tables:
+  - dim_fund_info
+  - dwd_fund_bm_grth_rate
+  - dws_bm_perf_xx
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: benchmark_context
+  auto_expand_mode: contextual
+  answer_visibility: supporting_context
+  default_attribute_name: benchmark_name
+  alias_attributes:
+  - benchmark
+  - benchmark_name
+  default_expansion_priority: supporting
+  expansion_priority: supporting
+  expansion_limits:
+    max_global: 2
+    max_depth: 1
+- relation_type: tracks_index
+  relation_name_zh: 跟踪指数
+  description: 基金跟踪指定指数。
+  description_zh: 基金跟踪指定指数。
+  relation_group: object_structure
+  from_object_type: Fund
+  to_object_type: Index
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+  direction: outbound
+  default_score: 0.9
+  source_tables:
+  - dim_fund_info
+  - DWD_ETF_TRACK
+  - dwd_idx_grth
+  - dws_idx_perf_xx
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: benchmark_context
+  auto_expand_mode: explicit_only
+  answer_visibility: answer_fact
+  default_attribute_name: tracking_index_name
+  alias_attributes:
+  - tracking_index
+  - tracking_index_name
+  default_expansion_priority: optional
+  expansion_priority: optional
+  expansion_limits:
+    max_global: 2
+    max_depth: 1
+- relation_type: belongs_to_category
+  relation_name_zh: 属于基金分类
+  description: 基金归属于基金分类。
+  description_zh: 基金归属于基金分类，可用于同类比较。
+  relation_group: object_structure
+  from_object_type: Fund
+  to_object_type: FundCategory
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+  direction: outbound
+  default_score: 0.85
+  source_tables:
+  - dwd_fund_sctr
+  - dim_fund_info
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: peer_context
+  auto_expand_mode: contextual
+  answer_visibility: supporting_context
+  default_attribute_name: fund_type
+  alias_attributes:
+  - fund_category
+  - fund_type
+  default_expansion_priority: supporting
+  expansion_priority: supporting
+  expansion_limits:
+    max_global: 2
+    max_depth: 1
+- relation_type: holds_asset
+  relation_name_zh: 持有资产
+  description: 基金持有资产或组合头寸。
+  description_zh: 基金持有资产或组合头寸。
+  relation_group: object_structure
+  from_object_type: Fund
+  to_object_type: FundPosition
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+  direction: outbound
+  default_score: 0.86
+  source_tables:
+  - DWD_FUND_STOCK HOLD
+  - DWD_FUND_BOND_HOLD
+  - DWD FUND_OTHER PORTFOLIO HOLD
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: explain_context
+  auto_expand_mode: explicit_only
+  answer_visibility: answer_fact
+  default_expansion_priority: optional
+  expansion_priority: optional
+  expansion_limits:
+    max_global: 2
+    max_depth: 1
+- relation_type: has_performance_metric
+  relation_name_zh: 具有业绩指标
+  description: 基金具有业绩指标。
+  description_zh: 基金具有收益、年化收益、超额收益等业绩指标。
+  relation_group: object_structure
+  from_object_type: Fund
+  to_object_type: PerformanceMetric
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+  direction: outbound
+  default_score: 0.95
+  source_tables:
+  - DWD_FUND_NAV_GRTH
+  - DWS_FUND_PERF_DAILY
+  - dws_fund_perf_xx
+  usable_in_task_graph: false
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: metric_context
+  auto_expand_mode: dependency_only
+  answer_visibility: hidden_dependency
+  default_expansion_priority: supporting
+  expansion_priority: supporting
+  expansion_limits:
+    max_global: 2
+    max_depth: 1
+- relation_type: has_risk_metric
+  relation_name_zh: 具有风险指标
+  description: 基金具有风险指标。
+  description_zh: 基金具有最大回撤、波动率、夏普、跟踪误差等风险指标。
+  relation_group: object_structure
+  from_object_type: Fund
+  to_object_type: RiskMetric
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+  direction: outbound
+  default_score: 0.95
+  source_tables:
+  - dws_fund_risk retxx
+  - DWS FUND RISK xx
+  usable_in_task_graph: false
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: risk_context
+  auto_expand_mode: dependency_only
+  answer_visibility: hidden_dependency
+  default_expansion_priority: supporting
+  expansion_priority: supporting
+  expansion_limits:
+    max_global: 2
+    max_depth: 1
+- relation_type: holds_industry
+  relation_name_zh: 持有行业配置
+  description: 基金持有行业配置。
+  description_zh: 基金持有行业配置。
+  relation_group: object_structure
+  from_object_type: Fund
+  to_object_type: HoldingIndustry
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+  direction: outbound
+  default_score: 0.88
+  source_tables:
+  - dwd_fund_inds_alloc
+  usable_in_task_graph: false
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: explain_context
+  auto_expand_mode: explicit_only
+  answer_visibility: answer_fact
+  default_expansion_priority: optional
+  expansion_priority: optional
+  expansion_limits:
+    max_global: 2
+    max_depth: 1
+- relation_type: has_asset_allocation
+  relation_name_zh: 具有资产配置
+  description: 基金具有资产配置。
+  description_zh: 基金具有资产配置。
+  relation_group: object_structure
+  from_object_type: Fund
+  to_object_type: AssetAllocation
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+  direction: outbound
+  default_score: 0.9
+  source_tables:
+  - DWD_FUND_ASET_ALLOC
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: explain_context
+  auto_expand_mode: explicit_only
+  answer_visibility: answer_fact
+  default_expansion_priority: optional
+  expansion_priority: optional
+  expansion_limits:
+    max_global: 2
+    max_depth: 1
+- relation_type: has_position
+  relation_name_zh: 具有持仓
+  description: 基金具有股票、债券或基金持仓。
+  description_zh: 基金具有股票、债券或基金持仓。
+  relation_group: object_structure
+  from_object_type: Fund
+  to_object_type: FundPosition
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+  direction: outbound
+  default_score: 0.86
+  source_tables:
+  - DWD_FUND_STOCK HOLD
+  - DWD_FUND_BOND_HOLD
+  - DWD FUND_OTHER PORTFOLIO HOLD
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: explain_context
+  auto_expand_mode: explicit_only
+  answer_visibility: answer_fact
+  default_expansion_priority: optional
+  expansion_priority: optional
+  expansion_limits:
+    max_global: 2
+    max_depth: 1
+- relation_type: has_fee
+  relation_name_zh: 具有费率
+  description: 基金具有费率信息。
+  description_zh: 基金具有认购、申购、赎回、管理等费率信息。
+  relation_group: object_structure
+  from_object_type: Fund
+  to_object_type: FundFee
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+  direction: outbound
+  default_score: 0.84
+  source_tables:
+  - dwd_chag_rate
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: profile_context
+  auto_expand_mode: explicit_only
+  answer_visibility: answer_fact
+  default_expansion_priority: optional
+  expansion_priority: optional
+  expansion_limits:
+    max_global: 2
+    max_depth: 1
+- relation_type: has_dividend
+  relation_name_zh: 具有分红
+  description: 基金具有分红信息。
+  description_zh: 基金具有分红日期、每股派息和稳定分红标志。
+  relation_group: object_structure
+  from_object_type: Fund
+  to_object_type: Dividend
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+  direction: outbound
+  default_score: 0.84
+  source_tables:
+  - dwd_fund bons
+  - dwd_ind_bonus_tmp
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: profile_context
+  auto_expand_mode: explicit_only
+  answer_visibility: answer_fact
+  default_expansion_priority: optional
+  expansion_priority: optional
+  expansion_limits:
+    max_global: 2
+    max_depth: 1
+- relation_type: compared_with
+  relation_name_zh: 指标对比
+  description: 一个指标在分析时通常需要与另一个指标进行对比。
+  description_zh: 一个指标在分析时通常需要与另一个指标进行对比。
+  relation_group: metric_semantics
+  from_object_type: Attribute
+  to_object_type: Attribute
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+  direction: outbound
+  default_score: 0.9
+  source_tables: []
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: benchmark_context
+  auto_expand_mode: contextual
+  answer_visibility: answer_fact
+  default_expansion_priority: optional
+  expansion_priority: optional
+  expansion_limits:
+    max_per_source_attribute: 2
+    max_global: 6
+    max_depth: 1
+- relation_type: derives
+  relation_name_zh: 派生解释
+  description: 一个事实可由其他事实解释或推导。
+  description_zh: 一个事实可由其他事实解释或推导。
+  relation_group: metric_semantics
+  from_object_type: Attribute
+  to_object_type: Attribute
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+  direction: outbound
+  default_score: 0.86
+  source_tables: []
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: benchmark_context
+  auto_expand_mode: contextual
+  answer_visibility: answer_fact
+  default_expansion_priority: optional
+  expansion_priority: optional
+  expansion_limits:
+    max_per_source_attribute: 2
+    max_global: 6
+    max_depth: 1
+- relation_type: ranked_by_peer
+  relation_name_zh: 扩展为同类排名
+  description: 指标可扩展为同类排名。
+  description_zh: 指标可扩展为同类排名。
+  relation_group: metric_semantics
+  from_object_type: Attribute
+  to_object_type: Attribute
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+  direction: outbound
+  default_score: 0.84
+  source_tables: []
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: peer_context
+  auto_expand_mode: contextual
+  answer_visibility: answer_fact
+  default_expansion_priority: optional
+  expansion_priority: optional
+  expansion_limits:
+    max_per_source_attribute: 2
+    max_global: 6
+    max_depth: 1
+- relation_type: risk_companion
+  relation_name_zh: 风险伴随指标
+  description: 风险指标之间在分析时经常需要互相补充。
+  description_zh: 风险指标之间在分析时经常需要互相补充。
+  relation_group: metric_semantics
+  from_object_type: Attribute
+  to_object_type: Attribute
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+  direction: outbound
+  default_score: 0.82
+  source_tables: []
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: risk_context
+  auto_expand_mode: contextual
+  answer_visibility: answer_fact
+  default_expansion_priority: optional
+  expansion_priority: optional
+  expansion_limits:
+    max_per_source_attribute: 2
+    max_global: 6
+    max_depth: 1
+- relation_type: return_companion
+  relation_name_zh: 收益伴随指标
+  description: 收益指标之间在分析时经常需要互相补充。
+  description_zh: 收益指标之间在分析时经常需要互相补充。
+  relation_group: metric_semantics
+  from_object_type: Attribute
+  to_object_type: Attribute
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+  direction: outbound
+  default_score: 0.82
+  source_tables: []
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: return_context
+  auto_expand_mode: contextual
+  answer_visibility: answer_fact
+  default_expansion_priority: optional
+  expansion_priority: optional
+  expansion_limits:
+    max_per_source_attribute: 2
+    max_global: 6
+    max_depth: 1
+- relation_type: benchmark_metric_of
+  relation_name_zh: 基准相关指标
+  description: 指标与基准比较或指数跟踪分析相关。
+  description_zh: 指标与基准比较或指数跟踪分析相关。
+  relation_group: metric_semantics
+  from_object_type: Attribute
+  to_object_type: Attribute
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+  direction: outbound
+  default_score: 0.82
+  source_tables: []
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: benchmark_context
+  auto_expand_mode: contextual
+  answer_visibility: answer_fact
+  default_expansion_priority: optional
+  expansion_priority: optional
+  expansion_limits:
+    max_per_source_attribute: 2
+    max_global: 6
+    max_depth: 1
+- relation_type: peer_metric_of
+  relation_name_zh: 同类比较相关指标
+  description: 指标与同类比较分析相关。
+  description_zh: 指标与同类比较分析相关。
+  relation_group: metric_semantics
+  from_object_type: Attribute
+  to_object_type: Attribute
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+  direction: outbound
+  default_score: 0.82
+  source_tables: []
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: peer_context
+  auto_expand_mode: contextual
+  answer_visibility: answer_fact
+  default_expansion_priority: optional
+  expansion_priority: optional
+  expansion_limits:
+    max_per_source_attribute: 2
+    max_global: 6
+    max_depth: 1
+- relation_type: requires_attribute
+  relation_name_zh: 需要属性
+  description: 任务或意图需要某个属性。
+  description_zh: 任务或意图需要某个属性。
+  relation_group: task_intent
+  from_object_type: IntentProfile
+  to_object_type: Attribute
+  source_node_types:
+  - TaskType
+  - IntentProfile
+  target_node_types:
+  - Attribute
+  direction: outbound
+  default_score: 0.9
+  source_tables: []
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: metric_context
+  auto_expand_mode: dependency_only
+  answer_visibility: hidden_dependency
+  default_expansion_priority: supporting
+  expansion_priority: supporting
+- relation_type: optional_attribute
+  relation_name_zh: 可补充属性
+  description: 任务或意图可补充某个属性。
+  description_zh: 任务或意图可补充某个属性。
+  relation_group: task_intent
+  from_object_type: IntentProfile
+  to_object_type: Attribute
+  source_node_types:
+  - TaskType
+  - IntentProfile
+  target_node_types:
+  - Attribute
+  direction: outbound
+  default_score: 0.8
+  source_tables: []
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: metric_context
+  auto_expand_mode: dependency_only
+  answer_visibility: hidden_dependency
+  default_expansion_priority: supporting
+  expansion_priority: supporting
+- relation_type: uses_metric_role
+  relation_name_zh: 使用指标角色
+  description: 任务操作使用某类指标角色。
+  description_zh: 任务操作使用某类指标角色。
+  relation_group: task_intent
+  from_object_type: TaskType
+  to_object_type: Attribute
+  source_node_types:
+  - TaskType
+  - IntentProfile
+  target_node_types:
+  - Attribute
+  direction: outbound
+  default_score: 0.8
+  source_tables: []
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: metric_context
+  auto_expand_mode: dependency_only
+  answer_visibility: hidden_dependency
+  default_expansion_priority: supporting
+  expansion_priority: supporting
+- relation_type: uses_operation
+  relation_name_zh: 使用操作
+  description: 任务使用筛选、排序、比较等操作。
+  description_zh: 任务使用筛选、排序、比较等操作。
+  relation_group: task_intent
+  from_object_type: TaskType
+  to_object_type: Operation
+  source_node_types:
+  - TaskType
+  - IntentProfile
+  target_node_types:
+  - Operation
+  direction: outbound
+  default_score: 0.8
+  source_tables: []
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: metric_context
+  auto_expand_mode: dependency_only
+  answer_visibility: hidden_dependency
+  default_expansion_priority: supporting
+  expansion_priority: supporting
+- relation_type: requires_fact_type
+  relation_name_zh: 需要事实类型
+  description: 任务或意图需要某类事实。
+  description_zh: 任务或意图需要某类事实。
+  relation_group: task_intent
+  from_object_type: IntentProfile
+  to_object_type: FactType
+  source_node_types:
+  - TaskType
+  - IntentProfile
+  target_node_types:
+  - FactType
+  direction: outbound
+  default_score: 0.9
+  source_tables: []
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: metric_context
+  auto_expand_mode: dependency_only
+  answer_visibility: hidden_dependency
+  default_expansion_priority: supporting
+  expansion_priority: supporting
+- relation_type: provides_fact_type
+  relation_name_zh: 提供事实类型
+  description: Skill 能力能够产出某类事实。
+  description_zh: Skill 能力能够产出某类事实。
+  relation_group: skill_capability
+  from_object_type: SkillCapability
+  to_object_type: FactType
+  source_node_types:
+  - SkillCapability
+  target_node_types:
+  - FactType
+  direction: outbound
+  default_score: 0.9
+  source_tables: []
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: skill_coverage
+  auto_expand_mode: disabled
+  answer_visibility: hidden_dependency
+  default_expansion_priority: debug
+  expansion_priority: debug
+- relation_type: supports_attribute
+  relation_name_zh: 支持属性
+  description: Skill 能力支持获取某个属性事实。
+  description_zh: Skill 能力支持获取某个属性事实。
+  relation_group: skill_capability
+  from_object_type: SkillCapability
+  to_object_type: Attribute
+  source_node_types:
+  - SkillCapability
+  target_node_types:
+  - Attribute
+  direction: outbound
+  default_score: 0.9
+  source_tables: []
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: skill_coverage
+  auto_expand_mode: disabled
+  answer_visibility: hidden_dependency
+  default_expansion_priority: debug
+  expansion_priority: debug
+- relation_type: supports_subject_type
+  relation_name_zh: 支持主体类型
+  description: Skill 能力支持某类业务对象作为事实主体。
+  description_zh: Skill 能力支持某类业务对象作为事实主体。
+  relation_group: skill_capability
+  from_object_type: SkillCapability
+  to_object_type: ObjectType
+  source_node_types:
+  - SkillCapability
+  target_node_types:
+  - ObjectType
+  direction: outbound
+  default_score: 0.9
+  source_tables: []
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: skill_coverage
+  auto_expand_mode: disabled
+  answer_visibility: hidden_dependency
+  default_expansion_priority: debug
+  expansion_priority: debug
+- relation_type: requires_param
+  relation_name_zh: 需要参数
+  description: Skill 或查询能力调用时需要结构化参数。
+  description_zh: Skill 或查询能力调用时需要结构化参数。
+  relation_group: skill_capability
+  from_object_type: SkillCapability
+  to_object_type: Parameter
+  source_node_types:
+  - SkillCapability
+  target_node_types:
+  - Parameter
+  direction: outbound
+  default_score: 0.9
+  source_tables: []
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: skill_coverage
+  auto_expand_mode: disabled
+  answer_visibility: hidden_dependency
+  default_expansion_priority: debug
+  expansion_priority: debug
+- relation_type: returns_attribute
+  relation_name_zh: 返回属性
+  description: Skill 或查询能力返回某个属性。
+  description_zh: Skill 或查询能力返回某个属性。
+  relation_group: skill_capability
+  from_object_type: SkillCapability
+  to_object_type: Attribute
+  source_node_types:
+  - SkillCapability
+  - QueryCapability
+  target_node_types:
+  - Attribute
+  direction: outbound
+  default_score: 0.9
+  source_tables: []
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: skill_coverage
+  auto_expand_mode: disabled
+  answer_visibility: hidden_dependency
+  default_expansion_priority: debug
+  expansion_priority: debug
+- relation_type: requires_permission
+  relation_name_zh: 需要权限
+  description: Skill 调用需要指定权限范围。
+  description_zh: Skill 调用需要指定权限范围。
+  relation_group: skill_capability
+  from_object_type: SkillCapability
+  to_object_type: Permission
+  source_node_types:
+  - SkillCapability
+  target_node_types:
+  - Permission
+  direction: outbound
+  default_score: 0.9
+  source_tables: []
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: skill_coverage
+  auto_expand_mode: disabled
+  answer_visibility: hidden_dependency
+  default_expansion_priority: debug
+  expansion_priority: debug
+- relation_type: implemented_by_query
+  relation_name_zh: 由查询实现
+  description: Skill 由查询能力实现。
+  description_zh: Skill 由查询能力实现。
+  relation_group: implementation_evidence
+  from_object_type: SkillCapability
+  to_object_type: QueryCapability
+  source_node_types:
+  - SkillCapability
+  target_node_types:
+  - QueryCapability
+  direction: outbound
+  default_score: 0.9
+  source_tables: []
+  usable_in_task_graph: false
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: implementation_evidence
+  auto_expand_mode: debug_only
+  answer_visibility: debug_only
+  default_expansion_priority: debug
+  expansion_priority: debug
+- relation_type: reads_from
+  relation_name_zh: 读取数据表
+  description: 查询能力或对象读取某张数据表。
+  description_zh: 查询能力或对象读取某张数据表。
+  relation_group: implementation_evidence
+  from_object_type: QueryCapability
+  to_object_type: DataTable
+  source_node_types:
+  - QueryCapability
+  - ObjectType
+  target_node_types:
+  - DataTable
+  direction: outbound
+  default_score: 0.9
+  source_tables: []
+  usable_in_task_graph: false
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: implementation_evidence
+  auto_expand_mode: debug_only
+  answer_visibility: debug_only
+  default_expansion_priority: debug
+  expansion_priority: debug
+- relation_type: sourced_from_table
+  relation_name_zh: 来源数据表
+  description: 对象类型或属性来源于数据表。
+  description_zh: 对象类型或属性来源于数据表。
+  relation_group: implementation_evidence
+  from_object_type: ObjectType
+  to_object_type: DataTable
+  source_node_types:
+  - ObjectType
+  - Attribute
+  target_node_types:
+  - DataTable
+  direction: outbound
+  default_score: 0.9
+  source_tables: []
+  usable_in_task_graph: false
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: implementation_evidence
+  auto_expand_mode: debug_only
+  answer_visibility: debug_only
+  default_expansion_priority: debug
+  expansion_priority: debug
+- relation_type: stored_in_table
+  relation_name_zh: 存储于数据表
+  description: 对象类型或属性存储于数据表。
+  description_zh: 对象类型或属性存储于数据表。
+  relation_group: implementation_evidence
+  from_object_type: ObjectType
+  to_object_type: DataTable
+  source_node_types:
+  - ObjectType
+  - Attribute
+  target_node_types:
+  - DataTable
+  direction: outbound
+  default_score: 0.9
+  source_tables: []
+  usable_in_task_graph: false
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: implementation_evidence
+  auto_expand_mode: debug_only
+  answer_visibility: debug_only
+  default_expansion_priority: debug
+  expansion_priority: debug
+- relation_type: has_field
+  relation_name_zh: 包含字段
+  description: 数据表包含字段。
+  description_zh: 数据表包含字段。
+  relation_group: implementation_evidence
+  from_object_type: DataTable
+  to_object_type: DataField
+  source_node_types:
+  - DataTable
+  target_node_types:
+  - DataField
+  direction: outbound
+  default_score: 0.96
+  source_tables: []
+  usable_in_task_graph: false
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: implementation_evidence
+  auto_expand_mode: debug_only
+  answer_visibility: debug_only
+  default_expansion_priority: debug
+  expansion_priority: debug
+- relation_type: mapped_to_field
+  relation_name_zh: 映射到字段
+  description: 属性映射到数据字段。
+  description_zh: 属性映射到数据字段。
+  relation_group: implementation_evidence
+  from_object_type: Attribute
+  to_object_type: DataField
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - DataField
+  direction: outbound
+  default_score: 0.99
+  source_tables: []
+  usable_in_task_graph: false
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: implementation_evidence
+  auto_expand_mode: debug_only
+  answer_visibility: debug_only
+  default_expansion_priority: debug
+  expansion_priority: debug
+- relation_type: joins_on
+  relation_name_zh: 表连接
+  description: 数据表之间可通过键字段连接。
+  description_zh: 数据表之间可通过键字段连接。
+  relation_group: implementation_evidence
+  from_object_type: DataTable
+  to_object_type: DataTable
+  source_node_types:
+  - DataTable
+  target_node_types:
+  - DataTable
+  direction: outbound
+  default_score: 0.82
+  source_tables: []
+  usable_in_task_graph: false
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: implementation_evidence
+  auto_expand_mode: debug_only
+  answer_visibility: debug_only
+  default_expansion_priority: debug
+  expansion_priority: debug
+- relation_type: supports_relation
+  relation_name_zh: 支持关系
+  description: Skill 能力支持获取某类实例关系事实。
+  description_zh: Skill 能力支持获取某类实例关系事实。
+  relation_group: skill_capability
+  from_object_type: SkillCapability
+  to_object_type: RelationType
+  source_node_types:
+  - SkillCapability
+  target_node_types:
+  - RelationType
+  direction: outbound
+  default_score: 0.9
+  source_tables: []
+  usable_in_task_graph: true
+  usable_in_debug_evidence: true
+  enabled: true
+  planning_role: skill_coverage
+  auto_expand_mode: disabled
+  answer_visibility: hidden_dependency
+  default_expansion_priority: debug
+  expansion_priority: debug

@@ -1,0 +1,14 @@
+[
+  {"id":"Fund:003095","domain":"finance_market","object_type":"Fund","object_id":"003095","object_name":"基金003095","aliases":["003095","基金003095"],"params":{"fund_code":"003095"}},
+  {"id":"Fund:004997","domain":"finance_market","object_type":"Fund","object_id":"004997","object_name":"基金004997","aliases":["004997","基金004997"],"params":{"fund_code":"004997"}},
+  {"id":"PerformanceMetric:fund_performance_metric","domain":"finance_market","object_type":"PerformanceMetric","object_id":"fund_performance_metric","object_name":"示例业绩指标","aliases":["业绩指标","收益率","最大回撤","波动率","夏普比率"],"params":{}},
+  {"id":"RiskMetric:fund_risk_metric","domain":"finance_market","object_type":"RiskMetric","object_id":"fund_risk_metric","object_name":"示例风险指标","aliases":["风险指标","最大回撤","波动率","夏普比率","VaR"],"params":{}},
+  {"id":"Benchmark:fund_benchmark","domain":"finance_market","object_type":"Benchmark","object_id":"fund_benchmark","object_name":"示例业绩基准","aliases":["示例业绩基准","业绩比较基准","基准"],"params":{}},
+  {"id":"Index:fund_tracking_index","domain":"finance_market","object_type":"Index","object_id":"fund_tracking_index","object_name":"示例跟踪指数","aliases":["示例跟踪指数","跟踪指数","指数"],"params":{}},
+  {"id":"FundCompany:fund_company_demo","domain":"finance_market","object_type":"FundCompany","object_id":"fund_company_demo","object_name":"示例基金公司","aliases":["示例基金公司","基金公司","管理人"],"params":{}},
+  {"id":"FundManager:fund_manager_demo","domain":"finance_market","object_type":"FundManager","object_id":"fund_manager_demo","object_name":"示例基金经理","aliases":["示例基金经理","基金经理"],"params":{}},
+  {"id":"HoldingIndustry:holding_industry_demo","domain":"finance_market","object_type":"HoldingIndustry","object_id":"holding_industry_demo","object_name":"示例持仓行业","aliases":["示例持仓行业","行业配置","持仓行业"],"params":{}},
+  {"id":"AssetAllocation:asset_allocation_demo","domain":"finance_market","object_type":"AssetAllocation","object_id":"asset_allocation_demo","object_name":"示例资产配置","aliases":["示例资产配置","资产配置"],"params":{}},
+  {"id":"FundFee:fund_fee_demo","domain":"finance_market","object_type":"FundFee","object_id":"fund_fee_demo","object_name":"示例基金费率","aliases":["示例基金费率","费率","申购费率","赎回费率"],"params":{}},
+  {"id":"Dividend:fund_dividend_demo","domain":"finance_market","object_type":"Dividend","object_id":"fund_dividend_demo","object_name":"示例基金分红","aliases":["示例基金分红","分红","派息"],"params":{}}
+]

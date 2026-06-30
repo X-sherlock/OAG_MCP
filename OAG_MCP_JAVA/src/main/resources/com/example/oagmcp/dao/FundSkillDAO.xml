@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.oagmcp.dao.FundSkillDAO">
+
+    <!-- columns are accepted only after FundSkillLogic whitelist validation. -->
+    <select id="selectFund" resultType="java.util.LinkedHashMap">
+        SELECT
+        <foreach collection="columns" item="column" separator=",">
+            `${column}`
+        </foreach>
+        FROM `ifund_all_info`
+        WHERE `COD_FUND` = #{fundCode}
+        LIMIT 1
+    </select>
+
+    <select id="selectFundsByName" resultType="java.util.LinkedHashMap">
+        SELECT
+        <foreach collection="columns" item="column" separator=",">
+            `${column}`
+        </foreach>
+        FROM `ifund_all_info`
+        WHERE `NAM_FUND` = #{fundName}
+           OR `NAM_FUND_SHORT` = #{fundName}
+        ORDER BY `COD_FUND`
+    </select>
+
+    <select id="selectFunds" resultType="java.util.LinkedHashMap">
+        SELECT
+        <foreach collection="columns" item="column" separator=",">
+            `${column}`
+        </foreach>
+        FROM `ifund_all_info`
+        <if test="fundCodes != null and fundCodes.size() > 0">
+            WHERE `COD_FUND` IN
+            <foreach collection="fundCodes" item="fundCode" open="(" separator="," close=")">
+                #{fundCode}
+            </foreach>
+        </if>
+        ORDER BY `COD_FUND`
+    </select>
+</mapper>

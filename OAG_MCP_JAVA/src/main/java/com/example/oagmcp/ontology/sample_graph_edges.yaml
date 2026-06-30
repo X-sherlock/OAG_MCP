@@ -1,0 +1,12 @@
+[
+  {"edge_id":"Fund:003095__has_performance_metric__PerformanceMetric:fund_performance_metric","from":"Fund:003095","to":"PerformanceMetric:fund_performance_metric","relation_type":"has_performance_metric","relation_name_zh":"具有业绩指标","score":0.95},
+  {"edge_id":"Fund:003095__has_risk_metric__RiskMetric:fund_risk_metric","from":"Fund:003095","to":"RiskMetric:fund_risk_metric","relation_type":"has_risk_metric","relation_name_zh":"具有风险指标","score":0.95},
+  {"edge_id":"Fund:003095__compares_to_benchmark__Benchmark:fund_benchmark","from":"Fund:003095","to":"Benchmark:fund_benchmark","relation_type":"compares_to_benchmark","relation_name_zh":"比较业绩基准","score":0.9},
+  {"edge_id":"Fund:003095__tracks_index__Index:fund_tracking_index","from":"Fund:003095","to":"Index:fund_tracking_index","relation_type":"tracks_index","relation_name_zh":"跟踪指数","score":0.9},
+  {"edge_id":"Fund:003095__managed_by_company__FundCompany:fund_company_demo","from":"Fund:003095","to":"FundCompany:fund_company_demo","relation_type":"managed_by_company","relation_name_zh":"由基金公司管理","score":0.9},
+  {"edge_id":"Fund:003095__managed_by__FundManager:fund_manager_demo","from":"Fund:003095","to":"FundManager:fund_manager_demo","relation_type":"managed_by","relation_name_zh":"由基金经理管理","score":0.95},
+  {"edge_id":"Fund:003095__holds_industry__HoldingIndustry:holding_industry_demo","from":"Fund:003095","to":"HoldingIndustry:holding_industry_demo","relation_type":"holds_industry","relation_name_zh":"持有行业配置","score":0.88},
+  {"edge_id":"Fund:003095__has_asset_allocation__AssetAllocation:asset_allocation_demo","from":"Fund:003095","to":"AssetAllocation:asset_allocation_demo","relation_type":"has_asset_allocation","relation_name_zh":"具有资产配置","score":0.9},
+  {"edge_id":"Fund:003095__has_fee__FundFee:fund_fee_demo","from":"Fund:003095","to":"FundFee:fund_fee_demo","relation_type":"has_fee","relation_name_zh":"具有费率信息","score":0.84},
+  {"edge_id":"Fund:003095__has_dividend__Dividend:fund_dividend_demo","from":"Fund:003095","to":"Dividend:fund_dividend_demo","relation_type":"has_dividend","relation_name_zh":"具有分红信息","score":0.84}
+]

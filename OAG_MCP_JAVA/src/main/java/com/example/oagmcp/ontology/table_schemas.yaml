@@ -1,0 +1,5361 @@
+- table_name: DIM_FUND_CMPY
+  table_name_zh: 基金公司维度表
+  layer: dim
+  domain: finance_market
+  entity_types:
+  - FundCompany
+  description: 基金公司维度表
+  fields:
+  - field_name: 基金公司代码-采用wind编码
+    field_name_zh: 基金公司代码-采用wind编码
+    semantic_type: unknown
+    aliases:
+    - 基金公司代码-采用wind编码
+  - field_name: 基金公司名称
+    field_name_zh: 基金公司名称
+    semantic_type: name
+    aliases:
+    - 基金公司名称
+  - field_name: 基金公司简称
+    field_name_zh: 基金公司简称
+    semantic_type: name
+    aliases:
+    - 基金公司简称
+  - field_name: 基金管理人代码
+    field_name_zh: 基金管理人代码
+    semantic_type: unknown
+    aliases:
+    - 基金管理人代码
+  - field_name: TA代码
+    field_name_zh: TA代码
+    semantic_type: unknown
+    aliases:
+    - TA代码
+  - field_name: 英文名称
+    field_name_zh: 英文名称
+    semantic_type: name
+    aliases:
+    - 英文名称
+  - field_name: 英文名称缩写
+    field_name_zh: 英文名称缩写
+    semantic_type: name
+    aliases:
+    - 英文名称缩写
+  - field_name: 省份
+    field_name_zh: 省份
+    semantic_type: unknown
+    aliases:
+    - 省份
+  - field_name: 城市
+    field_name_zh: 城市
+    semantic_type: unknown
+    aliases:
+    - 城市
+  - field_name: 注册地址
+    field_name_zh: 注册地址
+    semantic_type: unknown
+    aliases:
+    - 注册地址
+  - field_name: 办公地址
+    field_name_zh: 办公地址
+    semantic_type: unknown
+    aliases:
+    - 办公地址
+  - field_name: 邮编
+    field_name_zh: 邮编
+    semantic_type: unknown
+    aliases:
+    - 邮编
+  - field_name: 电话号码
+    field_name_zh: 电话号码
+    semantic_type: unknown
+    aliases:
+    - 电话号码
+  - field_name: 传真号码
+    field_name_zh: 传真号码
+    semantic_type: unknown
+    aliases:
+    - 传真号码
+  - field_name: 电子邮件
+    field_name_zh: 电子邮件
+    semantic_type: unknown
+    aliases:
+    - 电子邮件
+  - field_name: 公司网站
+    field_name_zh: 公司网站
+    semantic_type: unknown
+    aliases:
+    - 公司网站
+  - field_name: 统一社会信用代码
+    field_name_zh: 统一社会信用代码
+    semantic_type: unknown
+    aliases:
+    - 统一社会信用代码
+  - field_name: 法人代表
+    field_name_zh: 法人代表
+    semantic_type: unknown
+    aliases:
+    - 法人代表
+  - field_name: 总经理
+    field_name_zh: 总经理
+    semantic_type: unknown
+    aliases:
+    - 总经理
+  - field_name: 信息披露人
+    field_name_zh: 信息披露人
+    semantic_type: unknown
+    aliases:
+    - 信息披露人
+  - field_name: 注册资本
+    field_name_zh: 注册资本
+    semantic_type: unknown
+    aliases:
+    - 注册资本
+  - field_name: 货币代码
+    field_name_zh: 货币代码
+    semantic_type: unknown
+    aliases:
+    - 货币代码
+  - field_name: 公司成立日期
+    field_name_zh: 公司成立日期
+    semantic_type: date
+    aliases:
+    - 公司成立日期
+    is_time_field: true
+  - field_name: 公司终止日期
+    field_name_zh: 公司终止日期
+    semantic_type: date
+    aliases:
+    - 公司终止日期
+    is_time_field: true
+  - field_name: 公司简介
+    field_name_zh: 公司简介
+    semantic_type: unknown
+    aliases:
+    - 公司简介
+  - field_name: 公司类型
+    field_name_zh: 公司类型
+    semantic_type: unknown
+    aliases:
+    - 公司类型
+  - field_name: 企业性质
+    field_name_zh: 企业性质
+    semantic_type: unknown
+    aliases:
+    - 企业性质
+  - field_name: 国籍
+    field_name_zh: 国籍
+    semantic_type: unknown
+    aliases:
+    - 国籍
+  - field_name: 经营范围
+    field_name_zh: 经营范围
+    semantic_type: unknown
+    aliases:
+    - 经营范围
+  - field_name: 主要产品及业务
+    field_name_zh: 主要产品及业务
+    semantic_type: unknown
+    aliases:
+    - 主要产品及业务
+  - field_name: 统一社会信用编码
+    field_name_zh: 统一社会信用编码
+    semantic_type: unknown
+    aliases:
+    - 统一社会信用编码
+  - field_name: 组织机构代码
+    field_name_zh: 组织机构代码
+    semantic_type: unknown
+    aliases:
+    - 组织机构代码
+  - field_name: 创建时间
+    field_name_zh: 创建时间
+    semantic_type: timestamp
+    aliases:
+    - 创建时间
+    is_time_field: true
+  - field_name: 更新时间
+    field_name_zh: 更新时间
+    semantic_type: timestamp
+    aliases:
+    - 更新时间
+    is_time_field: true
+- table_name: dim_inds_info
+  table_name_zh: 行业维度表
+  layer: dim
+  domain: finance_market
+  entity_types:
+  - HoldingIndustry
+  - Industry
+  description: 行业维度表
+  fields:
+  - field_name: 证监会行业编号
+    field_name_zh: 证监会行业编号
+    semantic_type: unknown
+    aliases:
+    - 证监会行业编号
+    maps_to_attribute: industry_code
+  - field_name: 行业名称
+    field_name_zh: 行业名称
+    semantic_type: name
+    aliases:
+    - 行业名称
+    maps_to_attribute: industry_name
+  - field_name: 数据日期
+    field_name_zh: 数据日期
+    semantic_type: date
+    aliases:
+    - 数据日期
+    is_time_field: true
+  - field_name: 是否有效0-失效1-生效
+    field_name_zh: 是否有效0-失效1-生效
+    semantic_type: flag
+    aliases:
+    - 是否有效0-失效1-生效
+  - field_name: 长期价值（景气度）
+    field_name_zh: 长期价值（景气度）
+    semantic_type: unknown
+    aliases:
+    - 长期价值（景气度）
+  - field_name: 安全边际（估值）
+    field_name_zh: 安全边际（估值）
+    semantic_type: unknown
+    aliases:
+    - 安全边际（估值）
+  - field_name: 资金流入
+    field_name_zh: 资金流入
+    semantic_type: unknown
+    aliases:
+    - 资金流入
+  - field_name: 涨跌幅日涨幅
+    field_name_zh: 涨跌幅日涨幅
+    semantic_type: unknown
+    aliases:
+    - 涨跌幅日涨幅
+  - field_name: 近30日资金流入
+    field_name_zh: 近30日资金流入
+    semantic_type: unknown
+    aliases:
+    - 近30日资金流入
+- table_name: dim_fund_magr
+  table_name_zh: 基金经理维度表
+  layer: dim
+  domain: finance_market
+  entity_types:
+  - FundManager
+  description: 基金经理维度表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 基金经理ID
+    field_name_zh: 基金经理ID
+    semantic_type: id
+    aliases:
+    - 基金经理ID
+  - field_name: 基金经理姓名
+    field_name_zh: 基金经理姓名
+    semantic_type: unknown
+    aliases:
+    - 基金经理姓名
+  - field_name: 性别
+    field_name_zh: 性别
+    semantic_type: unknown
+    aliases:
+    - 性别
+  - field_name: 出生日期
+    field_name_zh: 出生日期
+    semantic_type: date
+    aliases:
+    - 出生日期
+    is_time_field: true
+  - field_name: 最高学历
+    field_name_zh: 最高学历
+    semantic_type: unknown
+    aliases:
+    - 最高学历
+  - field_name: 国家/地区
+    field_name_zh: 国家/地区
+    semantic_type: unknown
+    aliases:
+    - 国家/地区
+  - field_name: 基金经理简历
+    field_name_zh: 基金经理简历
+    semantic_type: unknown
+    aliases:
+    - 基金经理简历
+  - field_name: 职务
+    field_name_zh: 职务
+    semantic_type: unknown
+    aliases:
+    - 职务
+  - field_name: 管理基金数
+    field_name_zh: 管理基金数
+    semantic_type: unknown
+    aliases:
+    - 管理基金数
+  - field_name: 管理基金规模
+    field_name_zh: 管理基金规模
+    semantic_type: unknown
+    aliases:
+    - 管理基金规模
+  - field_name: 公告日期
+    field_name_zh: 公告日期
+    semantic_type: date
+    aliases:
+    - 公告日期
+    is_time_field: true
+  - field_name: 生效日期
+    field_name_zh: 生效日期
+    semantic_type: date
+    aliases:
+    - 生效日期
+    is_time_field: true
+  - field_name: 失效日期
+    field_name_zh: 失效日期
+    semantic_type: date
+    aliases:
+    - 失效日期
+    is_time_field: true
+  - field_name: 是否有效（0-失效1-生效）
+    field_name_zh: 是否有效（0-失效1-生效）
+    semantic_type: flag
+    aliases:
+    - 是否有效（0-失效1-生效）
+  - field_name: 对象ID
+    field_name_zh: 对象ID
+    semantic_type: id
+    aliases:
+    - 对象ID
+  - field_name: 文件打包时间
+    field_name_zh: 文件打包时间
+    semantic_type: timestamp
+    aliases:
+    - 文件打包时间
+    is_time_field: true
+  - field_name: 更新时间戳
+    field_name_zh: 更新时间戳
+    semantic_type: timestamp
+    aliases:
+    - 更新时间戳
+    is_time_field: true
+- table_name: dim_fund_magr_rln
+  table_name_zh: 基金-基金经理桥接表
+  layer: dim
+  domain: finance_market
+  entity_types:
+  - FundManager
+  description: 基金-基金经理桥接表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 产品前端代码
+    field_name_zh: 产品前端代码
+    semantic_type: unknown
+    aliases:
+    - 产品前端代码
+  - field_name: 产品后端代码
+    field_name_zh: 产品后端代码
+    semantic_type: unknown
+    aliases:
+    - 产品后端代码
+  - field_name: 基金产品名称
+    field_name_zh: 基金产品名称
+    semantic_type: name
+    aliases:
+    - 基金产品名称
+  - field_name: 基金产品简称
+    field_name_zh: 基金产品简称
+    semantic_type: name
+    aliases:
+    - 基金产品简称
+  - field_name: 基金经理ID
+    field_name_zh: 基金经理ID
+    semantic_type: id
+    aliases:
+    - 基金经理ID
+  - field_name: 产品开始管理日期
+    field_name_zh: 产品开始管理日期
+    semantic_type: date
+    aliases:
+    - 产品开始管理日期
+    is_time_field: true
+  - field_name: 产品结束管理日期
+    field_name_zh: 产品结束管理日期
+    semantic_type: date
+    aliases:
+    - 产品结束管理日期
+    is_time_field: true
+  - field_name: 代管基金经理
+    field_name_zh: 代管基金经理
+    semantic_type: unknown
+    aliases:
+    - 代管基金经理
+  - field_name: 代管起始日期
+    field_name_zh: 代管起始日期
+    semantic_type: date
+    aliases:
+    - 代管起始日期
+    is_time_field: true
+  - field_name: 代管结束日期
+    field_name_zh: 代管结束日期
+    semantic_type: date
+    aliases:
+    - 代管结束日期
+    is_time_field: true
+  - field_name: 展示序号
+    field_name_zh: 展示序号
+    semantic_type: unknown
+    aliases:
+    - 展示序号
+  - field_name: 公告日期
+    field_name_zh: 公告日期
+    semantic_type: date
+    aliases:
+    - 公告日期
+    is_time_field: true
+  - field_name: 生效日期
+    field_name_zh: 生效日期
+    semantic_type: date
+    aliases:
+    - 生效日期
+    is_time_field: true
+  - field_name: 失效日期
+    field_name_zh: 失效日期
+    semantic_type: date
+    aliases:
+    - 失效日期
+    is_time_field: true
+  - field_name: 是否有效0-失效1-生效
+    field_name_zh: 是否有效0-失效1-生效
+    semantic_type: flag
+    aliases:
+    - 是否有效0-失效1-生效
+  - field_name: 文件打包时间
+    field_name_zh: 文件打包时间
+    semantic_type: timestamp
+    aliases:
+    - 文件打包时间
+    is_time_field: true
+  - field_name: 更新时间戳
+    field_name_zh: 更新时间戳
+    semantic_type: timestamp
+    aliases:
+    - 更新时间戳
+    is_time_field: true
+- table_name: dim_fund_info
+  table_name_zh: 基金主维表
+  layer: dim
+  domain: finance_market
+  entity_types:
+  - Benchmark
+  - Fund
+  - FundCategory
+  - FundCompany
+  - Index
+  description: 基金主维表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 产品前端代码
+    field_name_zh: 产品前端代码
+    semantic_type: unknown
+    aliases:
+    - 产品前端代码
+  - field_name: 产品后端代码
+    field_name_zh: 产品后端代码
+    semantic_type: unknown
+    aliases:
+    - 产品后端代码
+  - field_name: 基金产品名称
+    field_name_zh: 基金产品名称
+    semantic_type: name
+    aliases:
+    - 基金产品名称
+  - field_name: 基金产品简称
+    field_name_zh: 基金产品简称
+    semantic_type: name
+    aliases:
+    - 基金产品简称
+  - field_name: 投资类型
+    field_name_zh: 投资类型
+    semantic_type: unknown
+    aliases:
+    - 投资类型
+  - field_name: 货币代码
+    field_name_zh: 货币代码
+    semantic_type: unknown
+    aliases:
+    - 货币代码
+  - field_name: 交易所
+    field_name_zh: 交易所
+    semantic_type: unknown
+    aliases:
+    - 交易所
+  - field_name: 投资风格代码
+    field_name_zh: 投资风格代码
+    semantic_type: unknown
+    aliases:
+    - 投资风格代码
+  - field_name: 投资风格名称
+    field_name_zh: 投资风格名称
+    semantic_type: name
+    aliases:
+    - 投资风格名称
+  - field_name: 基金类型
+    field_name_zh: 基金类型
+    semantic_type: unknown
+    aliases:
+    - 基金类型
+  - field_name: 是否初始基金（标识该基金代码是否为主代码的标识）
+    field_name_zh: 是否初始基金（标识该基金代码是否为主代码的标识）
+    semantic_type: flag
+    aliases:
+    - 是否初始基金（标识该基金代码是否为主代码的标识）
+  - field_name: 产品简称
+    field_name_zh: 产品简称
+    semantic_type: name
+    aliases:
+    - 产品简称
+  - field_name: 投资范围
+    field_name_zh: 投资范围
+    semantic_type: unknown
+    aliases:
+    - 投资范围
+  - field_name: 投资目标
+    field_name_zh: 投资目标
+    semantic_type: unknown
+    aliases:
+    - 投资目标
+  - field_name: 投资理念（适用于开放式基金)
+    field_name_zh: 投资理念（适用于开放式基金)
+    semantic_type: unknown
+    aliases:
+    - 投资理念（适用于开放式基金)
+  - field_name: 决策依据
+    field_name_zh: 决策依据
+    semantic_type: unknown
+    aliases:
+    - 决策依据
+  - field_name: 指数基金产品标识
+    field_name_zh: 指数基金产品标识
+    semantic_type: flag
+    aliases:
+    - 指数基金产品标识
+  - field_name: 投资策略
+    field_name_zh: 投资策略
+    semantic_type: unknown
+    aliases:
+    - 投资策略
+  - field_name: 基金风险收益特征
+    field_name_zh: 基金风险收益特征
+    semantic_type: unknown
+    aliases:
+    - 基金风险收益特征
+  - field_name: 投资区域
+    field_name_zh: 投资区域
+    semantic_type: unknown
+    aliases:
+    - 投资区域
+  - field_name: 主要投资区域说明
+    field_name_zh: 主要投资区域说明
+    semantic_type: unknown
+    aliases:
+    - 主要投资区域说明
+  - field_name: 个人投资者认购方式
+    field_name_zh: 个人投资者认购方式
+    semantic_type: unknown
+    aliases:
+    - 个人投资者认购方式
+  - field_name: 个人投资者认购方式说明
+    field_name_zh: 个人投资者认购方式说明
+    semantic_type: unknown
+    aliases:
+    - 个人投资者认购方式说明
+  - field_name: 封闭期机构投资者认购方式
+    field_name_zh: 封闭期机构投资者认购方式
+    semantic_type: unknown
+    aliases:
+    - 封闭期机构投资者认购方式
+  - field_name: 封闭期机构投资者认购方式说明
+    field_name_zh: 封闭期机构投资者认购方式说明
+    semantic_type: unknown
+    aliases:
+    - 封闭期机构投资者认购方式说明
+  - field_name: 托管人
+    field_name_zh: 托管人
+    semantic_type: unknown
+    aliases:
+    - 托管人
+  - field_name: 境外托管人
+    field_name_zh: 境外托管人
+    semantic_type: unknown
+    aliases:
+    - 境外托管人
+  - field_name: 业绩比较基准
+    field_name_zh: 业绩比较基准
+    semantic_type: unknown
+    aliases:
+    - 业绩比较基准
+  - field_name: 跟踪指数wind代码
+    field_name_zh: 跟踪指数wind代码
+    semantic_type: unknown
+    aliases:
+    - 跟踪指数wind代码
+  - field_name: 跟踪指数名称
+    field_name_zh: 跟踪指数名称
+    semantic_type: name
+    aliases:
+    - 跟踪指数名称
+  - field_name: 基金产品内码
+    field_name_zh: 基金产品内码
+    semantic_type: unknown
+    aliases:
+    - 基金产品内码
+  - field_name: 基金产品一级分类代码
+    field_name_zh: 基金产品一级分类代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品一级分类代码
+  - field_name: 基金产品一级分类名称
+    field_name_zh: 基金产品一级分类名称
+    semantic_type: name
+    aliases:
+    - 基金产品一级分类名称
+  - field_name: 基金产品二级分类代码
+    field_name_zh: 基金产品二级分类代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品二级分类代码
+  - field_name: 基金产品二级分类名称
+    field_name_zh: 基金产品二级分类名称
+    semantic_type: name
+    aliases:
+    - 基金产品二级分类名称
+  - field_name: 基金产品三级分类代码
+    field_name_zh: 基金产品三级分类代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品三级分类代码
+  - field_name: 基金产品三级分类名称
+    field_name_zh: 基金产品三级分类名称
+    semantic_type: name
+    aliases:
+    - 基金产品三级分类名称
+  - field_name: 可售产品状态一产品工厂标识
+    field_name_zh: 可售产品状态一产品工厂标识
+    semantic_type: flag
+    aliases:
+    - 可售产品状态一产品工厂标识
+  - field_name: 基金状态代码
+    field_name_zh: 基金状态代码
+    semantic_type: unknown
+    aliases:
+    - 基金状态代码
+  - field_name: 基金状态描述
+    field_name_zh: 基金状态描述
+    semantic_type: unknown
+    aliases:
+    - 基金状态描述
+  - field_name: 产品风险等级01-低02-中低03-中04-中高05-高
+    field_name_zh: 产品风险等级01-低02-中低03-中04-中高05-高
+    semantic_type: unknown
+    aliases:
+    - 产品风险等级01-低02-中低03-中04-中高05-高
+  - field_name: 基金存续状态（0：可售
+    field_name_zh: 基金存续状态（0：可售
+    semantic_type: unknown
+    aliases:
+    - 基金存续状态（0：可售
+  - field_name: 1：不可售
+    field_name_zh: 1：不可售
+    semantic_type: unknown
+    aliases:
+    - 1：不可售
+  - field_name: 2：终止）
+    field_name_zh: 2：终止）
+    semantic_type: unknown
+    aliases:
+    - 2：终止）
+  - field_name: 基金产品购买状态：0-不可购买1-认购2-申购
+    field_name_zh: 基金产品购买状态：0-不可购买1-认购2-申购
+    semantic_type: unknown
+    aliases:
+    - 基金产品购买状态：0-不可购买1-认购2-申购
+  - field_name: 基金产品赎回状态：1-可赎回2-不可赎回
+    field_name_zh: 基金产品赎回状态：1-可赎回2-不可赎回
+    semantic_type: unknown
+    aliases:
+    - 基金产品赎回状态：1-可赎回2-不可赎回
+  - field_name: 产品组
+    field_name_zh: 产品组
+    semantic_type: unknown
+    aliases:
+    - 产品组
+  - field_name: 产品销售主管部门
+    field_name_zh: 产品销售主管部门
+    semantic_type: unknown
+    aliases:
+    - 产品销售主管部门
+  - field_name: 网银衍生参数
+    field_name_zh: 网银衍生参数
+    semantic_type: unknown
+    aliases:
+    - 网银衍生参数
+  - field_name: 可受理业务掩码
+    field_name_zh: 可受理业务掩码
+    semantic_type: unknown
+    aliases:
+    - 可受理业务掩码
+  - field_name: 是否为FOF基金
+    field_name_zh: 是否为FOF基金
+    semantic_type: flag
+    aliases:
+    - 是否为FOF基金
+    maps_to_attribute: is_fof
+  - field_name: 0-非FOF
+    field_name_zh: 0-非FOF
+    semantic_type: unknown
+    aliases:
+    - 0-非FOF
+    maps_to_attribute: is_fof
+  - field_name: 1-FOF
+    field_name_zh: 1-FOF
+    semantic_type: unknown
+    aliases:
+    - 1-FOF
+    maps_to_attribute: is_fof
+  - field_name: 是否为ETF基金
+    field_name_zh: 是否为ETF基金
+    semantic_type: flag
+    aliases:
+    - 是否为ETF基金
+    maps_to_attribute: is_etf
+  - field_name: 0-非ETF
+    field_name_zh: 0-非ETF
+    semantic_type: unknown
+    aliases:
+    - 0-非ETF
+    maps_to_attribute: is_etf
+  - field_name: 1-ETF
+    field_name_zh: 1-ETF
+    semantic_type: unknown
+    aliases:
+    - 1-ETF
+    maps_to_attribute: is_etf
+  - field_name: 养老金产品标识1-是养老金产品
+    field_name_zh: 养老金产品标识1-是养老金产品
+    semantic_type: flag
+    aliases:
+    - 养老金产品标识1-是养老金产品
+  - field_name: 是否允许定投
+    field_name_zh: 是否允许定投
+    semantic_type: flag
+    aliases:
+    - 是否允许定投
+  - field_name: 是否为浮动管理费基金
+    field_name_zh: 是否为浮动管理费基金
+    semantic_type: flag
+    aliases:
+    - 是否为浮动管理费基金
+  - field_name: T+0基金标识
+    field_name_zh: T+0基金标识
+    semantic_type: flag
+    aliases:
+    - T+0基金标识
+  - field_name: 0：否；1:是
+    field_name_zh: 0：否；1:是
+    semantic_type: unknown
+    aliases:
+    - 0：否；1:是
+  - field_name: 基金合同类型
+    field_name_zh: 基金合同类型
+    semantic_type: unknown
+    aliases:
+    - 基金合同类型
+  - field_name: 1：电子合同
+    field_name_zh: 1：电子合同
+    semantic_type: unknown
+    aliases:
+    - 1：电子合同
+  - field_name: 2：纸质合同
+    field_name_zh: 2：纸质合同
+    semantic_type: unknown
+    aliases:
+    - 2：纸质合同
+  - field_name: 3：无合同
+    field_name_zh: 3：无合同
+    semantic_type: unknown
+    aliases:
+    - 3：无合同
+  - field_name: 基金合同版本
+    field_name_zh: 基金合同版本
+    semantic_type: unknown
+    aliases:
+    - 基金合同版本
+  - field_name: 分红方式：0-红利转投
+    field_name_zh: 分红方式：0-红利转投
+    semantic_type: unknown
+    aliases:
+    - 分红方式：0-红利转投
+  - field_name: 1-现金分红
+    field_name_zh: 1-现金分红
+    semantic_type: unknown
+    aliases:
+    - 1-现金分红
+  - field_name: 代销标识
+    field_name_zh: 代销标识
+    semantic_type: flag
+    aliases:
+    - 代销标识
+  - field_name: 0:非代销；1:代销
+    field_name_zh: 0:非代销；1:代销
+    semantic_type: unknown
+    aliases:
+    - 0:非代销；1:代销
+  - field_name: 生效日期
+    field_name_zh: 生效日期
+    semantic_type: date
+    aliases:
+    - 生效日期
+    is_time_field: true
+  - field_name: 失效日期
+    field_name_zh: 失效日期
+    semantic_type: date
+    aliases:
+    - 失效日期
+    is_time_field: true
+  - field_name: 当前是否有效
+    field_name_zh: 当前是否有效
+    semantic_type: flag
+    aliases:
+    - 当前是否有效
+  - field_name: 更新时间戳
+    field_name_zh: 更新时间戳
+    semantic_type: timestamp
+    aliases:
+    - 更新时间戳
+    is_time_field: true
+- table_name: dwd_fund_info
+  table_name_zh: 中国共同基金基本资料
+  layer: dwd
+  domain: finance_market
+  entity_types:
+  - Fund
+  - FundCompany
+  description: 中国共同基金基本资料
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 快照日期
+    field_name_zh: 快照日期
+    semantic_type: date
+    aliases:
+    - 快照日期
+    is_time_field: true
+  - field_name: 基金管理人代码
+    field_name_zh: 基金管理人代码
+    semantic_type: unknown
+    aliases:
+    - 基金管理人代码
+  - field_name: 基金管理人名称
+    field_name_zh: 基金管理人名称
+    semantic_type: name
+    aliases:
+    - 基金管理人名称
+  - field_name: 产品前端代码
+    field_name_zh: 产品前端代码
+    semantic_type: unknown
+    aliases:
+    - 产品前端代码
+  - field_name: 产品后端代码
+    field_name_zh: 产品后端代码
+    semantic_type: unknown
+    aliases:
+    - 产品后端代码
+  - field_name: 基金产品名称
+    field_name_zh: 基金产品名称
+    semantic_type: name
+    aliases:
+    - 基金产品名称
+  - field_name: 基金产品间称
+    field_name_zh: 基金产品间称
+    semantic_type: unknown
+    aliases:
+    - 基金产品间称
+  - field_name: 跟踪指数wind代码
+    field_name_zh: 跟踪指数wind代码
+    semantic_type: unknown
+    aliases:
+    - 跟踪指数wind代码
+  - field_name: 成立日期
+    field_name_zh: 成立日期
+    semantic_type: date
+    aliases:
+    - 成立日期
+    is_time_field: true
+  - field_name: 到期日期
+    field_name_zh: 到期日期
+    semantic_type: date
+    aliases:
+    - 到期日期
+    is_time_field: true
+  - field_name: 公告日期
+    field_name_zh: 公告日期
+    semantic_type: date
+    aliases:
+    - 公告日期
+    is_time_field: true
+  - field_name: 托管终止日期
+    field_name_zh: 托管终止日期
+    semantic_type: date
+    aliases:
+    - 托管终止日期
+    is_time_field: true
+  - field_name: 发行份额
+    field_name_zh: 发行份额
+    semantic_type: unknown
+    aliases:
+    - 发行份额
+  - field_name: 存续期
+    field_name_zh: 存续期
+    semantic_type: unknown
+    aliases:
+    - 存续期
+  - field_name: 托管人ID
+    field_name_zh: 托管人ID
+    semantic_type: id
+    aliases:
+    - 托管人ID
+  - field_name: 基金注册与过户登记人D
+    field_name_zh: 基金注册与过户登记人D
+    semantic_type: unknown
+    aliases:
+    - 基金注册与过户登记人D
+  - field_name: 基金品种ID
+    field_name_zh: 基金品种ID
+    semantic_type: id
+    aliases:
+    - 基金品种ID
+  - field_name: 基金管理人电话
+    field_name_zh: 基金管理人电话
+    semantic_type: unknown
+    aliases:
+    - 基金管理人电话
+  - field_name: 过户登记中心代码
+    field_name_zh: 过户登记中心代码
+    semantic_type: unknown
+    aliases:
+    - 过户登记中心代码
+  - field_name: 过户登记中心名称
+    field_name_zh: 过户登记中心名称
+    semantic_type: name
+    aliases:
+    - 过户登记中心名称
+  - field_name: 认购确认天数
+    field_name_zh: 认购确认天数
+    semantic_type: unknown
+    aliases:
+    - 认购确认天数
+  - field_name: 申购确认天数
+    field_name_zh: 申购确认天数
+    semantic_type: unknown
+    aliases:
+    - 申购确认天数
+  - field_name: 赎回确认天数
+    field_name_zh: 赎回确认天数
+    semantic_type: unknown
+    aliases:
+    - 赎回确认天数
+  - field_name: 赎回款到账天数
+    field_name_zh: 赎回款到账天数
+    semantic_type: unknown
+    aliases:
+    - 赎回款到账天数
+  - field_name: 更新时间戳
+    field_name_zh: 更新时间戳
+    semantic_type: timestamp
+    aliases:
+    - 更新时间戳
+    is_time_field: true
+- table_name: dwd_chag_rate
+  table_name_zh: 基金费率事实表
+  layer: dwd
+  domain: finance_market
+  entity_types:
+  - FundFee
+  description: 基金费率事实表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 基金管理人代码
+    field_name_zh: 基金管理人代码
+    semantic_type: unknown
+    aliases:
+    - 基金管理人代码
+  - field_name: 产品前端代码
+    field_name_zh: 产品前端代码
+    semantic_type: unknown
+    aliases:
+    - 产品前端代码
+  - field_name: 产品后端代码
+    field_name_zh: 产品后端代码
+    semantic_type: unknown
+    aliases:
+    - 产品后端代码
+  - field_name: 基金产品名称
+    field_name_zh: 基金产品名称
+    semantic_type: name
+    aliases:
+    - 基金产品名称
+  - field_name: 基金产品简称
+    field_name_zh: 基金产品简称
+    semantic_type: name
+    aliases:
+    - 基金产品简称
+  - field_name: 费率类型（0-认购费率6020010001-申购费率602002002-败回费率602003003-托管_2880c0ef
+    field_name_zh: 费率类型（0-认购费率6020010001-申购费率602002002-败回费率602003003-托管费率4-固定管理费率5-浮动管理费率(绩报酬费率)6020050006-销售服务费7-指数使用费602018000）
+    semantic_type: unknown
+    aliases:
+    - 费率类型（0-认购费率6020010001-申购费率602002002-败回费率602003003-托管费率4-固定管理费率5-浮动管理费率(绩报酬费率)6020050006-销售服务费7-指数使用费602018000）
+  - field_name: 费率范围（0-固定1-单范围2-双范围）
+    field_name_zh: 费率范围（0-固定1-单范围2-双范围）
+    semantic_type: unknown
+    aliases:
+    - 费率范围（0-固定1-单范围2-双范围）
+  - field_name: 收费类型（0-日常（前端）
+    field_name_zh: 收费类型（0-日常（前端）
+    semantic_type: unknown
+    aliases:
+    - 收费类型（0-日常（前端）
+  - field_name: 1-前端
+    field_name_zh: 1-前端
+    semantic_type: unknown
+    aliases:
+    - 1-前端
+  - field_name: 2-后端）
+    field_name_zh: 2-后端）
+    semantic_type: unknown
+    aliases:
+    - 2-后端）
+  - field_name: 投资群体代码
+    field_name_zh: 投资群体代码
+    semantic_type: unknown
+    aliases:
+    - 投资群体代码
+  - field_name: 是否包含区同值（0-不包含1-包含）
+    field_name_zh: 是否包含区同值（0-不包含1-包含）
+    semantic_type: flag
+    aliases:
+    - 是否包含区同值（0-不包含1-包含）
+  - field_name: 费率值
+    field_name_zh: 费率值
+    semantic_type: unknown
+    aliases:
+    - 费率值
+  - field_name: 费率值单位
+    field_name_zh: 费率值单位
+    semantic_type: unknown
+    aliases:
+    - 费率值单位
+  - field_name: 补充说明
+    field_name_zh: 补充说明
+    semantic_type: unknown
+    aliases:
+    - 补充说明
+  - field_name: 该费率生效时的公告日期
+    field_name_zh: 该费率生效时的公告日期
+    semantic_type: date
+    aliases:
+    - 该费率生效时的公告日期
+    is_time_field: true
+  - field_name: 该费率失效时的公告日期
+    field_name_zh: 该费率失效时的公告日期
+    semantic_type: date
+    aliases:
+    - 该费率失效时的公告日期
+    is_time_field: true
+  - field_name: 变动日期（业务上该条费率生效日期）
+    field_name_zh: 变动日期（业务上该条费率生效日期）
+    semantic_type: date
+    aliases:
+    - 变动日期（业务上该条费率生效日期）
+    is_time_field: true
+  - field_name: 终止日期（业务上该条费率失效日期）
+    field_name_zh: 终止日期（业务上该条费率失效日期）
+    semantic_type: date
+    aliases:
+    - 终止日期（业务上该条费率失效日期）
+    is_time_field: true
+  - field_name: 业务上的是否有效（0-失效1-生效）
+    field_name_zh: 业务上的是否有效（0-失效1-生效）
+    semantic_type: flag
+    aliases:
+    - 业务上的是否有效（0-失效1-生效）
+  - field_name: 生效日期
+    field_name_zh: 生效日期
+    semantic_type: date
+    aliases:
+    - 生效日期
+    is_time_field: true
+  - field_name: 失效日期
+    field_name_zh: 失效日期
+    semantic_type: date
+    aliases:
+    - 失效日期
+    is_time_field: true
+  - field_name: 是否有效（0-失效1-生效）
+    field_name_zh: 是否有效（0-失效1-生效）
+    semantic_type: flag
+    aliases:
+    - 是否有效（0-失效1-生效）
+  - field_name: 文件打包时间
+    field_name_zh: 文件打包时间
+    semantic_type: timestamp
+    aliases:
+    - 文件打包时间
+    is_time_field: true
+  - field_name: 更新时间戳
+    field_name_zh: 更新时间戳
+    semantic_type: timestamp
+    aliases:
+    - 更新时间戳
+    is_time_field: true
+- table_name: DWD_FUND_NAV
+  table_name_zh: 基金净值发布快照表
+  layer: dwd
+  domain: finance_market
+  entity_types:
+  - NetValue
+  description: 基金净值发布快照表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 产品前端代码
+    field_name_zh: 产品前端代码
+    semantic_type: unknown
+    aliases:
+    - 产品前端代码
+  - field_name: 产品后端代码
+    field_name_zh: 产品后端代码
+    semantic_type: unknown
+    aliases:
+    - 产品后端代码
+  - field_name: 基金产品名称
+    field_name_zh: 基金产品名称
+    semantic_type: name
+    aliases:
+    - 基金产品名称
+  - field_name: 基金产品简称
+    field_name_zh: 基金产品简称
+    semantic_type: name
+    aliases:
+    - 基金产品简称
+  - field_name: 公告日期
+    field_name_zh: 公告日期
+    semantic_type: date
+    aliases:
+    - 公告日期
+    is_time_field: true
+  - field_name: 报价日期
+    field_name_zh: 报价日期
+    semantic_type: date
+    aliases:
+    - 报价日期
+    maps_to_attribute: nav_date
+    is_time_field: true
+  - field_name: 基金单位净值
+    field_name_zh: 基金单位净值
+    semantic_type: unknown
+    aliases:
+    - 基金单位净值
+    maps_to_attribute: unit_nav
+  - field_name: 基金累计净值
+    field_name_zh: 基金累计净值
+    semantic_type: unknown
+    aliases:
+    - 基金累计净值
+    maps_to_attribute: accumulated_nav
+  - field_name: 复权因子
+    field_name_zh: 复权因子
+    semantic_type: unknown
+    aliases:
+    - 复权因子
+  - field_name: 复权单位净值
+    field_name_zh: 复权单位净值
+    semantic_type: unknown
+    aliases:
+    - 复权单位净值
+    maps_to_attribute: adjusted_nav
+  - field_name: 资产净值
+    field_name_zh: 资产净值
+    semantic_type: amount
+    aliases:
+    - 资产净值
+    maps_to_attribute: asset_net_value
+  - field_name: 累计资产净值
+    field_name_zh: 累计资产净值
+    semantic_type: amount
+    aliases:
+    - 累计资产净值
+    maps_to_attribute: asset_net_value
+  - field_name: 合计资产净值
+    field_name_zh: 合计资产净值
+    semantic_type: amount
+    aliases:
+    - 合计资产净值
+    maps_to_attribute: asset_net_value
+  - field_name: 累计单位分配
+    field_name_zh: 累计单位分配
+    semantic_type: unknown
+    aliases:
+    - 累计单位分配
+  - field_name: 货币代码
+    field_name_zh: 货币代码
+    semantic_type: unknown
+    aliases:
+    - 货币代码
+  - field_name: 是否合计数据
+    field_name_zh: 是否合计数据
+    semantic_type: flag
+    aliases:
+    - 是否合计数据
+  - field_name: 是否净值除权日
+    field_name_zh: 是否净值除权日
+    semantic_type: flag
+    aliases:
+    - 是否净值除权日
+  - field_name: 文件打包时间
+    field_name_zh: 文件打包时间
+    semantic_type: timestamp
+    aliases:
+    - 文件打包时间
+    is_time_field: true
+  - field_name: 创建时间
+    field_name_zh: 创建时间
+    semantic_type: timestamp
+    aliases:
+    - 创建时间
+    is_time_field: true
+  - field_name: 更新时间
+    field_name_zh: 更新时间
+    semantic_type: timestamp
+    aliases:
+    - 更新时间
+    is_time_field: true
+- table_name: DWD_FUND_CMONEY_GRTH
+  table_name_zh: 货币基金日收益快照表
+  layer: dwd
+  domain: finance_market
+  entity_types:
+  - MoneyFundIncome
+  description: 货币基金日收益快照表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 产品前端代码
+    field_name_zh: 产品前端代码
+    semantic_type: unknown
+    aliases:
+    - 产品前端代码
+  - field_name: 产品后端代码
+    field_name_zh: 产品后端代码
+    semantic_type: unknown
+    aliases:
+    - 产品后端代码
+  - field_name: 基金产品名称
+    field_name_zh: 基金产品名称
+    semantic_type: name
+    aliases:
+    - 基金产品名称
+  - field_name: 基金产品简称
+    field_name_zh: 基金产品简称
+    semantic_type: name
+    aliases:
+    - 基金产品简称
+  - field_name: 公告日期
+    field_name_zh: 公告日期
+    semantic_type: date
+    aliases:
+    - 公告日期
+    is_time_field: true
+  - field_name: 起始日期
+    field_name_zh: 起始日期
+    semantic_type: date
+    aliases:
+    - 起始日期
+    is_time_field: true
+  - field_name: 截止日期
+    field_name_zh: 截止日期
+    semantic_type: date
+    aliases:
+    - 截止日期
+    is_time_field: true
+  - field_name: 每万份基金单位收益
+    field_name_zh: 每万份基金单位收益
+    semantic_type: unknown
+    aliases:
+    - 每万份基金单位收益
+  - field_name: 七日年化收益率
+    field_name_zh: 七日年化收益率
+    semantic_type: metric
+    aliases:
+    - 七日年化收益率
+    maps_to_attribute: annualized_return
+  - field_name: 公告单位净值
+    field_name_zh: 公告单位净值
+    semantic_type: unknown
+    aliases:
+    - 公告单位净值
+  - field_name: 文件打包时间
+    field_name_zh: 文件打包时间
+    semantic_type: timestamp
+    aliases:
+    - 文件打包时间
+    is_time_field: true
+  - field_name: 创建时间
+    field_name_zh: 创建时间
+    semantic_type: timestamp
+    aliases:
+    - 创建时间
+    is_time_field: true
+  - field_name: 更新时间
+    field_name_zh: 更新时间
+    semantic_type: timestamp
+    aliases:
+    - 更新时间
+    is_time_field: true
+- table_name: DWD_FUND_NAV_GRTH
+  table_name_zh: 基金业绩表现快照表
+  layer: dwd
+  domain: finance_market
+  entity_types:
+  - PeerRanking
+  - PerformanceMetric
+  description: 基金业绩表现快照表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 产品前端代码
+    field_name_zh: 产品前端代码
+    semantic_type: unknown
+    aliases:
+    - 产品前端代码
+  - field_name: 产品后端代码
+    field_name_zh: 产品后端代码
+    semantic_type: unknown
+    aliases:
+    - 产品后端代码
+  - field_name: 基金产品名称
+    field_name_zh: 基金产品名称
+    semantic_type: name
+    aliases:
+    - 基金产品名称
+  - field_name: 基金产品简称
+    field_name_zh: 基金产品简称
+    semantic_type: name
+    aliases:
+    - 基金产品简称
+  - field_name: 基金分类
+    field_name_zh: 基金分类
+    semantic_type: unknown
+    aliases:
+    - 基金分类
+  - field_name: 交易日期
+    field_name_zh: 交易日期
+    semantic_type: date
+    aliases:
+    - 交易日期
+    maps_to_attribute: nav_date
+    is_time_field: true
+  - field_name: 收益率（本周以来)
+    field_name_zh: 收益率（本周以来)
+    semantic_type: metric
+    aliases:
+    - 收益率（本周以来)
+    maps_to_attribute: return_rate
+  - field_name: 收益率(本月以来)
+    field_name_zh: 收益率(本月以来)
+    semantic_type: metric
+    aliases:
+    - 收益率(本月以来)
+    maps_to_attribute: return_rate
+  - field_name: 收益率（本季以来）
+    field_name_zh: 收益率（本季以来）
+    semantic_type: metric
+    aliases:
+    - 收益率（本季以来）
+    maps_to_attribute: return_rate
+  - field_name: 收益率(一周)
+    field_name_zh: 收益率(一周)
+    semantic_type: metric
+    aliases:
+    - 收益率(一周)
+    maps_to_attribute: return_rate
+  - field_name: 收益率（一个月)
+    field_name_zh: 收益率（一个月)
+    semantic_type: metric
+    aliases:
+    - 收益率（一个月)
+    maps_to_attribute: return_rate
+  - field_name: 收益率（三个月)
+    field_name_zh: 收益率（三个月)
+    semantic_type: metric
+    aliases:
+    - 收益率（三个月)
+    maps_to_attribute: return_rate
+  - field_name: 收益率（六个月）
+    field_name_zh: 收益率（六个月）
+    semantic_type: metric
+    aliases:
+    - 收益率（六个月）
+    maps_to_attribute: return_rate
+  - field_name: 收益率（本年以来）
+    field_name_zh: 收益率（本年以来）
+    semantic_type: metric
+    aliases:
+    - 收益率（本年以来）
+    maps_to_attribute: return_rate
+  - field_name: 收益率(一年)
+    field_name_zh: 收益率(一年)
+    semantic_type: metric
+    aliases:
+    - 收益率(一年)
+    maps_to_attribute: return_rate
+  - field_name: 收益率(两年)
+    field_name_zh: 收益率(两年)
+    semantic_type: metric
+    aliases:
+    - 收益率(两年)
+    maps_to_attribute: return_rate
+  - field_name: 收益率(三年)
+    field_name_zh: 收益率(三年)
+    semantic_type: metric
+    aliases:
+    - 收益率(三年)
+    maps_to_attribute: return_rate
+  - field_name: 收益率(四年)
+    field_name_zh: 收益率(四年)
+    semantic_type: metric
+    aliases:
+    - 收益率(四年)
+    maps_to_attribute: return_rate
+  - field_name: 收益率（五年)
+    field_name_zh: 收益率（五年)
+    semantic_type: metric
+    aliases:
+    - 收益率（五年)
+    maps_to_attribute: return_rate
+  - field_name: 收益率（六年)
+    field_name_zh: 收益率（六年)
+    semantic_type: metric
+    aliases:
+    - 收益率（六年)
+    maps_to_attribute: return_rate
+  - field_name: 收益率(成立以来)
+    field_name_zh: 收益率(成立以来)
+    semantic_type: metric
+    aliases:
+    - 收益率(成立以来)
+    maps_to_attribute: return_rate
+  - field_name: 年化收益率
+    field_name_zh: 年化收益率
+    semantic_type: metric
+    aliases:
+    - 年化收益率
+    maps_to_attribute: annualized_return
+  - field_name: 当天跟踪偏离度
+    field_name_zh: 当天跟踪偏离度
+    semantic_type: unknown
+    aliases:
+    - 当天跟踪偏离度
+  - field_name: 今年以来同类基金收益率
+    field_name_zh: 今年以来同类基金收益率
+    semantic_type: metric
+    aliases:
+    - 今年以来同类基金收益率
+    maps_to_attribute: return_rate
+  - field_name: 今年以来同类排名
+    field_name_zh: 今年以来同类排名
+    semantic_type: unknown
+    aliases:
+    - 今年以来同类排名
+  - field_name: 最近三月同类基金收益率
+    field_name_zh: 最近三月同类基金收益率
+    semantic_type: metric
+    aliases:
+    - 最近三月同类基金收益率
+    maps_to_attribute: return_rate
+  - field_name: 最近三月同类排名
+    field_name_zh: 最近三月同类排名
+    semantic_type: unknown
+    aliases:
+    - 最近三月同类排名
+  - field_name: 最近六月同类基金收益率
+    field_name_zh: 最近六月同类基金收益率
+    semantic_type: metric
+    aliases:
+    - 最近六月同类基金收益率
+    maps_to_attribute: return_rate
+  - field_name: 最近六月同类排名
+    field_name_zh: 最近六月同类排名
+    semantic_type: unknown
+    aliases:
+    - 最近六月同类排名
+  - field_name: 最近一年同类基金收益率
+    field_name_zh: 最近一年同类基金收益率
+    semantic_type: metric
+    aliases:
+    - 最近一年同类基金收益率
+    maps_to_attribute: return_rate
+  - field_name: 最近一年同类排名
+    field_name_zh: 最近一年同类排名
+    semantic_type: unknown
+    aliases:
+    - 最近一年同类排名
+  - field_name: 最近两年同类基金收益率
+    field_name_zh: 最近两年同类基金收益率
+    semantic_type: metric
+    aliases:
+    - 最近两年同类基金收益率
+    maps_to_attribute: return_rate
+  - field_name: 最近两年同类排名
+    field_name_zh: 最近两年同类排名
+    semantic_type: unknown
+    aliases:
+    - 最近两年同类排名
+  - field_name: 最近三年同类基金收益率
+    field_name_zh: 最近三年同类基金收益率
+    semantic_type: metric
+    aliases:
+    - 最近三年同类基金收益率
+    maps_to_attribute: return_rate
+  - field_name: 最近三年同类排名
+    field_name_zh: 最近三年同类排名
+    semantic_type: unknown
+    aliases:
+    - 最近三年同类排名
+  - field_name: 最近五年同类基金收益率
+    field_name_zh: 最近五年同类基金收益率
+    semantic_type: metric
+    aliases:
+    - 最近五年同类基金收益率
+    maps_to_attribute: return_rate
+  - field_name: 最近五年同类排名
+    field_name_zh: 最近五年同类排名
+    semantic_type: unknown
+    aliases:
+    - 最近五年同类排名
+  - field_name: 成立以来同类基金收益率
+    field_name_zh: 成立以来同类基金收益率
+    semantic_type: metric
+    aliases:
+    - 成立以来同类基金收益率
+    maps_to_attribute: return_rate
+  - field_name: 成立以来同类排名(不建议使用)
+    field_name_zh: 成立以来同类排名(不建议使用)
+    semantic_type: unknown
+    aliases:
+    - 成立以来同类排名(不建议使用)
+  - field_name: 同类基金年化收益率
+    field_name_zh: 同类基金年化收益率
+    semantic_type: metric
+    aliases:
+    - 同类基金年化收益率
+    maps_to_attribute: annualized_return
+  - field_name: 年化收益率同类排名
+    field_name_zh: 年化收益率同类排名
+    semantic_type: metric
+    aliases:
+    - 年化收益率同类排名
+    maps_to_attribute: annualized_return
+  - field_name: 标准差(六个月)
+    field_name_zh: 标准差(六个月)
+    semantic_type: unknown
+    aliases:
+    - 标准差(六个月)
+    maps_to_attribute: standard_deviation
+  - field_name: 标准差(一年)
+    field_name_zh: 标准差(一年)
+    semantic_type: unknown
+    aliases:
+    - 标准差(一年)
+    maps_to_attribute: standard_deviation
+  - field_name: 标准差(两年)
+    field_name_zh: 标准差(两年)
+    semantic_type: unknown
+    aliases:
+    - 标准差(两年)
+    maps_to_attribute: standard_deviation
+  - field_name: 标准差(三年)
+    field_name_zh: 标准差(三年)
+    semantic_type: unknown
+    aliases:
+    - 标准差(三年)
+    maps_to_attribute: standard_deviation
+  - field_name: 标准差(五年）
+    field_name_zh: 标准差(五年）
+    semantic_type: unknown
+    aliases:
+    - 标准差(五年）
+    maps_to_attribute: standard_deviation
+  - field_name: 标准差（成立以来）
+    field_name_zh: 标准差（成立以来）
+    semantic_type: unknown
+    aliases:
+    - 标准差（成立以来）
+    maps_to_attribute: standard_deviation
+  - field_name: 夏普比率（六个月）
+    field_name_zh: 夏普比率（六个月）
+    semantic_type: metric
+    aliases:
+    - 夏普比率（六个月）
+  - field_name: 夏普比率（一年）
+    field_name_zh: 夏普比率（一年）
+    semantic_type: metric
+    aliases:
+    - 夏普比率（一年）
+  - field_name: 夏普比率(两年）
+    field_name_zh: 夏普比率(两年）
+    semantic_type: metric
+    aliases:
+    - 夏普比率(两年）
+  - field_name: 夏普比率(三年)
+    field_name_zh: 夏普比率(三年)
+    semantic_type: metric
+    aliases:
+    - 夏普比率(三年)
+  - field_name: 最近一周同类基金收益率
+    field_name_zh: 最近一周同类基金收益率
+    semantic_type: metric
+    aliases:
+    - 最近一周同类基金收益率
+    maps_to_attribute: return_rate
+  - field_name: 最近一周同类排名
+    field_name_zh: 最近一周同类排名
+    semantic_type: unknown
+    aliases:
+    - 最近一周同类排名
+  - field_name: 最近一月同类基金收益率
+    field_name_zh: 最近一月同类基金收益率
+    semantic_type: metric
+    aliases:
+    - 最近一月同类基金收益率
+    maps_to_attribute: return_rate
+  - field_name: 最近一月同类排名
+    field_name_zh: 最近一月同类排名
+    semantic_type: unknown
+    aliases:
+    - 最近一月同类排名
+  - field_name: 收益率（当天）
+    field_name_zh: 收益率（当天）
+    semantic_type: metric
+    aliases:
+    - 收益率（当天）
+    maps_to_attribute: return_rate
+  - field_name: 成立以来同类排名
+    field_name_zh: 成立以来同类排名
+    semantic_type: unknown
+    aliases:
+    - 成立以来同类排名
+  - field_name: BETA(6月)
+    field_name_zh: BETA(6月)
+    semantic_type: metric
+    aliases:
+    - BETA(6月)
+  - field_name: BETA(1年)
+    field_name_zh: BETA(1年)
+    semantic_type: metric
+    aliases:
+    - BETA(1年)
+  - field_name: BETA(2年)
+    field_name_zh: BETA(2年)
+    semantic_type: metric
+    aliases:
+    - BETA(2年)
+  - field_name: BETA(3年)
+    field_name_zh: BETA(3年)
+    semantic_type: metric
+    aliases:
+    - BETA(3年)
+  - field_name: AL.PHA(6月)
+    field_name_zh: AL.PHA(6月)
+    semantic_type: unknown
+    aliases:
+    - AL.PHA(6月)
+  - field_name: AL.PHA（1年)
+    field_name_zh: AL.PHA（1年)
+    semantic_type: unknown
+    aliases:
+    - AL.PHA（1年)
+  - field_name: AL.PHA(2年)
+    field_name_zh: AL.PHA(2年)
+    semantic_type: unknown
+    aliases:
+    - AL.PHA(2年)
+  - field_name: ALPHA(3年)
+    field_name_zh: ALPHA(3年)
+    semantic_type: metric
+    aliases:
+    - ALPHA(3年)
+  - field_name: 当日同类收益率
+    field_name_zh: 当日同类收益率
+    semantic_type: metric
+    aliases:
+    - 当日同类收益率
+    maps_to_attribute: return_rate
+  - field_name: 当日同类收益率排名
+    field_name_zh: 当日同类收益率排名
+    semantic_type: metric
+    aliases:
+    - 当日同类收益率排名
+    maps_to_attribute: return_rate
+  - field_name: 成立以来年化收益率
+    field_name_zh: 成立以来年化收益率
+    semantic_type: metric
+    aliases:
+    - 成立以来年化收益率
+    maps_to_attribute: annualized_return
+  - field_name: 最大回撤（三个月)
+    field_name_zh: 最大回撤（三个月)
+    semantic_type: metric
+    aliases:
+    - 最大回撤（三个月)
+    maps_to_attribute: max_drawdown
+  - field_name: 最大回撤(六个月)
+    field_name_zh: 最大回撤(六个月)
+    semantic_type: metric
+    aliases:
+    - 最大回撤(六个月)
+    maps_to_attribute: max_drawdown
+  - field_name: 最大回撤(一年)
+    field_name_zh: 最大回撤(一年)
+    semantic_type: metric
+    aliases:
+    - 最大回撤(一年)
+    maps_to_attribute: max_drawdown
+  - field_name: 最大回撤(两年)
+    field_name_zh: 最大回撤(两年)
+    semantic_type: metric
+    aliases:
+    - 最大回撤(两年)
+    maps_to_attribute: max_drawdown
+  - field_name: 最大回撤(三年)
+    field_name_zh: 最大回撤(三年)
+    semantic_type: metric
+    aliases:
+    - 最大回撤(三年)
+    maps_to_attribute: max_drawdown
+  - field_name: 最大回撤（今年以来)
+    field_name_zh: 最大回撤（今年以来)
+    semantic_type: metric
+    aliases:
+    - 最大回撤（今年以来)
+    maps_to_attribute: max_drawdown
+  - field_name: 最大回撤（成立以来）
+    field_name_zh: 最大回撤（成立以来）
+    semantic_type: metric
+    aliases:
+    - 最大回撤（成立以来）
+    maps_to_attribute: max_drawdown
+  - field_name: 最大回撤（近1周）
+    field_name_zh: 最大回撤（近1周）
+    semantic_type: metric
+    aliases:
+    - 最大回撤（近1周）
+    maps_to_attribute: max_drawdown
+  - field_name: 最大回撤（近1月）
+    field_name_zh: 最大回撤（近1月）
+    semantic_type: metric
+    aliases:
+    - 最大回撤（近1月）
+    maps_to_attribute: max_drawdown
+  - field_name: 信息比率(近1周)
+    field_name_zh: 信息比率(近1周)
+    semantic_type: metric
+    aliases:
+    - 信息比率(近1周)
+    maps_to_attribute: information_ratio
+  - field_name: 信息比率(近1月)
+    field_name_zh: 信息比率(近1月)
+    semantic_type: metric
+    aliases:
+    - 信息比率(近1月)
+    maps_to_attribute: information_ratio
+  - field_name: 信息比率(近3月)
+    field_name_zh: 信息比率(近3月)
+    semantic_type: metric
+    aliases:
+    - 信息比率(近3月)
+    maps_to_attribute: information_ratio
+  - field_name: 信息比率（近6月）
+    field_name_zh: 信息比率（近6月）
+    semantic_type: metric
+    aliases:
+    - 信息比率（近6月）
+    maps_to_attribute: information_ratio
+  - field_name: 信息比率（近1年）
+    field_name_zh: 信息比率（近1年）
+    semantic_type: metric
+    aliases:
+    - 信息比率（近1年）
+    maps_to_attribute: information_ratio
+  - field_name: 信息比率(近2年)
+    field_name_zh: 信息比率(近2年)
+    semantic_type: metric
+    aliases:
+    - 信息比率(近2年)
+    maps_to_attribute: information_ratio
+  - field_name: 信息比率（近3年）
+    field_name_zh: 信息比率（近3年）
+    semantic_type: metric
+    aliases:
+    - 信息比率（近3年）
+    maps_to_attribute: information_ratio
+  - field_name: 信息比率（近5年）
+    field_name_zh: 信息比率（近5年）
+    semantic_type: metric
+    aliases:
+    - 信息比率（近5年）
+    maps_to_attribute: information_ratio
+  - field_name: 信息比率（今年以来）
+    field_name_zh: 信息比率（今年以来）
+    semantic_type: metric
+    aliases:
+    - 信息比率（今年以来）
+    maps_to_attribute: information_ratio
+  - field_name: 信息比率（成立以来）
+    field_name_zh: 信息比率（成立以来）
+    semantic_type: metric
+    aliases:
+    - 信息比率（成立以来）
+    maps_to_attribute: information_ratio
+- table_name: DWD_ETF_TRACK
+  table_name_zh: ETF跟踪业绩表现发布快照表
+  layer: dwd
+  domain: finance_market
+  entity_types:
+  - Index
+  description: ETF跟踪业绩表现发布快照表
+  fields:
+  - field_name: 基金代码
+    field_name_zh: 基金代码
+    semantic_type: unknown
+    aliases:
+    - 基金代码
+    maps_to_attribute: fund_code
+  - field_name: 交易日期
+    field_name_zh: 交易日期
+    semantic_type: date
+    aliases:
+    - 交易日期
+    maps_to_attribute: nav_date
+    is_time_field: true
+  - field_name: 指数id
+    field_name_zh: 指数id
+    semantic_type: id
+    aliases:
+    - 指数id
+  - field_name: 跟踪误差（一个月）
+    field_name_zh: 跟踪误差（一个月）
+    semantic_type: metric
+    aliases:
+    - 跟踪误差（一个月）
+    maps_to_attribute: tracking_error
+  - field_name: 跟踪误差（三个月)
+    field_name_zh: 跟踪误差（三个月)
+    semantic_type: metric
+    aliases:
+    - 跟踪误差（三个月)
+    maps_to_attribute: tracking_error
+  - field_name: 跟踪误差(六个月）
+    field_name_zh: 跟踪误差(六个月）
+    semantic_type: metric
+    aliases:
+    - 跟踪误差(六个月）
+    maps_to_attribute: tracking_error
+  - field_name: 跟踪误差（一年）
+    field_name_zh: 跟踪误差（一年）
+    semantic_type: metric
+    aliases:
+    - 跟踪误差（一年）
+    maps_to_attribute: tracking_error
+  - field_name: 跟踪误差（三年）
+    field_name_zh: 跟踪误差（三年）
+    semantic_type: metric
+    aliases:
+    - 跟踪误差（三年）
+    maps_to_attribute: tracking_error
+  - field_name: 跟踪误差(五年）
+    field_name_zh: 跟踪误差(五年）
+    semantic_type: metric
+    aliases:
+    - 跟踪误差(五年）
+    maps_to_attribute: tracking_error
+  - field_name: 信息比率（一个月）
+    field_name_zh: 信息比率（一个月）
+    semantic_type: metric
+    aliases:
+    - 信息比率（一个月）
+    maps_to_attribute: information_ratio
+  - field_name: 信息比率（三个月）
+    field_name_zh: 信息比率（三个月）
+    semantic_type: metric
+    aliases:
+    - 信息比率（三个月）
+    maps_to_attribute: information_ratio
+  - field_name: 信息比率（六个月）
+    field_name_zh: 信息比率（六个月）
+    semantic_type: metric
+    aliases:
+    - 信息比率（六个月）
+    maps_to_attribute: information_ratio
+  - field_name: 信息比率（一年）
+    field_name_zh: 信息比率（一年）
+    semantic_type: metric
+    aliases:
+    - 信息比率（一年）
+    maps_to_attribute: information_ratio
+  - field_name: 信息比率（三年）
+    field_name_zh: 信息比率（三年）
+    semantic_type: metric
+    aliases:
+    - 信息比率（三年）
+    maps_to_attribute: information_ratio
+  - field_name: 信息比率（五年）
+    field_name_zh: 信息比率（五年）
+    semantic_type: metric
+    aliases:
+    - 信息比率（五年）
+    maps_to_attribute: information_ratio
+  - field_name: 文件打包时间
+    field_name_zh: 文件打包时间
+    semantic_type: timestamp
+    aliases:
+    - 文件打包时间
+    is_time_field: true
+  - field_name: 创建时间
+    field_name_zh: 创建时间
+    semantic_type: timestamp
+    aliases:
+    - 创建时间
+    is_time_field: true
+  - field_name: 更新时间
+    field_name_zh: 更新时间
+    semantic_type: timestamp
+    aliases:
+    - 更新时间
+    is_time_field: true
+- table_name: dwd_fund_inds_alloc
+  table_name_zh: 基金行业配置快照表
+  layer: dwd
+  domain: finance_market
+  entity_types:
+  - HoldingIndustry
+  description: 基金行业配置快照表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 产品前端代码
+    field_name_zh: 产品前端代码
+    semantic_type: unknown
+    aliases:
+    - 产品前端代码
+  - field_name: 产品后端代码
+    field_name_zh: 产品后端代码
+    semantic_type: unknown
+    aliases:
+    - 产品后端代码
+  - field_name: 基金产品名称
+    field_name_zh: 基金产品名称
+    semantic_type: name
+    aliases:
+    - 基金产品名称
+  - field_name: 基金产品简称
+    field_name_zh: 基金产品简称
+    semantic_type: name
+    aliases:
+    - 基金产品简称
+  - field_name: 公告日期
+    field_name_zh: 公告日期
+    semantic_type: date
+    aliases:
+    - 公告日期
+    is_time_field: true
+  - field_name: 截止日期
+    field_name_zh: 截止日期
+    semantic_type: date
+    aliases:
+    - 截止日期
+    is_time_field: true
+  - field_name: 证监会行业编号
+    field_name_zh: 证监会行业编号
+    semantic_type: unknown
+    aliases:
+    - 证监会行业编号
+    maps_to_attribute: industry_code
+  - field_name: 行业名称
+    field_name_zh: 行业名称
+    semantic_type: name
+    aliases:
+    - 行业名称
+    maps_to_attribute: industry_name
+  - field_name: 持有行业市值(元)
+    field_name_zh: 持有行业市值(元)
+    semantic_type: amount
+    aliases:
+    - 持有行业市值(元)
+  - field_name: 持有行业市值占基金净值比例(%）
+    field_name_zh: 持有行业市值占基金净值比例(%）
+    semantic_type: metric
+    aliases:
+    - 持有行业市值占基金净值比例(%）
+  - field_name: 积极投资持有行业市值（元)
+    field_name_zh: 积极投资持有行业市值（元)
+    semantic_type: amount
+    aliases:
+    - 积极投资持有行业市值（元)
+  - field_name: 积极投资持有行业比例(%)
+    field_name_zh: 积极投资持有行业比例(%)
+    semantic_type: metric
+    aliases:
+    - 积极投资持有行业比例(%)
+  - field_name: 指数投资持有行业市值（元)
+    field_name_zh: 指数投资持有行业市值（元)
+    semantic_type: amount
+    aliases:
+    - 指数投资持有行业市值（元)
+  - field_name: 指数投资持有行业比例(%)
+    field_name_zh: 指数投资持有行业比例(%)
+    semantic_type: metric
+    aliases:
+    - 指数投资持有行业比例(%)
+  - field_name: 持有行业市值比例较上期变化(%）
+    field_name_zh: 持有行业市值比例较上期变化(%）
+    semantic_type: metric
+    aliases:
+    - 持有行业市值比例较上期变化(%）
+- table_name: dwd_fund_holder
+  table_name_zh: 基金持有结构快照表
+  layer: dwd
+  domain: finance_market
+  entity_types:
+  - HolderStructure
+  description: 基金持有结构快照表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 产品前端代码
+    field_name_zh: 产品前端代码
+    semantic_type: unknown
+    aliases:
+    - 产品前端代码
+  - field_name: 产品后端代码
+    field_name_zh: 产品后端代码
+    semantic_type: unknown
+    aliases:
+    - 产品后端代码
+  - field_name: 基金产品名称
+    field_name_zh: 基金产品名称
+    semantic_type: name
+    aliases:
+    - 基金产品名称
+  - field_name: 基金产品简称
+    field_name_zh: 基金产品简称
+    semantic_type: name
+    aliases:
+    - 基金产品简称
+  - field_name: 公告日期
+    field_name_zh: 公告日期
+    semantic_type: date
+    aliases:
+    - 公告日期
+    is_time_field: true
+  - field_name: 截止日期
+    field_name_zh: 截止日期
+    semantic_type: date
+    aliases:
+    - 截止日期
+    is_time_field: true
+  - field_name: 基金管理人代码
+    field_name_zh: 基金管理人代码
+    semantic_type: unknown
+    aliases:
+    - 基金管理人代码
+  - field_name: 基金份额持有人户数（户）
+    field_name_zh: 基金份额持有人户数（户）
+    semantic_type: unknown
+    aliases:
+    - 基金份额持有人户数（户）
+  - field_name: 平均每户持有持有份额（份）
+    field_name_zh: 平均每户持有持有份额（份）
+    semantic_type: unknown
+    aliases:
+    - 平均每户持有持有份额（份）
+  - field_name: 机构投资者持有份额(份）
+    field_name_zh: 机构投资者持有份额(份）
+    semantic_type: unknown
+    aliases:
+    - 机构投资者持有份额(份）
+  - field_name: 机构投资者持有份额占比(%)
+    field_name_zh: 机构投资者持有份额占比(%)
+    semantic_type: unknown
+    aliases:
+    - 机构投资者持有份额占比(%)
+  - field_name: 个人投资者持有份额(份)
+    field_name_zh: 个人投资者持有份额(份)
+    semantic_type: unknown
+    aliases:
+    - 个人投资者持有份额(份)
+  - field_name: 个人投资者持有份额占比(%)
+    field_name_zh: 个人投资者持有份额占比(%)
+    semantic_type: unknown
+    aliases:
+    - 个人投资者持有份额占比(%)
+  - field_name: 管理人员工持有份额（份）
+    field_name_zh: 管理人员工持有份额（份）
+    semantic_type: unknown
+    aliases:
+    - 管理人员工持有份额（份）
+  - field_name: 管理人员工持有份额占比（%）
+    field_name_zh: 管理人员工持有份额占比（%）
+    semantic_type: unknown
+    aliases:
+    - 管理人员工持有份额占比（%）
+  - field_name: 联接基金持有份额(份)
+    field_name_zh: 联接基金持有份额(份)
+    semantic_type: unknown
+    aliases:
+    - 联接基金持有份额(份)
+  - field_name: 联接基金持有份额占比(%)
+    field_name_zh: 联接基金持有份额占比(%)
+    semantic_type: unknown
+    aliases:
+    - 联接基金持有份额占比(%)
+  - field_name: 报告期买入股票成本总额（元)
+    field_name_zh: 报告期买入股票成本总额（元)
+    semantic_type: unknown
+    aliases:
+    - 报告期买入股票成本总额（元)
+  - field_name: 报告期卖出股票收入总额（元)
+    field_name_zh: 报告期卖出股票收入总额（元)
+    semantic_type: unknown
+    aliases:
+    - 报告期卖出股票收入总额（元)
+  - field_name: 范围
+    field_name_zh: 范围
+    semantic_type: unknown
+    aliases:
+    - 范围
+  - field_name: 是否为合并数据（元)
+    field_name_zh: 是否为合并数据（元)
+    semantic_type: flag
+    aliases:
+    - 是否为合并数据（元)
+  - field_name: 文件打包时间
+    field_name_zh: 文件打包时间
+    semantic_type: timestamp
+    aliases:
+    - 文件打包时间
+    is_time_field: true
+  - field_name: 对象ID
+    field_name_zh: 对象ID
+    semantic_type: id
+    aliases:
+    - 对象ID
+- table_name: dwd_fund_bm_grth_rate
+  table_name_zh: 基金业绩比较基准行情表
+  layer: dwd
+  domain: finance_market
+  entity_types:
+  - Benchmark
+  description: 基金业绩比较基准行情表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 产品前端代码
+    field_name_zh: 产品前端代码
+    semantic_type: unknown
+    aliases:
+    - 产品前端代码
+  - field_name: 产品后端代码
+    field_name_zh: 产品后端代码
+    semantic_type: unknown
+    aliases:
+    - 产品后端代码
+  - field_name: 基金产品名称
+    field_name_zh: 基金产品名称
+    semantic_type: name
+    aliases:
+    - 基金产品名称
+  - field_name: 基金产品简称
+    field_name_zh: 基金产品简称
+    semantic_type: name
+    aliases:
+    - 基金产品简称
+  - field_name: 基准id
+    field_name_zh: 基准id
+    semantic_type: id
+    aliases:
+    - 基准id
+  - field_name: 交易日期
+    field_name_zh: 交易日期
+    semantic_type: date
+    aliases:
+    - 交易日期
+    maps_to_attribute: nav_date
+    is_time_field: true
+  - field_name: 收盘价
+    field_name_zh: 收盘价
+    semantic_type: unknown
+    aliases:
+    - 收盘价
+  - field_name: 文件打包时间
+    field_name_zh: 文件打包时间
+    semantic_type: timestamp
+    aliases:
+    - 文件打包时间
+    is_time_field: true
+  - field_name: 对象ID
+    field_name_zh: 对象ID
+    semantic_type: id
+    aliases:
+    - 对象ID
+- table_name: dwd_idx_grth
+  table_name_zh: 指数行情发布快照表
+  layer: dwd
+  domain: finance_market
+  entity_types:
+  - Index
+  description: 指数行情发布快照表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 交易日期
+    field_name_zh: 交易日期
+    semantic_type: date
+    aliases:
+    - 交易日期
+    maps_to_attribute: nav_date
+    is_time_field: true
+  - field_name: 货币代码
+    field_name_zh: 货币代码
+    semantic_type: unknown
+    aliases:
+    - 货币代码
+  - field_name: 昨收盘价(点)
+    field_name_zh: 昨收盘价(点)
+    semantic_type: unknown
+    aliases:
+    - 昨收盘价(点)
+  - field_name: 开盘价(点)
+    field_name_zh: 开盘价(点)
+    semantic_type: unknown
+    aliases:
+    - 开盘价(点)
+  - field_name: 最高价(点)
+    field_name_zh: 最高价(点)
+    semantic_type: unknown
+    aliases:
+    - 最高价(点)
+  - field_name: 最低价（点)
+    field_name_zh: 最低价（点)
+    semantic_type: unknown
+    aliases:
+    - 最低价（点)
+  - field_name: 收盘价(点）
+    field_name_zh: 收盘价(点）
+    semantic_type: unknown
+    aliases:
+    - 收盘价(点）
+  - field_name: 成交量(手)
+    field_name_zh: 成交量(手)
+    semantic_type: unknown
+    aliases:
+    - 成交量(手)
+  - field_name: 成交金额(千元)
+    field_name_zh: 成交金额(千元)
+    semantic_type: amount
+    aliases:
+    - 成交金额(千元)
+  - field_name: 文件打包时间
+    field_name_zh: 文件打包时间
+    semantic_type: timestamp
+    aliases:
+    - 文件打包时间
+    is_time_field: true
+  - field_name: 对象ID
+    field_name_zh: 对象ID
+    semantic_type: id
+    aliases:
+    - 对象ID
+- table_name: dwd_fund bons
+  table_name_zh: 基金分红事实表
+  layer: dwd
+  domain: finance_market
+  entity_types:
+  - Dividend
+  description: 基金分红事实表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 产品前端代码
+    field_name_zh: 产品前端代码
+    semantic_type: unknown
+    aliases:
+    - 产品前端代码
+  - field_name: 产品后端代码
+    field_name_zh: 产品后端代码
+    semantic_type: unknown
+    aliases:
+    - 产品后端代码
+  - field_name: 基金产品名称
+    field_name_zh: 基金产品名称
+    semantic_type: name
+    aliases:
+    - 基金产品名称
+  - field_name: 基金产品简称
+    field_name_zh: 基金产品简称
+    semantic_type: name
+    aliases:
+    - 基金产品简称
+  - field_name: 可分配收益基准日
+    field_name_zh: 可分配收益基准日
+    semantic_type: unknown
+    aliases:
+    - 可分配收益基准日
+  - field_name: 权益登记日
+    field_name_zh: 权益登记日
+    semantic_type: unknown
+    aliases:
+    - 权益登记日
+  - field_name: 除息日
+    field_name_zh: 除息日
+    semantic_type: unknown
+    aliases:
+    - 除息日
+  - field_name: 除息日(场外)
+    field_name_zh: 除息日(场外)
+    semantic_type: unknown
+    aliases:
+    - 除息日(场外)
+  - field_name: 派息日
+    field_name_zh: 派息日
+    semantic_type: unknown
+    aliases:
+    - 派息日
+  - field_name: 派息日（场外）
+    field_name_zh: 派息日（场外）
+    semantic_type: unknown
+    aliases:
+    - 派息日（场外）
+  - field_name: 分红实施公告日
+    field_name_zh: 分红实施公告日
+    semantic_type: unknown
+    aliases:
+    - 分红实施公告日
+  - field_name: 净值除权日
+    field_name_zh: 净值除权日
+    semantic_type: unknown
+    aliases:
+    - 净值除权日
+  - field_name: 红利再投资份额净值基准日
+    field_name_zh: 红利再投资份额净值基准日
+    semantic_type: unknown
+    aliases:
+    - 红利再投资份额净值基准日
+  - field_name: 红利再投资到账日
+    field_name_zh: 红利再投资到账日
+    semantic_type: unknown
+    aliases:
+    - 红利再投资到账日
+  - field_name: 红利再投资可赎回起始日
+    field_name_zh: 红利再投资可赎回起始日
+    semantic_type: unknown
+    aliases:
+    - 红利再投资可赎回起始日
+  - field_name: 收益支付日
+    field_name_zh: 收益支付日
+    semantic_type: unknown
+    aliases:
+    - 收益支付日
+  - field_name: 公告日期
+    field_name_zh: 公告日期
+    semantic_type: date
+    aliases:
+    - 公告日期
+    is_time_field: true
+  - field_name: 基金管理人代码
+    field_name_zh: 基金管理人代码
+    semantic_type: unknown
+    aliases:
+    - 基金管理人代码
+  - field_name: 每股派息(元)
+    field_name_zh: 每股派息(元)
+    semantic_type: unknown
+    aliases:
+    - 每股派息(元)
+  - field_name: 基准基金份额(万份)
+    field_name_zh: 基准基金份额(万份)
+    semantic_type: unknown
+    aliases:
+    - 基准基金份额(万份)
+  - field_name: 可分配收益（元)
+    field_name_zh: 可分配收益（元)
+    semantic_type: unknown
+    aliases:
+    - 可分配收益（元)
+  - field_name: 收益分配金额（元)
+    field_name_zh: 收益分配金额（元)
+    semantic_type: amount
+    aliases:
+    - 收益分配金额（元)
+  - field_name: 份额基准年度
+    field_name_zh: 份额基准年度
+    semantic_type: unknown
+    aliases:
+    - 份额基准年度
+  - field_name: 货币代码
+    field_name_zh: 货币代码
+    semantic_type: unknown
+    aliases:
+    - 货币代码
+  - field_name: 方案进度
+    field_name_zh: 方案进度
+    semantic_type: unknown
+    aliases:
+    - 方案进度
+  - field_name: 分配对象
+    field_name_zh: 分配对象
+    semantic_type: unknown
+    aliases:
+    - 分配对象
+  - field_name: 是否红利再投资
+    field_name_zh: 是否红利再投资
+    semantic_type: flag
+    aliases:
+    - 是否红利再投资
+- table_name: dwd_fund_isue
+  table_name_zh: 基金发行快照表
+  layer: dwd
+  domain: finance_market
+  entity_types:
+  - FundIssue
+  description: 基金发行快照表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 快照日期
+    field_name_zh: 快照日期
+    semantic_type: date
+    aliases:
+    - 快照日期
+    is_time_field: true
+  - field_name: 基金管理人代码
+    field_name_zh: 基金管理人代码
+    semantic_type: unknown
+    aliases:
+    - 基金管理人代码
+  - field_name: 产品前端代码
+    field_name_zh: 产品前端代码
+    semantic_type: unknown
+    aliases:
+    - 产品前端代码
+  - field_name: 产品后端代码
+    field_name_zh: 产品后端代码
+    semantic_type: unknown
+    aliases:
+    - 产品后端代码
+  - field_name: 基金产品名称
+    field_name_zh: 基金产品名称
+    semantic_type: name
+    aliases:
+    - 基金产品名称
+  - field_name: 基金产品简称
+    field_name_zh: 基金产品简称
+    semantic_type: name
+    aliases:
+    - 基金产品简称
+  - field_name: 上市时间
+    field_name_zh: 上市时间
+    semantic_type: timestamp
+    aliases:
+    - 上市时间
+    is_time_field: true
+  - field_name: 发行日期
+    field_name_zh: 发行日期
+    semantic_type: date
+    aliases:
+    - 发行日期
+    is_time_field: true
+  - field_name: 退市日期
+    field_name_zh: 退市日期
+    semantic_type: date
+    aliases:
+    - 退市日期
+    is_time_field: true
+  - field_name: 日常申购起始日
+    field_name_zh: 日常申购起始日
+    semantic_type: unknown
+    aliases:
+    - 日常申购起始日
+  - field_name: 日常赎回起始日
+    field_name_zh: 日常赎回起始日
+    semantic_type: unknown
+    aliases:
+    - 日常赎回起始日
+  - field_name: 机构投资者认购起始日
+    field_name_zh: 机构投资者认购起始日
+    semantic_type: unknown
+    aliases:
+    - 机构投资者认购起始日
+  - field_name: 机构投资者认购终止日
+    field_name_zh: 机构投资者认购终止日
+    semantic_type: unknown
+    aliases:
+    - 机构投资者认购终止日
+  - field_name: 个人投资者认购起始日
+    field_name_zh: 个人投资者认购起始日
+    semantic_type: unknown
+    aliases:
+    - 个人投资者认购起始日
+  - field_name: 个人投资者认购终止日
+    field_name_zh: 个人投资者认购终止日
+    semantic_type: unknown
+    aliases:
+    - 个人投资者认购终止日
+  - field_name: 面值
+    field_name_zh: 面值
+    semantic_type: unknown
+    aliases:
+    - 面值
+  - field_name: 起点金额
+    field_name_zh: 起点金额
+    semantic_type: amount
+    aliases:
+    - 起点金额
+  - field_name: 预期收益率
+    field_name_zh: 预期收益率
+    semantic_type: metric
+    aliases:
+    - 预期收益率
+    maps_to_attribute: return_rate
+  - field_name: 发行地
+    field_name_zh: 发行地
+    semantic_type: unknown
+    aliases:
+    - 发行地
+  - field_name: 存续状态
+    field_name_zh: 存续状态
+    semantic_type: unknown
+    aliases:
+    - 存续状态
+  - field_name: 单一投资者持有份额上限（亿份）
+    field_name_zh: 单一投资者持有份额上限（亿份）
+    semantic_type: unknown
+    aliases:
+    - 单一投资者持有份额上限（亿份）
+  - field_name: 封闭期目标募集数量上限(亿份)
+    field_name_zh: 封闭期目标募集数量上限(亿份)
+    semantic_type: unknown
+    aliases:
+    - 封闭期目标募集数量上限(亿份)
+  - field_name: 封闭运作期
+    field_name_zh: 封闭运作期
+    semantic_type: unknown
+    aliases:
+    - 封闭运作期
+  - field_name: 封闭运作期满开放日间隔
+    field_name_zh: 封闭运作期满开放日间隔
+    semantic_type: unknown
+    aliases:
+    - 封闭运作期满开放日间隔
+  - field_name: 封闭期机构投资者认购下限(万元)
+    field_name_zh: 封闭期机构投资者认购下限(万元)
+    semantic_type: unknown
+    aliases:
+    - 封闭期机构投资者认购下限(万元)
+  - field_name: 封闭期机构投资者认购上限(万元)
+    field_name_zh: 封闭期机构投资者认购上限(万元)
+    semantic_type: unknown
+    aliases:
+    - 封闭期机构投资者认购上限(万元)
+  - field_name: 总有效申购户数
+    field_name_zh: 总有效申购户数
+    semantic_type: unknown
+    aliases:
+    - 总有效申购户数
+  - field_name: 每次最低申购金额(场外)(万元)
+    field_name_zh: 每次最低申购金额(场外)(万元)
+    semantic_type: amount
+    aliases:
+    - 每次最低申购金额(场外)(万元)
+  - field_name: 每次最低申购金额(场内)（万元)
+    field_name_zh: 每次最低申购金额(场内)（万元)
+    semantic_type: amount
+    aliases:
+    - 每次最低申购金额(场内)（万元)
+  - field_name: 对私首次认购下限金额
+    field_name_zh: 对私首次认购下限金额
+    semantic_type: amount
+    aliases:
+    - 对私首次认购下限金额
+  - field_name: 对私首次认购阶梯金额
+    field_name_zh: 对私首次认购阶梯金额
+    semantic_type: amount
+    aliases:
+    - 对私首次认购阶梯金额
+  - field_name: 对私首次认购上限金额
+    field_name_zh: 对私首次认购上限金额
+    semantic_type: amount
+    aliases:
+    - 对私首次认购上限金额
+  - field_name: 对私认购追加购买额下限
+    field_name_zh: 对私认购追加购买额下限
+    semantic_type: unknown
+    aliases:
+    - 对私认购追加购买额下限
+  - field_name: 对私认购追加购买额阶梯金额
+    field_name_zh: 对私认购追加购买额阶梯金额
+    semantic_type: amount
+    aliases:
+    - 对私认购追加购买额阶梯金额
+  - field_name: 对私认购追加购买额上限
+    field_name_zh: 对私认购追加购买额上限
+    semantic_type: unknown
+    aliases:
+    - 对私认购追加购买额上限
+  - field_name: 对私申购首次购买额下限
+    field_name_zh: 对私申购首次购买额下限
+    semantic_type: unknown
+    aliases:
+    - 对私申购首次购买额下限
+  - field_name: 对私申购首次购买阶梯金额
+    field_name_zh: 对私申购首次购买阶梯金额
+    semantic_type: amount
+    aliases:
+    - 对私申购首次购买阶梯金额
+  - field_name: 对私申购首次购买额上限
+    field_name_zh: 对私申购首次购买额上限
+    semantic_type: unknown
+    aliases:
+    - 对私申购首次购买额上限
+  - field_name: 对私申购追加购买额下限
+    field_name_zh: 对私申购追加购买额下限
+    semantic_type: unknown
+    aliases:
+    - 对私申购追加购买额下限
+  - field_name: 对私申购追加购买额阶梯金额
+    field_name_zh: 对私申购追加购买额阶梯金额
+    semantic_type: amount
+    aliases:
+    - 对私申购追加购买额阶梯金额
+  - field_name: 对私申购追加购买额上限
+    field_name_zh: 对私申购追加购买额上限
+    semantic_type: unknown
+    aliases:
+    - 对私申购追加购买额上限
+  - field_name: 对私赎回最低份额
+    field_name_zh: 对私赎回最低份额
+    semantic_type: unknown
+    aliases:
+    - 对私赎回最低份额
+  - field_name: 对私赎回阶梯份额
+    field_name_zh: 对私赎回阶梯份额
+    semantic_type: unknown
+    aliases:
+    - 对私赎回阶梯份额
+  - field_name: 对私赎回最高份额
+    field_name_zh: 对私赎回最高份额
+    semantic_type: unknown
+    aliases:
+    - 对私赎回最高份额
+  - field_name: 最小定投额
+    field_name_zh: 最小定投额
+    semantic_type: unknown
+    aliases:
+    - 最小定投额
+  - field_name: 最大定投额
+    field_name_zh: 最大定投额
+    semantic_type: unknown
+    aliases:
+    - 最大定投额
+  - field_name: 最小定赎份额
+    field_name_zh: 最小定赎份额
+    semantic_type: unknown
+    aliases:
+    - 最小定赎份额
+  - field_name: 对公首次认购下限金额
+    field_name_zh: 对公首次认购下限金额
+    semantic_type: amount
+    aliases:
+    - 对公首次认购下限金额
+  - field_name: 对公首次认购阶梯金额
+    field_name_zh: 对公首次认购阶梯金额
+    semantic_type: amount
+    aliases:
+    - 对公首次认购阶梯金额
+  - field_name: 对公首次认购上限金额
+    field_name_zh: 对公首次认购上限金额
+    semantic_type: amount
+    aliases:
+    - 对公首次认购上限金额
+  - field_name: 对公认购追加购买额下限
+    field_name_zh: 对公认购追加购买额下限
+    semantic_type: unknown
+    aliases:
+    - 对公认购追加购买额下限
+  - field_name: 对公认购追加购买额阶梯金额
+    field_name_zh: 对公认购追加购买额阶梯金额
+    semantic_type: amount
+    aliases:
+    - 对公认购追加购买额阶梯金额
+  - field_name: 对公认购追加购买额上限
+    field_name_zh: 对公认购追加购买额上限
+    semantic_type: unknown
+    aliases:
+    - 对公认购追加购买额上限
+  - field_name: 对公申购首次购买额下限
+    field_name_zh: 对公申购首次购买额下限
+    semantic_type: unknown
+    aliases:
+    - 对公申购首次购买额下限
+  - field_name: 对公申购首次购买阶梯金额
+    field_name_zh: 对公申购首次购买阶梯金额
+    semantic_type: amount
+    aliases:
+    - 对公申购首次购买阶梯金额
+  - field_name: 对公申购首次购买额上限
+    field_name_zh: 对公申购首次购买额上限
+    semantic_type: unknown
+    aliases:
+    - 对公申购首次购买额上限
+  - field_name: 对公申购追加购买额下限
+    field_name_zh: 对公申购追加购买额下限
+    semantic_type: unknown
+    aliases:
+    - 对公申购追加购买额下限
+  - field_name: 对公申购追加购买额阶梯金额
+    field_name_zh: 对公申购追加购买额阶梯金额
+    semantic_type: amount
+    aliases:
+    - 对公申购追加购买额阶梯金额
+  - field_name: 对公申购追加购买额上限
+    field_name_zh: 对公申购追加购买额上限
+    semantic_type: unknown
+    aliases:
+    - 对公申购追加购买额上限
+  - field_name: 对公赎回最低份额
+    field_name_zh: 对公赎回最低份额
+    semantic_type: unknown
+    aliases:
+    - 对公赎回最低份额
+  - field_name: 对公赎回阶梯份额
+    field_name_zh: 对公赎回阶梯份额
+    semantic_type: unknown
+    aliases:
+    - 对公赎回阶梯份额
+  - field_name: 对公赎回最高份额
+    field_name_zh: 对公赎回最高份额
+    semantic_type: unknown
+    aliases:
+    - 对公赎回最高份额
+  - field_name: 申购费率折扣(取自基金)
+    field_name_zh: 申购费率折扣(取自基金)
+    semantic_type: unknown
+    aliases:
+    - 申购费率折扣(取自基金)
+  - field_name: 定投费率折扣(取自基金)
+    field_name_zh: 定投费率折扣(取自基金)
+    semantic_type: unknown
+    aliases:
+    - 定投费率折扣(取自基金)
+  - field_name: 认购费率折扣（取自基金）
+    field_name_zh: 认购费率折扣（取自基金）
+    semantic_type: unknown
+    aliases:
+    - 认购费率折扣（取自基金）
+  - field_name: 基金产品成立日期一基金合同生效日期
+    field_name_zh: 基金产品成立日期一基金合同生效日期
+    semantic_type: date
+    aliases:
+    - 基金产品成立日期一基金合同生效日期
+    is_time_field: true
+  - field_name: 基金规模（元）
+    field_name_zh: 基金规模（元）
+    semantic_type: unknown
+    aliases:
+    - 基金规模（元）
+  - field_name: 更新时间戳
+    field_name_zh: 更新时间戳
+    semantic_type: timestamp
+    aliases:
+    - 更新时间戳
+    is_time_field: true
+- table_name: dwd_fund_sctr
+  table_name_zh: WIND基金分类
+  layer: dwd
+  domain: finance_market
+  entity_types:
+  - FundCategory
+  description: WIND基金分类
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 所属板块
+    field_name_zh: 所属板块
+    semantic_type: unknown
+    aliases:
+    - 所属板块
+  - field_name: 所属板块（新）
+    field_name_zh: 所属板块（新）
+    semantic_type: unknown
+    aliases:
+    - 所属板块（新）
+  - field_name: 起始日期
+    field_name_zh: 起始日期
+    semantic_type: date
+    aliases:
+    - 起始日期
+    is_time_field: true
+  - field_name: 结束日期
+    field_name_zh: 结束日期
+    semantic_type: date
+    aliases:
+    - 结束日期
+    is_time_field: true
+  - field_name: 最新标志
+    field_name_zh: 最新标志
+    semantic_type: unknown
+    aliases:
+    - 最新标志
+  - field_name: 证券ID
+    field_name_zh: 证券ID
+    semantic_type: id
+    aliases:
+    - 证券ID
+  - field_name: 更新时间戳
+    field_name_zh: 更新时间戳
+    semantic_type: timestamp
+    aliases:
+    - 更新时间戳
+    is_time_field: true
+- table_name: DWD_FUND_BOND_HOLD
+  table_name_zh: 基金持券配置快照表
+  layer: dwd
+  domain: finance_market
+  entity_types:
+  - HoldingBond
+  description: 基金持券配置快照表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 产品前端代码
+    field_name_zh: 产品前端代码
+    semantic_type: unknown
+    aliases:
+    - 产品前端代码
+  - field_name: 产品后端代码
+    field_name_zh: 产品后端代码
+    semantic_type: unknown
+    aliases:
+    - 产品后端代码
+  - field_name: 基金产品名称
+    field_name_zh: 基金产品名称
+    semantic_type: name
+    aliases:
+    - 基金产品名称
+  - field_name: 基金产品简称
+    field_name_zh: 基金产品简称
+    semantic_type: name
+    aliases:
+    - 基金产品简称
+  - field_name: 公告日期
+    field_name_zh: 公告日期
+    semantic_type: date
+    aliases:
+    - 公告日期
+    is_time_field: true
+  - field_name: 截止日期
+    field_name_zh: 截止日期
+    semantic_type: date
+    aliases:
+    - 截止日期
+    is_time_field: true
+  - field_name: 持有债券id
+    field_name_zh: 持有债券id
+    semantic_type: id
+    aliases:
+    - 持有债券id
+    maps_to_attribute: bond_code
+  - field_name: 持有债券名称
+    field_name_zh: 持有债券名称
+    semantic_type: name
+    aliases:
+    - 持有债券名称
+  - field_name: 持有债券市值
+    field_name_zh: 持有债券市值
+    semantic_type: amount
+    aliases:
+    - 持有债券市值
+  - field_name: 持有债券数量
+    field_name_zh: 持有债券数量
+    semantic_type: unknown
+    aliases:
+    - 持有债券数量
+  - field_name: 持有债券市值占基金
+    field_name_zh: 持有债券市值占基金
+    semantic_type: amount
+    aliases:
+    - 持有债券市值占基金
+  - field_name: 净值比
+    field_name_zh: 净值比
+    semantic_type: unknown
+    aliases:
+    - 净值比
+  - field_name: 非公开发行股数
+    field_name_zh: 非公开发行股数
+    semantic_type: unknown
+    aliases:
+    - 非公开发行股数
+  - field_name: 非公开发行股期末均价
+    field_name_zh: 非公开发行股期末均价
+    semantic_type: unknown
+    aliases:
+    - 非公开发行股期末均价
+  - field_name: 货币代码
+    field_name_zh: 货币代码
+    semantic_type: unknown
+    aliases:
+    - 货币代码
+  - field_name: 创建时间
+    field_name_zh: 创建时间
+    semantic_type: timestamp
+    aliases:
+    - 创建时间
+    is_time_field: true
+  - field_name: 更新时间
+    field_name_zh: 更新时间
+    semantic_type: timestamp
+    aliases:
+    - 更新时间
+    is_time_field: true
+- table_name: DWD FUND_OTHER PORTFOLIO HOLD
+  table_name_zh: 基金持有基金配置快照表
+  layer: dwd
+  domain: finance_market
+  entity_types:
+  - HoldingFund
+  description: 基金持有基金配置快照表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 产品前端代码
+    field_name_zh: 产品前端代码
+    semantic_type: unknown
+    aliases:
+    - 产品前端代码
+  - field_name: 产品后端代码
+    field_name_zh: 产品后端代码
+    semantic_type: unknown
+    aliases:
+    - 产品后端代码
+  - field_name: 基金产品名称
+    field_name_zh: 基金产品名称
+    semantic_type: name
+    aliases:
+    - 基金产品名称
+  - field_name: 基金产品简称
+    field_name_zh: 基金产品简称
+    semantic_type: name
+    aliases:
+    - 基金产品简称
+  - field_name: 公告日期
+    field_name_zh: 公告日期
+    semantic_type: date
+    aliases:
+    - 公告日期
+    is_time_field: true
+  - field_name: 截止日期
+    field_name_zh: 截止日期
+    semantic_type: date
+    aliases:
+    - 截止日期
+    is_time_field: true
+  - field_name: 持有债券id
+    field_name_zh: 持有债券id
+    semantic_type: id
+    aliases:
+    - 持有债券id
+    maps_to_attribute: bond_code
+  - field_name: 持有债券名称
+    field_name_zh: 持有债券名称
+    semantic_type: name
+    aliases:
+    - 持有债券名称
+  - field_name: 持有债券市值
+    field_name_zh: 持有债券市值
+    semantic_type: amount
+    aliases:
+    - 持有债券市值
+  - field_name: 持有债券数量
+    field_name_zh: 持有债券数量
+    semantic_type: unknown
+    aliases:
+    - 持有债券数量
+  - field_name: 持有债券市值占基金净值比
+    field_name_zh: 持有债券市值占基金净值比
+    semantic_type: amount
+    aliases:
+    - 持有债券市值占基金净值比
+  - field_name: 非公开发行股数
+    field_name_zh: 非公开发行股数
+    semantic_type: unknown
+    aliases:
+    - 非公开发行股数
+  - field_name: 非公开发行股期末均价
+    field_name_zh: 非公开发行股期末均价
+    semantic_type: unknown
+    aliases:
+    - 非公开发行股期末均价
+  - field_name: 货币代码
+    field_name_zh: 货币代码
+    semantic_type: unknown
+    aliases:
+    - 货币代码
+  - field_name: 创建时间
+    field_name_zh: 创建时间
+    semantic_type: timestamp
+    aliases:
+    - 创建时间
+    is_time_field: true
+  - field_name: 更新时间
+    field_name_zh: 更新时间
+    semantic_type: timestamp
+    aliases:
+    - 更新时间
+    is_time_field: true
+- table_name: DWD_FUND_STOCK HOLD
+  table_name_zh: 基金持股配置快照表
+  layer: dwd
+  domain: finance_market
+  entity_types:
+  - HoldingStock
+  description: 基金持股配置快照表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 产品前端代码
+    field_name_zh: 产品前端代码
+    semantic_type: unknown
+    aliases:
+    - 产品前端代码
+  - field_name: 产品后端代码
+    field_name_zh: 产品后端代码
+    semantic_type: unknown
+    aliases:
+    - 产品后端代码
+  - field_name: 基金产品名称
+    field_name_zh: 基金产品名称
+    semantic_type: name
+    aliases:
+    - 基金产品名称
+  - field_name: 基金产品简称
+    field_name_zh: 基金产品简称
+    semantic_type: name
+    aliases:
+    - 基金产品简称
+  - field_name: 公告日期
+    field_name_zh: 公告日期
+    semantic_type: date
+    aliases:
+    - 公告日期
+    is_time_field: true
+  - field_name: 截止日期
+    field_name_zh: 截止日期
+    semantic_type: date
+    aliases:
+    - 截止日期
+    is_time_field: true
+  - field_name: 持有股票id
+    field_name_zh: 持有股票id
+    semantic_type: id
+    aliases:
+    - 持有股票id
+    maps_to_attribute: stock_code
+  - field_name: 持有股票名称
+    field_name_zh: 持有股票名称
+    semantic_type: name
+    aliases:
+    - 持有股票名称
+  - field_name: 持有股票市值
+    field_name_zh: 持有股票市值
+    semantic_type: amount
+    aliases:
+    - 持有股票市值
+  - field_name: 持有股票数量
+    field_name_zh: 持有股票数量
+    semantic_type: unknown
+    aliases:
+    - 持有股票数量
+  - field_name: 持有股票市值占基金
+    field_name_zh: 持有股票市值占基金
+    semantic_type: amount
+    aliases:
+    - 持有股票市值占基金
+  - field_name: 净值比
+    field_name_zh: 净值比
+    semantic_type: unknown
+    aliases:
+    - 净值比
+  - field_name: 积极投资持有股票市值
+    field_name_zh: 积极投资持有股票市值
+    semantic_type: amount
+    aliases:
+    - 积极投资持有股票市值
+  - field_name: 积极投资持有股数
+    field_name_zh: 积极投资持有股数
+    semantic_type: unknown
+    aliases:
+    - 积极投资持有股数
+  - field_name: 积极投资持有股票市值占净资产比例
+    field_name_zh: 积极投资持有股票市值占净资产比例
+    semantic_type: metric
+    aliases:
+    - 积极投资持有股票市值占净资产比例
+  - field_name: 指数投资持有股票市值
+    field_name_zh: 指数投资持有股票市值
+    semantic_type: amount
+    aliases:
+    - 指数投资持有股票市值
+  - field_name: 指数投资持有股数
+    field_name_zh: 指数投资持有股数
+    semantic_type: unknown
+    aliases:
+    - 指数投资持有股数
+  - field_name: 指数投资持有股票市值占净资产比例
+    field_name_zh: 指数投资持有股票市值占净资产比例
+    semantic_type: metric
+    aliases:
+    - 指数投资持有股票市值占净资产比例
+  - field_name: 占股票市值比
+    field_name_zh: 占股票市值比
+    semantic_type: amount
+    aliases:
+    - 占股票市值比
+  - field_name: 流通本比例
+    field_name_zh: 流通本比例
+    semantic_type: metric
+    aliases:
+    - 流通本比例
+  - field_name: 非公开发行股数
+    field_name_zh: 非公开发行股数
+    semantic_type: unknown
+    aliases:
+    - 非公开发行股数
+  - field_name: 非公开发行股期末均价
+    field_name_zh: 非公开发行股期末均价
+    semantic_type: unknown
+    aliases:
+    - 非公开发行股期末均价
+  - field_name: 货币代码
+    field_name_zh: 货币代码
+    semantic_type: unknown
+    aliases:
+    - 货币代码
+  - field_name: 创建时间
+    field_name_zh: 创建时间
+    semantic_type: timestamp
+    aliases:
+    - 创建时间
+    is_time_field: true
+  - field_name: 更新时间
+    field_name_zh: 更新时间
+    semantic_type: timestamp
+    aliases:
+    - 更新时间
+    is_time_field: true
+- table_name: DWD_FUND_ASET_ALLOC
+  table_name_zh: 基金资产配置快照表
+  layer: dwd
+  domain: finance_market
+  entity_types:
+  - AssetAllocation
+  description: 基金资产配置快照表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 产品前端代码
+    field_name_zh: 产品前端代码
+    semantic_type: unknown
+    aliases:
+    - 产品前端代码
+  - field_name: 产品后端代码
+    field_name_zh: 产品后端代码
+    semantic_type: unknown
+    aliases:
+    - 产品后端代码
+  - field_name: 基金产品名称
+    field_name_zh: 基金产品名称
+    semantic_type: name
+    aliases:
+    - 基金产品名称
+  - field_name: 基金产品简称
+    field_name_zh: 基金产品简称
+    semantic_type: name
+    aliases:
+    - 基金产品简称
+  - field_name: 公告日期
+    field_name_zh: 公告日期
+    semantic_type: date
+    aliases:
+    - 公告日期
+    is_time_field: true
+  - field_name: 截止日期
+    field_name_zh: 截止日期
+    semantic_type: date
+    aliases:
+    - 截止日期
+    is_time_field: true
+  - field_name: 基金管理人代码
+    field_name_zh: 基金管理人代码
+    semantic_type: unknown
+    aliases:
+    - 基金管理人代码
+  - field_name: 基金规模
+    field_name_zh: 基金规模
+    semantic_type: unknown
+    aliases:
+    - 基金规模
+  - field_name: 资产总值(元)
+    field_name_zh: 资产总值(元)
+    semantic_type: amount
+    aliases:
+    - 资产总值(元)
+    maps_to_attribute: asset_total_value
+  - field_name: 资产净值（元)
+    field_name_zh: 资产净值（元)
+    semantic_type: amount
+    aliases:
+    - 资产净值（元)
+    maps_to_attribute: asset_net_value
+  - field_name: 持有票市值（元）
+    field_name_zh: 持有票市值（元）
+    semantic_type: amount
+    aliases:
+    - 持有票市值（元）
+  - field_name: 持有股票市值占资产净值比例(%)
+    field_name_zh: 持有股票市值占资产净值比例(%)
+    semantic_type: metric
+    aliases:
+    - 持有股票市值占资产净值比例(%)
+    maps_to_attribute: asset_net_value
+  - field_name: 指数投资持有股票市值（元）
+    field_name_zh: 指数投资持有股票市值（元）
+    semantic_type: amount
+    aliases:
+    - 指数投资持有股票市值（元）
+  - field_name: 指数投资持有股票市值占资产净值比例(%)
+    field_name_zh: 指数投资持有股票市值占资产净值比例(%)
+    semantic_type: metric
+    aliases:
+    - 指数投资持有股票市值占资产净值比例(%)
+    maps_to_attribute: asset_net_value
+  - field_name: 积极投资持有股票市值(元)
+    field_name_zh: 积极投资持有股票市值(元)
+    semantic_type: amount
+    aliases:
+    - 积极投资持有股票市值(元)
+  - field_name: 积极投资持有股票市值占资产净值比例(%)
+    field_name_zh: 积极投资持有股票市值占资产净值比例(%)
+    semantic_type: metric
+    aliases:
+    - 积极投资持有股票市值占资产净值比例(%)
+    maps_to_attribute: asset_net_value
+  - field_name: 持有国债市值（元）
+    field_name_zh: 持有国债市值（元）
+    semantic_type: amount
+    aliases:
+    - 持有国债市值（元）
+  - field_name: 持有国债市值占资产净值比例(%)
+    field_name_zh: 持有国债市值占资产净值比例(%)
+    semantic_type: metric
+    aliases:
+    - 持有国债市值占资产净值比例(%)
+    maps_to_attribute: asset_net_value
+  - field_name: 持有现金（元)
+    field_name_zh: 持有现金（元)
+    semantic_type: unknown
+    aliases:
+    - 持有现金（元)
+  - field_name: 持有现金占资产净值比例(%)
+    field_name_zh: 持有现金占资产净值比例(%)
+    semantic_type: metric
+    aliases:
+    - 持有现金占资产净值比例(%)
+    maps_to_attribute: asset_net_value
+  - field_name: 持有国债及现金总值（元)
+    field_name_zh: 持有国债及现金总值（元)
+    semantic_type: unknown
+    aliases:
+    - 持有国债及现金总值（元)
+  - field_name: 持有国债及现金占资产净值比例（%)
+    field_name_zh: 持有国债及现金占资产净值比例（%)
+    semantic_type: metric
+    aliases:
+    - 持有国债及现金占资产净值比例（%)
+    maps_to_attribute: asset_net_value
+  - field_name: 持有债券市值（不含国债)（元)
+    field_name_zh: 持有债券市值（不含国债)（元)
+    semantic_type: amount
+    aliases:
+    - 持有债券市值（不含国债)（元)
+  - field_name: 持有债券市值(不含国债)占资产净值比例(%)
+    field_name_zh: 持有债券市值(不含国债)占资产净值比例(%)
+    semantic_type: metric
+    aliases:
+    - 持有债券市值(不含国债)占资产净值比例(%)
+    maps_to_attribute: asset_net_value
+  - field_name: 持有金融债市值（元)
+    field_name_zh: 持有金融债市值（元)
+    semantic_type: amount
+    aliases:
+    - 持有金融债市值（元)
+  - field_name: 持有金融债市值占资产净值比例（%)
+    field_name_zh: 持有金融债市值占资产净值比例（%)
+    semantic_type: metric
+    aliases:
+    - 持有金融债市值占资产净值比例（%)
+    maps_to_attribute: asset_net_value
+  - field_name: 持有可转债市值(元)
+    field_name_zh: 持有可转债市值(元)
+    semantic_type: amount
+    aliases:
+    - 持有可转债市值(元)
+  - field_name: 持有可转债市值占资产净值比例(%)
+    field_name_zh: 持有可转债市值占资产净值比例(%)
+    semantic_type: metric
+    aliases:
+    - 持有可转债市值占资产净值比例(%)
+    maps_to_attribute: asset_net_value
+  - field_name: 持有企债市值（元)
+    field_name_zh: 持有企债市值（元)
+    semantic_type: amount
+    aliases:
+    - 持有企债市值（元)
+  - field_name: 持有企债市值占资产净值比例(%)
+    field_name_zh: 持有企债市值占资产净值比例(%)
+    semantic_type: metric
+    aliases:
+    - 持有企债市值占资产净值比例(%)
+    maps_to_attribute: asset_net_value
+  - field_name: 持有债券市值总计（元）
+    field_name_zh: 持有债券市值总计（元）
+    semantic_type: amount
+    aliases:
+    - 持有债券市值总计（元）
+  - field_name: 持有债券市值总计占资产净值比例(%)
+    field_name_zh: 持有债券市值总计占资产净值比例(%)
+    semantic_type: metric
+    aliases:
+    - 持有债券市值总计占资产净值比例(%)
+    maps_to_attribute: asset_net_value
+  - field_name: 持有央行票据市值（元)
+    field_name_zh: 持有央行票据市值（元)
+    semantic_type: amount
+    aliases:
+    - 持有央行票据市值（元)
+  - field_name: 持有央行票据市值占资产净值比例(%)
+    field_name_zh: 持有央行票据市值占资产净值比例(%)
+    semantic_type: metric
+    aliases:
+    - 持有央行票据市值占资产净值比例(%)
+    maps_to_attribute: asset_net_value
+  - field_name: 持有权证市值（元）
+    field_name_zh: 持有权证市值（元）
+    semantic_type: amount
+    aliases:
+    - 持有权证市值（元）
+  - field_name: 持有权证市值占资产净值比例(%)
+    field_name_zh: 持有权证市值占资产净值比例(%)
+    semantic_type: metric
+    aliases:
+    - 持有权证市值占资产净值比例(%)
+    maps_to_attribute: asset_net_value
+  - field_name: 持有资产支持证券市值(元)
+    field_name_zh: 持有资产支持证券市值(元)
+    semantic_type: amount
+    aliases:
+    - 持有资产支持证券市值(元)
+  - field_name: 持有资产支持证券占资产净值比例(%)
+    field_name_zh: 持有资产支持证券占资产净值比例(%)
+    semantic_type: metric
+    aliases:
+    - 持有资产支持证券占资产净值比例(%)
+    maps_to_attribute: asset_net_value
+  - field_name: 持有政策性金融债市值(元)
+    field_name_zh: 持有政策性金融债市值(元)
+    semantic_type: amount
+    aliases:
+    - 持有政策性金融债市值(元)
+  - field_name: 持有政策性金融债市值占资产净值比例(%)
+    field_name_zh: 持有政策性金融债市值占资产净值比例(%)
+    semantic_type: metric
+    aliases:
+    - 持有政策性金融债市值占资产净值比例(%)
+    maps_to_attribute: asset_net_value
+  - field_name: 持有基金市值（元）
+    field_name_zh: 持有基金市值（元）
+    semantic_type: amount
+    aliases:
+    - 持有基金市值（元）
+  - field_name: 有基金市值占资产净值比例(%)
+    field_name_zh: 有基金市值占资产净值比例(%)
+    semantic_type: metric
+    aliases:
+    - 有基金市值占资产净值比例(%)
+    maps_to_attribute: asset_net_value
+  - field_name: 持有货币市场工具市值(元)
+    field_name_zh: 持有货币市场工具市值(元)
+    semantic_type: amount
+    aliases:
+    - 持有货币市场工具市值(元)
+  - field_name: 持有货币市场工具市值占资产净值比例(%)
+    field_name_zh: 持有货币市场工具市值占资产净值比例(%)
+    semantic_type: metric
+    aliases:
+    - 持有货币市场工具市值占资产净值比例(%)
+    maps_to_attribute: asset_net_value
+  - field_name: 持有其他资产（元)
+    field_name_zh: 持有其他资产（元)
+    semantic_type: amount
+    aliases:
+    - 持有其他资产（元)
+  - field_name: 持有其他资产占资产净值比例(%)
+    field_name_zh: 持有其他资产占资产净值比例(%)
+    semantic_type: metric
+    aliases:
+    - 持有其他资产占资产净值比例(%)
+    maps_to_attribute: asset_net_value
+  - field_name: 借贷方差额（元)
+    field_name_zh: 借贷方差额（元)
+    semantic_type: unknown
+    aliases:
+    - 借贷方差额（元)
+  - field_name: 投资组合平均剩余期限(天)
+    field_name_zh: 投资组合平均剩余期限(天)
+    semantic_type: unknown
+    aliases:
+    - 投资组合平均剩余期限(天)
+  - field_name: 买入返售证券（元)
+    field_name_zh: 买入返售证券（元)
+    semantic_type: unknown
+    aliases:
+    - 买入返售证券（元)
+  - field_name: 卖出回购证券（元)
+    field_name_zh: 卖出回购证券（元)
+    semantic_type: unknown
+    aliases:
+    - 卖出回购证券（元)
+  - field_name: 持有股票市值占资产总值比例(%）
+    field_name_zh: 持有股票市值占资产总值比例(%）
+    semantic_type: metric
+    aliases:
+    - 持有股票市值占资产总值比例(%）
+    maps_to_attribute: asset_total_value
+  - field_name: 持有债券市值占资产总值比例(%）
+    field_name_zh: 持有债券市值占资产总值比例(%）
+    semantic_type: metric
+    aliases:
+    - 持有债券市值占资产总值比例(%）
+    maps_to_attribute: asset_total_value
+  - field_name: 持有现金占资产总值比例(%）
+    field_name_zh: 持有现金占资产总值比例(%）
+    semantic_type: metric
+    aliases:
+    - 持有现金占资产总值比例(%）
+    maps_to_attribute: asset_total_value
+  - field_name: 持有其他资产占资产总值比例(%)
+    field_name_zh: 持有其他资产占资产总值比例(%)
+    semantic_type: metric
+    aliases:
+    - 持有其他资产占资产总值比例(%)
+    maps_to_attribute: asset_total_value
+  - field_name: 持有权证市值占资产总值比例(%)
+    field_name_zh: 持有权证市值占资产总值比例(%)
+    semantic_type: metric
+    aliases:
+    - 持有权证市值占资产总值比例(%)
+    maps_to_attribute: asset_total_value
+  - field_name: 持有基金市值占资产总值比例(%)
+    field_name_zh: 持有基金市值占资产总值比例(%)
+    semantic_type: metric
+    aliases:
+    - 持有基金市值占资产总值比例(%)
+    maps_to_attribute: asset_total_value
+  - field_name: 持有货币市场工具市值占资产总值比例(%)
+    field_name_zh: 持有货币市场工具市值占资产总值比例(%)
+    semantic_type: metric
+    aliases:
+    - 持有货币市场工具市值占资产总值比例(%)
+    maps_to_attribute: asset_total_value
+  - field_name: 持有股票比例较上期变化(%)
+    field_name_zh: 持有股票比例较上期变化(%)
+    semantic_type: metric
+    aliases:
+    - 持有股票比例较上期变化(%)
+  - field_name: 持有债券比例较上期变化(%)
+    field_name_zh: 持有债券比例较上期变化(%)
+    semantic_type: metric
+    aliases:
+    - 持有债券比例较上期变化(%)
+  - field_name: 持有现金比例较上期变化（%）
+    field_name_zh: 持有现金比例较上期变化（%）
+    semantic_type: metric
+    aliases:
+    - 持有现金比例较上期变化（%）
+  - field_name: 持有其他资产比例较上期变化(%)
+    field_name_zh: 持有其他资产比例较上期变化(%)
+    semantic_type: metric
+    aliases:
+    - 持有其他资产比例较上期变化(%)
+  - field_name: 持有短期融资券市值(元)
+    field_name_zh: 持有短期融资券市值(元)
+    semantic_type: amount
+    aliases:
+    - 持有短期融资券市值(元)
+  - field_name: 持有中期票据市值（元)
+    field_name_zh: 持有中期票据市值（元)
+    semantic_type: amount
+    aliases:
+    - 持有中期票据市值（元)
+  - field_name: 持有同业存单市值(元)
+    field_name_zh: 持有同业存单市值(元)
+    semantic_type: amount
+    aliases:
+    - 持有同业存单市值(元)
+  - field_name: 港股通投资港股市值
+    field_name_zh: 港股通投资港股市值
+    semantic_type: amount
+    aliases:
+    - 港股通投资港股市值
+  - field_name: 港股通投资港股市值占资产净值比
+    field_name_zh: 港股通投资港股市值占资产净值比
+    semantic_type: amount
+    aliases:
+    - 港股通投资港股市值占资产净值比
+    maps_to_attribute: asset_net_value
+  - field_name: 持有买入返售证券占资产总值比例(%)
+    field_name_zh: 持有买入返售证券占资产总值比例(%)
+    semantic_type: metric
+    aliases:
+    - 持有买入返售证券占资产总值比例(%)
+    maps_to_attribute: asset_total_value
+  - field_name: 持有买入返售证券占资产净值比例(%)
+    field_name_zh: 持有买入返售证券占资产净值比例(%)
+    semantic_type: metric
+    aliases:
+    - 持有买入返售证券占资产净值比例(%)
+    maps_to_attribute: asset_net_value
+  - field_name: 其他债券市值
+    field_name_zh: 其他债券市值
+    semantic_type: amount
+    aliases:
+    - 其他债券市值
+  - field_name: 基金市值占净资产比例(%）
+    field_name_zh: 基金市值占净资产比例(%）
+    semantic_type: metric
+    aliases:
+    - 基金市值占净资产比例(%）
+  - field_name: 转融通出借证券市值(公允价值)
+    field_name_zh: 转融通出借证券市值(公允价值)
+    semantic_type: amount
+    aliases:
+    - 转融通出借证券市值(公允价值)
+  - field_name: 转融通出借证券占资产净值比例(%)
+    field_name_zh: 转融通出借证券占资产净值比例(%)
+    semantic_type: metric
+    aliases:
+    - 转融通出借证券占资产净值比例(%)
+    maps_to_attribute: asset_net_value
+  - field_name: 创建时间
+    field_name_zh: 创建时间
+    semantic_type: timestamp
+    aliases:
+    - 创建时间
+    is_time_field: true
+  - field_name: 更新时间
+    field_name_zh: 更新时间
+    semantic_type: timestamp
+    aliases:
+    - 更新时间
+    is_time_field: true
+- table_name: dwd_ind_bonus_tmp
+  table_name_zh: 历史连续稳定分红表
+  layer: dwd
+  domain: finance_market
+  entity_types:
+  - Dividend
+  description: 历史连续稳定分红表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 历史连续月月稳定分红标志
+    field_name_zh: 历史连续月月稳定分红标志
+    semantic_type: unknown
+    aliases:
+    - 历史连续月月稳定分红标志
+  - field_name: 历史连续季季稳定分红标志
+    field_name_zh: 历史连续季季稳定分红标志
+    semantic_type: unknown
+    aliases:
+    - 历史连续季季稳定分红标志
+  - field_name: 历史连续年年稳定分红标志
+    field_name_zh: 历史连续年年稳定分红标志
+    semantic_type: unknown
+    aliases:
+    - 历史连续年年稳定分红标志
+- table_name: dwd_fund manager_info_tmp
+  table_name_zh: 管理年限规模数据表
+  layer: dwd
+  domain: finance_market
+  entity_types:
+  - FundManager
+  description: 管理年限规模数据表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 基金经理ID
+    field_name_zh: 基金经理ID
+    semantic_type: id
+    aliases:
+    - 基金经理ID
+  - field_name: 管理规模
+    field_name_zh: 管理规模
+    semantic_type: unknown
+    aliases:
+    - 管理规模
+  - field_name: 本基金管理天数
+    field_name_zh: 本基金管理天数
+    semantic_type: unknown
+    aliases:
+    - 本基金管理天数
+- table_name: dwd_fund_pct_inst_hold_tmp
+  table_name_zh: 机构占比表
+  layer: dwd
+  domain: finance_market
+  entity_types:
+  - HolderStructure
+  description: 机构占比表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 机构投资者持有份额占比(%)
+    field_name_zh: 机构投资者持有份额占比(%)
+    semantic_type: unknown
+    aliases:
+    - 机构投资者持有份额占比(%)
+  - field_name: 机构投资者持有份额(份)
+    field_name_zh: 机构投资者持有份额(份)
+    semantic_type: unknown
+    aliases:
+    - 机构投资者持有份额(份)
+  - field_name: 个人投资者持有份额（份)
+    field_name_zh: 个人投资者持有份额（份)
+    semantic_type: unknown
+    aliases:
+    - 个人投资者持有份额（份)
+  - field_name: 个人投资者持有份额占比(%)
+    field_name_zh: 个人投资者持有份额占比(%)
+    semantic_type: unknown
+    aliases:
+    - 个人投资者持有份额占比(%)
+  - field_name: 管理人员工持有份额(份）
+    field_name_zh: 管理人员工持有份额(份）
+    semantic_type: unknown
+    aliases:
+    - 管理人员工持有份额(份）
+  - field_name: 管理人员工持有份额占比（%）
+    field_name_zh: 管理人员工持有份额占比（%）
+    semantic_type: unknown
+    aliases:
+    - 管理人员工持有份额占比（%）
+- table_name: dws_fund_perf_xx
+  table_name_zh: 基金近xx区间业绩表现表
+  layer: dws
+  domain: finance_market
+  entity_types:
+  - PerformanceMetric
+  description: 基金近xx区间业绩表现表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 报价日期
+    field_name_zh: 报价日期
+    semantic_type: date
+    aliases:
+    - 报价日期
+    maps_to_attribute: nav_date
+    is_time_field: true
+  - field_name: 更新日期
+    field_name_zh: 更新日期
+    semantic_type: date
+    aliases:
+    - 更新日期
+    is_time_field: true
+  - field_name: 基金名称
+    field_name_zh: 基金名称
+    semantic_type: name
+    aliases:
+    - 基金名称
+  - field_name: 基金类型
+    field_name_zh: 基金类型
+    semantic_type: unknown
+    aliases:
+    - 基金类型
+  - field_name: 基准名称
+    field_name_zh: 基准名称
+    semantic_type: name
+    aliases:
+    - 基准名称
+  - field_name: 累计单位净值增长（近xx)
+    field_name_zh: 累计单位净值增长（近xx)
+    semantic_type: unknown
+    aliases:
+    - 累计单位净值增长（近xx)
+  - field_name: 复权单位净值增长（近xx)
+    field_name_zh: 复权单位净值增长（近xx)
+    semantic_type: unknown
+    aliases:
+    - 复权单位净值增长（近xx)
+    maps_to_attribute: adjusted_nav
+  - field_name: 区间回报（近xx)
+    field_name_zh: 区间回报（近xx)
+    semantic_type: metric
+    aliases:
+    - 区间回报（近xx)
+    maps_to_attribute: return_rate
+  - field_name: 累计单位净值增长率（近xx)
+    field_name_zh: 累计单位净值增长率（近xx)
+    semantic_type: unknown
+    aliases:
+    - 累计单位净值增长率（近xx)
+  - field_name: 现金分红净值增长率（近xx)
+    field_name_zh: 现金分红净值增长率（近xx)
+    semantic_type: unknown
+    aliases:
+    - 现金分红净值增长率（近xx)
+  - field_name: 基金x日净值增长率
+    field_name_zh: 基金x日净值增长率
+    semantic_type: unknown
+    aliases:
+    - 基金x日净值增长率
+  - field_name: 最高复权单位净值（近xx)
+    field_name_zh: 最高复权单位净值（近xx)
+    semantic_type: unknown
+    aliases:
+    - 最高复权单位净值（近xx)
+    maps_to_attribute: adjusted_nav
+  - field_name: 最高复权单位净值日（近xx）
+    field_name_zh: 最高复权单位净值日（近xx）
+    semantic_type: unknown
+    aliases:
+    - 最高复权单位净值日（近xx）
+    maps_to_attribute: adjusted_nav
+  - field_name: 最低复权单位净值（近xx）
+    field_name_zh: 最低复权单位净值（近xx）
+    semantic_type: unknown
+    aliases:
+    - 最低复权单位净值（近xx）
+    maps_to_attribute: adjusted_nav
+  - field_name: 最低复权单位净值日（近xx）
+    field_name_zh: 最低复权单位净值日（近xx）
+    semantic_type: unknown
+    aliases:
+    - 最低复权单位净值日（近xx）
+    maps_to_attribute: adjusted_nav
+  - field_name: 最高单位净值（近xx）
+    field_name_zh: 最高单位净值（近xx）
+    semantic_type: unknown
+    aliases:
+    - 最高单位净值（近xx）
+  - field_name: 最高单位净值日（近xx）
+    field_name_zh: 最高单位净值日（近xx）
+    semantic_type: unknown
+    aliases:
+    - 最高单位净值日（近xx）
+  - field_name: 最低单位净值（近xx）
+    field_name_zh: 最低单位净值（近xx）
+    semantic_type: unknown
+    aliases:
+    - 最低单位净值（近xx）
+  - field_name: 最低单位净值日（近xx）
+    field_name_zh: 最低单位净值日（近xx）
+    semantic_type: unknown
+    aliases:
+    - 最低单位净值日（近xx）
+  - field_name: 最高累计单位净值（近xx)
+    field_name_zh: 最高累计单位净值（近xx)
+    semantic_type: unknown
+    aliases:
+    - 最高累计单位净值（近xx)
+  - field_name: 最高累计单位净值日（近xx）
+    field_name_zh: 最高累计单位净值日（近xx）
+    semantic_type: unknown
+    aliases:
+    - 最高累计单位净值日（近xx）
+  - field_name: 最低累计单位净值（近xx）
+    field_name_zh: 最低累计单位净值（近xx）
+    semantic_type: unknown
+    aliases:
+    - 最低累计单位净值（近xx）
+  - field_name: 最低累计单位净值日（近xx)
+    field_name_zh: 最低累计单位净值日（近xx)
+    semantic_type: unknown
+    aliases:
+    - 最低累计单位净值日（近xx)
+  - field_name: 平均收益率（近xx)
+    field_name_zh: 平均收益率（近xx)
+    semantic_type: metric
+    aliases:
+    - 平均收益率（近xx)
+    maps_to_attribute: return_rate
+  - field_name: 年化收益率（近xx)
+    field_name_zh: 年化收益率（近xx)
+    semantic_type: metric
+    aliases:
+    - 年化收益率（近xx)
+    maps_to_attribute: annualized_return
+  - field_name: 年化收益率（工作日年化）（近xx)
+    field_name_zh: 年化收益率（工作日年化）（近xx)
+    semantic_type: metric
+    aliases:
+    - 年化收益率（工作日年化）（近xx)
+    maps_to_attribute: annualized_return
+  - field_name: 几何平均收益率（近xx)
+    field_name_zh: 几何平均收益率（近xx)
+    semantic_type: metric
+    aliases:
+    - 几何平均收益率（近xx)
+    maps_to_attribute: return_rate
+  - field_name: 平均风险收益率（近xx)
+    field_name_zh: 平均风险收益率（近xx)
+    semantic_type: metric
+    aliases:
+    - 平均风险收益率（近xx)
+    maps_to_attribute: return_rate
+  - field_name: 几何平均风险收益率（近xx）
+    field_name_zh: 几何平均风险收益率（近xx）
+    semantic_type: metric
+    aliases:
+    - 几何平均风险收益率（近xx）
+    maps_to_attribute: return_rate
+  - field_name: 区间收益率（年化)（近xx)
+    field_name_zh: 区间收益率（年化)（近xx)
+    semantic_type: metric
+    aliases:
+    - 区间收益率（年化)（近xx)
+    maps_to_attribute: annualized_return
+  - field_name: 区间收益率（工作日年化)（近xx）
+    field_name_zh: 区间收益率（工作日年化)（近xx）
+    semantic_type: metric
+    aliases:
+    - 区间收益率（工作日年化)（近xx）
+    maps_to_attribute: annualized_return
+  - field_name: 最大上涨(近xx）
+    field_name_zh: 最大上涨(近xx）
+    semantic_type: unknown
+    aliases:
+    - 最大上涨(近xx）
+  - field_name: 最大回撤（近xx）
+    field_name_zh: 最大回撤（近xx）
+    semantic_type: metric
+    aliases:
+    - 最大回撤（近xx）
+    maps_to_attribute: max_drawdown
+  - field_name: 最大回撤谷值（近xx）
+    field_name_zh: 最大回撤谷值（近xx）
+    semantic_type: metric
+    aliases:
+    - 最大回撤谷值（近xx）
+    maps_to_attribute: max_drawdown
+  - field_name: 最大回撤峰值（近xx）
+    field_name_zh: 最大回撤峰值（近xx）
+    semantic_type: metric
+    aliases:
+    - 最大回撤峰值（近xx）
+    maps_to_attribute: max_drawdown
+  - field_name: 最大回撒谷值日期（近xx）
+    field_name_zh: 最大回撒谷值日期（近xx）
+    semantic_type: date
+    aliases:
+    - 最大回撒谷值日期（近xx）
+    is_time_field: true
+  - field_name: 最大回撤峰值日期（近xx）
+    field_name_zh: 最大回撤峰值日期（近xx）
+    semantic_type: date
+    aliases:
+    - 最大回撤峰值日期（近xx）
+    maps_to_attribute: max_drawdown
+    is_time_field: true
+  - field_name: 最大回撤恢复天数（近xx)
+    field_name_zh: 最大回撤恢复天数（近xx)
+    semantic_type: metric
+    aliases:
+    - 最大回撤恢复天数（近xx)
+    maps_to_attribute: max_drawdown
+  - field_name: 回撤（近xx）
+    field_name_zh: 回撤（近xx）
+    semantic_type: metric
+    aliases:
+    - 回撤（近xx）
+  - field_name: 净值超越基准年化收益率（近xx）
+    field_name_zh: 净值超越基准年化收益率（近xx）
+    semantic_type: metric
+    aliases:
+    - 净值超越基准年化收益率（近xx）
+    maps_to_attribute: annualized_return
+  - field_name: 复权单位净值相对大盘增长率（近xx)
+    field_name_zh: 复权单位净值相对大盘增长率（近xx)
+    semantic_type: unknown
+    aliases:
+    - 复权单位净值相对大盘增长率（近xx)
+    maps_to_attribute: adjusted_nav
+  - field_name: 净值超越基准收益率（近xx）
+    field_name_zh: 净值超越基准收益率（近xx）
+    semantic_type: metric
+    aliases:
+    - 净值超越基准收益率（近xx）
+    maps_to_attribute: return_rate
+  - field_name: 净值超越基准收益频率（百分比)（近xx)
+    field_name_zh: 净值超越基准收益频率（百分比)（近xx)
+    semantic_type: unknown
+    aliases:
+    - 净值超越基准收益频率（百分比)（近xx)
+  - field_name: 日跟踪偏离度均值（业绩基准）（近xx）
+    field_name_zh: 日跟踪偏离度均值（业绩基准）（近xx）
+    semantic_type: unknown
+    aliases:
+    - 日跟踪偏离度均值（业绩基准）（近xx）
+  - field_name: 日跟踪偏离度均值（跟踪指数）（近xx）
+    field_name_zh: 日跟踪偏离度均值（跟踪指数）（近xx）
+    semantic_type: unknown
+    aliases:
+    - 日跟踪偏离度均值（跟踪指数）（近xx）
+  - field_name: 创建时间
+    field_name_zh: 创建时间
+    semantic_type: timestamp
+    aliases:
+    - 创建时间
+    is_time_field: true
+  - field_name: 更新时间
+    field_name_zh: 更新时间
+    semantic_type: timestamp
+    aliases:
+    - 更新时间
+    is_time_field: true
+- table_name: dws_fund_max_dd_cy_detail
+  table_name_zh: 基金产品最大回撤详情表
+  layer: dws
+  domain: finance_market
+  entity_types:
+  - Fund
+  description: 基金产品最大回撤详情表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 基金名称
+    field_name_zh: 基金名称
+    semantic_type: name
+    aliases:
+    - 基金名称
+  - field_name: 基金类型
+    field_name_zh: 基金类型
+    semantic_type: unknown
+    aliases:
+    - 基金类型
+  - field_name: 年份
+    field_name_zh: 年份
+    semantic_type: unknown
+    aliases:
+    - 年份
+  - field_name: 最大回撤值
+    field_name_zh: 最大回撤值
+    semantic_type: metric
+    aliases:
+    - 最大回撤值
+    maps_to_attribute: max_drawdown
+  - field_name: 最大回撤发生的净值日期
+    field_name_zh: 最大回撤发生的净值日期
+    semantic_type: date
+    aliases:
+    - 最大回撤发生的净值日期
+    maps_to_attribute: nav_date
+    is_time_field: true
+  - field_name: 最大回撤发生的净值日期当天的复权单位净值
+    field_name_zh: 最大回撤发生的净值日期当天的复权单位净值
+    semantic_type: date
+    aliases:
+    - 最大回撤发生的净值日期当天的复权单位净值
+    maps_to_attribute: adjusted_nav
+    is_time_field: true
+  - field_name: 当年截止到最大回撤发生的净值日期之前最大复权单位净值的净值日期
+    field_name_zh: 当年截止到最大回撤发生的净值日期之前最大复权单位净值的净值日期
+    semantic_type: date
+    aliases:
+    - 当年截止到最大回撤发生的净值日期之前最大复权单位净值的净值日期
+    maps_to_attribute: adjusted_nav
+    is_time_field: true
+  - field_name: 当年截止到最大回撤发生的净值日期之前最大复权单位净值
+    field_name_zh: 当年截止到最大回撤发生的净值日期之前最大复权单位净值
+    semantic_type: date
+    aliases:
+    - 当年截止到最大回撤发生的净值日期之前最大复权单位净值
+    maps_to_attribute: adjusted_nav
+    is_time_field: true
+  - field_name: 更新时间戳
+    field_name_zh: 更新时间戳
+    semantic_type: timestamp
+    aliases:
+    - 更新时间戳
+    is_time_field: true
+- table_name: dws_fund_max_dd_cy
+  table_name_zh: 基金产品最大回撤表
+  layer: dws
+  domain: finance_market
+  entity_types:
+  - Fund
+  description: 基金产品最大回撤表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 更新日期
+    field_name_zh: 更新日期
+    semantic_type: date
+    aliases:
+    - 更新日期
+    is_time_field: true
+  - field_name: 基金名称
+    field_name_zh: 基金名称
+    semantic_type: name
+    aliases:
+    - 基金名称
+  - field_name: 基金类型
+    field_name_zh: 基金类型
+    semantic_type: unknown
+    aliases:
+    - 基金类型
+  - field_name: 1999~2050年的最大回撤
+    field_name_zh: 1999~2050年的最大回撤
+    semantic_type: metric
+    aliases:
+    - 1999~2050年的最大回撤
+    maps_to_attribute: max_drawdown
+- table_name: dws_bm_perf_xx
+  table_name_zh: 近xx基准业绩表现表
+  layer: dws
+  domain: finance_market
+  entity_types:
+  - Benchmark
+  description: 近xx基准业绩表现表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 更新日期
+    field_name_zh: 更新日期
+    semantic_type: date
+    aliases:
+    - 更新日期
+    is_time_field: true
+  - field_name: 基金名称
+    field_name_zh: 基金名称
+    semantic_type: name
+    aliases:
+    - 基金名称
+  - field_name: 基金代码
+    field_name_zh: 基金代码
+    semantic_type: unknown
+    aliases:
+    - 基金代码
+    maps_to_attribute: fund_code
+  - field_name: 基金类型
+    field_name_zh: 基金类型
+    semantic_type: unknown
+    aliases:
+    - 基金类型
+  - field_name: 区间收益率（近xx)
+    field_name_zh: 区间收益率（近xx)
+    semantic_type: metric
+    aliases:
+    - 区间收益率（近xx)
+    maps_to_attribute: return_rate
+  - field_name: 平均收益率（近xx)
+    field_name_zh: 平均收益率（近xx)
+    semantic_type: metric
+    aliases:
+    - 平均收益率（近xx)
+    maps_to_attribute: return_rate
+  - field_name: 几何平均收益率（近xx)
+    field_name_zh: 几何平均收益率（近xx)
+    semantic_type: metric
+    aliases:
+    - 几何平均收益率（近xx)
+    maps_to_attribute: return_rate
+  - field_name: 算术年化收益率（近xx）
+    field_name_zh: 算术年化收益率（近xx）
+    semantic_type: metric
+    aliases:
+    - 算术年化收益率（近xx）
+    maps_to_attribute: annualized_return
+  - field_name: 几何年化收益率（近XX)
+    field_name_zh: 几何年化收益率（近XX)
+    semantic_type: metric
+    aliases:
+    - 几何年化收益率（近XX)
+    maps_to_attribute: annualized_return
+  - field_name: 收益率标准差（近xx）
+    field_name_zh: 收益率标准差（近xx）
+    semantic_type: metric
+    aliases:
+    - 收益率标准差（近xx）
+    maps_to_attribute: standard_deviation
+  - field_name: 更新时间戳
+    field_name_zh: 更新时间戳
+    semantic_type: timestamp
+    aliases:
+    - 更新时间戳
+    is_time_field: true
+- table_name: dws_idx_perf_xx
+  table_name_zh: 近xx指数业绩表现表
+  layer: dws
+  domain: finance_market
+  entity_types:
+  - Index
+  description: 近xx指数业绩表现表
+  fields:
+  - field_name: 指数代码
+    field_name_zh: 指数代码
+    semantic_type: unknown
+    aliases:
+    - 指数代码
+  - field_name: 交易日期
+    field_name_zh: 交易日期
+    semantic_type: date
+    aliases:
+    - 交易日期
+    maps_to_attribute: nav_date
+    is_time_field: true
+  - field_name: 更新日期
+    field_name_zh: 更新日期
+    semantic_type: date
+    aliases:
+    - 更新日期
+    is_time_field: true
+  - field_name: 指数名称
+    field_name_zh: 指数名称
+    semantic_type: name
+    aliases:
+    - 指数名称
+  - field_name: 区间收益率(近xx)
+    field_name_zh: 区间收益率(近xx)
+    semantic_type: metric
+    aliases:
+    - 区间收益率(近xx)
+    maps_to_attribute: return_rate
+  - field_name: 平均收益率(近xx)
+    field_name_zh: 平均收益率(近xx)
+    semantic_type: metric
+    aliases:
+    - 平均收益率(近xx)
+    maps_to_attribute: return_rate
+  - field_name: 几何平均收益率(近xx)
+    field_name_zh: 几何平均收益率(近xx)
+    semantic_type: metric
+    aliases:
+    - 几何平均收益率(近xx)
+    maps_to_attribute: return_rate
+  - field_name: 收益率标准差(近xx)
+    field_name_zh: 收益率标准差(近xx)
+    semantic_type: metric
+    aliases:
+    - 收益率标准差(近xx)
+    maps_to_attribute: standard_deviation
+  - field_name: 更新时间戳
+    field_name_zh: 更新时间戳
+    semantic_type: timestamp
+    aliases:
+    - 更新时间戳
+    is_time_field: true
+- table_name: dws_fund_risk retxx
+  table_name_zh: 基金产品近xx风险指标表
+  layer: dws
+  domain: finance_market
+  entity_types:
+  - RiskMetric
+  description: 基金产品近xx风险指标表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 更新日期
+    field_name_zh: 更新日期
+    semantic_type: date
+    aliases:
+    - 更新日期
+    is_time_field: true
+  - field_name: 基金名称
+    field_name_zh: 基金名称
+    semantic_type: name
+    aliases:
+    - 基金名称
+  - field_name: 基金类型
+    field_name_zh: 基金类型
+    semantic_type: unknown
+    aliases:
+    - 基金类型
+  - field_name: 区间胜率（基于固定收益率计算）(近xx)
+    field_name_zh: 区间胜率（基于固定收益率计算）(近xx)
+    semantic_type: metric
+    aliases:
+    - 区间胜率（基于固定收益率计算）(近xx)
+    maps_to_attribute: return_rate
+  - field_name: 区间胜率（近xx)
+    field_name_zh: 区间胜率（近xx)
+    semantic_type: unknown
+    aliases:
+    - 区间胜率（近xx)
+  - field_name: 上行捕获率(近xx)
+    field_name_zh: 上行捕获率(近xx)
+    semantic_type: unknown
+    aliases:
+    - 上行捕获率(近xx)
+  - field_name: 下行捕获率(近xx)
+    field_name_zh: 下行捕获率(近xx)
+    semantic_type: unknown
+    aliases:
+    - 下行捕获率(近xx)
+  - field_name: Sharpe(近xx)
+    field_name_zh: Sharpe(近xx)
+    semantic_type: metric
+    aliases:
+    - Sharpe(近xx)
+    maps_to_attribute: sharpe_ratio
+  - field_name: Sharpe（年化）(近xx)
+    field_name_zh: Sharpe（年化）(近xx)
+    semantic_type: metric
+    aliases:
+    - Sharpe（年化）(近xx)
+    maps_to_attribute: sharpe_ratio
+  - field_name: Sortino(近xx)
+    field_name_zh: Sortino(近xx)
+    semantic_type: metric
+    aliases:
+    - Sortino(近xx)
+    maps_to_attribute: sortino_ratio
+  - field_name: Sortino年化(近xx)
+    field_name_zh: Sortino年化(近xx)
+    semantic_type: metric
+    aliases:
+    - Sortino年化(近xx)
+    maps_to_attribute: sortino_ratio
+  - field_name: Calmar卡玛比率(近xx)
+    field_name_zh: Calmar卡玛比率(近xx)
+    semantic_type: metric
+    aliases:
+    - Calmar卡玛比率(近xx)
+    maps_to_attribute: calmar_ratio
+  - field_name: 跟踪误差（业绩基准）（近1xx)
+    field_name_zh: 跟踪误差（业绩基准）（近1xx)
+    semantic_type: metric
+    aliases:
+    - 跟踪误差（业绩基准）（近1xx)
+    maps_to_attribute: tracking_error
+  - field_name: 跟踪误差（业绩基准）年化(近xx)
+    field_name_zh: 跟踪误差（业绩基准）年化(近xx)
+    semantic_type: metric
+    aliases:
+    - 跟踪误差（业绩基准）年化(近xx)
+    maps_to_attribute: tracking_error
+  - field_name: 跟踪误差（跟踪指数）(近xx)
+    field_name_zh: 跟踪误差（跟踪指数）(近xx)
+    semantic_type: metric
+    aliases:
+    - 跟踪误差（跟踪指数）(近xx)
+    maps_to_attribute: tracking_error
+  - field_name: 跟踪误差（跟踪指数）年化(近xx)
+    field_name_zh: 跟踪误差（跟踪指数）年化(近xx)
+    semantic_type: metric
+    aliases:
+    - 跟踪误差（跟踪指数）年化(近xx)
+    maps_to_attribute: tracking_error
+  - field_name: 信息比率（跟踪指数)（近xx)
+    field_name_zh: 信息比率（跟踪指数)（近xx)
+    semantic_type: metric
+    aliases:
+    - 信息比率（跟踪指数)（近xx)
+    maps_to_attribute: information_ratio
+  - field_name: 信息比率（跟踪指数）年化(近xx)
+    field_name_zh: 信息比率（跟踪指数）年化(近xx)
+    semantic_type: metric
+    aliases:
+    - 信息比率（跟踪指数）年化(近xx)
+    maps_to_attribute: information_ratio
+  - field_name: 信息比率(近xx)
+    field_name_zh: 信息比率(近xx)
+    semantic_type: metric
+    aliases:
+    - 信息比率(近xx)
+    maps_to_attribute: information_ratio
+  - field_name: 信息比率年化(近xx)
+    field_name_zh: 信息比率年化(近xx)
+    semantic_type: metric
+    aliases:
+    - 信息比率年化(近xx)
+    maps_to_attribute: information_ratio
+  - field_name: 更新时间戳
+    field_name_zh: 更新时间戳
+    semantic_type: timestamp
+    aliases:
+    - 更新时间戳
+    is_time_field: true
+- table_name: dws_fund_perf_xx_dd
+  table_name_zh: 基金近xx区间指标回撤表
+  layer: dws
+  domain: finance_market
+  entity_types:
+  - PerformanceMetric
+  description: 基金近xx区间指标回撤表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 报价日期
+    field_name_zh: 报价日期
+    semantic_type: date
+    aliases:
+    - 报价日期
+    maps_to_attribute: nav_date
+    is_time_field: true
+  - field_name: 更新日期
+    field_name_zh: 更新日期
+    semantic_type: date
+    aliases:
+    - 更新日期
+    is_time_field: true
+  - field_name: 基金名称
+    field_name_zh: 基金名称
+    semantic_type: name
+    aliases:
+    - 基金名称
+  - field_name: 基金类型
+    field_name_zh: 基金类型
+    semantic_type: unknown
+    aliases:
+    - 基金类型
+  - field_name: 基准名称
+    field_name_zh: 基准名称
+    semantic_type: name
+    aliases:
+    - 基准名称
+  - field_name: 最高复权单位净值（近1周）
+    field_name_zh: 最高复权单位净值（近1周）
+    semantic_type: unknown
+    aliases:
+    - 最高复权单位净值（近1周）
+    maps_to_attribute: adjusted_nav
+  - field_name: 最高复权单位净值日（近xx）
+    field_name_zh: 最高复权单位净值日（近xx）
+    semantic_type: unknown
+    aliases:
+    - 最高复权单位净值日（近xx）
+    maps_to_attribute: adjusted_nav
+  - field_name: 最低复权单位净值（近xx)
+    field_name_zh: 最低复权单位净值（近xx)
+    semantic_type: unknown
+    aliases:
+    - 最低复权单位净值（近xx)
+    maps_to_attribute: adjusted_nav
+  - field_name: 最低复权单位净值日（近xx)
+    field_name_zh: 最低复权单位净值日（近xx)
+    semantic_type: unknown
+    aliases:
+    - 最低复权单位净值日（近xx)
+    maps_to_attribute: adjusted_nav
+  - field_name: 最高单位净值（近xx)
+    field_name_zh: 最高单位净值（近xx)
+    semantic_type: unknown
+    aliases:
+    - 最高单位净值（近xx)
+  - field_name: 最高单位净值日（近xx）
+    field_name_zh: 最高单位净值日（近xx）
+    semantic_type: unknown
+    aliases:
+    - 最高单位净值日（近xx）
+  - field_name: 最低单位净值（近xx）
+    field_name_zh: 最低单位净值（近xx）
+    semantic_type: unknown
+    aliases:
+    - 最低单位净值（近xx）
+  - field_name: 最低单位净值日（近xx）
+    field_name_zh: 最低单位净值日（近xx）
+    semantic_type: unknown
+    aliases:
+    - 最低单位净值日（近xx）
+  - field_name: 最高累计单位净值（近xx）
+    field_name_zh: 最高累计单位净值（近xx）
+    semantic_type: unknown
+    aliases:
+    - 最高累计单位净值（近xx）
+  - field_name: 最高累计单位净值日（近xx)
+    field_name_zh: 最高累计单位净值日（近xx)
+    semantic_type: unknown
+    aliases:
+    - 最高累计单位净值日（近xx)
+  - field_name: 最低累计单位净值（近xx)
+    field_name_zh: 最低累计单位净值（近xx)
+    semantic_type: unknown
+    aliases:
+    - 最低累计单位净值（近xx)
+  - field_name: 最低累计单位净值日（近xx）
+    field_name_zh: 最低累计单位净值日（近xx）
+    semantic_type: unknown
+    aliases:
+    - 最低累计单位净值日（近xx）
+  - field_name: 最大上涨(近xx）
+    field_name_zh: 最大上涨(近xx）
+    semantic_type: unknown
+    aliases:
+    - 最大上涨(近xx）
+  - field_name: 最大回撤（近xx）
+    field_name_zh: 最大回撤（近xx）
+    semantic_type: metric
+    aliases:
+    - 最大回撤（近xx）
+    maps_to_attribute: max_drawdown
+  - field_name: 最大回撤谷值（近xx）
+    field_name_zh: 最大回撤谷值（近xx）
+    semantic_type: metric
+    aliases:
+    - 最大回撤谷值（近xx）
+    maps_to_attribute: max_drawdown
+  - field_name: 最大回撤峰值（近xx)
+    field_name_zh: 最大回撤峰值（近xx)
+    semantic_type: metric
+    aliases:
+    - 最大回撤峰值（近xx)
+    maps_to_attribute: max_drawdown
+  - field_name: 最大回撤谷值日期（近xx）
+    field_name_zh: 最大回撤谷值日期（近xx）
+    semantic_type: date
+    aliases:
+    - 最大回撤谷值日期（近xx）
+    maps_to_attribute: max_drawdown
+    is_time_field: true
+  - field_name: 最大回撤峰值日期（近xx）
+    field_name_zh: 最大回撤峰值日期（近xx）
+    semantic_type: date
+    aliases:
+    - 最大回撤峰值日期（近xx）
+    maps_to_attribute: max_drawdown
+    is_time_field: true
+  - field_name: 最大回撤恢复天数（近xx)
+    field_name_zh: 最大回撤恢复天数（近xx)
+    semantic_type: metric
+    aliases:
+    - 最大回撤恢复天数（近xx)
+    maps_to_attribute: max_drawdown
+  - field_name: 回撤（近xx）
+    field_name_zh: 回撤（近xx）
+    semantic_type: metric
+    aliases:
+    - 回撤（近xx）
+  - field_name: 创建时间
+    field_name_zh: 创建时间
+    semantic_type: timestamp
+    aliases:
+    - 创建时间
+    is_time_field: true
+  - field_name: 更新时间
+    field_name_zh: 更新时间
+    semantic_type: timestamp
+    aliases:
+    - 更新时间
+    is_time_field: true
+- table_name: dws_fund_perf_xx rate
+  table_name_zh: 基金近xx区间指标收益率表
+  layer: dws
+  domain: finance_market
+  entity_types:
+  - Fund
+  description: 基金近xx区间指标收益率表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 报价日期
+    field_name_zh: 报价日期
+    semantic_type: date
+    aliases:
+    - 报价日期
+    maps_to_attribute: nav_date
+    is_time_field: true
+  - field_name: 更新日期
+    field_name_zh: 更新日期
+    semantic_type: date
+    aliases:
+    - 更新日期
+    is_time_field: true
+  - field_name: 基金名称
+    field_name_zh: 基金名称
+    semantic_type: name
+    aliases:
+    - 基金名称
+  - field_name: 基金类型
+    field_name_zh: 基金类型
+    semantic_type: unknown
+    aliases:
+    - 基金类型
+  - field_name: 基准名称
+    field_name_zh: 基准名称
+    semantic_type: name
+    aliases:
+    - 基准名称
+  - field_name: 累计单位净值增长（近x)
+    field_name_zh: 累计单位净值增长（近x)
+    semantic_type: unknown
+    aliases:
+    - 累计单位净值增长（近x)
+  - field_name: 复权单位净值增长（近xx)
+    field_name_zh: 复权单位净值增长（近xx)
+    semantic_type: unknown
+    aliases:
+    - 复权单位净值增长（近xx)
+    maps_to_attribute: adjusted_nav
+  - field_name: 区间回报（近x）
+    field_name_zh: 区间回报（近x）
+    semantic_type: metric
+    aliases:
+    - 区间回报（近x）
+    maps_to_attribute: return_rate
+  - field_name: 累计单位净值增长率（近xx)
+    field_name_zh: 累计单位净值增长率（近xx)
+    semantic_type: unknown
+    aliases:
+    - 累计单位净值增长率（近xx)
+  - field_name: 现金分红净
+    field_name_zh: 现金分红净
+    semantic_type: unknown
+    aliases:
+    - 现金分红净
+  - field_name: 值增长率（近效少
+    field_name_zh: 值增长率（近效少
+    semantic_type: unknown
+    aliases:
+    - 值增长率（近效少
+  - field_name: 基金7日净值增长率
+    field_name_zh: 基金7日净值增长率
+    semantic_type: unknown
+    aliases:
+    - 基金7日净值增长率
+  - field_name: 平均收益率（近欢)
+    field_name_zh: 平均收益率（近欢)
+    semantic_type: metric
+    aliases:
+    - 平均收益率（近欢)
+    maps_to_attribute: return_rate
+  - field_name: 年化收益率(近xx）
+    field_name_zh: 年化收益率(近xx）
+    semantic_type: metric
+    aliases:
+    - 年化收益率(近xx）
+    maps_to_attribute: annualized_return
+  - field_name: 年化收益率（工作日年化)(近xx)
+    field_name_zh: 年化收益率（工作日年化)(近xx)
+    semantic_type: metric
+    aliases:
+    - 年化收益率（工作日年化)(近xx)
+    maps_to_attribute: annualized_return
+  - field_name: 几何平均收益率（近x）
+    field_name_zh: 几何平均收益率（近x）
+    semantic_type: metric
+    aliases:
+    - 几何平均收益率（近x）
+    maps_to_attribute: return_rate
+  - field_name: 平均风险收益率（近xx）
+    field_name_zh: 平均风险收益率（近xx）
+    semantic_type: metric
+    aliases:
+    - 平均风险收益率（近xx）
+    maps_to_attribute: return_rate
+  - field_name: 几何平均风险收益率（近xx)
+    field_name_zh: 几何平均风险收益率（近xx)
+    semantic_type: metric
+    aliases:
+    - 几何平均风险收益率（近xx)
+    maps_to_attribute: return_rate
+  - field_name: 这间收益率（年化)（近xx）
+    field_name_zh: 这间收益率（年化)（近xx）
+    semantic_type: metric
+    aliases:
+    - 这间收益率（年化)（近xx）
+    maps_to_attribute: annualized_return
+  - field_name: 区间收益率（工作日年化)(近xx》
+    field_name_zh: 区间收益率（工作日年化)(近xx》
+    semantic_type: metric
+    aliases:
+    - 区间收益率（工作日年化)(近xx》
+    maps_to_attribute: annualized_return
+  - field_name: 净值超越基准年化收益率（近心x）
+    field_name_zh: 净值超越基准年化收益率（近心x）
+    semantic_type: metric
+    aliases:
+    - 净值超越基准年化收益率（近心x）
+    maps_to_attribute: annualized_return
+  - field_name: 复权单位净值相对大盘增长奉（近xx）
+    field_name_zh: 复权单位净值相对大盘增长奉（近xx）
+    semantic_type: unknown
+    aliases:
+    - 复权单位净值相对大盘增长奉（近xx）
+    maps_to_attribute: adjusted_nav
+  - field_name: 净值超越基准收益率（近xx）
+    field_name_zh: 净值超越基准收益率（近xx）
+    semantic_type: metric
+    aliases:
+    - 净值超越基准收益率（近xx）
+    maps_to_attribute: return_rate
+  - field_name: 净值超越基准收益频率（百分比）（近xx）
+    field_name_zh: 净值超越基准收益频率（百分比）（近xx）
+    semantic_type: unknown
+    aliases:
+    - 净值超越基准收益频率（百分比）（近xx）
+  - field_name: 日跟踪偏离度均值（业绩基准）(近xx）
+    field_name_zh: 日跟踪偏离度均值（业绩基准）(近xx）
+    semantic_type: unknown
+    aliases:
+    - 日跟踪偏离度均值（业绩基准）(近xx）
+  - field_name: 日跟踪偏离度均值（跟踪指数）（近xx)
+    field_name_zh: 日跟踪偏离度均值（跟踪指数）（近xx)
+    semantic_type: unknown
+    aliases:
+    - 日跟踪偏离度均值（跟踪指数）（近xx)
+  - field_name: 创建时间
+    field_name_zh: 创建时间
+    semantic_type: timestamp
+    aliases:
+    - 创建时间
+    is_time_field: true
+  - field_name: 更新时间
+    field_name_zh: 更新时间
+    semantic_type: timestamp
+    aliases:
+    - 更新时间
+    is_time_field: true
+- table_name: dws_fund_risk ret_peer_xx
+  table_name_zh: 基金产品近效风险指标同类平均排名
+  layer: dws
+  domain: finance_market
+  entity_types:
+  - PeerRanking
+  - RiskMetric
+  description: 基金产品近效风险指标同类平均排名
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 更新日期
+    field_name_zh: 更新日期
+    semantic_type: date
+    aliases:
+    - 更新日期
+    is_time_field: true
+  - field_name: 基金名称
+    field_name_zh: 基金名称
+    semantic_type: name
+    aliases:
+    - 基金名称
+  - field_name: 基金类型
+    field_name_zh: 基金类型
+    semantic_type: unknown
+    aliases:
+    - 基金类型
+  - field_name: Sharp（同类平均）（近xx）
+    field_name_zh: Sharp（同类平均）（近xx）
+    semantic_type: metric
+    aliases:
+    - Sharp（同类平均）（近xx）
+    maps_to_attribute: sharpe_ratio
+  - field_name: Sharp年化（同类平均）（近xx）
+    field_name_zh: Sharp年化（同类平均）（近xx）
+    semantic_type: metric
+    aliases:
+    - Sharp年化（同类平均）（近xx）
+    maps_to_attribute: sharpe_ratio
+  - field_name: Sharp（同类排名）（近xx）
+    field_name_zh: Sharp（同类排名）（近xx）
+    semantic_type: metric
+    aliases:
+    - Sharp（同类排名）（近xx）
+    maps_to_attribute: sharpe_ratio
+  - field_name: Sharp年化（同类排名）（近xx）
+    field_name_zh: Sharp年化（同类排名）（近xx）
+    semantic_type: metric
+    aliases:
+    - Sharp年化（同类排名）（近xx）
+    maps_to_attribute: sharpe_ratio
+  - field_name: Sortino同类平均（近xx）
+    field_name_zh: Sortino同类平均（近xx）
+    semantic_type: metric
+    aliases:
+    - Sortino同类平均（近xx）
+    maps_to_attribute: sortino_ratio
+  - field_name: Sortion年化同类平均(近xx)
+    field_name_zh: Sortion年化同类平均(近xx)
+    semantic_type: unknown
+    aliases:
+    - Sortion年化同类平均(近xx)
+  - field_name: 卡玛比率同类排名（近xx)
+    field_name_zh: 卡玛比率同类排名（近xx)
+    semantic_type: metric
+    aliases:
+    - 卡玛比率同类排名（近xx)
+  - field_name: 跟踪误差同类排名(近xx)
+    field_name_zh: 跟踪误差同类排名(近xx)
+    semantic_type: metric
+    aliases:
+    - 跟踪误差同类排名(近xx)
+    maps_to_attribute: tracking_error
+  - field_name: 信息比率同类排名（近xx）
+    field_name_zh: 信息比率同类排名（近xx）
+    semantic_type: metric
+    aliases:
+    - 信息比率同类排名（近xx）
+    maps_to_attribute: information_ratio
+  - field_name: 卡玛比率同类平均（近xx）
+    field_name_zh: 卡玛比率同类平均（近xx）
+    semantic_type: metric
+    aliases:
+    - 卡玛比率同类平均（近xx）
+  - field_name: 跟踪误差同类平均（近xx）
+    field_name_zh: 跟踪误差同类平均（近xx）
+    semantic_type: metric
+    aliases:
+    - 跟踪误差同类平均（近xx）
+    maps_to_attribute: tracking_error
+  - field_name: 信息比率同类平均（近xx）
+    field_name_zh: 信息比率同类平均（近xx）
+    semantic_type: metric
+    aliases:
+    - 信息比率同类平均（近xx）
+    maps_to_attribute: information_ratio
+  - field_name: 更新时间戳
+    field_name_zh: 更新时间戳
+    semantic_type: timestamp
+    aliases:
+    - 更新时间戳
+    is_time_field: true
+- table_name: DWS_FUND_PERF_DAILY
+  table_name_zh: 基金日收益表现表
+  layer: dws
+  domain: finance_market
+  entity_types:
+  - PerformanceMetric
+  description: 基金日收益表现表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 净值日期
+    field_name_zh: 净值日期
+    semantic_type: date
+    aliases:
+    - 净值日期
+    maps_to_attribute: nav_date
+    is_time_field: true
+  - field_name: 更新日期
+    field_name_zh: 更新日期
+    semantic_type: date
+    aliases:
+    - 更新日期
+    is_time_field: true
+  - field_name: 基金名称
+    field_name_zh: 基金名称
+    semantic_type: name
+    aliases:
+    - 基金名称
+  - field_name: 基金类型
+    field_name_zh: 基金类型
+    semantic_type: unknown
+    aliases:
+    - 基金类型
+  - field_name: 基准名称
+    field_name_zh: 基准名称
+    semantic_type: name
+    aliases:
+    - 基准名称
+  - field_name: 日回报
+    field_name_zh: 日回报
+    semantic_type: unknown
+    aliases:
+    - 日回报
+  - field_name: 回撤（相对成立以来高点）
+    field_name_zh: 回撤（相对成立以来高点）
+    semantic_type: metric
+    aliases:
+    - 回撤（相对成立以来高点）
+  - field_name: 今年以来回报
+    field_name_zh: 今年以来回报
+    semantic_type: unknown
+    aliases:
+    - 今年以来回报
+  - field_name: 成立以来回报
+    field_name_zh: 成立以来回报
+    semantic_type: unknown
+    aliases:
+    - 成立以来回报
+  - field_name: 日跟踪偏离度（业绩基准）
+    field_name_zh: 日跟踪偏离度（业绩基准）
+    semantic_type: unknown
+    aliases:
+    - 日跟踪偏离度（业绩基准）
+  - field_name: 日跟踪偏离度（跟踪指数）
+    field_name_zh: 日跟踪偏离度（跟踪指数）
+    semantic_type: unknown
+    aliases:
+    - 日跟踪偏离度（跟踪指数）
+  - field_name: 是否跑赢基准（0-否1-是）
+    field_name_zh: 是否跑赢基准（0-否1-是）
+    semantic_type: flag
+    aliases:
+    - 是否跑赢基准（0-否1-是）
+  - field_name: 创建时间
+    field_name_zh: 创建时间
+    semantic_type: timestamp
+    aliases:
+    - 创建时间
+    is_time_field: true
+  - field_name: 更新时间
+    field_name_zh: 更新时间
+    semantic_type: timestamp
+    aliases:
+    - 更新时间
+    is_time_field: true
+- table_name: DWS BM PERF DAILY
+  table_name_zh: 基准日收益表现表
+  layer: dws
+  domain: finance_market
+  entity_types:
+  - Benchmark
+  description: 基准日收益表现表
+  fields:
+  - field_name: 基准代码
+    field_name_zh: 基准代码
+    semantic_type: unknown
+    aliases:
+    - 基准代码
+  - field_name: 净值日期
+    field_name_zh: 净值日期
+    semantic_type: date
+    aliases:
+    - 净值日期
+    maps_to_attribute: nav_date
+    is_time_field: true
+  - field_name: 更新日期
+    field_name_zh: 更新日期
+    semantic_type: date
+    aliases:
+    - 更新日期
+    is_time_field: true
+  - field_name: 基准名称
+    field_name_zh: 基准名称
+    semantic_type: name
+    aliases:
+    - 基准名称
+  - field_name: 基金代码
+    field_name_zh: 基金代码
+    semantic_type: unknown
+    aliases:
+    - 基金代码
+    maps_to_attribute: fund_code
+  - field_name: 基金名称
+    field_name_zh: 基金名称
+    semantic_type: name
+    aliases:
+    - 基金名称
+  - field_name: 基金类型
+    field_name_zh: 基金类型
+    semantic_type: unknown
+    aliases:
+    - 基金类型
+  - field_name: 日回报
+    field_name_zh: 日回报
+    semantic_type: unknown
+    aliases:
+    - 日回报
+  - field_name: 创建时间
+    field_name_zh: 创建时间
+    semantic_type: timestamp
+    aliases:
+    - 创建时间
+    is_time_field: true
+  - field_name: 更新时间
+    field_name_zh: 更新时间
+    semantic_type: timestamp
+    aliases:
+    - 更新时间
+    is_time_field: true
+- table_name: DWS_IDX_PERF_DAILY
+  table_name_zh: 指数日收益表现表
+  layer: dws
+  domain: finance_market
+  entity_types:
+  - Index
+  description: 指数日收益表现表
+  fields:
+  - field_name: 指数代码
+    field_name_zh: 指数代码
+    semantic_type: unknown
+    aliases:
+    - 指数代码
+  - field_name: 交易日期
+    field_name_zh: 交易日期
+    semantic_type: date
+    aliases:
+    - 交易日期
+    maps_to_attribute: nav_date
+    is_time_field: true
+  - field_name: 更新日期
+    field_name_zh: 更新日期
+    semantic_type: date
+    aliases:
+    - 更新日期
+    is_time_field: true
+  - field_name: 指数名称
+    field_name_zh: 指数名称
+    semantic_type: name
+    aliases:
+    - 指数名称
+  - field_name: 日回报
+    field_name_zh: 日回报
+    semantic_type: unknown
+    aliases:
+    - 日回报
+  - field_name: 创建时间
+    field_name_zh: 创建时间
+    semantic_type: timestamp
+    aliases:
+    - 创建时间
+    is_time_field: true
+  - field_name: 更新时间
+    field_name_zh: 更新时间
+    semantic_type: timestamp
+    aliases:
+    - 更新时间
+    is_time_field: true
+- table_name: SFNPRFPERIOD_STAT
+  table_name_zh: 单周期明细表
+  layer: unknown
+  domain: finance_market
+  entity_types:
+  - SinglePeriodPerformance
+  description: 单周期明细表
+  fields:
+  - field_name: 基金代码
+    field_name_zh: 基金代码
+    semantic_type: unknown
+    aliases:
+    - 基金代码
+    maps_to_attribute: fund_code
+  - field_name: 净值日期
+    field_name_zh: 净值日期
+    semantic_type: date
+    aliases:
+    - 净值日期
+    maps_to_attribute: nav_date
+    is_time_field: true
+  - field_name: 更新日期
+    field_name_zh: 更新日期
+    semantic_type: date
+    aliases:
+    - 更新日期
+    is_time_field: true
+  - field_name: 单周期类型：01-单月度/02-单季度/03-单年度
+    field_name_zh: 单周期类型：01-单月度/02-单季度/03-单年度
+    semantic_type: unknown
+    aliases:
+    - 单周期类型：01-单月度/02-单季度/03-单年度
+  - field_name: 单周期类型名称：单月度/单季度/单年度
+    field_name_zh: 单周期类型名称：单月度/单季度/单年度
+    semantic_type: name
+    aliases:
+    - 单周期类型名称：单月度/单季度/单年度
+  - field_name: 基金名称
+    field_name_zh: 基金名称
+    semantic_type: name
+    aliases:
+    - 基金名称
+  - field_name: 基金类型
+    field_name_zh: 基金类型
+    semantic_type: unknown
+    aliases:
+    - 基金类型
+  - field_name: 回报
+    field_name_zh: 回报
+    semantic_type: unknown
+    aliases:
+    - 回报
+  - field_name: 是否正收益0：否
+    field_name_zh: 是否正收益0：否
+    semantic_type: flag
+    aliases:
+    - 是否正收益0：否
+  - field_name: 1：是
+    field_name_zh: 1：是
+    semantic_type: unknown
+    aliases:
+    - 1：是
+  - field_name: 创建时间
+    field_name_zh: 创建时间
+    semantic_type: timestamp
+    aliases:
+    - 创建时间
+    is_time_field: true
+  - field_name: 更新时间
+    field_name_zh: 更新时间
+    semantic_type: timestamp
+    aliases:
+    - 更新时间
+    is_time_field: true
+- table_name: DWS FUND RISK xx
+  table_name_zh: 近xx基金风险指标表
+  layer: dws
+  domain: finance_market
+  entity_types:
+  - RiskMetric
+  description: 近xx基金风险指标表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 报价日期
+    field_name_zh: 报价日期
+    semantic_type: date
+    aliases:
+    - 报价日期
+    maps_to_attribute: nav_date
+    is_time_field: true
+  - field_name: 更新日期
+    field_name_zh: 更新日期
+    semantic_type: date
+    aliases:
+    - 更新日期
+    is_time_field: true
+  - field_name: 基金名称
+    field_name_zh: 基金名称
+    semantic_type: name
+    aliases:
+    - 基金名称
+  - field_name: 基金类型
+    field_name_zh: 基金类型
+    semantic_type: unknown
+    aliases:
+    - 基金类型
+  - field_name: 基准名称
+    field_name_zh: 基准名称
+    semantic_type: name
+    aliases:
+    - 基准名称
+  - field_name: 上行标准差
+    field_name_zh: 上行标准差
+    semantic_type: unknown
+    aliases:
+    - 上行标准差
+    maps_to_attribute: standard_deviation
+  - field_name: 下行标准差
+    field_name_zh: 下行标准差
+    semantic_type: unknown
+    aliases:
+    - 下行标准差
+    maps_to_attribute: standard_deviation
+  - field_name: 上行标准差（年化）
+    field_name_zh: 上行标准差（年化）
+    semantic_type: unknown
+    aliases:
+    - 上行标准差（年化）
+    maps_to_attribute: standard_deviation
+  - field_name: 下行标准差（年化)
+    field_name_zh: 下行标准差（年化)
+    semantic_type: unknown
+    aliases:
+    - 下行标准差（年化)
+    maps_to_attribute: standard_deviation
+  - field_name: 下行风险
+    field_name_zh: 下行风险
+    semantic_type: unknown
+    aliases:
+    - 下行风险
+  - field_name: 下行风险（年化）
+    field_name_zh: 下行风险（年化）
+    semantic_type: unknown
+    aliases:
+    - 下行风险（年化）
+  - field_name: 收益率标准差
+    field_name_zh: 收益率标准差
+    semantic_type: metric
+    aliases:
+    - 收益率标准差
+    maps_to_attribute: standard_deviation
+  - field_name: 年
+    field_name_zh: 年
+    semantic_type: unknown
+    aliases:
+    - 年
+  - field_name: 化波动率
+    field_name_zh: 化波动率
+    semantic_type: unknown
+    aliases:
+    - 化波动率
+    maps_to_attribute: volatility
+  - field_name: 5%分位数
+    field_name_zh: 5%分位数
+    semantic_type: unknown
+    aliases:
+    - 5%分位数
+  - field_name: 2.5%分位数
+    field_name_zh: 2.5%分位数
+    semantic_type: unknown
+    aliases:
+    - 2.5%分位数
+  - field_name: 1%分位数
+    field_name_zh: 1%分位数
+    semantic_type: unknown
+    aliases:
+    - 1%分位数
+  - field_name: 5%历史VaR
+    field_name_zh: 5%历史VaR
+    semantic_type: metric
+    aliases:
+    - 5%历史VaR
+  - field_name: 2.5%史vaR
+    field_name_zh: 2.5%史vaR
+    semantic_type: unknown
+    aliases:
+    - 2.5%史vaR
+  - field_name: 1%历史VaR
+    field_name_zh: 1%历史VaR
+    semantic_type: metric
+    aliases:
+    - 1%历史VaR
+  - field_name: 5%条件VaR
+    field_name_zh: 5%条件VaR
+    semantic_type: metric
+    aliases:
+    - 5%条件VaR
+  - field_name: 2.5%条件VaR
+    field_name_zh: 2.5%条件VaR
+    semantic_type: metric
+    aliases:
+    - 2.5%条件VaR
+  - field_name: 1%条件VaR
+    field_name_zh: 1%条件VaR
+    semantic_type: metric
+    aliases:
+    - 1%条件VaR
+  - field_name: 超额收益(平均收益率-无风险收益率（1.5折算年化）)
+    field_name_zh: 超额收益(平均收益率-无风险收益率（1.5折算年化）)
+    semantic_type: metric
+    aliases:
+    - 超额收益(平均收益率-无风险收益率（1.5折算年化）)
+    maps_to_attribute: annualized_return
+  - field_name: 协方差（基金和指数收益率）
+    field_name_zh: 协方差（基金和指数收益率）
+    semantic_type: metric
+    aliases:
+    - 协方差（基金和指数收益率）
+    maps_to_attribute: return_rate
+  - field_name: 协方差（基金和业绩比较基准收益率）
+    field_name_zh: 协方差（基金和业绩比较基准收益率）
+    semantic_type: metric
+    aliases:
+    - 协方差（基金和业绩比较基准收益率）
+    maps_to_attribute: return_rate
+- table_name: DWS_FUND_RISK_PEER_xx
+  table_name_zh: 近xx同类基金风险指标表
+  layer: dws
+  domain: finance_market
+  entity_types:
+  - PeerRanking
+  - RiskMetric
+  description: 近xx同类基金风险指标表
+  fields:
+  - field_name: 基金产品代码
+    field_name_zh: 基金产品代码
+    semantic_type: unknown
+    aliases:
+    - 基金产品代码
+    maps_to_attribute: fund_code
+  - field_name: 报价日期
+    field_name_zh: 报价日期
+    semantic_type: date
+    aliases:
+    - 报价日期
+    maps_to_attribute: nav_date
+    is_time_field: true
+  - field_name: 更新日期
+    field_name_zh: 更新日期
+    semantic_type: date
+    aliases:
+    - 更新日期
+    is_time_field: true
+  - field_name: 基金名称
+    field_name_zh: 基金名称
+    semantic_type: name
+    aliases:
+    - 基金名称
+  - field_name: 基金类型
+    field_name_zh: 基金类型
+    semantic_type: unknown
+    aliases:
+    - 基金类型
+  - field_name: 下行风险（同类平均)(近xx)
+    field_name_zh: 下行风险（同类平均)(近xx)
+    semantic_type: unknown
+    aliases:
+    - 下行风险（同类平均)(近xx)
+  - field_name: 下行风险（同类排名）(近xx)
+    field_name_zh: 下行风险（同类排名）(近xx)
+    semantic_type: unknown
+    aliases:
+    - 下行风险（同类排名）(近xx)
+  - field_name: 年化波动率（同类平均）(近xx)
+    field_name_zh: 年化波动率（同类平均）(近xx)
+    semantic_type: unknown
+    aliases:
+    - 年化波动率（同类平均）(近xx)
+    maps_to_attribute: volatility
+  - field_name: 年化波动率（同类排名）(近xx)
+    field_name_zh: 年化波动率（同类排名）(近xx)
+    semantic_type: unknown
+    aliases:
+    - 年化波动率（同类排名）(近xx)
+    maps_to_attribute: volatility

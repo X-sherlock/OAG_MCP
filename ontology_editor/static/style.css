@@ -1389,6 +1389,42 @@ label {
   text-align: left;
 }
 
+.oag-plan-list button.priority-required {
+  border-color: #fdba74;
+  background: #fff7ed;
+}
+
+.oag-plan-list button.priority-required strong {
+  color: #9a3412;
+}
+
+.oag-plan-list button.priority-optional {
+  border-color: #bfdbfe;
+  background: #eff6ff;
+}
+
+.oag-plan-list button.priority-optional strong {
+  color: #1d4ed8;
+}
+
+.oag-plan-list button.priority-supporting {
+  border-color: #99f6e4;
+  background: #f0fdfa;
+}
+
+.oag-plan-list button.priority-supporting strong {
+  color: #0f766e;
+}
+
+.oag-plan-list button.priority-derived {
+  border-color: #ddd6fe;
+  background: #f5f3ff;
+}
+
+.oag-plan-list button.priority-derived strong {
+  color: #6d28d9;
+}
+
 .oag-summary-section {
   display: grid;
   gap: 8px;
@@ -1513,6 +1549,16 @@ label {
   border-radius: 999px;
   background: #eef2ff;
   color: #3730a3;
+}
+
+.oag-fact-summary span.priority-required {
+  background: #ffedd5;
+  color: #9a3412;
+}
+
+.oag-fact-summary span.priority-optional {
+  background: #dbeafe;
+  color: #1d4ed8;
 }
 
 .oag-issue-list {

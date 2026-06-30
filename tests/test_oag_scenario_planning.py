@@ -69,17 +69,33 @@ def test_peer_comparison():
     assert "get_fund_peer_ranking_facts" in skill_ids(result)
 
 
-def test_relation_queries_for_manager_company_and_benchmark():
+def test_relation_queries_for_manager_and_company():
     cases = [
         ("查询000001的基金经理", [{"relation_type": "managed_by", "target_object_type": "FundManager"}]),
         ("查询000001的基金公司", [{"relation_type": "issued_by", "target_object_type": "FundCompany"}]),
-        ("查询000001的业绩比较基准", [{"relation_type": "has_benchmark", "target_object_type": "Benchmark"}]),
     ]
     for raw_question, relation_queries in cases:
         result = retrieve(frame(raw_question=raw_question, task_type="query", intent=None, relation_queries=relation_queries))
         predicates = {item.get("predicate") for item in result["fact_requirements"]}
         assert relation_queries[0]["relation_type"] in predicates
         assert "get_fund_profile_facts" in skill_ids(result)
+
+
+def test_benchmark_relation_query_reports_unsupported_capability():
+    result = retrieve(
+        frame(
+            raw_question="查询000001的业绩比较基准",
+            task_type="query",
+            intent=None,
+            relation_queries=[{"relation_type": "has_benchmark", "target_object_type": "Benchmark"}],
+        )
+    )
+
+    predicates = {item.get("predicate") for item in result["fact_requirements"]}
+    assert "has_benchmark" in predicates
+    assert result["coverage_summary"]["coverage_status"] == "unsupported"
+    assert skill_ids(result) == set()
+    assert any(item["diagnostic_code"] == "UNSUPPORTED_DATA_CAPABILITY" for item in result["diagnostics"])
 
 
 def test_multi_fund_comparison_keeps_all_targets():
@@ -128,13 +144,95 @@ def test_fundset_ranking_screening_and_recommendation():
     assert "recommend_funds_by_risk_return" in skill_ids(recommendation)
 
 
-def test_profile_fee_dividend_holding_and_allocation_queries():
+def test_fund_name_target_can_plan_single_fund_skill_call():
+    result = retrieve(
+        frame(
+            raw_question="华夏成长混合近一年收益怎么样",
+            task_type="query",
+            intent=None,
+            instance_ref={"fund_name": "华夏成长混合"},
+            mentioned_attributes=["return_rate"],
+        )
+    )
+
+    call = next(item for item in result["candidate_invocations"] if item["skill_id"] == "get_fund_metric_values")
+
+    assert result["status"] == "success"
+    assert call["params"]["fund_name"] == "华夏成长混合"
+    assert "fund_code" not in call["missing_params"]
+    assert call["missing_params"] == []
+
+
+def test_mixed_supported_and_unsupported_facts_keep_ready_skill_calls():
+    result = retrieve(
+        frame(
+            raw_question="000001近一年收益和股票持仓是什么",
+            task_type="query",
+            intent=None,
+            mentioned_attributes=["return_rate", "stock_name"],
+        )
+    )
+
+    assert result["status"] == "success"
+    assert result["coverage_summary"]["coverage_status"] == "partial_coverage"
+    assert "get_fund_metric_values" in skill_ids(result)
+    uncovered_ids = {item["fact_requirement_id"] for item in result["coverage_summary"]["uncovered_required_facts"]}
+    assert any(
+        item.get("attribute_name") == "stock_name" and item["fact_requirement_id"] in uncovered_ids
+        for item in result["fact_requirements"]
+    )
+    assert any(item["diagnostic_code"] == "UNSUPPORTED_DATA_CAPABILITY" for item in result["diagnostics"])
+
+
+def test_unsupported_period_returns_structured_suggestion_without_ready_skill():
+    result = retrieve(
+        frame(
+            raw_question="000001近两周收益怎么样",
+            task_type="query",
+            intent=None,
+            constraints={"period": "2w"},
+            mentioned_attributes=["return_rate"],
+        )
+    )
+
+    assert result["status"] == "unsupported"
+    assert result["coverage_summary"]["coverage_status"] == "unsupported"
+    assert skill_ids(result) == set()
+    diagnostic = result["diagnostics"][0]
+    assert diagnostic["reason_code"] == "UNSUPPORTED_PERIOD"
+    assert "1w" in diagnostic["closest_supported_periods"]
+
+
+def test_volatility_screening_and_recommendation_are_planned():
+    screening = retrieve(
+        fundset_frame(
+            raw_question="筛选近一年波动率低的基金",
+            task_type="screen",
+            intent="fund_screening",
+            ranking=[],
+            filters=[{"attribute": "volatility", "operator": "<=", "value": 0.15}],
+        )
+    )
+    recommendation = retrieve(
+        fundset_frame(
+            raw_question="推荐近一年收益高、波动低的基金",
+            task_type="recommend",
+            intent="fund_recommendation",
+            ranking=[{"attribute": "return_rate", "direction": "desc"}],
+            filters=[{"attribute": "volatility", "operator": "<=", "value": 0.15}],
+        )
+    )
+
+    assert "screen_funds_by_metric_condition" in skill_ids(screening)
+    assert "recommend_funds_by_risk_return" in skill_ids(recommendation)
+    assert screening["coverage_summary"]["coverage_status"] == "full_coverage"
+    assert recommendation["coverage_summary"]["coverage_status"] == "full_coverage"
+
+
+def test_profile_and_allocation_queries_are_skill_covered_but_fee_schedule_is_unsupported():
     cases = [
         ("000001的基本信息", "profile", "fund_profile", "object_profile", "get_fund_profile_facts", {}),
-        ("000001费率是多少", "query", "fee_analysis", "fee_fact", "get_fund_fee_facts", {}),
-        ("000001分红情况", "query", "dividend_analysis", "dividend_fact", "get_fund_dividend_facts", {}),
-        ("000001当前持仓如何", "query", "holding_analysis", "holding_fact", "get_fund_holding_facts", {"report_date": "latest"}),
-        ("000001资产配置怎么样", "query", "asset_allocation_analysis", "allocation_fact", "get_fund_holding_facts", {"report_date": "latest"}),
+        ("000001资产配置怎么样", "query", "asset_allocation_analysis", "allocation_fact", "get_fund_allocation_facts", {"report_date": "latest"}),
     ]
     for raw_question, task_type, intent, fact_type, skill_id, extra_constraints in cases:
         item = frame(raw_question=raw_question, task_type=task_type, intent=intent)
@@ -142,6 +240,46 @@ def test_profile_fee_dividend_holding_and_allocation_queries():
         result = retrieve(item)
         assert fact_type in fact_types(result)
         assert skill_id in skill_ids(result)
+
+    fee = retrieve(frame(raw_question="000001费率是多少", task_type="query", intent="fee_analysis"))
+    assert "fee_fact" in fact_types(fee)
+    assert fee["coverage_summary"]["coverage_status"] == "unsupported"
+    assert skill_ids(fee) == set()
+    assert any(item["diagnostic_code"] == "UNSUPPORTED_DATA_CAPABILITY" for item in fee["diagnostics"])
+
+
+def test_dividend_and_holding_detail_queries_report_unsupported_capability():
+    cases = [
+        ("000001分红情况", "query", "dividend_analysis", "dividend_fact"),
+        ("000001当前持仓如何", "query", "holding_analysis", "holding_fact"),
+    ]
+    for raw_question, task_type, intent, fact_type in cases:
+        result = retrieve(frame(raw_question=raw_question, task_type=task_type, intent=intent))
+
+        assert fact_type in fact_types(result)
+        assert result["coverage_summary"]["coverage_status"] == "unsupported"
+        assert skill_ids(result) == set()
+        assert any(item["diagnostic_code"] == "UNSUPPORTED_DATA_CAPABILITY" for item in result["diagnostics"])
+
+
+def test_yaml_defaults_unblock_required_skill_params():
+    risk = retrieve(
+        frame(
+            raw_question="000001的Calmar和下行风险如何",
+            task_type="query",
+            intent=None,
+            mentioned_attributes=["calmar_ratio", "downside_risk"],
+        )
+    )
+    allocation = retrieve(frame(raw_question="000001当前仓位如何", task_type="query", intent="asset_allocation_analysis"))
+
+    risk_call = next(item for item in risk["candidate_invocations"] if item["skill_id"] == "get_fund_risk_facts")
+    allocation_call = next(item for item in allocation["candidate_invocations"] if item["skill_id"] == "get_fund_allocation_facts")
+
+    assert risk_call["params"]["period"] == "1y"
+    assert risk_call["missing_params"] == []
+    assert "report_date" not in allocation_call["missing_params"]
+    assert allocation_call["missing_params"] == []
 
 
 def test_unknown_intent_with_explicit_attribute_still_plans():

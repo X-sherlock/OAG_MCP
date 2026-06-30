@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from copy import deepcopy
 
 from fastapi.testclient import TestClient
@@ -13,6 +14,7 @@ client = TestClient(app)
 
 def test_oag_planning_examples_cover_scenario_matrix():
     source = (app_module.PROJECT_ROOT / "ontology_editor" / "static" / "app.js").read_text(encoding="utf-8")
+    index = (app_module.PROJECT_ROOT / "ontology_editor" / "static" / "index.html").read_text(encoding="utf-8")
 
     for label in [
         "分析某基金近一年表现",
@@ -37,6 +39,10 @@ def test_oag_planning_examples_cover_scenario_matrix():
     assert "renderRelationExpansionPaths" in source
     assert "renderYamlGovernanceEntry" in source
     assert "inferSemanticFrameFromQuestion" in source
+    assert 'priority: node.priority || ""' in source
+    assert 'priority-${escapeHtml(priorityClass(item.priority))}' in source
+    assert 'node[origin = "task_graph"][type = "FactRequirement"][priority = "required"]' in source
+    assert "oag-ui-20260630-priority" in index
     assert "自动语义草稿" in source
     assert "结构化草稿（可选校正）" in source
     assert "使用下方结构化草稿覆盖自动识别结果" in source
@@ -84,6 +90,54 @@ def test_oag_plan_returns_fact_plan_with_chinese_task_graph():
     assert all(item["label_zh"] and item["reason_zh"] for item in plan["fact_requirements"])
     assert all(node["label_zh"] for node in plan["task_graph"]["nodes"])
     assert all(edge["label_zh"] and edge["reason_zh"] for edge in plan["task_graph"]["edges"])
+
+
+def test_oag_peer_ranking_plan_keeps_required_facts_covered():
+    frame_response = client.post(
+        "/api/oag/semantic-frame",
+        json={"question": "003095近一年同类排名怎么样"},
+    )
+    assert frame_response.status_code == 200
+
+    response = client.post(
+        "/api/oag/plan",
+        json={
+            "semantic_frame": frame_response.json()["semantic_frame"],
+            "user_context": {"permission_scopes": ["fund_public_data:read"], "debug": True},
+            "output_view": "editor",
+        },
+    )
+
+    assert response.status_code == 200
+    plan = response.json()["editor_plan"]
+    coverage = plan["coverage_summary"]
+    assert coverage["required_fact_count"] == coverage["covered_required_fact_count"]
+    assert coverage["uncovered_required_facts"] == []
+    assert any(
+        item["attribute_name"] == "rank" and item["fact_type"] == "peer_rank"
+        for item in plan["fact_requirements"]
+    )
+    assert any(
+        item["skill_id"] == "get_fund_peer_ranking_facts" and item["covers_required_count"] >= 1
+        for item in plan["candidate_invocations"]
+    )
+
+
+def test_oag_semantic_frame_api_matches_workflow_case_builder_snapshot():
+    cases_path = app_module.PROJECT_ROOT / "outputs" / "workflow_full_test_20260630" / "workflow_cases.json"
+    cases = json.loads(cases_path.read_text(encoding="utf-8"))
+    selected_case_numbers = {1, 2, 11, 31, 71, 91, 111, 131, 151, 171, 201, 204, 205, 231}
+
+    for case in cases:
+        if case["case_no"] not in selected_case_numbers:
+            continue
+        response = client.post(
+            "/api/oag/semantic-frame",
+            json={"question": case["question"]},
+        )
+
+        assert response.status_code == 200
+        assert response.json()["semantic_frame"] == case["semantic_frame"]
 
 
 def test_oag_options_returns_chinese_display_fields():

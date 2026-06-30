@@ -385,7 +385,7 @@ const NODE_TYPE_COLORS = {
   TaskType: "#f59e0b",
   TargetInstance: "#22c55e",
   Constraint: "#a78bfa",
-  FactRequirement: "#fb7185",
+  FactRequirement: "#f97316",
   Group: "#334155",
   Parameter: "#cbd5e1",
 };
@@ -422,6 +422,7 @@ let currentOagOptions = {};
 let currentPlan = null;
 let currentDiagnostics = { items: [], summary: {} };
 let currentMappingMatrix = { rows: [], summary: {} };
+let oagDraftTimer = null;
 let selected = null;
 let edgeCreationSource = null;
 
@@ -497,7 +498,11 @@ function initCytoscape() {
         },
       },
       { selector: 'node[origin = "task_graph"][type = "SemanticFrame"]', style: { "background-color": "#94a3b8", color: "#111827" } },
-      { selector: 'node[origin = "task_graph"][type = "FactRequirement"]', style: { "background-color": "#f0a5b5", shape: "round-rectangle" } },
+      { selector: 'node[origin = "task_graph"][type = "FactRequirement"]', style: { "background-color": "#dbeafe", "border-color": "#60a5fa", "border-width": 2, shape: "round-rectangle" } },
+      { selector: 'node[origin = "task_graph"][type = "FactRequirement"][priority = "required"]', style: { "background-color": "#fed7aa", "border-color": "#f97316", "border-width": 3 } },
+      { selector: 'node[origin = "task_graph"][type = "FactRequirement"][priority = "optional"]', style: { "background-color": "#dbeafe", "border-color": "#60a5fa" } },
+      { selector: 'node[origin = "task_graph"][type = "FactRequirement"][priority = "supporting"]', style: { "background-color": "#ccfbf1", "border-color": "#14b8a6" } },
+      { selector: 'node[origin = "task_graph"][type = "FactRequirement"][priority = "derived"]', style: { "background-color": "#ede9fe", "border-color": "#8b5cf6" } },
       { selector: 'node[origin = "task_graph"][type = "TargetInstance"]', style: { "background-color": "#93c5fd", shape: "ellipse" } },
       { selector: 'node[origin = "task_graph"][type = "Constraint"]', style: { "background-color": "#d9e3f0", shape: "round-rectangle" } },
       { selector: 'node[origin = "task_graph"][type = "Parameter"]', style: { "background-color": "#fde68a", shape: "round-rectangle" } },
@@ -1064,12 +1069,12 @@ function renderOagPlanningDashboard() {
   document.querySelectorAll("[data-example-frame]").forEach((button) => {
     button.addEventListener("click", () => fillOagExample(button.dataset.exampleFrame));
   });
-  on("syncOagJsonBtn", "click", () => {
-    el("oagJsonInput").value = JSON.stringify(readSemanticFrameFromForm(), null, 2);
+  on("syncOagJsonBtn", "click", () => guarded(async () => {
+    el("oagJsonInput").value = JSON.stringify(await readSemanticFrameFromForm(), null, 2);
     switchOagInputTab("json");
-  });
-  on("refreshOagDraftBtn", "click", () => refreshAutoSemanticPreview({ forceDraftControls: true }));
-  on("oagRawQuestion", "input", () => refreshAutoSemanticPreview());
+  }));
+  on("refreshOagDraftBtn", "click", () => guarded(() => refreshAutoSemanticPreview({ forceDraftControls: true })));
+  on("oagRawQuestion", "input", () => scheduleOagDraftPreview());
   on("runOagPlanBtn", "click", () => guarded(runOagPlan));
   renderTaskCandidates();
   renderOagPlanPlaceholder();
@@ -1168,8 +1173,30 @@ function exampleSemanticFrame(name) {
   return { ...base, ...(examples[name] || {}) };
 }
 
-function readSemanticFrameFromForm() {
-  const inferred = inferSemanticFrameFromQuestion(el("oagRawQuestion").value.trim());
+async function semanticFrameDraftFromQuestion(rawQuestion) {
+  const question = (rawQuestion || "").trim();
+  if (!question) return inferSemanticFrameFromQuestion(question);
+  try {
+    const result = await api("/api/oag/semantic-frame", {
+      method: "POST",
+      body: JSON.stringify({ question }),
+    });
+    return result.semantic_frame || inferSemanticFrameFromQuestion(question);
+  } catch (error) {
+    console.warn("后端 semantic_frame 草稿不可用，使用前端兜底规则。", error);
+    return inferSemanticFrameFromQuestion(question);
+  }
+}
+
+function scheduleOagDraftPreview() {
+  if (oagDraftTimer) clearTimeout(oagDraftTimer);
+  oagDraftTimer = setTimeout(() => {
+    guarded(() => refreshAutoSemanticPreview());
+  }, 350);
+}
+
+async function readSemanticFrameFromForm() {
+  const inferred = await semanticFrameDraftFromQuestion(el("oagRawQuestion").value.trim());
   if (!el("oagUseStructuredDraft")?.checked) {
     if (el("oagDebug")?.checked) inferred.debug = true;
     return inferred;
@@ -1206,9 +1233,9 @@ function readSemanticFrameFromForm() {
   return frame;
 }
 
-function refreshAutoSemanticPreview({ frame = null, forceDraftControls = false } = {}) {
+async function refreshAutoSemanticPreview({ frame = null, forceDraftControls = false } = {}) {
   if (!el("oagRawQuestion")) return;
-  const inferred = frame || inferSemanticFrameFromQuestion(el("oagRawQuestion").value.trim());
+  const inferred = frame || await semanticFrameDraftFromQuestion(el("oagRawQuestion").value.trim());
   const shouldSyncDraft = forceDraftControls || !el("oagUseStructuredDraft")?.checked;
   if (shouldSyncDraft) fillOagFrame(inferred);
   if (el("oagJsonPanel")?.hidden) el("oagJsonInput").value = JSON.stringify(inferred, null, 2);
@@ -1452,7 +1479,7 @@ function intentLabel(value) {
 }
 
 async function runOagPlan() {
-  const frame = el("oagJsonPanel").hidden ? readSemanticFrameFromForm() : JSON.parse(el("oagJsonInput").value || "{}");
+  const frame = el("oagJsonPanel").hidden ? await readSemanticFrameFromForm() : JSON.parse(el("oagJsonInput").value || "{}");
   const runButton = el("runOagPlanBtn");
   const originalText = runButton?.textContent || "";
   if (runButton) {
@@ -1524,6 +1551,7 @@ function taskGraphToCytoscape(taskGraph) {
         label: node.label_zh || node.node_id,
         short_label: node.label_zh || node.node_id,
         degree: 1,
+        priority: node.priority || "",
         raw: node,
       },
     }));
@@ -1723,8 +1751,8 @@ function renderFactRequirementOverview(rows) {
     <section class="oag-summary-section">
       <h3>事实需求</h3>
       <div class="oag-fact-summary">
-        <span>必须 ${required.length}</span>
-        <span>辅助 ${optional.length}</span>
+        <span class="priority-required">必须 ${required.length}</span>
+        <span class="priority-optional">辅助 ${optional.length}</span>
         <span>合计 ${rows.length}</span>
       </div>
       ${renderFactRequirementList(visible)}
@@ -1923,7 +1951,7 @@ function bindPlanGovernanceActions() {
 function renderFactRequirementList(rows) {
   if (!rows.length) return `<div class="muted">暂无事实需求</div>`;
   return `<div class="mini-table oag-plan-list">${rows.map((item) => `
-    <button data-highlight-node="${escapeHtml(item.fact_requirement_id)}" title="${escapeHtml(item.reason_zh || "")}">
+    <button class="priority-${escapeHtml(priorityClass(item.priority))}" data-highlight-node="${escapeHtml(item.fact_requirement_id)}" title="${escapeHtml(item.reason_zh || "")}">
       <strong>${escapeHtml(item.label_zh || item.fact_requirement_id)}</strong>
       <span>${escapeHtml(item.fact_type_zh || item.fact_type)} · ${escapeHtml(item.subject?.label_zh || item.subject?.object_type || "-")} · ${escapeHtml(item.attribute?.label_zh || item.predicate_zh || "-")}</span>
       <em>${escapeHtml(item.priority_zh || priorityLabel(item.priority))} · ${escapeHtml(item.source_zh || sourceLabel(item.source))}</em>
@@ -2159,6 +2187,13 @@ function diagnosticTypeLabel(type) {
 
 function priorityLabel(value) {
   return value === "required" ? "必须查询" : "辅助参考";
+}
+
+function priorityClass(value) {
+  if (value === "required") return "required";
+  if (value === "supporting") return "supporting";
+  if (value === "derived") return "derived";
+  return "optional";
 }
 
 function sourceLabel(value) {

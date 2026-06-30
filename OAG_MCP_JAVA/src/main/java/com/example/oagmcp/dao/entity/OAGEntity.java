@@ -16,6 +16,7 @@ public class OAGEntity {
         public String attributeName;
         public String attributeNameZh;
         public String aliasesJson;
+        public String paramsJson;
         public Double score;
     }
 
@@ -37,13 +38,29 @@ public class OAGEntity {
         public String description;
         public String targetObjectType;
         public String inputParamsJson;
+        public String defaultParamsJson;
         public String outputAttributesJson;
         public String relatedQueriesJson;
         public String permissionScope;
         public String providesFactTypesJson;
         public String supportedSubjectTypesJson;
         public String supportedAttributesJson;
+        public String supportedRelationsJson;
         public String outputFactSchemaJson;
         public String supportedConstraintsJson;
+        public String capabilityStatus;
+        public String unsupportedReasonCode;
+        public String unsupportedAttributesJson;
+        public String supportedPeriodsByAttributeJson;
+        public String capabilityNoteZh;
+    }
+
+    public static class GraphEdge {
+        public String edgeId;
+        public String fromNodeId;
+        public String toNodeId;
+        public String relationType;
+        public Double score;
+        public String propertiesJson;
     }
 }

@@ -84,6 +84,20 @@
           </foreach>
     </select>
 
+    <select id="listObjectsByIds" resultType="com.example.oagmcp.dao.entity.OAGEntity$OAGObject">
+        SELECT object_type AS objectType,
+               object_id AS objectId,
+               object_name AS objectName,
+               aliases_json AS aliasesJson,
+               params_json AS paramsJson
+        FROM oag_objects
+        WHERE domain = #{domain}
+          AND object_id IN
+          <foreach collection="objectIds" item="objectId" open="(" separator="," close=")">
+              #{objectId}
+          </foreach>
+    </select>
+
     <select id="listIntentProfiles" resultType="com.example.oagmcp.dao.entity.OAGEntity$IntentProfile">
         SELECT intent_name AS intentName,
                intent_name_zh AS intentNameZh,
@@ -116,5 +130,37 @@
         FROM oag_skill_capabilities
         WHERE domain = #{domain}
           AND enabled = 1
+    </select>
+
+    <select id="listGraphEdgesByNodeIds" resultType="com.example.oagmcp.dao.entity.OAGEntity$GraphEdge">
+        SELECT e.edge_id AS edgeId,
+               e.from_node_id AS fromNodeId,
+               e.to_node_id AS toNodeId,
+               e.relation_type AS relationType,
+               e.score AS score,
+               e.properties_json AS propertiesJson
+        FROM oag_graph_edges e
+        JOIN oag_graph_nodes fn
+          ON fn.domain = e.domain
+         AND fn.node_id = e.from_node_id
+         AND fn.enabled = 1
+        JOIN oag_graph_nodes tn
+          ON tn.domain = e.domain
+         AND tn.node_id = e.to_node_id
+         AND tn.enabled = 1
+        WHERE e.domain = #{domain}
+          AND e.enabled = 1
+          AND (
+            e.from_node_id IN
+            <foreach collection="nodeIds" item="nodeId" open="(" separator="," close=")">
+                #{nodeId}
+            </foreach>
+            OR e.to_node_id IN
+            <foreach collection="nodeIds" item="nodeId" open="(" separator="," close=")">
+                #{nodeId}
+            </foreach>
+          )
+        ORDER BY e.score DESC, e.edge_id ASC
+        LIMIT #{topK}
     </select>
 </mapper>

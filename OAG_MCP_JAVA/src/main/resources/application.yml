@@ -4,13 +4,13 @@ server:
 spring:
   application:
     name: oag-mcp-java
+  datasource:
+    url: jdbc:mysql://${IFUND_DB_HOST:${OAG_DB_HOST:${OAG_TDSQL_HOST:127.0.0.1}}}:${IFUND_DB_PORT:${OAG_DB_PORT:${OAG_TDSQL_PORT:3306}}}/${IFUND_DB_DATABASE:${OAG_DB_NAME:ifundtest}}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${IFUND_DB_USER:${OAG_DB_USER:${OAG_TDSQL_USER:root}}}
+    password: ${IFUND_DB_PASSWORD:${OAG_DB_PASSWORD:${OAG_TDSQL_PASSWORD:}}}
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jackson:
     property-naming-strategy: SNAKE_CASE
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${OAG_DB_HOST:127.0.0.1}:${OAG_DB_PORT:3306}/${OAG_DB_NAME:ifundtest}?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
-    username: ${OAG_DB_USER:root}
-    password: ${OAG_DB_PASSWORD:}
   ai:
     mcp:
       server:
@@ -21,10 +21,10 @@ spring:
         annotation-scanner:
           enabled: true
 
+oag:
+  domain: ${OAG_DOMAIN:finance_market}
+
 mybatis:
   mapper-locations: classpath*:com/example/oagmcp/dao/*.xml
   configuration:
     map-underscore-to-camel-case: true
-
-oag:
-  domain: ${OAG_DOMAIN:finance_market}

@@ -16225,7 +16225,7 @@
   reason_zh: 风险分析中，最大回撤可补充 Calmar 比率，用于解释回撤调整后的收益表现。
   weight: 0.83
   planning_role: risk_context
-  auto_expand_mode: contextual
+  auto_expand_mode: explicit_only
   answer_visibility: answer_fact
   expansion_priority: optional
   trigger_policy:
@@ -16242,7 +16242,7 @@
     - excess_metric_value
     - peer_rank
     requires_existing_fact_types: []
-    requires_explicit_attribute: false
+    requires_explicit_attribute: true
     requires_relation_query: false
   expansion_limits:
     max_per_source_attribute: 3

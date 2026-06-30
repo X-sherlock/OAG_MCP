@@ -2,11 +2,11 @@ package com.example.oagmcp;
 
 import com.example.oagmcp.logic.OAGLogic;
 import com.example.oagmcp.vo.OAGVO;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springaicommunity.mcp.annotation.McpTool;
 import org.springaicommunity.mcp.annotation.McpToolParam;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.util.StringUtils;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -16,7 +16,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @SpringBootApplication
-@MapperScan("com.example.oagmcp.dao")
 public class OAG_MCP {
 
     private final OAGLogic logic;
@@ -29,26 +28,34 @@ public class OAG_MCP {
         SpringApplication.run(OAG_MCP.class, args);
     }
 
-    @ToolMapping(name = "oag_retrieve_context", description = "Retrieve compact OAG context for a fund analysis question.")
-    @McpTool(name = "oag_retrieve_context", description = "Retrieve compact OAG context for a fund analysis question.")
-    public OAGVO.RetrieveResponse oagRetrieveContext(
-            @McpToolParam(description = "Natural language question, for example: analyze 000001 over the last year.", required = true)
+    @ToolMapping(name = "oag_retrieve_context", description = "Plan OAG facts from a semantic_frame. Defaults to agent_plan; use output_view=editor for the full debug plan.")
+    @McpTool(name = "oag_retrieve_context", description = "Plan OAG facts from a semantic_frame. Defaults to agent_plan; use output_view=editor for the full debug plan.")
+    public Map<String, Object> oagRetrieveContext(
+            @McpToolParam(description = "Structured semantic_frame emitted by the upstream intent node.", required = true)
+            Map<String, Object> semantic_frame,
+            @McpToolParam(description = "Optional original natural language question for compatibility and display.", required = false)
             String question,
-            @McpToolParam(description = "Intent name. Defaults to structured_query.", required = false)
+            @McpToolParam(description = "Optional intent override. Prefer semantic_frame.intent.", required = false)
             String intent,
             @McpToolParam(description = "OAG domain. Defaults to finance_market.", required = false)
             String domain,
             @McpToolParam(description = "Caller context such as permission scopes or pre-resolved params.", required = false)
             Map<String, Object> user_context,
-            @McpToolParam(description = "Output options. compact is the default detail level.", required = false)
+            @McpToolParam(description = "Output view. Defaults to agent; use editor for full debug plan.", required = false)
+            String output_view,
+            @McpToolParam(description = "Output options such as output_view=agent or editor.", required = false)
             Map<String, Object> options) {
         OAGVO.RetrieveRequest request = new OAGVO.RetrieveRequest();
         request.question = question;
-        request.intent = intent == null || intent.isBlank() ? "structured_query" : intent;
+        request.semanticFrame = semantic_frame == null ? new LinkedHashMap<>() : semantic_frame;
+        request.intent = StringUtils.hasText(intent) ? intent : "structured_query";
         request.domain = domain;
         request.userContext = user_context == null ? new LinkedHashMap<>() : user_context;
         request.options = options == null ? new LinkedHashMap<>() : options;
-        return logic.retrieveContext(request);
+        if (StringUtils.hasText(output_view)) {
+            request.options.put("output_view", output_view);
+        }
+        return logic.retrieveContextView(request);
     }
 
     @Retention(RetentionPolicy.RUNTIME)

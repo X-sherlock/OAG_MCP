@@ -1,6 +1,0 @@
-{
-  "timeout_seconds": 15,
-  "endpoints": {
-    "get-fund-metric-values": "http://java-platform.example.com/api/skill/get-fund-metric-values"
-  }
-}

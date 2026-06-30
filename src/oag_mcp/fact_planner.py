@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import date, datetime
+import re
 from typing import Any
 
 from oag_mcp.repositories import GraphRepository, OntologyRepository
@@ -32,41 +34,27 @@ OBJECT_RELATION_TYPES = {
 TASK_GRAPH_RELATION_TYPES = SEMANTIC_EXPANSION_TYPES | OBJECT_RELATION_TYPES
 MAX_OPTIONAL_EXPANSIONS_PER_REQUIRED_FACT = 3
 MAX_RELATION_EXPANSION_FACTS = 8
-ATTRIBUTE_FACT_TYPES = {
-    "benchmark_return": "benchmark_metric_value",
-    "excess_return": "excess_metric_value",
-    "rank": "peer_rank",
-    "percentile": "peer_rank",
-    "peer_return_rank": "peer_rank",
-    "peer_risk_rank": "peer_rank",
-    "peer_sharpe_rank": "peer_rank",
-    "peer_drawdown_rank": "peer_rank",
-    "peer_average": "peer_average",
-    "fund_name": "object_profile",
-    "fund_type": "object_profile",
-    "company_name": "object_profile",
-    "manager_name": "object_profile",
-    "benchmark_name": "object_profile",
-    "fee_type": "fee_fact",
-    "fee_value": "fee_fact",
-    "fee_effective_date": "fee_fact",
-    "dividend_per_share": "dividend_fact",
-    "dividend_date": "dividend_fact",
-    "stable_monthly_dividend": "dividend_fact",
-    "stable_quarterly_dividend": "dividend_fact",
-    "stable_yearly_dividend": "dividend_fact",
-    "stock_name": "holding_fact",
-    "stock_nav_ratio": "holding_fact",
-    "bond_name": "holding_fact",
-    "bond_nav_ratio": "holding_fact",
-    "holding_industry": "holding_fact",
-    "asset_total_value": "allocation_fact",
-    "asset_net_value": "allocation_fact",
-    "stock_asset_ratio": "allocation_fact",
-    "bond_asset_ratio": "allocation_fact",
-    "cash_asset_ratio": "allocation_fact",
-    "fund_asset_ratio": "allocation_fact",
-    "other_asset_ratio": "allocation_fact",
+PROFILE_FACT_ATTRIBUTES = {
+    "fund_code",
+    "fund_name",
+    "fund_short_name",
+    "fund_type",
+    "fund_status",
+    "risk_level",
+    "sale_status",
+    "purchase_status",
+    "redemption_status",
+    "pension_fund_flag",
+    "index_fund_flag",
+    "fof_flag",
+    "etf_flag",
+    "dividend_mode",
+    "fund_size",
+    "listing_date",
+    "inception_date",
+    "company_name",
+    "manager_name",
+    "manager_list",
 }
 RELATION_ATTRIBUTE_MAP = {
     "managed_by": "manager_name",
@@ -81,23 +69,6 @@ RELATION_ATTRIBUTE_MAP = {
     "has_position": "stock_name",
     "holds_asset": "stock_name",
 }
-RELATION_QUERY_ALIASES = {
-    "fund_manager": {"relation_type": "managed_by", "target_object_type": "FundManager", "attribute_name": "manager_name"},
-    "manager_name": {"relation_type": "managed_by", "target_object_type": "FundManager", "attribute_name": "manager_name"},
-    "fund_company": {"relation_type": "issued_by", "target_object_type": "FundCompany", "attribute_name": "company_name"},
-    "company_name": {"relation_type": "issued_by", "target_object_type": "FundCompany", "attribute_name": "company_name"},
-    "benchmark": {"relation_type": "has_benchmark", "target_object_type": "Benchmark", "attribute_name": "benchmark_name"},
-    "benchmark_name": {"relation_type": "has_benchmark", "target_object_type": "Benchmark", "attribute_name": "benchmark_name"},
-    "fund_category": {"relation_type": "belongs_to_category", "target_object_type": "FundCategory", "attribute_name": "fund_type"},
-    "fund_type": {"relation_type": "belongs_to_category", "target_object_type": "FundCategory", "attribute_name": "fund_type"},
-    "fee": {"relation_type": "has_fee", "target_object_type": "FundFee", "attribute_name": "fee_value"},
-    "fee_value": {"relation_type": "has_fee", "target_object_type": "FundFee", "attribute_name": "fee_value"},
-    "dividend": {"relation_type": "has_dividend", "target_object_type": "Dividend", "attribute_name": "dividend_per_share"},
-    "dividend_date": {"relation_type": "has_dividend", "target_object_type": "Dividend", "attribute_name": "dividend_date"},
-    "holding": {"relation_type": "has_position", "target_object_type": "FundPosition", "attribute_name": "stock_name"},
-    "asset_allocation": {"relation_type": "has_asset_allocation", "target_object_type": "AssetAllocation", "attribute_name": "stock_asset_ratio"},
-}
-
 INTENT_SCENARIOS = {
     "fund_profile": "profile",
     "profile_query": "profile",
@@ -112,12 +83,14 @@ INTENT_SCENARIOS = {
 }
 
 SCENARIO_ATTRIBUTES = {
-    "profile": ["fund_name", "fund_type", "manager_name", "company_name", "benchmark_name"],
-    "fee": ["fee_type", "fee_value", "fee_effective_date"],
+    "profile": ["fund_name", "fund_type", "manager_name", "company_name"],
+    "fee": ["fee_value"],
     "dividend": ["dividend_per_share", "dividend_date"],
     "holding": ["stock_name", "stock_nav_ratio", "bond_name", "bond_nav_ratio"],
     "allocation": ["asset_total_value", "asset_net_value", "stock_asset_ratio", "bond_asset_ratio", "cash_asset_ratio"],
 }
+ASSET_ALLOCATION_ATTRIBUTES = {"stock_asset_ratio", "bond_asset_ratio", "cash_asset_ratio", "fund_asset_ratio", "other_asset_ratio"}
+FUND_CODE_PATTERN = re.compile(r"(?<!\d)\d{6}(?!\d)")
 
 
 @dataclass
@@ -151,21 +124,32 @@ class FactPlanner:
 
         profiles = self.intent_profiles or self.ontology_repository.get_intent_profiles(domain)
         skills = self.skills or self.ontology_repository.get_skill_capabilities(domain)
+        fact_types = _repository_fact_types(self.ontology_repository, domain)
+        attributes = {
+            item["attribute_name"]: item
+            for item in self.ontology_repository.get_attributes_by_names(
+                domain, _semantic_attribute_names(semantic_frame, profiles)
+            )
+            if item.get("attribute_name")
+        }
+        relation_aliases = _relation_alias_index(attributes)
+        object_type_names = _semantic_object_types(semantic_frame)
+        object_type_names.extend(
+            item["target_object_type"]
+            for item in relation_aliases.values()
+            if item.get("target_object_type")
+        )
         catalog = _Catalog(
             object_types={
                 item["object_id"]: item
                 for item in self.ontology_repository.get_objects_by_ids(
-                    domain, _semantic_object_types(semantic_frame)
+                    domain, list(dict.fromkeys(object_type_names))
                 )
                 if item.get("object_id")
             },
-            attributes={
-                item["attribute_name"]: item
-                for item in self.ontology_repository.get_attributes_by_names(
-                    domain, _semantic_attribute_names(semantic_frame, profiles)
-                )
-                if item.get("attribute_name")
-            },
+            attributes=attributes,
+            attribute_fact_types=_attribute_fact_type_index(attributes, fact_types),
+            relation_aliases=relation_aliases,
             intent_profiles={
                 item["intent_name"]: item
                 for item in profiles
@@ -189,6 +173,10 @@ class FactPlanner:
                 details=validation["errors"],
             )
 
+        guardrail = _guardrail_decision(semantic_frame)
+        if guardrail:
+            return _blocked_response(domain, semantic_frame, guardrail)
+
         initial = _initial_fact_requirements(semantic_frame, catalog, validation["warnings"])
         if not initial.requirements:
             return _need_clarification_response(domain, semantic_frame, initial.warnings)
@@ -199,6 +187,7 @@ class FactPlanner:
             max_hops=1,
             top_k=1000,
         )
+        _enrich_catalog_attributes(catalog, self.ontology_repository, domain, relation_edges, fact_types)
         fact_requirements, expansion_evidence = _expand_by_relations(
             semantic_frame=semantic_frame,
             requirements=initial.requirements,
@@ -212,8 +201,12 @@ class FactPlanner:
             user_context=user_context,
         )
         coverage_summary = _coverage_summary(fact_requirements, invocations, coverage_warnings)
+        unsupported_facts = _unsupported_required_facts(fact_requirements, catalog.skills)
+        if unsupported_facts and coverage_summary["covered_required_fact_count"] == 0:
+            return _unsupported_response(domain, semantic_frame, fact_requirements, unsupported_facts, validation["warnings"], initial.warnings)
         missing_params = _missing_params(invocations)
-        warnings = [*validation["warnings"], *initial.warnings, *coverage_warnings]
+        unsupported_warnings = _unsupported_warnings(unsupported_facts)
+        warnings = [*validation["warnings"], *initial.warnings, *coverage_warnings, *unsupported_warnings]
         if coverage_summary["uncovered_required_facts"]:
             warnings.append(
                 {
@@ -235,7 +228,10 @@ class FactPlanner:
             "coverage_summary": coverage_summary,
             "missing_params": missing_params,
             "uncovered_facts": coverage_summary.get("uncovered_required_facts", []),
-            "diagnostics": _planning_diagnostics(semantic_frame, catalog, fact_requirements, invocations, coverage_summary, warnings),
+            "diagnostics": [
+                *_unsupported_diagnostics(unsupported_facts),
+                *_planning_diagnostics(semantic_frame, catalog, fact_requirements, invocations, coverage_summary, warnings),
+            ],
             "warnings": warnings,
         }
         if debug:
@@ -260,8 +256,88 @@ class FactPlanner:
 class _Catalog:
     object_types: dict[str, dict[str, Any]]
     attributes: dict[str, dict[str, Any]]
+    attribute_fact_types: dict[str, str]
+    relation_aliases: dict[str, dict[str, str]]
     intent_profiles: dict[str, dict[str, Any]]
     skills: list[dict[str, Any]]
+
+
+def _repository_fact_types(repository: OntologyRepository, domain: str) -> list[dict[str, Any]]:
+    get_fact_types = getattr(repository, "get_fact_types", None)
+    if not callable(get_fact_types):
+        return []
+    rows = get_fact_types(domain)
+    return rows if isinstance(rows, list) else []
+
+
+def _attribute_fact_type_index(
+    attributes: dict[str, dict[str, Any]], fact_types: list[dict[str, Any]]
+) -> dict[str, str]:
+    rows: dict[str, str] = {}
+    for fact_type in fact_types:
+        name = fact_type.get("fact_type")
+        if not name:
+            continue
+        for attribute in fact_type.get("typical_attributes") or []:
+            rows.setdefault(attribute, name)
+    for name, attribute in attributes.items():
+        params = attribute.get("params") if isinstance(attribute.get("params"), dict) else {}
+        fact_type = attribute.get("default_fact_type") or params.get("default_fact_type")
+        if fact_type:
+            rows[name] = fact_type
+    return rows
+
+
+def _relation_alias_index(attributes: dict[str, dict[str, Any]]) -> dict[str, dict[str, str]]:
+    rows: dict[str, dict[str, str]] = {}
+    for name, attribute in attributes.items():
+        params = attribute.get("params") if isinstance(attribute.get("params"), dict) else {}
+        relation_query = attribute.get("relation_query") or params.get("relation_query")
+        if not isinstance(relation_query, dict):
+            continue
+        relation_type = relation_query.get("relation_type")
+        target_type = relation_query.get("target_object_type")
+        attribute_name = relation_query.get("attribute_name") or name
+        if not relation_type or not target_type:
+            continue
+        rows[name] = {
+            "relation_type": relation_type,
+            "target_object_type": target_type,
+            "attribute_name": attribute_name,
+        }
+    return rows
+
+
+def _relation_hint(catalog: _Catalog, name: str) -> dict[str, str] | None:
+    return catalog.relation_aliases.get(name)
+
+
+def _attribute_fact_type(catalog: _Catalog, attribute_name: str, fact_type: str | None = None) -> str:
+    if fact_type:
+        return fact_type
+    return catalog.attribute_fact_types.get(attribute_name) or "metric_value"
+
+
+def _enrich_catalog_attributes(
+    catalog: _Catalog,
+    repository: OntologyRepository,
+    domain: str,
+    relation_edges: list[dict[str, Any]],
+    fact_types: list[dict[str, Any]],
+) -> None:
+    names: list[str] = []
+    for edge in relation_edges:
+        for endpoint in ("from", "to"):
+            node_type, node_id = _split_node_id(edge.get(endpoint))
+            if node_type == "Attribute" and node_id and node_id not in catalog.attributes:
+                names.append(node_id)
+    if not names:
+        return
+    for item in repository.get_attributes_by_names(domain, list(dict.fromkeys(names))):
+        if item.get("attribute_name"):
+            catalog.attributes[item["attribute_name"]] = item
+    catalog.attribute_fact_types = _attribute_fact_type_index(catalog.attributes, fact_types)
+    catalog.relation_aliases = _relation_alias_index(catalog.attributes)
 
 
 @dataclass
@@ -331,11 +407,183 @@ def _need_clarification_response(
     }
 
 
+def _blocked_response(domain: str, semantic_frame: dict[str, Any], decision: dict[str, Any]) -> dict[str, Any]:
+    status = decision["status"]
+    response = _error_response(
+        domain=domain,
+        raw_question=semantic_frame.get("raw_question"),
+        error_code=decision["reason_code"],
+        message_zh=decision["message_zh"],
+        warnings=[
+            {
+                "warning_code": decision["reason_code"],
+                "message_zh": decision["message_zh"],
+                "block_skill_planning": True,
+            }
+        ],
+    )
+    response["status"] = status
+    response["semantic_frame_summary"] = _semantic_frame_summary(semantic_frame)
+    response["normalized_semantic_frame"] = semantic_frame
+    response["coverage_summary"]["coverage_status"] = status
+    response["coverage_summary"]["coverage_message_zh"] = decision["message_zh"]
+    if decision.get("missing_params"):
+        response["missing_params"] = [
+            {
+                "source": "semantic_frame.target_objects",
+                "missing_params": decision["missing_params"],
+                "message_zh": decision["message_zh"],
+            }
+        ]
+    return response
+
+
+def _unsupported_response(
+    domain: str,
+    semantic_frame: dict[str, Any],
+    fact_requirements: list[dict[str, Any]],
+    unsupported_facts: list[dict[str, Any]],
+    *warning_groups: list[dict[str, Any]],
+) -> dict[str, Any]:
+    warnings = [item for group in warning_groups for item in group]
+    warnings.append(
+        {
+            "warning_code": "UNSUPPORTED_DATA_CAPABILITY",
+            "message_zh": "存在当前 ifund_all_info 不支持的必需事实，已停止规划可执行 Skill。",
+            "unsupported_fact_requirements": [item["fact_requirement_id"] for item in unsupported_facts],
+        }
+    )
+    coverage = _coverage_summary(fact_requirements, [], warnings)
+    coverage["coverage_status"] = "unsupported"
+    coverage["coverage_message_zh"] = "当前底层数据源不支持部分必需事实，不能生成 ready Skill 调用。"
+    return {
+        "status": "unsupported",
+        "domain": domain,
+        "raw_question": semantic_frame.get("raw_question") or "",
+        "error_code": "UNSUPPORTED_DATA_CAPABILITY",
+        "message_zh": coverage["coverage_message_zh"],
+        "semantic_frame_summary": _semantic_frame_summary(semantic_frame),
+        "normalized_semantic_frame": semantic_frame,
+        "target_instances": [],
+        "fact_requirements": fact_requirements,
+        "candidate_invocations": [],
+        "task_graph": {"nodes": [], "edges": []},
+        "coverage_summary": coverage,
+        "missing_params": [],
+        "uncovered_facts": coverage.get("uncovered_required_facts", []),
+        "diagnostics": [
+            {
+                "diagnostic_code": "UNSUPPORTED_DATA_CAPABILITY",
+                "severity": "error",
+                "message_zh": item.get("unsupported_message_zh") or item["label_zh"],
+                "suggestion_zh": "补充对应明细表或将问题改为当前宽表可支持的指标。",
+                "fact_requirement_id": item["fact_requirement_id"],
+                "attribute_name": item.get("attribute_name"),
+                "reason_code": item.get("unsupported_reason_code"),
+                **({"closest_supported_periods": item.get("closest_supported_periods")} if item.get("closest_supported_periods") else {}),
+            }
+            for item in unsupported_facts
+        ],
+        "warnings": warnings,
+    }
+
+
+def _guardrail_decision(frame: dict[str, Any]) -> dict[str, Any] | None:
+    constraints = frame.get("constraints") if isinstance(frame.get("constraints"), dict) else {}
+    raw_question = str(frame.get("raw_question") or "")
+    safety_flags = set(frame.get("safety_flags") or [])
+    test_flag = str(constraints.get("test_flag") or "")
+    risky_flag = test_flag == "invalid_or_future_or_compliance_risk"
+
+    if safety_flags & {"guaranteed_profit", "no_loss", "must_rise"} or re.search(r"(稳赚|保证.*赚|一定会涨|一定上涨|稳赚不赔|保本保收益)", raw_question):
+        return {
+            "status": "rejected_with_risk_notice",
+            "reason_code": "GUARANTEED_PROFIT_REJECTED",
+            "message_zh": "无法提供稳赚不赔、保证赚钱或一定上涨的结论，可基于历史数据分析风险收益。",
+        }
+    if safety_flags & {"future_prediction"} or re.search(r"(预测.*明天|明天.*涨跌|明天.*收益|未来.*收益)", raw_question):
+        return {
+            "status": "rejected",
+            "reason_code": "FUTURE_RETURN_QUERY_REJECTED",
+            "message_zh": "无法查询或预测未来收益和涨跌，可查询历史收益和风险表现。",
+        }
+    date_range = constraints.get("date_range") if isinstance(constraints.get("date_range"), dict) else {}
+    if date_range:
+        start = _parse_date(date_range.get("start_date"))
+        end = _parse_date(date_range.get("end_date"))
+        today = date.today()
+        if start and end and start > end:
+            return {
+                "status": "need_clarification",
+                "reason_code": "INVALID_DATE_RANGE",
+                "message_zh": "日期区间起始日期晚于结束日期，请确认查询区间。",
+            }
+        if (start and start > today) or (end and end > today):
+            return {
+                "status": "rejected",
+                "reason_code": "FUTURE_DATE_RANGE_REJECTED",
+                "message_zh": "无法查询未来日期区间的收益率，可改查历史区间。",
+            }
+    if risky_flag and re.search(r"(明天|未来|预测|稳赚|保证|一定会涨|一定上涨)", raw_question):
+        return {
+            "status": "rejected",
+            "reason_code": "INVALID_OR_COMPLIANCE_RISK_REJECTED",
+            "message_zh": "该问题涉及未来收益、预测或保证性表述，OAG 不规划可执行 Skill。",
+        }
+    if re.search(r"近\s*(?:[1-9]\d{2,}|[一二三四五六七八九]?百)\s*年", raw_question):
+        return {
+            "status": "need_clarification",
+            "reason_code": "UNSUPPORTED_LONG_PERIOD",
+            "message_zh": "当前宽表不支持超长历史周期收益查询，请改用近一周、近一月、近一年、近三年、近五年或成立以来等周期。",
+        }
+    fund_targets = _targets_of_type(frame, "Fund")
+    if fund_targets and any(not _has_fund_identifier(target.get("instance_ref") or {}) for target in fund_targets):
+        if re.search(r"(?<!\d)\d{1,5}(?!\d)|(?<!\d)\d{7,}(?!\d)|[A-Za-z]{6,}|不存在基金", raw_question):
+            return {
+                "status": "need_clarification",
+                "reason_code": "INVALID_FUND_CODE_FORMAT",
+                "message_zh": "基金标识无法解析为 6 位基金代码或已知基金名称，请确认基金代码或基金名称。",
+                "missing_params": ["fund_code"],
+            }
+    if fund_targets and any(not _has_fund_identifier(target.get("instance_ref") or {}) for target in fund_targets):
+        return {
+            "status": "blocked_missing_params",
+            "reason_code": "FUND_CODE_REQUIRED",
+            "message_zh": "请先指定 6 位基金代码或可解析的基金名称。",
+            "missing_params": ["fund_code"],
+        }
+    for target in fund_targets:
+        fund_code = str((target.get("instance_ref") or {}).get("fund_code") or "")
+        if fund_code and not FUND_CODE_PATTERN.fullmatch(fund_code):
+            return {
+                "status": "need_clarification",
+                "reason_code": "INVALID_FUND_CODE_FORMAT",
+                "message_zh": "基金代码应为 6 位数字，请确认基金代码。",
+                "missing_params": ["fund_code"],
+            }
+    return None
+
+
+def _parse_date(value: Any) -> date | None:
+    try:
+        return datetime.strptime(str(value), "%Y-%m-%d").date()
+    except (TypeError, ValueError):
+        return None
+
+
 def _normalize_semantic_frame(frame: dict[str, Any]) -> dict[str, Any]:
     normalized = dict(frame)
     normalized.setdefault("domain", "finance_market")
     normalized["task_type"] = str(normalized.get("task_type") or "query").strip() or "query"
     normalized["constraints"] = dict(normalized.get("constraints") or {})
+    if normalized["constraints"].get("period") == "12m":
+        normalized["constraints"]["period"] = "1y"
+    elif isinstance(normalized["constraints"].get("period"), str):
+        period = normalized["constraints"]["period"]
+        if period.upper() == "YTD":
+            normalized["constraints"]["period"] = "ytd"
+        elif period.upper() == "SI":
+            normalized["constraints"]["period"] = "si"
     normalized["mentioned_attributes"] = list(dict.fromkeys(normalized.get("mentioned_attributes") or []))
     normalized["relation_queries"] = [item for item in normalized.get("relation_queries") or [] if isinstance(item, dict)]
     normalized["filters"] = [item for item in normalized.get("filters") or [] if isinstance(item, dict)]
@@ -362,6 +610,23 @@ def _normalize_semantic_frame(frame: dict[str, Any]) -> dict[str, Any]:
         normalized["intent"] = "fund_profile"
     if normalized.get("intent") in {"fund_recommendation"}:
         normalized["task_type"] = "recommend"
+    if normalized.get("intent") == "asset_allocation_analysis":
+        mentioned = set(normalized.get("mentioned_attributes") or [])
+        if mentioned & ASSET_ALLOCATION_ATTRIBUTES:
+            allocation_attr = next((item for item in normalized["mentioned_attributes"] if item in ASSET_ALLOCATION_ATTRIBUTES), None)
+            normalized["mentioned_attributes"] = [
+                item
+                for item in normalized["mentioned_attributes"]
+                if item not in {"stock_name", "stock_nav_ratio", "bond_name", "bond_nav_ratio", "holding_industry"}
+            ]
+            relation_queries = []
+            for item in normalized["relation_queries"]:
+                if item.get("relation_type") == "has_position":
+                    continue
+                if item.get("relation_type") == "has_asset_allocation" and allocation_attr:
+                    item = {**item, "attribute_name": allocation_attr}
+                relation_queries.append(item)
+            normalized["relation_queries"] = relation_queries
     return normalized
 
 
@@ -384,7 +649,7 @@ def _validate_semantic_frame(frame: dict[str, Any], catalog: _Catalog) -> dict[s
                 }
             )
     for attr in _semantic_attribute_names(frame):
-        if attr in RELATION_QUERY_ALIASES:
+        if _relation_hint(catalog, attr):
             continue
         if attr not in catalog.attributes:
             errors.append(
@@ -425,7 +690,7 @@ def _initial_fact_requirements(
     targets = _planning_targets(frame)
     if mentioned:
         for name in mentioned:
-            relation_hint = RELATION_QUERY_ALIASES.get(name)
+            relation_hint = _relation_hint(catalog, name)
             if relation_hint:
                 for target in _targets_of_type(frame, "Fund") or targets:
                     requirements.append(
@@ -456,6 +721,25 @@ def _initial_fact_requirements(
                         target=target,
                     )
                 )
+        if frame.get("intent") == "risk_overview":
+            profile = catalog.intent_profiles.get("risk_overview")
+            for item in (profile or {}).get("fact_requirements_template") or []:
+                name = item.get("attribute_name")
+                if not name or name in mentioned:
+                    continue
+                for target in _fact_targets_for_attribute(frame, name):
+                    requirements.append(
+                        _attribute_requirement(
+                            frame,
+                            catalog,
+                            name,
+                            item.get("priority") or "supporting",
+                            "intent_template",
+                            item.get("reason_zh") or "风险判断需要补充风险指标事实。",
+                            fact_type=item.get("fact_type"),
+                            target=target,
+                        )
+                    )
     else:
         intent = frame.get("intent")
         profile = catalog.intent_profiles.get(intent) if intent else None
@@ -619,7 +903,15 @@ def _scenario_requirements(frame: dict[str, Any], catalog: _Catalog) -> list[dic
 
     if scenario in {"profile", "fee", "dividend", "holding", "allocation"}:
         targets = _targets_of_type(frame, "Fund")
-        attrs = SCENARIO_ATTRIBUTES[scenario]
+        mentioned = [item for item in frame.get("mentioned_attributes") or [] if item]
+        if scenario == "profile" and mentioned and task_type != "profile":
+            attrs = [item for item in mentioned if item in PROFILE_FACT_ATTRIBUTES]
+        elif scenario in {"fee", "dividend", "holding"} and any(item in SCENARIO_ATTRIBUTES[scenario] for item in mentioned):
+            attrs = [item for item in mentioned if item in SCENARIO_ATTRIBUTES[scenario]]
+        elif scenario == "allocation" and any(item in ASSET_ALLOCATION_ATTRIBUTES for item in mentioned):
+            attrs = [item for item in mentioned if item in ASSET_ALLOCATION_ATTRIBUTES]
+        else:
+            attrs = SCENARIO_ATTRIBUTES[scenario]
         source = "scenario_rule"
         fact_type_override = {
             "profile": "object_profile",
@@ -650,7 +942,7 @@ def _scenario_requirements(frame: dict[str, Any], catalog: _Catalog) -> list[dic
                         planning_role=scenario,
                     )
                 )
-        if scenario == "profile":
+        if scenario == "profile" and not (mentioned and task_type != "profile"):
             for relation_type, target_type in [
                 ("managed_by", "FundManager"),
                 ("issued_by", "FundCompany"),
@@ -658,18 +950,19 @@ def _scenario_requirements(frame: dict[str, Any], catalog: _Catalog) -> list[dic
                 ("belongs_to_category", "FundCategory"),
             ]:
                 for target in targets:
+                    relation_priority = "supporting" if relation_type == "has_benchmark" else "required"
                     rows.append(
                         _relation_requirement(
                             frame=frame,
                             catalog=catalog,
                             relation_type=relation_type,
                             target_object_type=target_type,
-                            priority="required",
+                            priority=relation_priority,
                             source=source,
                             reason_zh=_explicit_relation_reason(relation_type, target_type),
                             attribute_name=RELATION_ATTRIBUTE_MAP.get(relation_type),
                             target=target,
-                            answer_visibility="answer_fact",
+                            answer_visibility="supporting_context" if relation_priority == "supporting" else "answer_fact",
                             planning_role="profile_relation",
                         )
                     )
@@ -720,18 +1013,26 @@ def _explicit_relation_query_requirements(frame: dict[str, Any], catalog: _Catal
         if not relation_type or not target_object_type:
             continue
         for target in _targets_of_type(frame, "Fund") or _planning_targets(frame):
+            priority = query.get("priority") or "required"
+            if frame.get("task_type") in {"rank", "screen", "recommend"} and relation_type == "belongs_to_category":
+                priority = "supporting"
+            if frame.get("intent") == "peer_comparison" and relation_type == "belongs_to_category":
+                priority = "supporting"
+            if frame.get("intent") == "benchmark_comparison" and relation_type == "has_benchmark":
+                priority = "supporting"
+            answer_visibility = "supporting_context" if priority == "supporting" else "answer_fact"
             rows.append(
                 _relation_requirement(
                     frame=frame,
                     catalog=catalog,
                     relation_type=relation_type,
                     target_object_type=target_object_type,
-                    priority=query.get("priority") or "required",
+                    priority=priority,
                     source="explicit_relation",
                     reason_zh=query.get("reason_zh") or _explicit_relation_reason(relation_type, target_object_type),
                     attribute_name=query.get("attribute_name") or RELATION_ATTRIBUTE_MAP.get(relation_type),
                     target=target,
-                    answer_visibility="answer_fact",
+                    answer_visibility=answer_visibility,
                     planning_role="explicit_relation",
                 )
             )
@@ -909,6 +1210,23 @@ def _expand_by_relations(
                 item["object_relation"]["weight"] = properties.get("weight") or edge.get("score")
                 item["object_relation"]["planning_role"] = properties.get("planning_role")
                 item["object_relation"]["answer_visibility"] = answer_visibility
+                relation_identity = (
+                    item.get("fact_type"),
+                    item["subject"].get("subject_id"),
+                    item.get("predicate"),
+                    item.get("target_object_type"),
+                )
+                if any(
+                    (
+                        existing_item.get("fact_type"),
+                        existing_item.get("subject", {}).get("subject_id"),
+                        existing_item.get("predicate"),
+                        existing_item.get("target_object_type"),
+                    )
+                    == relation_identity
+                    for existing_item in rows
+                ):
+                    continue
                 key = (
                     item.get("attribute_name"),
                     item.get("fact_type"),
@@ -985,11 +1303,173 @@ def _candidate_invocations(
                     "uncovered_reason_zh": "",
                 }
             )
-    return invocations, warnings
+    return _select_invocations(invocations, fact_requirements, semantic_frame), warnings
+
+
+def _unsupported_required_facts(facts: list[dict[str, Any]], skills: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    rows: list[dict[str, Any]] = []
+    for fact in facts:
+        if fact.get("priority") != "required":
+            continue
+        if fact.get("capability_status") == "unsupported":
+            rows.append(fact)
+            continue
+        period_reason = _unsupported_period_reason(fact, skills)
+        if period_reason:
+            item = dict(fact)
+            item["unsupported_reason_code"] = period_reason["reason_code"]
+            item["unsupported_message_zh"] = period_reason["message_zh"]
+            if period_reason.get("closest_supported_periods"):
+                item["closest_supported_periods"] = period_reason["closest_supported_periods"]
+            item["data_source_status"] = "unsupported_by_ifund_all_info"
+            rows.append(item)
+    return rows
+
+
+def _unsupported_period_reason(fact: dict[str, Any], skills: list[dict[str, Any]]) -> dict[str, Any] | None:
+    attribute_name = fact.get("attribute_name")
+    if not attribute_name:
+        return None
+    constraints = fact.get("constraints") if isinstance(fact.get("constraints"), dict) else {}
+    period = str(constraints.get("period") or "")
+    if not period:
+        return None
+    period_key = period.lower()
+    if period_key in {"custom", "custom_range"} or constraints.get("date_range"):
+        return {
+            "reason_code": "CUSTOM_DATE_RANGE_REQUIRES_NAV_SERIES",
+            "message_zh": "当前 ifund_all_info 宽表不支持自定义日期区间收益，需要净值时间序列。",
+            "closest_supported_periods": sorted(_supported_periods_for_attribute(attribute_name, skills)),
+        }
+    supported = _supported_periods_for_attribute(attribute_name, skills)
+    if supported and period_key not in supported:
+        return {
+            "reason_code": "UNSUPPORTED_PERIOD",
+            "message_zh": f"{attribute_name} 当前不支持周期 {period}，不能规划为 ready Skill。",
+            "closest_supported_periods": sorted(supported),
+        }
+    return None
+
+
+def _unsupported_warnings(unsupported_facts: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    if not unsupported_facts:
+        return []
+    return [
+        {
+            "warning_code": "UNSUPPORTED_DATA_CAPABILITY",
+            "message_zh": "存在当前 ifund_all_info 不支持的事实，已保留为未覆盖事实，不阻断其他可执行 Skill。",
+        }
+    ]
+
+
+def _unsupported_diagnostics(unsupported_facts: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    rows = []
+    for item in unsupported_facts:
+        rows.append(
+            {
+                "diagnostic_code": "UNSUPPORTED_DATA_CAPABILITY",
+                "severity": "warning",
+                "message_zh": item.get("unsupported_message_zh") or item.get("label_zh") or "当前数据源不支持该事实。",
+                "suggestion_zh": "补充对应明细表，或将问题改为当前 ifund_all_info 可支持的指标。",
+                "fact_requirement_id": item.get("fact_requirement_id"),
+                "attribute_name": item.get("attribute_name"),
+                "reason_code": item.get("unsupported_reason_code"),
+                **({"closest_supported_periods": item.get("closest_supported_periods")} if item.get("closest_supported_periods") else {}),
+            }
+        )
+    return rows
+
+
+def _supported_periods_for_attribute(attribute_name: str, skills: list[dict[str, Any]]) -> set[str]:
+    periods: set[str] = set()
+    for skill in skills:
+        if skill.get("capability_status") == "unsupported":
+            continue
+        if attribute_name not in set(skill.get("supported_attributes") or []):
+            continue
+        policy = skill.get("supported_periods_by_attribute")
+        if isinstance(policy, dict):
+            values = policy.get(attribute_name)
+            if isinstance(values, list):
+                periods.update(str(item).lower() for item in values)
+    return periods
+
+
+def _select_invocations(
+    invocations: list[dict[str, Any]], facts: list[dict[str, Any]], frame: dict[str, Any]
+) -> list[dict[str, Any]]:
+    required_ids = {item["fact_requirement_id"] for item in facts if item.get("priority") == "required"}
+    optional_ids = {
+        item["fact_requirement_id"]
+        for item in facts
+        if item.get("priority") not in {"required", "supporting", "derived"}
+    }
+    selected: list[dict[str, Any]] = []
+    selected_ids: set[str] = set()
+    for invocation in invocations:
+        if not _skill_allowed_for_task(invocation.get("skill_id"), frame):
+            continue
+        covered = set(invocation.get("covers_fact_requirements") or [])
+        covers_required = bool(covered & required_ids)
+        covers_derived_comparison = invocation.get("skill_id") == "compare_funds_by_metric" and invocation.get("covers_derived_count", 0) > 0
+        if not covers_required and not (covers_derived_comparison and len(_targets_of_type(frame, "Fund")) >= 2):
+            continue
+        if invocation.get("skill_id") == "compare_funds_by_metric" and len(_targets_of_type(frame, "Fund")) < 2:
+            continue
+        selected.append(invocation)
+        selected_ids.update(covered)
+    for invocation in invocations:
+        if invocation in selected:
+            continue
+        if not _skill_allowed_for_task(invocation.get("skill_id"), frame):
+            continue
+        if invocation.get("skill_id") == "compare_funds_by_metric" and len(_targets_of_type(frame, "Fund")) < 2:
+            continue
+        covered = set(invocation.get("covers_fact_requirements") or [])
+        if covered & (optional_ids - selected_ids):
+            selected.append(invocation)
+            selected_ids.update(covered)
+    return sorted(selected, key=lambda item: (_skill_sort_rank(item.get("skill_id")), item.get("skill_id") or ""))
+
+
+def _skill_sort_rank(skill_id: str | None) -> int:
+    order = [
+        "get_fund_metric_values",
+        "get_fund_benchmark_facts",
+        "get_fund_peer_ranking_facts",
+        "get_fund_profile_facts",
+        "get_fund_risk_facts",
+        "rank_funds_by_metric",
+        "screen_funds_by_metric_condition",
+        "recommend_funds_by_risk_return",
+        "compare_funds_by_metric",
+        "get_fund_fee_facts",
+        "get_fund_dividend_facts",
+        "get_fund_allocation_facts",
+        "get_fund_holding_facts",
+    ]
+    return order.index(skill_id) if skill_id in order else 99
+
+
+def _skill_allowed_for_task(skill_id: str | None, frame: dict[str, Any]) -> bool:
+    task_type = frame.get("task_type")
+    if task_type == "screen":
+        return skill_id == "screen_funds_by_metric_condition"
+    if task_type == "rank":
+        return skill_id == "rank_funds_by_metric"
+    if task_type == "recommend":
+        return skill_id == "recommend_funds_by_risk_return"
+    if skill_id in {"screen_funds_by_metric_condition", "rank_funds_by_metric", "recommend_funds_by_risk_return"}:
+        return task_type in {"screen", "rank", "recommend"}
+    return True
 
 
 def _skill_covers(skill: dict[str, Any], requirement: dict[str, Any], ignore_permission: bool = False) -> bool:
     del ignore_permission
+    if skill.get("capability_status") == "unsupported":
+        return False
+    if requirement.get("capability_status") == "unsupported":
+        return False
     fact_types = set(skill.get("provides_fact_types") or [])
     subject_types = set(skill.get("supported_subject_types") or [])
     attributes = set(skill.get("supported_attributes") or [])
@@ -1005,6 +1485,11 @@ def _skill_covers(skill: dict[str, Any], requirement: dict[str, Any], ignore_per
     if subject_types and subject_type not in subject_types:
         return False
     attribute_name = requirement.get("attribute_name")
+    if attribute_name and attribute_name in set(skill.get("unsupported_attributes") or []):
+        return False
+    period_reason = _unsupported_period_reason(requirement, [skill])
+    if period_reason:
+        return False
     if required_fact_type == "relation_instance":
         if relations and requirement.get("predicate") in relations:
             return True
@@ -1023,12 +1508,18 @@ def _skill_params(
 ) -> tuple[dict[str, Any], list[str]]:
     params: dict[str, Any] = {}
     constraints = frame.get("constraints") or {}
+    default_params = skill.get("default_params") or {}
     instance_refs = [item.get("subject", {}).get("instance_ref") or {} for item in covered]
     instance_ref = next((item for item in instance_refs if item), {})
     for name in skill.get("input_params") or []:
         if name == "attributes":
             attrs = [item.get("attribute_name") for item in covered if item.get("attribute_name")]
             params["attributes"] = list(dict.fromkeys(attrs))
+        elif name == "fund_code" and "fund_code" not in instance_ref:
+            if instance_ref.get("fund_name"):
+                params["fund_name"] = instance_ref["fund_name"]
+            elif instance_ref.get("fund_short_name"):
+                params["fund_short_name"] = instance_ref["fund_short_name"]
         elif name == "fund_codes":
             codes = [item.get("fund_code") for item in instance_refs if item.get("fund_code")]
             if codes:
@@ -1039,10 +1530,14 @@ def _skill_params(
             params[name] = constraints[name]
         elif name in frame:
             params[name] = frame[name]
+        elif name in default_params:
+            params[name] = default_params[name]
     missing = [
         name
         for name in skill.get("input_params") or []
-        if name not in params and name != "attributes"
+        if name not in params
+        and name != "attributes"
+        and not (name == "fund_code" and ("fund_name" in params or "fund_short_name" in params))
     ]
     return params, missing
 
@@ -1201,7 +1696,7 @@ def _attribute_requirement(
     return _base_requirement(
         frame=frame,
         catalog=catalog,
-        fact_type=fact_type or ATTRIBUTE_FACT_TYPES.get(attribute_name, "metric_value"),
+        fact_type=_attribute_fact_type(catalog, attribute_name, fact_type),
         attribute_name=attribute_name,
         subject_type=subject_type or target.get("object_type") or _primary_target(frame).get("object_type") or "Fund",
         priority=priority,
@@ -1230,6 +1725,9 @@ def _base_requirement(
 ) -> dict[str, Any]:
     constraints = dict(frame.get("constraints") or {})
     attr = catalog.attributes.get(attribute_name or "", {})
+    attr_params = attr.get("params") if isinstance(attr.get("params"), dict) else {}
+    capability_status = attr.get("data_capability_status") or attr_params.get("data_capability_status")
+    unsupported_reason_code = attr.get("unsupported_reason_code") or attr_params.get("unsupported_reason_code")
     target = target or _primary_target(frame)
     instance_ref = dict(target.get("instance_ref") or {}) if target.get("object_type") == subject_type else {}
     suffix = constraints.get("period") or frame.get("task_type") or "current"
@@ -1272,6 +1770,13 @@ def _base_requirement(
         "label_zh": f"{label_attr}事实需求",
         "description_zh": reason_zh,
     }
+    if capability_status:
+        row["capability_status"] = capability_status
+        row["data_source_status"] = "unsupported_by_ifund_all_info" if capability_status == "unsupported" else capability_status
+    if unsupported_reason_code:
+        row["unsupported_reason_code"] = unsupported_reason_code
+    if capability_status == "unsupported":
+        row["unsupported_message_zh"] = f"{label_attr}当前未在 ifund_all_info 中声明可支持，不能规划为 ready Skill。"
     if extra:
         row.update(extra)
     return row
@@ -1280,10 +1785,6 @@ def _base_requirement(
 def _semantic_object_types(frame: dict[str, Any]) -> list[str]:
     names = [target.get("object_type") for target in frame.get("target_objects") or []]
     names.extend(query.get("target_object_type") for query in frame.get("relation_queries") or [] if isinstance(query, dict))
-    for name in frame.get("mentioned_attributes") or []:
-        relation_hint = RELATION_QUERY_ALIASES.get(name)
-        if relation_hint:
-            names.append(relation_hint["target_object_type"])
     intent = frame.get("intent")
     if intent in {"fund_profile", "profile_query"} or frame.get("task_type") == "profile":
         names.extend(["FundManager", "FundCompany", "Benchmark", "FundCategory"])
@@ -1305,15 +1806,14 @@ def _semantic_object_types(frame: dict[str, Any]) -> list[str]:
 def _semantic_attribute_names(frame: dict[str, Any], profiles: list[dict[str, Any]] | None = None) -> list[str]:
     names: list[str] = []
     for name in frame.get("mentioned_attributes") or []:
-        if name in RELATION_QUERY_ALIASES:
-            mapped = RELATION_QUERY_ALIASES[name].get("attribute_name")
-            if mapped and mapped in frame.get("mentioned_attributes", []):
-                names.append(mapped)
-            continue
         names.append(name)
     for query in frame.get("relation_queries") or []:
         if isinstance(query, dict) and query.get("attribute_name"):
             names.append(query["attribute_name"])
+        elif isinstance(query, dict) and query.get("relation_type"):
+            mapped = RELATION_ATTRIBUTE_MAP.get(query["relation_type"])
+            if mapped:
+                names.append(mapped)
     names.extend(item.get("attribute") for item in frame.get("ranking") or [] if item.get("attribute"))
     names.extend(item.get("attribute") for item in frame.get("filters") or [] if item.get("attribute"))
     comparison = frame.get("comparison") if isinstance(frame.get("comparison"), dict) else {}
@@ -1488,7 +1988,7 @@ def _planning_diagnostics(
     fund_targets = _targets_of_type(frame, "Fund")
     if not targets:
         add("SEMANTIC_FRAME_TARGET_MISSING", "semantic_frame 缺少目标对象。", "请在 target_objects 中补充 Fund、FundSet、FundManager 等目标对象。", "error")
-    if frame.get("task_type") == "compare" and len(fund_targets) < 2 and not _fund_set_target(frame):
+    if _requires_multiple_fund_targets(frame) and len(fund_targets) < 2 and not _fund_set_target(frame):
         add("COMPARE_TARGET_TOO_FEW", "比较任务的基金目标对象少于 2 个。", "请在 target_objects 中提供至少两只 Fund，或改用 FundSet 排序/筛选任务。", "error")
     if frame.get("task_type") in {"rank", "screen", "recommend"} and not _fund_set_target(frame):
         add("FUNDSET_TARGET_MISSING", "集合排序、筛选或推荐任务缺少 FundSet 目标对象。", "请添加 object_type=FundSet 且 role=candidate_set 的目标对象。", "error")
@@ -1556,8 +2056,34 @@ def _targets_of_type(frame: dict[str, Any], object_type: str) -> list[dict[str, 
     return [target for target in _planning_targets(frame) if target.get("object_type") == object_type]
 
 
+def _has_fund_identifier(instance_ref: dict[str, Any]) -> bool:
+    return bool(
+        instance_ref.get("fund_code")
+        or instance_ref.get("fund_name")
+        or instance_ref.get("fund_short_name")
+    )
+
+
 def _fund_set_target(frame: dict[str, Any]) -> dict[str, Any] | None:
     return next((target for target in _planning_targets(frame) if str(target.get("object_type") or "").endswith("Set")), None)
+
+
+def _requires_multiple_fund_targets(frame: dict[str, Any]) -> bool:
+    if frame.get("task_type") != "compare":
+        return False
+    if frame.get("intent") in {"benchmark_comparison", "peer_comparison"}:
+        return False
+    comparison = frame.get("comparison") if isinstance(frame.get("comparison"), dict) else {}
+    if comparison.get("benchmark_refs") or comparison.get("peer_group") or comparison.get("index_refs"):
+        return False
+    relation_types = {
+        item.get("relation_type")
+        for item in frame.get("relation_queries") or []
+        if isinstance(item, dict)
+    }
+    if relation_types & {"has_benchmark", "belongs_to_category", "tracks_index"}:
+        return False
+    return True
 
 
 def _synthetic_fund_set_target() -> dict[str, Any]:
@@ -1578,7 +2104,7 @@ def _comparison_attributes(frame: dict[str, Any]) -> list[str]:
     attrs = list(comparison.get("attributes") or [])
     attrs.extend(frame.get("mentioned_attributes") or [])
     attrs.extend(item.get("attribute") for item in frame.get("ranking") or [] if item.get("attribute"))
-    return list(dict.fromkeys([item for item in attrs if item and item not in RELATION_QUERY_ALIASES])) or ["return_rate"]
+    return list(dict.fromkeys([item for item in attrs if item])) or ["return_rate"]
 
 
 def _target_instance_id(target: dict[str, Any] | None) -> str:
@@ -1601,6 +2127,10 @@ def _target_by_subject_id(frame: dict[str, Any], subject_id: str | None) -> dict
 def _subject_key(subject_type: str, instance_ref: dict[str, Any], target_index: Any = None) -> str:
     if instance_ref.get("fund_code"):
         return str(instance_ref["fund_code"])
+    if instance_ref.get("fund_name"):
+        return f"name_{instance_ref['fund_name']}"
+    if instance_ref.get("fund_short_name"):
+        return f"short_name_{instance_ref['fund_short_name']}"
     if instance_ref.get("fund_universe"):
         return str(instance_ref["fund_universe"])
     if target_index:
@@ -1755,9 +2285,6 @@ def _explicit_relation_triggered(properties: dict[str, Any], frame: dict[str, An
         return True
     if explicit_attrs and explicit_attrs & mentioned:
         return True
-    alias = next((item for item in RELATION_QUERY_ALIASES.values() if item["relation_type"] == relation_type), None)
-    if alias and alias.get("attribute_name") in mentioned:
-        return True
     intents = set(policy.get("intents") or [])
     return bool(frame.get("intent") and frame.get("intent") in intents and frame.get("task_type") in {"query", "explain"})
 
@@ -1821,6 +2348,10 @@ def _explicit_relation_reason(relation_type: str, target_object_type: str) -> st
         "Benchmark": "业绩比较基准",
         "FundCategory": "基金分类",
         "Index": "指数",
+        "AssetAllocation": "资产配置",
+        "FundFee": "基金费率",
+        "Dividend": "基金分红",
+        "FundPosition": "基金持仓",
     }.get(target_object_type, target_object_type)
     return f"用户需要查询基金与{target_zh}之间的{_relation_type_zh(relation_type)}。"
 
@@ -1850,6 +2381,10 @@ def _coverage_score(covered: list[dict[str, Any]], facts: list[dict[str, Any]]) 
 def _display_target(object_type: str, instance_ref: dict[str, Any], role: Any) -> str:
     if instance_ref.get("fund_code"):
         return f"基金 {instance_ref['fund_code']}"
+    if instance_ref.get("fund_name"):
+        return f"基金 {instance_ref['fund_name']}"
+    if instance_ref.get("fund_short_name"):
+        return f"基金 {instance_ref['fund_short_name']}"
     if instance_ref.get("fund_universe"):
         return f"基金集合 {instance_ref['fund_universe']}"
     return f"{object_type} 目标对象" + (f"（{role}）" if role else "")
@@ -1892,6 +2427,10 @@ def _source_zh(source: str) -> str:
 def _subject_id(subject_type: str, instance_ref: dict[str, Any], target_index: Any = None) -> str:
     if instance_ref.get("fund_code"):
         return f"{subject_type}:{instance_ref['fund_code']}"
+    if instance_ref.get("fund_name"):
+        return f"{subject_type}:name:{instance_ref['fund_name']}"
+    if instance_ref.get("fund_short_name"):
+        return f"{subject_type}:short_name:{instance_ref['fund_short_name']}"
     if instance_ref.get("fund_universe"):
         return f"{subject_type}:{instance_ref['fund_universe']}"
     if target_index:

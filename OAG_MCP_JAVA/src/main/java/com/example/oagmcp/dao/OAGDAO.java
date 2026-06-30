@@ -24,7 +24,14 @@ public interface OAGDAO {
     List<OAGEntity.OAGAttribute> listAttributesByNames(@Param("domain") String domain,
                                                        @Param("names") List<String> names);
 
+    List<OAGEntity.OAGObject> listObjectsByIds(@Param("domain") String domain,
+                                               @Param("objectIds") List<String> objectIds);
+
     List<OAGEntity.IntentProfile> listIntentProfiles(@Param("domain") String domain);
 
     List<OAGEntity.SkillCapability> listSkillCapabilities(@Param("domain") String domain);
+
+    List<OAGEntity.GraphEdge> listGraphEdgesByNodeIds(@Param("domain") String domain,
+                                                      @Param("nodeIds") List<String> nodeIds,
+                                                      @Param("topK") int topK);
 }

@@ -6,34 +6,84 @@
   - fund_code
   - period
   - attributes
+  default_params:
+    period: 1y
+  capability_status: full
+  supported_periods_by_attribute:
+    return_rate:
+    - today
+    - WTD
+    - MTD
+    - QTD
+    - YTD
+    - 1w
+    - 1m
+    - 3m
+    - 6m
+    - 1y
+    - 2y
+    - 3y
+    - 4y
+    - 5y
+    max_drawdown:
+    - YTD
+    - 1m
+    - 3m
+    - 6m
+    - 1y
+    - 2y
+    - 3y
+    - si
+    volatility:
+    - YTD
+    - 1m
+    - 3m
+    - 6m
+    - 1y
+    - 2y
+    - 3y
+    - si
+    sharpe_ratio:
+    - YTD
+    - 1m
+    - 3m
+    - 6m
+    - 1y
+    - 2y
+    - 3y
+    - SI
   output_attributes:
-  - return_rate
+  - unit_nav
+  - accumulated_nav
+  - ten_thousand_income
+  - seven_day_annualized_yield
+  - average_annualized_return
   - annualized_return
+  - daily_return
+  - return_rate
+  - drawdown
   - max_drawdown
   - volatility
   - standard_deviation
   - sharpe_ratio
-  - sortino_ratio
-  - calmar_ratio
-  - var
-  - cvar
-  - downside_risk
   provides_fact_types:
   - metric_value
   supported_subject_types:
   - Fund
   supported_attributes:
-  - return_rate
+  - unit_nav
+  - accumulated_nav
+  - ten_thousand_income
+  - seven_day_annualized_yield
+  - average_annualized_return
   - annualized_return
+  - daily_return
+  - return_rate
+  - drawdown
   - max_drawdown
   - volatility
   - standard_deviation
   - sharpe_ratio
-  - sortino_ratio
-  - calmar_ratio
-  - var
-  - cvar
-  - downside_risk
   supported_constraints:
   - period
   output_fact_schema:
@@ -59,11 +109,34 @@
   - fund_code
   - period
   - attributes
+  default_params:
+    period: 1y
+  capability_status: partial
+  capability_note_zh: 当前 ifund_all_info 仅支持内部业绩基准口径的超额收益，不支持任意指数或完整基准名称/收益序列。
+  supported_periods_by_attribute:
+    benchmark_return:
+    - 1w
+    - 1m
+    - 3m
+    - 6m
+    - 1y
+    - 2y
+    - 3y
+    - 5y
+    - SI
+    excess_return:
+    - 1w
+    - 1m
+    - 3m
+    - 6m
+    - 1y
+    - 2y
+    - 3y
+    - 5y
+    - SI
   output_attributes:
   - benchmark_return
   - excess_return
-  - tracking_error
-  - information_ratio
   provides_fact_types:
   - benchmark_metric_value
   - excess_metric_value
@@ -72,8 +145,6 @@
   supported_attributes:
   - benchmark_return
   - excess_return
-  - tracking_error
-  - information_ratio
   supported_constraints:
   - period
   output_fact_schema:
@@ -92,18 +163,22 @@
   enabled: true
 - skill_id: get_fund_peer_ranking_facts
   skill_name: 获取基金同类排名事实
-  description: 按基金代码、周期和指标列表获取基金同类排名与同类平均事实。
+  description: 按基金代码、周期和指标列表获取基金收益、回撤、波动率和夏普同类排名事实。
   target_object_type: Fund
   input_params:
   - fund_code
   - period
   - attributes
+  default_params:
+    period: 1y
   output_attributes:
   - rank
+  - percentile
   - peer_return_rank
   - peer_risk_rank
   - peer_sharpe_rank
   - peer_drawdown_rank
+  - peer_volatility_rank
   - peer_average
   provides_fact_types:
   - peer_rank
@@ -112,10 +187,12 @@
   - Fund
   supported_attributes:
   - rank
+  - percentile
   - peer_return_rank
   - peer_risk_rank
   - peer_sharpe_rank
   - peer_drawdown_rank
+  - peer_volatility_rank
   - peer_average
   supported_constraints:
   - period
@@ -140,37 +217,58 @@
   input_params:
   - fund_code
   - attributes
+  capability_status: full
   output_attributes:
+  - fund_code
   - fund_name
+  - fund_short_name
   - fund_type
-  - company_code
+  - fund_status
+  - risk_level
+  - sale_status
+  - purchase_status
+  - redemption_status
+  - pension_fund_flag
+  - index_fund_flag
+  - fof_flag
+  - etf_flag
+  - dividend_mode
+  - fund_size
+  - listing_date
+  - inception_date
   - company_name
-  - manager_id
   - manager_name
-  - benchmark_name
-  - tracking_index_code
-  - tracking_index_name
+  - manager_list
   provides_fact_types:
   - object_profile
   - relation_instance
   supported_subject_types:
   - Fund
   supported_attributes:
+  - fund_code
   - fund_name
+  - fund_short_name
   - fund_type
-  - company_code
+  - fund_status
+  - risk_level
+  - sale_status
+  - purchase_status
+  - redemption_status
+  - pension_fund_flag
+  - index_fund_flag
+  - fof_flag
+  - etf_flag
+  - dividend_mode
+  - fund_size
+  - listing_date
+  - inception_date
   - company_name
-  - manager_id
   - manager_name
-  - benchmark_name
-  - tracking_index_code
-  - tracking_index_name
+  - manager_list
   supported_relations:
   - managed_by
   - issued_by
-  - has_benchmark
   - belongs_to_category
-  - tracks_index
   supported_constraints: []
   output_fact_schema:
   - fact_requirement_id
@@ -181,6 +279,46 @@
   - source
   related_queries:
   - fund_basic_info_query
+  permission_scope: fund_public_data:read
+  enabled: true
+- skill_id: get_fund_risk_facts
+  skill_name: 获取基金风险事实
+  description: 通过 Java 查询或派生基金风险指标；ifund_all_info 不支持的风险明细返回 unsupported_by_ifund_all_info。
+  target_object_type: Fund
+  input_params:
+  - fund_code
+  - attributes
+  - period
+  default_params:
+    period: 1y
+  capability_status: partial
+  unsupported_attributes:
+  - downside_risk
+  - max_drawdown_peak_date
+  - max_drawdown_trough_date
+  - max_drawdown_recovery_days
+  output_attributes:
+  - calmar_ratio
+  - downside_risk
+  - drawdown
+  - max_drawdown_peak_date
+  - max_drawdown_trough_date
+  - max_drawdown_recovery_days
+  provides_fact_types:
+  - metric_value
+  supported_subject_types:
+  - Fund
+  supported_attributes:
+  - calmar_ratio
+  - downside_risk
+  - drawdown
+  - max_drawdown_peak_date
+  - max_drawdown_trough_date
+  - max_drawdown_recovery_days
+  supported_constraints:
+  - period
+  related_queries:
+  - fund_risk_interval_query
   permission_scope: fund_public_data:read
   enabled: true
 - skill_id: fund_basic_info_summary
@@ -484,18 +622,25 @@
   disabled_reason: 非结构化政策文件数据暂未接入
 - skill_id: rank_funds_by_metric
   skill_name: 按指标排序基金集合
-  description: 对候选基金集合按收益、回撤、夏普等指标排序，仅声明规划能力，不直接查询真实业务数据。
+  description: 通过 Java 对全部基金或候选基金集合按收益、回撤、波动率、夏普指标排序。
   target_object_type: FundSet
   input_params:
   - fund_universe
   - period
   - attributes
   - ranking
+  - limit
+  default_params:
+    period: 1y
   output_attributes:
   - return_rate
+  - annualized_return
   - max_drawdown
+  - volatility
+  - peer_drawdown_rank
   - sharpe_ratio
   provides_fact_types:
+  - entity_set
   - metric_ranking
   supported_subject_types:
   - FundSet
@@ -504,11 +649,110 @@
   - annualized_return
   - max_drawdown
   - volatility
+  - peer_drawdown_rank
   - sharpe_ratio
-  - calmar_ratio
   supported_constraints:
   - period
   related_queries: []
+  permission_scope: fund_public_data:read
+  enabled: true
+- skill_id: get_fund_purchase_rules
+  skill_name: 获取基金交易规则
+  description: 通过 Java 查询基金认购、申购、定投金额门槛和折扣。
+  target_object_type: Fund
+  input_params:
+  - fund_code
+  - attributes
+  - attributes
+  output_attributes:
+  - minimum_subscription_amount
+  - minimum_purchase_amount
+  - minimum_aip_amount
+  - maximum_aip_amount
+  - purchase_discount
+  - aip_discount
+  - subscription_discount
+  provides_fact_types:
+  - object_profile
+  supported_subject_types:
+  - Fund
+  supported_attributes:
+  - minimum_subscription_amount
+  - minimum_purchase_amount
+  - minimum_aip_amount
+  - maximum_aip_amount
+  - purchase_discount
+  - aip_discount
+  - subscription_discount
+  supported_constraints: []
+  related_queries:
+  - fund_issue_query
+  permission_scope: fund_public_data:read
+  enabled: true
+- skill_id: get_fund_manager_facts
+  skill_name: 获取基金经理事实
+  description: 通过 Java 查询基金经理姓名、管理天数、管理规模、任期回报和任职开始日期。
+  target_object_type: Fund
+  input_params:
+  - fund_code
+  output_attributes:
+  - manager_name
+  - manager_tenure_days
+  - manager_scale
+  - manager_term_return
+  - management_start_date
+  provides_fact_types:
+  - object_profile
+  - relation_instance
+  supported_subject_types:
+  - Fund
+  supported_attributes:
+  - manager_name
+  - manager_tenure_days
+  - manager_scale
+  - manager_term_return
+  - management_start_date
+  supported_relations:
+  - managed_by
+  supported_constraints: []
+  related_queries:
+  - fund_manager_query
+  permission_scope: fund_public_data:read
+  enabled: true
+- skill_id: get_fund_allocation_facts
+  skill_name: 获取基金资产配置事实
+  description: 通过 Java 查询股票、现金、债券、基金和其他资产占比。
+  target_object_type: Fund
+  input_params:
+  - fund_code
+  - attributes
+  capability_status: full
+  output_attributes:
+  - asset_total_value
+  - asset_net_value
+  - stock_asset_ratio
+  - cash_asset_ratio
+  - bond_asset_ratio
+  - fund_asset_ratio
+  - other_asset_ratio
+  provides_fact_types:
+  - allocation_fact
+  - relation_instance
+  supported_subject_types:
+  - Fund
+  supported_attributes:
+  - asset_total_value
+  - asset_net_value
+  - stock_asset_ratio
+  - cash_asset_ratio
+  - bond_asset_ratio
+  - fund_asset_ratio
+  - other_asset_ratio
+  supported_relations:
+  - has_asset_allocation
+  supported_constraints: []
+  related_queries:
+  - fund_asset_allocation_query
   permission_scope: fund_public_data:read
   enabled: true
 - skill_id: screen_funds_by_metric_condition
@@ -519,9 +763,15 @@
   - fund_universe
   - period
   - filters
+  default_params:
+    period: 1y
   output_attributes:
   - return_rate
+  - annualized_return
   - max_drawdown
+  - volatility
+  - percentile
+  - peer_drawdown_rank
   - sharpe_ratio
   provides_fact_types:
   - filter_condition
@@ -533,8 +783,9 @@
   - annualized_return
   - max_drawdown
   - volatility
+  - percentile
+  - peer_drawdown_rank
   - sharpe_ratio
-  - calmar_ratio
   supported_constraints:
   - period
   related_queries: []
@@ -550,9 +801,14 @@
   - ranking
   - filters
   - limit
+  default_params:
+    period: 1y
   output_attributes:
   - return_rate
+  - annualized_return
   - max_drawdown
+  - volatility
+  - peer_drawdown_rank
   - sharpe_ratio
   provides_fact_types:
   - entity_set
@@ -565,8 +821,8 @@
   - annualized_return
   - max_drawdown
   - volatility
+  - peer_drawdown_rank
   - sharpe_ratio
-  - calmar_ratio
   supported_constraints:
   - period
   related_queries: []
@@ -574,15 +830,19 @@
   enabled: true
 - skill_id: compare_funds_by_metric
   skill_name: 多基金指标比较
-  description: 对多只基金的同一指标形成比较结果；如果暂不执行，可由单基金指标事实派生。
+  description: 通过 Java 查询并比较多只基金在同一周期的收益、回撤、波动率和夏普指标。
   target_object_type: Fund
   input_params:
   - fund_codes
   - period
   - attributes
+  default_params:
+    period: 1y
   output_attributes:
   - return_rate
+  - annualized_return
   - max_drawdown
+  - peer_drawdown_rank
   - sharpe_ratio
   provides_fact_types:
   - comparison_result
@@ -593,6 +853,7 @@
   - annualized_return
   - max_drawdown
   - volatility
+  - peer_drawdown_rank
   - sharpe_ratio
   supported_constraints:
   - period
@@ -605,12 +866,15 @@
   target_object_type: Fund
   input_params:
   - fund_code
+  capability_status: partial
+  capability_note_zh: 当前 ifund_all_info 只有申购/认购/定投折扣和金额门槛，不能完整表示管理费、托管费、申购费、赎回费阶梯。
   output_attributes:
   - fee_type
   - fee_value
   - fee_effective_date
   provides_fact_types:
   - fee_fact
+  - relation_instance
   supported_subject_types:
   - Fund
   supported_attributes:
@@ -629,6 +893,8 @@
   target_object_type: Fund
   input_params:
   - fund_code
+  capability_status: unsupported
+  unsupported_reason_code: dividend_event_not_in_ifund_all_info
   output_attributes:
   - dividend_per_share
   - dividend_date
@@ -637,6 +903,7 @@
   - stable_yearly_dividend
   provides_fact_types:
   - dividend_fact
+  - relation_instance
   supported_subject_types:
   - Fund
   supported_attributes:
@@ -652,28 +919,26 @@
   permission_scope: fund_public_data:read
   enabled: true
 - skill_id: get_fund_holding_facts
-  skill_name: 获取基金持仓与配置事实
-  description: 获取基金持仓、行业配置和资产配置事实声明。
+  skill_name: 获取基金持仓事实
+  description: 获取基金股票、债券持仓和行业配置事实声明。
   target_object_type: Fund
   input_params:
   - fund_code
   - report_date
+  - attributes
+  default_params:
+    report_date: latest
+  capability_status: unsupported
+  unsupported_reason_code: holding_detail_not_in_ifund_all_info
   output_attributes:
   - stock_name
   - stock_nav_ratio
   - bond_name
   - bond_nav_ratio
   - holding_industry
-  - asset_total_value
-  - asset_net_value
-  - stock_asset_ratio
-  - bond_asset_ratio
-  - cash_asset_ratio
-  - fund_asset_ratio
-  - other_asset_ratio
   provides_fact_types:
   - holding_fact
-  - allocation_fact
+  - relation_instance
   supported_subject_types:
   - Fund
   supported_attributes:
@@ -682,20 +947,11 @@
   - bond_name
   - bond_nav_ratio
   - holding_industry
-  - asset_total_value
-  - asset_net_value
-  - stock_asset_ratio
-  - bond_asset_ratio
-  - cash_asset_ratio
-  - fund_asset_ratio
-  - other_asset_ratio
   supported_relations:
   - has_position
-  - has_asset_allocation
   related_queries:
   - fund_stock_holding_query
   - fund_bond_holding_query
-  - fund_asset_allocation_query
   permission_scope: fund_public_data:read
   enabled: true
 - skill_id: test_fund_query

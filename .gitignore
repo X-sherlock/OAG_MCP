@@ -8,3 +8,28 @@ pytest-cache-files-*/
 .venv/
 venv/
 env/
+
+# Local configuration and IDE-generated data
+.env
+*.local
+*.log
+hs_err_pid*.log
+*.hprof
+*.iml
+*.ipr
+*.iws
+**/.idea/dataSources.xml
+**/.idea/dataSources.local.xml
+
+# Build outputs
+target/
+OAG_MCP_JAVA/target/
+node_modules/
+
+# Generated reports and local analysis outputs
+outputs/
+*.inspect.ndjson
+*.zip
+
+# Office temporary lock files
+~$*

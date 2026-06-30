@@ -18,6 +18,7 @@ if str(PROJECT_SRC) not in sys.path:
 from oag_mcp.fact_planner import FactPlanner
 from oag_mcp.ontology_diagnostics import diagnose_ontology
 from oag_mcp.plan_projector import project_plan
+from oag_mcp.semantic_frame_builder import semantic_frame_for
 from oag_ontology_loader.loader import load_ontology
 
 if __package__ in (None, ""):
@@ -110,6 +111,11 @@ class OAGPlanPayload(BaseModel):
     semantic_frame: dict[str, Any]
     user_context: dict[str, Any] = Field(default_factory=dict)
     output_view: str = "editor"
+
+
+class OAGSemanticFramePayload(BaseModel):
+    question: str
+    category: str = ""
 
 
 class IntentProfilePayload(BaseModel):
@@ -231,6 +237,15 @@ def api_oag_options() -> dict[str, Any]:
         return build_oag_options(sections)
     except StoreError as exc:
         raise http_error(400, str(exc)) from exc
+
+
+@app.post("/api/oag/semantic-frame")
+def api_oag_semantic_frame(payload: OAGSemanticFramePayload) -> dict[str, Any]:
+    question = payload.question.strip()
+    if not question:
+        raise http_error(400, "question must not be empty")
+    frame = semantic_frame_for(question, payload.category)
+    return {"ok": True, "semantic_frame": frame}
 
 
 @app.post("/api/oag/plan")
@@ -610,9 +625,23 @@ class EditorCatalogRepository:
                     "attribute_name_zh": item.get("attribute_name_zh") or item["attribute_name"],
                     "description": item.get("description", ""),
                     "aliases": item.get("aliases", []),
+                    "default_fact_type": item.get("default_fact_type"),
+                    "relation_query": item.get("relation_query"),
+                    "data_capability_status": item.get("data_capability_status"),
+                    "unsupported_reason_code": item.get("unsupported_reason_code"),
+                    "params": {
+                        "default_fact_type": item.get("default_fact_type"),
+                        "relation_query": item.get("relation_query"),
+                        "data_capability_status": item.get("data_capability_status"),
+                        "unsupported_reason_code": item.get("unsupported_reason_code"),
+                    },
                 }
             )
         return rows
+
+    def get_fact_types(self, domain: str) -> list[dict[str, Any]]:
+        del domain
+        return list(self.catalog.fact_types)
 
     def get_query_capabilities(self, domain: str) -> list[dict[str, Any]]:
         del domain

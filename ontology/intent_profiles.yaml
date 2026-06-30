@@ -38,8 +38,8 @@
     reason_zh: 综合表现分析需要先获取基金区间收益率。
   - fact_type: benchmark_metric_value
     attribute_name: benchmark_return
-    priority: required
-    reason_zh: 综合表现分析需要用基准收益判断相对表现。
+    priority: optional
+    reason_zh: 如底层具备基准收益序列，可用基准收益补充相对表现；当前 ifund_all_info 不将其作为强制事实。
   - fact_type: excess_metric_value
     attribute_name: excess_return
     priority: required
@@ -75,10 +75,6 @@
   - max_drawdown
   - volatility
   - sharpe_ratio
-  - calmar_ratio
-  - downside_risk
-  - var
-  - cvar
   - peer_drawdown_rank
   - peer_sharpe_rank
   primary_skills:
@@ -103,22 +99,6 @@
     attribute_name: sharpe_ratio
     priority: optional
     reason_zh: 夏普比率可补充评估风险调整收益；用户显式提及时提升为必需事实。
-  - fact_type: metric_value
-    attribute_name: calmar_ratio
-    priority: optional
-    reason_zh: Calmar 比率可补充回撤调整后的收益表现。
-  - fact_type: metric_value
-    attribute_name: downside_risk
-    priority: optional
-    reason_zh: 下行风险可补充说明下行波动。
-  - fact_type: metric_value
-    attribute_name: var
-    priority: optional
-    reason_zh: VaR 可作为极端损失风险的补充事实。
-  - fact_type: metric_value
-    attribute_name: cvar
-    priority: optional
-    reason_zh: CVaR 可作为尾部损失风险的补充事实。
   - fact_type: peer_rank
     attribute_name: peer_drawdown_rank
     priority: optional
@@ -143,8 +123,6 @@
   - return_rate
   - benchmark_return
   - excess_return
-  - tracking_error
-  - information_ratio
   primary_skills:
   - get_fund_benchmark_facts
   secondary_skills:
@@ -167,14 +145,6 @@
     attribute_name: excess_return
     priority: required
     reason_zh: 基准比较需要获取超额收益判断是否跑赢基准。
-  - fact_type: metric_value
-    attribute_name: tracking_error
-    priority: optional
-    reason_zh: 跟踪误差可补充说明相对基准的偏离程度。
-  - fact_type: metric_value
-    attribute_name: information_ratio
-    priority: optional
-    reason_zh: 信息比率可补充说明超额收益质量。
 - intent_name: peer_comparison
   intent_name_zh: 基金同类比较
   description: 基金同类比较。
@@ -187,8 +157,9 @@
   - 百分位
   - 分位
   default_attributes:
-  - rank
-  - percentile
+  - peer_return_rank
+  - peer_drawdown_rank
+  - peer_sharpe_rank
   - return_rate
   - max_drawdown
   - sharpe_ratio
@@ -204,12 +175,24 @@
   fact_requirements_template:
   - fact_type: peer_rank
     attribute_name: rank
-    priority: required
-    reason_zh: 同类比较需要获取同类排名。
+    priority: optional
+    reason_zh: 同类比较可补充泛化排名，用于承接口语化“排名如何”的表达。
   - fact_type: peer_rank
     attribute_name: percentile
+    priority: optional
+    reason_zh: 同类比较可补充分位信息，用于解释排名所处区间。
+  - fact_type: peer_rank
+    attribute_name: peer_return_rank
     priority: required
-    reason_zh: 同类比较需要获取排名分位。
+    reason_zh: 同类比较需要获取收益同类排名。
+  - fact_type: peer_rank
+    attribute_name: peer_drawdown_rank
+    priority: optional
+    reason_zh: 同类比较可补充最大回撤同类排名。
+  - fact_type: peer_rank
+    attribute_name: peer_sharpe_rank
+    priority: optional
+    reason_zh: 同类比较可补充夏普同类排名。
   - fact_type: metric_value
     attribute_name: return_rate
     priority: optional
@@ -237,10 +220,10 @@
   - fund_type
   - manager_name
   - company_name
-  - benchmark_name
   primary_skills:
   - get_fund_profile_facts
-  secondary_skills: []
+  secondary_skills:
+  - get_fund_manager_facts
   optional_skills: []
   required_params:
   - fund_code
@@ -261,10 +244,6 @@
     attribute_name: company_name
     priority: required
     reason_zh: 基金画像需要基金公司信息。
-  - fact_type: object_profile
-    attribute_name: benchmark_name
-    priority: required
-    reason_zh: 基金画像需要业绩比较基准信息。
 - intent_name: fee_analysis
   intent_name_zh: 基金费率查询
   description: 查询基金管理费、托管费、申购费、赎回费等费率。
@@ -340,17 +319,17 @@
   - 配置
   - 仓位
   default_attributes:
-  - asset_total_value
   - stock_asset_ratio
   - bond_asset_ratio
   - cash_asset_ratio
+  - fund_asset_ratio
+  - other_asset_ratio
   primary_skills:
-  - get_fund_holding_facts
+  - get_fund_allocation_facts
   secondary_skills: []
   optional_skills: []
   required_params:
   - fund_code
-  - report_date
   fact_requirements_template:
   - fact_type: allocation_fact
     attribute_name: stock_asset_ratio

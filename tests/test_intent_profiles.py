@@ -33,7 +33,8 @@ def test_risk_overview_profile_generates_risk_facts():
         for item in result["fact_requirements"]
         if item.get("priority") == "optional" and item.get("attribute_name")
     }
-    assert {"sharpe_ratio", "calmar_ratio", "downside_risk", "var", "cvar", "peer_drawdown_rank", "peer_sharpe_rank"}.issubset(optional)
+    assert {"sharpe_ratio", "peer_drawdown_rank", "peer_sharpe_rank"}.issubset(optional)
+    assert {"calmar_ratio", "downside_risk", "var", "cvar"}.isdisjoint(optional)
 
 
 def test_benchmark_comparison_profile_generates_relative_facts():
@@ -46,13 +47,13 @@ def test_benchmark_comparison_profile_generates_relative_facts():
 def test_peer_comparison_profile_generates_rank_facts():
     result = retrieve(frame(raw_question="000001近一年同类排名怎么样", intent="peer_comparison"))
 
-    assert {"rank", "percentile"} == _required_attrs(result)
+    assert {"peer_return_rank"} == _required_attrs(result)
     optional = {
         item["attribute_name"]
         for item in result["fact_requirements"]
         if item.get("priority") == "optional" and item.get("attribute_name")
     }
-    assert {"return_rate", "max_drawdown", "sharpe_ratio"}.issubset(optional)
+    assert {"peer_drawdown_rank", "peer_sharpe_rank", "return_rate", "max_drawdown", "sharpe_ratio"}.issubset(optional)
     assert any(item["skill_id"] == "get_fund_peer_ranking_facts" for item in result["candidate_invocations"])
 
 

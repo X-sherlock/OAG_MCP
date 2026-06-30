@@ -51,14 +51,19 @@ class CatalogRepository:
                 continue
             rows.append(
                 {
+                    **item,
                     "object_type": (item.get("object_types") or [""])[0],
                     "attribute_name": item["attribute_name"],
                     "attribute_name_zh": item["attribute_name_zh"],
                     "description": item["description"],
                     "aliases": item.get("aliases", []),
+                    "params": dict(item),
                 }
             )
         return rows
+
+    def get_fact_types(self, domain: str) -> list[dict[str, Any]]:
+        return list(self.catalog.fact_types)
 
     def get_query_capabilities(self, domain: str) -> list[dict[str, Any]]:
         return [item for item in self.catalog.queries if item.get("enabled", True)]

@@ -55,7 +55,7 @@ def test_relation_instance_fund_manager():
     assert relation_fact["priority"] == "required"
     assert "基金经理" in relation_fact["reason_zh"]
     assert any(
-        item["skill_id"] == "get_fund_profile_facts"
+        item["skill_id"] == "get_fund_manager_facts"
         and relation_fact["fact_requirement_id"] in item["covers_fact_requirements"]
         for item in result["candidate_invocations"]
     )
@@ -94,8 +94,8 @@ def test_explicit_risk_metric_query_does_not_expand_profile_objects():
     ]
     object_nodes = {node["node_id"] for node in result["task_graph"]["nodes"] if node.get("node_type") == "ObjectType"}
 
-    assert required == {"max_drawdown", "sharpe_ratio"}
-    assert {"volatility", "calmar_ratio", "peer_drawdown_rank", "peer_sharpe_rank"}.issubset(optional)
+    assert required == {"max_drawdown", "sharpe_ratio", "volatility"}
+    assert {"calmar_ratio", "peer_drawdown_rank", "peer_sharpe_rank"}.issubset(optional)
     assert not relation_answer_facts
     assert {
         "ObjectType:FundManager",
@@ -141,7 +141,7 @@ def test_peer_comparison_uses_category_as_supporting_context():
     )
     object_nodes = {node["node_id"] for node in result["task_graph"]["nodes"] if node.get("node_type") == "ObjectType"}
 
-    assert {"rank", "percentile"}.issubset(required)
+    assert {"peer_return_rank"}.issubset(required)
     assert category_relation["answer_visibility"] == "supporting_context"
     assert category_relation["priority"] != "required"
     assert {"ObjectType:FundManager", "ObjectType:FundCompany"}.isdisjoint(object_nodes)
@@ -174,9 +174,9 @@ def test_profile_skill_supported_attributes_exist():
     profile_skill = next(item for item in catalog.skills if item["skill_id"] == "get_fund_profile_facts")
 
     assert set(profile_skill["supported_attributes"]).issubset(known_attributes)
-    assert {"managed_by", "issued_by", "has_benchmark", "belongs_to_category", "tracks_index"}.issubset(
-        set(profile_skill["supported_relations"])
-    )
+    assert {"issued_by", "belongs_to_category"}.issubset(set(profile_skill["supported_relations"]))
+    manager_skill = next(item for item in catalog.skills if item["skill_id"] == "get_fund_manager_facts")
+    assert "managed_by" in set(manager_skill["supported_relations"])
 
 
 def test_skill_coverage_reason():

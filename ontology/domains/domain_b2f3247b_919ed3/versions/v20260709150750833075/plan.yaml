@@ -1,0 +1,306 @@
+domain_input:
+  domain_name: 在线课程
+  description: 在线教育课程学习领域，描述学生选课、观看课程、提交作业、教师批改和成绩反馈。
+  objects:
+  - object_type: Student
+    object_type_zh: 学生
+    description: 学习课程的用户。
+    enabled: true
+  - object_type: Course
+    object_type_zh: 课程
+    description: 在线课程。
+    enabled: true
+  - object_type: Lesson
+    object_type_zh: 课时
+    description: 课程下的教学单元。
+    enabled: true
+  - object_type: Assignment
+    object_type_zh: 作业
+    description: 课程作业。
+    enabled: true
+  - object_type: Teacher
+    object_type_zh: 教师
+    description: 课程教师。
+    enabled: true
+  - object_type: Office
+    object_type_zh: 办公室
+    description: 教师办公与答疑的物理或虚拟空间。
+    enabled: true
+  - object_type: Classroom
+    object_type_zh: 教室
+    description: 学生上课与互动的教学空间。
+    enabled: true
+  - object_type: Subject
+    object_type_zh: 科目
+    description: 学术分类或知识领域，用于归类课程与评估学习方向。
+    enabled: true
+  attributes:
+  - attribute_name: course_level
+    attribute_name_zh: 课程难度
+    description: 课程难度等级。
+    value_type: string
+    object_types:
+    - Course
+    aliases: []
+    enabled: true
+  - attribute_name: lesson_duration
+    attribute_name_zh: 课时时长
+    description: 课时持续时间。
+    value_type: number
+    object_types:
+    - Lesson
+    aliases: []
+    enabled: true
+  - attribute_name: assignment_status
+    attribute_name_zh: 作业状态
+    description: 作业提交状态。
+    value_type: string
+    object_types:
+    - Assignment
+    aliases: []
+    enabled: true
+  - attribute_name: enrollment_date
+    attribute_name_zh: 报名日期
+    description: 学生报名课程的时间节点。
+    value_type: string
+    object_types:
+    - Student
+    - Course
+    aliases: []
+    enabled: true
+  - attribute_name: submission_score
+    attribute_name_zh: 提交成绩
+    description: 学生作业提交的得分。
+    value_type: number
+    object_types:
+    - Assignment
+    - Student
+    aliases: []
+    enabled: true
+  - attribute_name: attendance_rate
+    attribute_name_zh: 出勤率
+    description: 学生上课出勤的比例。
+    value_type: number
+    object_types:
+    - Student
+    - Course
+    aliases: []
+    enabled: true
+  - attribute_name: office_capacity
+    attribute_name_zh: 办公室容量
+    description: 办公室可容纳的教师数量。
+    value_type: number
+    object_types:
+    - Office
+    aliases: []
+    enabled: true
+  - attribute_name: classroom_location
+    attribute_name_zh: 教室位置
+    description: 教室的物理地址或虚拟链接。
+    value_type: string
+    object_types:
+    - Classroom
+    aliases: []
+    enabled: true
+  - attribute_name: subject_category
+    attribute_name_zh: 科目分类
+    description: 科目的学术分类，如理工、人文、艺术等，用于课程归类与学习路径推荐。
+    value_type: string
+    object_types:
+    - Subject
+    aliases: []
+    enabled: true
+  - attribute_name: subject_credit
+    attribute_name_zh: 科目学分
+    description: 科目对应的标准学分值，用于学业进度计算与毕业要求核对。
+    value_type: number
+    object_types:
+    - Subject
+    aliases: []
+    enabled: true
+  - attribute_name: subject_code
+    attribute_name_zh: 科目代码
+    description: 科目的唯一标识代码，用于系统检索与教务管理对接。
+    value_type: string
+    object_types:
+    - Subject
+    aliases: []
+    enabled: true
+  bulk_text: 学生报名课程；课程由多个课时组成；课程包含作业；教师批改作业并反馈成绩。
+plan:
+  summary_zh: 基于用户反馈新增“学校”(School)对象及其核心管理属性，构建机构维度的实体导航与属性事实网络。遵循OAG以属性为核心的规划原则，将学校维度深度融入现有可执行事实体系：通过school_type与course_level的关联支持跨机构难度分布分析，通过total_students与attendance_rate的关联支持管理效能评估，通过campus_location与enrollment_date的过滤支持区域生源趋势预测，通过school_name与submission_score的聚合支持校际学术水平排名。整体规划在保持机构导航清晰的同时，大幅扩展了按学校维度进行检索、对比、聚合与解释的事实查询路径。
+  relationships:
+  - source: ObjectType:School
+    target: ObjectType:Teacher
+    relation_type: manages
+    relation_name_zh: 机构管理
+    reason_zh: 支持实体导航查询，明确教师与所属学校的归属关系，便于OAG检索师资分布与机构编制。
+  - source: ObjectType:School
+    target: ObjectType:Course
+    relation_type: offers
+    relation_name_zh: 课程提供
+    reason_zh: 支持实体导航查询，明确课程发布方与学校的对应关系，便于OAG按机构检索课程资源库。
+  - source: ObjectType:School
+    target: ObjectType:Classroom
+    relation_type: owns
+    relation_name_zh: 资产归属
+    reason_zh: 支持实体导航查询，明确教学空间与学校的产权或管理关系，便于OAG进行资产盘点与调度规划。
+  - source: Attribute:school_type
+    target: Attribute:course_level
+    relation_type: correlates_with
+    relation_name_zh: 类型与难度关联
+    reason_zh: 支持对比与解释查询，OAG可分析不同办学性质学校下的课程难度分布特征，辅助教育资源配置评估。
+  - source: Attribute:total_students
+    target: Attribute:attendance_rate
+    relation_type: correlates_with
+    relation_name_zh: 规模与出勤关联
+    reason_zh: 支持解释与预警查询，OAG可探索机构体量与整体出勤率的关联规律，辅助教学管理效能诊断。
+  - source: Attribute:campus_location
+    target: Attribute:enrollment_date
+    relation_type: filtered_by
+    relation_name_zh: 按地域时间过滤
+    reason_zh: 支持趋势预测查询，OAG可按校区地理位置筛选报名时间序列，用于区域生源热度分析与排课容量规划。
+  - source: Attribute:school_name
+    target: Attribute:submission_score
+    relation_type: aggregated_to
+    relation_name_zh: 按校聚合成绩
+    reason_zh: 支持排名与比较查询，OAG可按学校维度聚合作业提交成绩，用于校际学术水平横向对比与优势机构识别。
+  open_questions:
+  - 是否需要为“学校”对象补充“合作企业/机构”(partner_institutions)属性或关系，以支持产教融合课程与实习就业数据的关联分析？
+  - 学校层级结构（如集团校、分校、院系）是否需要通过自引用关系或层级属性进行建模，以支持多级教务数据聚合查询？
+  revision_notes:
+  - 根据用户反馈新增 School 对象及 school_name、school_type、campus_location、total_students 属性，建立
+    School 到 Teacher、Course、Classroom 的实体导航关系，明确机构管理边界。
+  - 遵循 OAG 属性核心原则，将学校维度注入现有可执行属性网络：通过 school_type 与 course_level 关联支持跨机构难度分布分析，通过
+    total_students 与 attendance_rate 关联支持管理效能评估，通过 campus_location 与 enrollment_date
+    过滤支持区域生源趋势预测，通过 school_name 与 submission_score 聚合支持校际学术水平排名。后续可进一步扩展学校层级结构与产教融合数据模型。
+  objects:
+  - object_type: School
+    object_type_zh: 学校
+    description: 提供在线教育服务的机构实体，负责师资管理、课程发布与教学资源配置。
+  - object_type: Student
+    object_type_zh: 学生
+    description: 学习课程的用户。
+  - object_type: Course
+    object_type_zh: 课程
+    description: 在线课程。
+  - object_type: Lesson
+    object_type_zh: 课时
+    description: 课程下的教学单元。
+  - object_type: Assignment
+    object_type_zh: 作业
+    description: 课程作业。
+  - object_type: Teacher
+    object_type_zh: 教师
+    description: 课程教师。
+  - object_type: Office
+    object_type_zh: 办公室
+    description: 教师办公与答疑的物理或虚拟空间。
+  - object_type: Classroom
+    object_type_zh: 教室
+    description: 学生上课与互动的教学空间。
+  - object_type: Subject
+    object_type_zh: 科目
+    description: 学术分类或知识领域，用于归类课程与评估学习方向。
+  attributes:
+  - attribute_name: school_name
+    attribute_name_zh: 学校名称
+    object_types:
+    - School
+    value_type: string
+    description: 学校的官方名称，用于机构标识与校际对比查询。
+  - attribute_name: school_type
+    attribute_name_zh: 学校类型
+    object_types:
+    - School
+    value_type: string
+    description: 学校的办学性质分类，如公立、私立、职业院校等，用于教育资源分布分析。
+  - attribute_name: campus_location
+    attribute_name_zh: 校区位置
+    object_types:
+    - School
+    value_type: string
+    description: 学校主校区或在线运营基地的地理位置，用于区域生源与资源调度分析。
+  - attribute_name: total_students
+    attribute_name_zh: 在校生规模
+    object_types:
+    - School
+    value_type: number
+    description: 学校当前注册学生总数，用于机构体量评估与教学负荷计算。
+  - attribute_name: course_level
+    attribute_name_zh: 课程难度
+    object_types:
+    - Course
+    value_type: string
+    description: 课程难度等级。
+  - attribute_name: lesson_duration
+    attribute_name_zh: 课时时长
+    object_types:
+    - Lesson
+    value_type: number
+    description: 课时持续时间。
+  - attribute_name: assignment_status
+    attribute_name_zh: 作业状态
+    object_types:
+    - Assignment
+    value_type: string
+    description: 作业提交状态。
+  - attribute_name: enrollment_date
+    attribute_name_zh: 报名日期
+    object_types:
+    - Student
+    - Course
+    value_type: string
+    description: 学生报名课程的时间节点。
+  - attribute_name: submission_score
+    attribute_name_zh: 提交成绩
+    object_types:
+    - Assignment
+    - Student
+    value_type: number
+    description: 学生作业提交的得分。
+  - attribute_name: attendance_rate
+    attribute_name_zh: 出勤率
+    object_types:
+    - Student
+    - Course
+    value_type: number
+    description: 学生上课出勤的比例。
+  - attribute_name: office_capacity
+    attribute_name_zh: 办公室容量
+    object_types:
+    - Office
+    value_type: number
+    description: 办公室可容纳的教师数量。
+  - attribute_name: classroom_location
+    attribute_name_zh: 教室位置
+    object_types:
+    - Classroom
+    value_type: string
+    description: 教室的物理地址或虚拟链接。
+  - attribute_name: subject_category
+    attribute_name_zh: 科目分类
+    object_types:
+    - Subject
+    value_type: string
+    description: 科目的学术分类，如理工、人文、艺术等，用于课程归类与学习路径推荐。
+  - attribute_name: subject_credit
+    attribute_name_zh: 科目学分
+    object_types:
+    - Subject
+    value_type: number
+    description: 科目对应的标准学分值，用于学业进度计算与毕业要求核对。
+  - attribute_name: subject_code
+    attribute_name_zh: 科目代码
+    object_types:
+    - Subject
+    value_type: string
+    description: 科目的唯一标识代码，用于系统检索与教务管理对接。
+feedback: 新增学校对象，为其赋予合适的属性及关系。
+created_at: '2026-07-09T15:07:50'
+version:
+  version_id: v20260709150750833075
+  parent_version_id: v20260709105127272734
+  summary: 新增学校对象，为其赋予合适的属性及关系。
+  operation_summary: 新增学校对象，为其赋予合适的属性及关系。
+  created_at: '2026-07-09T15:07:50'

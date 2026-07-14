@@ -1,0 +1,65 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: OAG
+      - generic [ref=e6]:
+        - heading "回答稳定性对比" [level=1] [ref=e7]
+        - paragraph [ref=e8]: 对比无 OAG 与有 OAG 在 5 轮重复问答中的一致性表现
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - text: 导入 CSV
+        - button "导入 CSV"
+      - button "读取默认数据" [ref=e11] [cursor=pointer]
+  - main [ref=e12]:
+    - generic [ref=e13]:
+      - strong [ref=e14]: 数据提示
+      - list [ref=e15]:
+        - listitem [ref=e16]: 当前数据源：data/results.csv
+        - listitem [ref=e17]: percentile is not defined
+    - region "整体概览" [ref=e18]:
+      - article [ref=e19]:
+        - generic [ref=e20]: 问题数
+        - strong [ref=e21]: "0"
+        - text: 0 条回答记录
+      - article [ref=e22]:
+        - generic [ref=e23]: 无 OAG 稳定性
+        - strong [ref=e24]: "--"
+        - text: 朴素回答平均分
+      - article [ref=e25]:
+        - generic [ref=e26]: 有 OAG 稳定性
+        - strong [ref=e27]: "--"
+        - text: OAG 回答平均分
+      - article [ref=e28]:
+        - generic [ref=e29]: OAG 优势
+        - strong [ref=e30]: "--"
+        - text: 有效样本不足
+    - region "搜索与视图控制" [ref=e31]:
+      - generic [ref=e32]:
+        - searchbox "搜索问题、序号或回答内容" [ref=e33]
+        - button "×" [ref=e34] [cursor=pointer]
+      - combobox "筛选问题" [ref=e35]:
+        - option "全部问题" [selected]
+        - option "OAG 共识更稳定"
+        - option "OAG 信息覆盖更稳定"
+        - option "存在数值漂移"
+        - option "有效样本不足"
+        - option "低稳定性问题"
+        - option "数据异常"
+      - combobox "排序方式" [ref=e36]:
+        - option "按序号" [selected]
+        - option "OAG 优势从高到低"
+        - option "OAG 优势从低到高"
+        - option "共识差异从高到低"
+        - option "信息覆盖差异从高到低"
+        - option "数值一致差异从高到低"
+        - option "无 OAG 稳定性从低到高"
+        - option "有 OAG 稳定性从低到高"
+      - tablist "视图" [ref=e37]:
+        - button "单题对比" [ref=e38] [cursor=pointer]
+        - button "全量列表" [ref=e39] [cursor=pointer]
+    - generic [ref=e40]:
+      - heading "导入测试结果 CSV" [level=2] [ref=e41]
+      - paragraph [ref=e42]:
+        - text: 推荐 CSV 表头为：序号、问题、朴素回答、OAG回答。页面也会尝试读取
+        - code [ref=e43]: data/results.csv
+        - text: 。

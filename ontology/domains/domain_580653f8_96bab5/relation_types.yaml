@@ -1,0 +1,180 @@
+- relation_type: issued_by
+  relation_name_zh: 发行归属
+  description: 明确债券与发行主体的所有权关系，支持按发行主体聚合债券池与信用风险排查。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: underwritten_by
+  relation_name_zh: 承销归属
+  description: 关联债券与承销机构，支持承销商市场份额统计与承销业绩归因分析。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: guaranteed_by
+  relation_name_zh: 担保归属
+  description: 关联债券与担保主体，支持增信措施覆盖范围评估与代偿能力压力测试。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: listed_on
+  relation_name_zh: 上市归属
+  description: 关联债券与交易市场，支持跨市场流动性对比与定价差异分析。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: generates_quote
+  relation_name_zh: 行情生成
+  description: 交易市场产生行情记录，支持按市场维度获取历史报价、成交量与流动性指标。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: issues_rating
+  relation_name_zh: 评级发布
+  description: 评级机构出具评级记录，支持多机构评级观点对比、跟踪与评级调整分析。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: rates_issuer
+  relation_name_zh: 主体评级映射
+  description: 评级等级直接关联发行主体，支持主体信用资质横向对比、准入筛选与信用利差基准设定。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: rates_bond
+  relation_name_zh: 债项评级映射
+  description: 评级等级关联具体债券，支持债项信用利差计算、违约概率建模与个券信用风险定价。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: manages_portfolio
+  relation_name_zh: 组合管理
+  description: 投资者创建并管理组合，支持按投资者维度汇总资产规模、收益表现与合规监控。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: contains_holding
+  relation_name_zh: 持仓归属
+  description: 组合包含持仓记录，支持组合层面风险预算分配、资产配置分析与久期匹配。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: holds_bond
+  relation_name_zh: 持仓标的
+  description: 持仓数量关联具体债券，支持单券持仓集中度监控、流动性压力测试与市值重估。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: executes_trade
+  relation_name_zh: 交易执行
+  description: 投资者发起交易记录，支持交易行为审计、合规监控与交易成本分析。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: updates_holding
+  relation_name_zh: 交易更新持仓
+  description: 交易金额直接驱动持仓变动，支持持仓成本重算、浮动盈亏溯源与交易流水对账。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: generates_cashflow
+  relation_name_zh: 现金流计划
+  description: 债券关联未来付息兑付计划，支持现金流折现估值、再投资规划与到期收益测算。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: calibrates_spread
+  relation_name_zh: 曲线校准利差
+  description: 曲线收益率作为无风险基准，与债券到期收益率对比计算信用利差，支持相对价值评估与定价偏离分析。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: measures_bond_risk
+  relation_name_zh: 单券风险度量
+  description: 久期指标关联单只债券，支持利率敏感性分析、免疫策略构建与利率风险对冲。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: measures_portfolio_risk
+  relation_name_zh: 组合风险度量
+  description: 最大回撤指标关联投资组合，支持组合层面风险预算控制、压力测试与业绩归因。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: triggers_default
+  relation_name_zh: 违约触发
+  description: 违约金额关联发行主体，支持违约主体关联债券排查、持仓风险敞口计算与损失预估。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: impacts_rating
+  relation_name_zh: 评级影响
+  description: 处置状态关联评级记录，支持信用风险传导路径追踪、评级下调预警与重组效果评估。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: derives_spread
+  relation_name_zh: 利差计算
+  description: 到期收益率与无风险曲线对比得出信用利差，支持收益归因、定价效率分析与套利机会识别。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute

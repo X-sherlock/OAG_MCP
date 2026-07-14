@@ -1,0 +1,4 @@
+- object_type: FUND_PRODUCT
+  object_type_zh: 基金产品
+  description: 代表具体的公募基金产品实例，包含其基本信息、风险收益特征及持仓结构。
+  enabled: true

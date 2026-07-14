@@ -1,0 +1,125 @@
+domain_input:
+  domain_name: 在线课程
+  description: 在线教育课程学习领域，描述学生选课、观看课程、提交作业、教师批改和成绩反馈。
+  objects:
+  - object_type: Student
+    object_type_zh: 学生
+    description: 学习课程的用户。
+  - object_type: Course
+    object_type_zh: 课程
+    description: 在线课程。
+  - object_type: Lesson
+    object_type_zh: 课时
+    description: 课程下的教学单元。
+  - object_type: Assignment
+    object_type_zh: 作业
+    description: 课程作业。
+  - object_type: Teacher
+    object_type_zh: 教师
+    description: 课程教师。
+  attributes:
+  - attribute_name: course_level
+    attribute_name_zh: 课程难度
+    object_types:
+    - Course
+    value_type: string
+    description: 课程难度等级。
+  - attribute_name: lesson_duration
+    attribute_name_zh: 课时时长
+    object_types:
+    - Lesson
+    value_type: number
+    description: 课时持续时间。
+  - attribute_name: assignment_status
+    attribute_name_zh: 作业状态
+    object_types:
+    - Assignment
+    value_type: string
+    description: 作业提交状态。
+  bulk_text: 学生报名课程；课程由多个课时组成；课程包含作业；教师批改作业并反馈成绩。
+plan:
+  summary_zh: 基于在线课程领域输入，规划了5个核心对象与3个基础属性之间的关系网络。设计严格遵循OAG事实规划原则：ObjectType间关系仅保留明确的实体导航路径（报名、包含、教授），以支持基础检索；非所有权关系优先采用Attribute端点，将作业状态、课时时长、课程难度与实体或属性关联，以支持过滤、聚合、解释与比较类事实查询。整体结构为后续扩展时间、成绩、进度等可执行属性预留了关系锚点。
+  relationships:
+  - source: ObjectType:Student
+    target: ObjectType:Course
+    relation_type: enrolls_in
+    relation_name_zh: 报名课程
+    reason_zh: 支持实体导航与检索查询，明确学生与课程的归属关系，便于OAG定位选课记录。
+  - source: ObjectType:Course
+    target: ObjectType:Lesson
+    relation_type: comprises
+    relation_name_zh: 包含课时
+    reason_zh: 支持层级导航查询，OAG可通过该关系遍历课程结构，为后续课时序列与进度计算提供基础。
+  - source: ObjectType:Teacher
+    target: ObjectType:Course
+    relation_type: instructs
+    relation_name_zh: 教授课程
+    reason_zh: 支持实体导航查询，明确教师与课程的负责关系，便于OAG检索师资分配与课程归属。
+  - source: Attribute:assignment_status
+    target: ObjectType:Student
+    relation_type: triggered_by
+    relation_name_zh: 由学生提交触发
+    reason_zh: 支持过滤与检索查询，OAG可沿此关系按学生维度筛选作业状态，扩展事实查询路径。
+  - source: Attribute:lesson_duration
+    target: ObjectType:Course
+    relation_type: aggregated_to
+    relation_name_zh: 汇总至课程
+    reason_zh: 支持聚合查询，OAG可通过该关系累加课时时长，计算课程总学习量或进行时长对比。
+  - source: Attribute:course_level
+    target: Attribute:assignment_status
+    relation_type: correlates_with
+    relation_name_zh: 与作业状态分布相关
+    reason_zh: 支持解释与比较查询，OAG可分析不同难度课程下作业提交状态的分布差异，辅助教学诊断。
+  - source: ObjectType:Teacher
+    target: Attribute:assignment_status
+    relation_type: updates
+    relation_name_zh: 批改更新状态
+    reason_zh: 支持事实扩展与追踪查询，OAG可沿此关系关联教师操作日志，解释作业状态变更原因。
+  open_questions:
+  - 是否需要为‘学生报名课程’和‘教师批改作业’补充中间属性（如 enrollment_date, submission_score, grading_feedback）以支持时间序列与成绩排名查询？
+  - 课时与作业的排序/权重属性（lesson_order, assignment_weight）是否需要在本体中显式定义以支持课程结构解析？
+  revision_notes:
+  - 当前规划严格遵循输入对象与属性，未新增字段。根据OAG可执行事实需求，建议在后续迭代中为Student/Course关联添加enrollment_status与progress_rate，为Assignment添加submission_score与deadline，以完整覆盖比较、排名与时间过滤场景。
+  - 关系设计已优先采用Attribute端点以支持事实扩展，ObjectType间关系仅保留明确的实体导航路径，符合OAG以属性为核心的事实规划规范。
+  objects:
+  - object_type: Student
+    object_type_zh: 学生
+    description: 学习课程的用户。
+  - object_type: Course
+    object_type_zh: 课程
+    description: 在线课程。
+  - object_type: Lesson
+    object_type_zh: 课时
+    description: 课程下的教学单元。
+  - object_type: Assignment
+    object_type_zh: 作业
+    description: 课程作业。
+  - object_type: Teacher
+    object_type_zh: 教师
+    description: 课程教师。
+  attributes:
+  - attribute_name: course_level
+    attribute_name_zh: 课程难度
+    object_types:
+    - Course
+    value_type: string
+    description: 课程难度等级。
+  - attribute_name: lesson_duration
+    attribute_name_zh: 课时时长
+    object_types:
+    - Lesson
+    value_type: number
+    description: 课时持续时间。
+  - attribute_name: assignment_status
+    attribute_name_zh: 作业状态
+    object_types:
+    - Assignment
+    value_type: string
+    description: 作业提交状态。
+feedback: ''
+created_at: '2026-07-09T10:27:26'
+version:
+  version_id: v20260709102726423687
+  parent_version_id: ''
+  summary: 初始版本
+  created_at: '2026-07-09T10:27:26'

@@ -1,0 +1,48 @@
+- attribute_name: schedule_start_time
+  attribute_name_zh: 计划开始时间
+  description: 课程表或学习任务的计划开始时间戳。
+  value_type: datetime
+  object_types:
+  - Schedule
+  aliases: []
+  enabled: true
+- attribute_name: schedule_deadline
+  attribute_name_zh: 计划截止时间
+  description: 课程表或学习任务的计划截止时间戳，用于逾期判断与进度控制。
+  value_type: datetime
+  object_types:
+  - Schedule
+  aliases: []
+  enabled: true
+- attribute_name: schedule_status
+  attribute_name_zh: 排课/学习状态
+  description: 课程表的当前执行状态，如未开始、进行中、已逾期、已完成。
+  value_type: string
+  object_types:
+  - Schedule
+  aliases: []
+  enabled: true
+- attribute_name: course_level
+  attribute_name_zh: 课程难度
+  description: 课程难度等级。
+  value_type: string
+  object_types:
+  - Course
+  aliases: []
+  enabled: true
+- attribute_name: lesson_duration
+  attribute_name_zh: 课时时长
+  description: 课时持续时间。
+  value_type: number
+  object_types:
+  - Lesson
+  aliases: []
+  enabled: true
+- attribute_name: assignment_status
+  attribute_name_zh: 作业状态
+  description: 作业提交状态。
+  value_type: string
+  object_types:
+  - Assignment
+  aliases: []
+  enabled: true

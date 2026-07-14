@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OAG 回答稳定性展示页</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand-block">
+          <span class="brand-mark">OAG</span>
+          <div>
+            <h1>回答稳定性对比</h1>
+            <p>对比无 OAG 与有 OAG 在 5 轮重复问答中的一致性表现</p>
+          </div>
+        </div>
+        <div class="data-actions">
+          <label class="file-button">
+            导入 CSV
+            <input id="csvInput" type="file" accept=".csv,text/csv" />
+          </label>
+          <button id="reloadBtn" type="button">读取默认数据</button>
+        </div>
+      </header>
+
+      <main>
+        <section id="noticePanel" class="notice-panel" hidden></section>
+
+        <section class="summary-grid" aria-label="整体概览">
+          <article class="metric-card">
+            <span>问题数</span>
+            <strong id="totalQuestions">0</strong>
+            <small id="totalRuns">0 条回答记录</small>
+          </article>
+          <article class="metric-card">
+            <span>无 OAG 稳定性</span>
+            <strong id="plainAverage">--</strong>
+            <small>朴素回答平均分</small>
+          </article>
+          <article class="metric-card accent">
+            <span>有 OAG 稳定性</span>
+            <strong id="oagAverage">--</strong>
+            <small>OAG 回答平均分</small>
+          </article>
+          <article class="metric-card">
+            <span>OAG 优势</span>
+            <strong id="advantageAverage">--</strong>
+            <small id="advantageHint">等待数据</small>
+          </article>
+        </section>
+
+        <section class="control-strip" aria-label="搜索与视图控制">
+          <div class="search-box">
+            <input id="searchInput" type="search" placeholder="搜索问题、序号或回答内容" />
+            <button id="clearSearchBtn" type="button" title="清空搜索">×</button>
+          </div>
+          <select id="filterSelect" aria-label="筛选问题">
+            <option value="all">全部问题</option>
+            <option value="consensusImproved">OAG 共识更稳定</option>
+            <option value="coverageImproved">OAG 信息覆盖更稳定</option>
+            <option value="numericConflict">存在数值漂移</option>
+            <option value="insufficient">有效样本不足</option>
+            <option value="low">低稳定性问题</option>
+            <option value="warning">数据异常</option>
+          </select>
+          <select id="sortSelect" aria-label="排序方式">
+            <option value="index">按序号</option>
+            <option value="advantageDesc">OAG 优势从高到低</option>
+            <option value="advantageAsc">OAG 优势从低到高</option>
+            <option value="consensusDesc">共识差异从高到低</option>
+            <option value="coverageDesc">信息覆盖差异从高到低</option>
+            <option value="numericDesc">数值一致差异从高到低</option>
+            <option value="plainAsc">无 OAG 稳定性从低到高</option>
+            <option value="oagAsc">有 OAG 稳定性从低到高</option>
+          </select>
+          <div class="view-tabs" role="tablist" aria-label="视图">
+            <button class="tab-button active" id="singleTab" type="button" data-view="single">单题对比</button>
+            <button class="tab-button" id="allTab" type="button" data-view="all">全量列表</button>
+          </div>
+        </section>
+
+        <section id="emptyState" class="empty-state">
+          <h2>导入测试结果 CSV</h2>
+          <p>推荐 CSV 表头为：序号、问题、朴素回答、OAG回答。页面也会尝试读取 <code>data/results.csv</code>。</p>
+        </section>
+
+        <section id="singleView" class="single-view" hidden>
+          <div class="question-toolbar">
+            <button id="prevBtn" class="nav-button" type="button" title="上一个问题">‹</button>
+            <div class="question-title">
+              <span id="questionPosition">0 / 0</span>
+              <h2 id="questionText">--</h2>
+              <p id="questionMeta">--</p>
+            </div>
+            <button id="nextBtn" class="nav-button" type="button" title="下一个问题">›</button>
+          </div>
+
+          <div class="question-insight">
+            <div>
+              <span>当前题 OAG 优势</span>
+              <strong id="currentAdvantage">--</strong>
+            </div>
+            <div class="bars">
+              <label>无 OAG <span id="plainScoreLabel">--</span></label>
+              <div class="bar-track"><div id="plainScoreBar" class="bar-fill plain"></div></div>
+              <label>有 OAG <span id="oagScoreLabel">--</span></label>
+              <div class="bar-track"><div id="oagScoreBar" class="bar-fill oag"></div></div>
+            </div>
+          </div>
+
+          <div class="compare-grid">
+            <article class="answer-column plain-column">
+              <header>
+                <h3>无 OAG</h3>
+                <p id="plainColumnMeta">--</p>
+                <div id="plainDimensionDetails" class="dimension-details"></div>
+              </header>
+              <div id="plainAnswers" class="answer-list"></div>
+            </article>
+            <article class="answer-column oag-column">
+              <header>
+                <h3>有 OAG</h3>
+                <p id="oagColumnMeta">--</p>
+                <div id="oagDimensionDetails" class="dimension-details"></div>
+              </header>
+              <div id="oagAnswers" class="answer-list"></div>
+            </article>
+          </div>
+        </section>
+
+        <section id="allView" class="all-view" hidden>
+          <div class="table-headline">
+            <h2>全部问题</h2>
+            <p id="tableCount">0 个结果</p>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>序号</th>
+                  <th>问题</th>
+                  <th>无 OAG</th>
+                  <th>有 OAG</th>
+                  <th>共识差异</th>
+                  <th>覆盖差异</th>
+                  <th>数值差异</th>
+                  <th>OAG 优势</th>
+                  <th>轮次</th>
+                  <th>状态</th>
+                </tr>
+              </thead>
+              <tbody id="resultTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <template id="answerCardTemplate">
+      <article class="answer-card collapsed">
+        <header>
+          <strong class="run-label"></strong>
+          <span class="length-label"></span>
+        </header>
+        <div class="markdown-body"></div>
+        <textarea class="raw-text" readonly hidden></textarea>
+        <footer>
+          <button class="toggle-expand" type="button">展开</button>
+          <button class="toggle-raw" type="button">查看原文</button>
+          <button class="copy-answer" type="button">复制回答</button>
+        </footer>
+      </article>
+    </template>
+
+    <script src="./app.js?v=20260701-nonblocking" charset="utf-8"></script>
+  </body>
+</html>

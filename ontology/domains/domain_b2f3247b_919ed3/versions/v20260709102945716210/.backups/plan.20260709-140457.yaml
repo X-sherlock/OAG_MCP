@@ -1,0 +1,194 @@
+domain_input:
+  domain_name: 在线课程
+  description: 在线教育课程学习领域，描述学生选课、观看课程、提交作业、教师批改和成绩反馈。
+  objects:
+  - object_type: Student
+    object_type_zh: 学生
+    description: 学习课程的用户。
+  - object_type: Course
+    object_type_zh: 课程
+    description: 在线课程。
+  - object_type: Lesson
+    object_type_zh: 课时
+    description: 课程下的教学单元。
+  - object_type: Assignment
+    object_type_zh: 作业
+    description: 课程作业。
+  - object_type: Teacher
+    object_type_zh: 教师
+    description: 课程教师。
+  attributes:
+  - attribute_name: course_level
+    attribute_name_zh: 课程难度
+    object_types:
+    - Course
+    value_type: string
+    description: 课程难度等级。
+  - attribute_name: lesson_duration
+    attribute_name_zh: 课时时长
+    object_types:
+    - Lesson
+    value_type: number
+    description: 课时持续时间。
+  - attribute_name: assignment_status
+    attribute_name_zh: 作业状态
+    object_types:
+    - Assignment
+    value_type: string
+    description: 作业提交状态。
+  bulk_text: 学生报名课程；课程由多个课时组成；课程包含作业；教师批改作业并反馈成绩。
+plan:
+  summary_zh: 基于用户反馈新增办公室与教室对象，并补充办公与上课关系。整体规划严格遵循OAG事实规范：ObjectType间仅保留明确的实体导航路径（教师-办公室、学生-教室、课程-教室、学生-课程、课程-课时、教师-课程），以支持基础检索与资源调度查询；非所有权关系全面转向Attribute端点，通过引入enrollment_date、submission_score、attendance_rate等可执行属性，将时间过滤、成绩排名、出勤聚合与难度解释等事实查询路径显式化。关系网络已为后续扩展排课冲突检测、学习进度追踪与教学质量评估预留了属性锚点。
+  relationships:
+  - source: ObjectType:Teacher
+    target: ObjectType:Office
+    relation_type: assigned_to
+    relation_name_zh: 分配办公
+    reason_zh: 支持实体导航查询，明确教师与办公空间的归属关系，便于OAG检索师资分布与办公资源占用。
+  - source: ObjectType:Student
+    target: ObjectType:Classroom
+    relation_type: attends_in
+    relation_name_zh: 上课地点
+    reason_zh: 支持实体导航查询，明确学生上课的物理或虚拟空间，便于OAG定位教学场景与考勤轨迹。
+  - source: ObjectType:Course
+    target: ObjectType:Classroom
+    relation_type: scheduled_in
+    relation_name_zh: 排课关联
+    reason_zh: 支持实体导航查询，建立课程与教室的调度关系，便于OAG查询课表安排与空间资源冲突检测。
+  - source: ObjectType:Student
+    target: ObjectType:Course
+    relation_type: enrolls_in
+    relation_name_zh: 报名课程
+    reason_zh: 支持实体导航与检索查询，明确学生与课程的归属关系，便于OAG定位选课记录。
+  - source: ObjectType:Course
+    target: ObjectType:Lesson
+    relation_type: comprises
+    relation_name_zh: 包含课时
+    reason_zh: 支持层级导航查询，OAG可通过该关系遍历课程结构，为后续课时序列与进度计算提供基础。
+  - source: ObjectType:Teacher
+    target: ObjectType:Course
+    relation_type: instructs
+    relation_name_zh: 教授课程
+    reason_zh: 支持实体导航查询，明确教师与课程的负责关系，便于OAG检索师资分配与课程归属。
+  - source: Attribute:enrollment_date
+    target: ObjectType:Student
+    relation_type: filtered_by
+    relation_name_zh: 按学生时间过滤
+    reason_zh: 支持时间序列查询，OAG可沿此关系按学生维度筛选报名时间节点，支持按时间窗口检索选课行为。
+  - source: Attribute:submission_score
+    target: ObjectType:Teacher
+    relation_type: evaluated_by
+    relation_name_zh: 教师评估
+    reason_zh: 支持排名与比较查询，OAG可关联教师批改记录进行成绩分布分析，辅助教学质量评估。
+  - source: Attribute:attendance_rate
+    target: ObjectType:Classroom
+    relation_type: aggregated_to
+    relation_name_zh: 汇总至教室
+    reason_zh: 支持聚合查询，OAG可累加学生上课记录，计算教室利用率或出勤统计，优化空间调度。
+  - source: Attribute:course_level
+    target: Attribute:submission_score
+    relation_type: correlates_with
+    relation_name_zh: 难度与成绩相关
+    reason_zh: 支持解释与比较查询，OAG可分析不同难度课程下学生成绩的分布差异，辅助教学诊断与难度调优。
+  - source: Attribute:lesson_duration
+    target: ObjectType:Course
+    relation_type: aggregated_to
+    relation_name_zh: 汇总至课程
+    reason_zh: 支持聚合查询，OAG可通过该关系累加课时时长，计算课程总学习量或进行时长对比。
+  - source: Attribute:assignment_status
+    target: ObjectType:Student
+    relation_type: triggered_by
+    relation_name_zh: 由学生提交触发
+    reason_zh: 支持过滤与检索查询，OAG可沿此关系按学生维度筛选作业状态，扩展事实查询路径。
+  - source: ObjectType:Teacher
+    target: Attribute:assignment_status
+    relation_type: updates
+    relation_name_zh: 批改更新状态
+    reason_zh: 支持事实扩展与追踪查询，OAG可沿此关系关联教师操作日志，解释作业状态变更原因。
+  open_questions:
+  - 是否需要为‘课程-教室’排课关系补充时间属性（如 schedule_time, time_slot）以支持冲突检测与日历视图查询？
+  - 教室与办公室的空间属性（如 capacity, floor, equipment_list）是否需要在本体中显式定义以支持资源筛选与推荐查询？
+  revision_notes:
+  - 根据用户反馈新增Office与Classroom对象，并补充assigned_to、attends_in、scheduled_in等实体导航关系，严格限制ObjectType间关系仅用于明确的空间与归属导航。
+  - 遵循OAG以属性为核心的事实规划原则，新增enrollment_date、submission_score、attendance_rate等可执行属性，并将非所有权关系全面转向Attribute端点，以支持时间过滤、成绩排名、出勤聚合与难度解释类查询。后续迭代可进一步扩展进度追踪与资源调度属性。
+  objects:
+  - object_type: Student
+    object_type_zh: 学生
+    description: 学习课程的用户。
+  - object_type: Course
+    object_type_zh: 课程
+    description: 在线课程。
+  - object_type: Lesson
+    object_type_zh: 课时
+    description: 课程下的教学单元。
+  - object_type: Assignment
+    object_type_zh: 作业
+    description: 课程作业。
+  - object_type: Teacher
+    object_type_zh: 教师
+    description: 课程教师。
+  - object_type: Office
+    object_type_zh: 办公室
+    description: 教师办公与答疑的物理或虚拟空间。
+  - object_type: Classroom
+    object_type_zh: 教室
+    description: 学生上课与互动的教学空间。
+  attributes:
+  - attribute_name: course_level
+    attribute_name_zh: 课程难度
+    object_types:
+    - Course
+    value_type: string
+    description: 课程难度等级。
+  - attribute_name: lesson_duration
+    attribute_name_zh: 课时时长
+    object_types:
+    - Lesson
+    value_type: number
+    description: 课时持续时间。
+  - attribute_name: assignment_status
+    attribute_name_zh: 作业状态
+    object_types:
+    - Assignment
+    value_type: string
+    description: 作业提交状态。
+  - attribute_name: enrollment_date
+    attribute_name_zh: 报名日期
+    object_types:
+    - Student
+    - Course
+    value_type: string
+    description: 学生报名课程的时间节点。
+  - attribute_name: submission_score
+    attribute_name_zh: 提交成绩
+    object_types:
+    - Assignment
+    - Student
+    value_type: number
+    description: 学生作业提交的得分。
+  - attribute_name: attendance_rate
+    attribute_name_zh: 出勤率
+    object_types:
+    - Student
+    - Course
+    value_type: number
+    description: 学生上课出勤的比例。
+  - attribute_name: office_capacity
+    attribute_name_zh: 办公室容量
+    object_types:
+    - Office
+    value_type: number
+    description: 办公室可容纳的教师数量。
+  - attribute_name: classroom_location
+    attribute_name_zh: 教室位置
+    object_types:
+    - Classroom
+    value_type: string
+    description: 教室的物理地址或虚拟链接。
+feedback: ''
+created_at: '2026-07-09T10:29:45'
+version:
+  version_id: v20260709102945716210
+  parent_version_id: v20260709102726423687
+  summary: 更新规划方案
+  created_at: '2026-07-09T10:29:45'

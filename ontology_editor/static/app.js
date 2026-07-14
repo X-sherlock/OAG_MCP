@@ -410,9 +410,12 @@ const state = {
   originalRaw: null,
   expandedGroups: new Set(),
   hiddenNodeTypes: new Set(),
+  maintenanceMode: false,
   edgeDrawMode: false,
   edgeDraftSource: "",
+  changedEdgeId: "",
   loadingGraph: false,
+  currentDomainId: "",
 };
 
 let cy;
@@ -420,6 +423,8 @@ let currentGraph = { nodes: [], edges: [], summary: { node_count: 0, edge_count:
 let currentOptions = {};
 let currentOagOptions = {};
 let currentPlan = null;
+let currentDomainPlan = null;
+let currentDomainInput = null;
 let currentDiagnostics = { items: [], summary: {} };
 let currentMappingMatrix = { rows: [], summary: {} };
 let oagDraftTimer = null;
@@ -566,6 +571,7 @@ function initCytoscape() {
       { selector: 'node.selected-node[type = "IntentProfile"], node.neighbor-node[type = "IntentProfile"]', style: { "background-color": "#df8181" } },
       { selector: 'node.selected-node[type = "DataTable"], node.neighbor-node[type = "DataTable"]', style: { "background-color": "#8fa3b8" } },
       { selector: ".edge-draft-source", style: { "border-color": "#f59e0b", "border-width": 5, "text-opacity": 1, opacity: 1 } },
+      { selector: ".changed-edge", style: { opacity: 1, width: 4, "line-color": "#f59e0b", "target-arrow-color": "#f59e0b", label: "data(label)" } },
       { selector: ".neighbor-edge", style: { opacity: 0.9, width: 2, "line-color": "#2563eb", "target-arrow-color": "#2563eb" } },
       { selector: ".faded-relation", style: { opacity: 0.08 } },
     ],
@@ -611,6 +617,12 @@ function bindEvents() {
     runLayout();
   });
   on("editModeBtn", "click", toggleEditMode);
+  on("maintenanceModeBtn", "click", toggleMaintenanceMode);
+  on("dockAddNodeBtn", "click", () => openAddNodeDialog("ObjectType", {}, { lockedType: false, allowedTypes: ["ObjectType", "Attribute", "SkillCapability", "IntentProfile", "RelationType", "FactType", "QueryCapability", "DataTable"] }));
+  on("dockDrawEdgeBtn", "click", () => startEdgeCreation(state.selectedNodeId || ""));
+  on("dockRepairRelationBtn", "click", () => openRepairRelationDialog());
+  on("dockValidateBtn", "click", validateOntology);
+  on("dockExitMaintenanceBtn", "click", exitMaintenanceMode);
   on("saveBtn", "click", saveSelected);
   on("saveSelectedBtn", "click", saveSelected);
   on("deleteSelectedBtn", "click", deleteSelected);
@@ -732,7 +744,14 @@ async function guarded(action) {
 
 async function refreshAll({ loadGraph = false } = {}) {
   await Promise.all([loadFiles(), loadOptions(), loadDiagnostics(), loadMappingMatrix()]);
-  if (loadGraph) await loadGraphView();
+  if (loadGraph) {
+    if (state.activeTaskId === "domain_ontology") {
+      if (currentGraph.kind === "domain_graph" && state.currentDomainId) await loadDomainGraph(state.currentDomainId);
+      else await renderDomainOntologyDashboard();
+    } else {
+      await loadGraphView();
+    }
+  }
   renderTaskCandidates();
   renderTaskActionPanel();
   updateEditModeUi();
@@ -867,6 +886,12 @@ function renderTaskActionPanel() {
       `<button id="taskNewSkillBtn" data-edit-only>新增 Skill</button>`,
       `<button id="taskNewEdgeBtn" data-edit-only>创建关系边</button>`,
     ],
+    domain_ontology: [
+      `<button id="taskNewObjectBtn" data-edit-only>新增领域对象</button>`,
+      `<button id="taskNewAttributeBtn" data-edit-only>新增领域属性</button>`,
+      `<button id="taskNewRelationTypeBtn" data-edit-only>新增领域关系类型</button>`,
+      `<button id="taskNewEdgeBtn" data-edit-only>创建领域关系边</button>`,
+    ],
     skill_coverage: [
       `<button id="taskNewSkillBtn" data-edit-only>新增 Skill</button>`,
       `<button id="taskNewQueryBtn" data-edit-only>新增查询能力</button>`,
@@ -990,6 +1015,354 @@ function renderMappingRow(row) {
       <span>${escapeHtml(mappingStatusLabel(row.status))}</span>
     </button>
   `;
+}
+
+async function renderDomainOntologyDashboard() {
+  el("workbenchHome").classList.remove("hidden");
+  el("workbenchHome").classList.add("dashboard-home");
+  const [status, domains] = await Promise.all([
+    api("/api/domain-ontology/config-status"),
+    api("/api/domain-ontology/domains"),
+  ]);
+  el("workbenchHome").innerHTML = `
+    <div class="workbench-panel domain-ontology-panel" data-domain-graph-mode="draft">
+      <div class="oag-page-head">
+        <div>
+          <h1>新领域本体规划</h1>
+          <p>输入领域对象、属性和补充说明，先生成可确认的关系规划，再生成独立领域 YAML。</p>
+        </div>
+        <div class="domain-config-pill ${status.configured ? "ready" : "blocked"}">
+          ${status.configured ? "百炼配置已就绪" : "百炼配置未完成"}
+        </div>
+      </div>
+      <div class="domain-workflow">
+        <div class="domain-step active"><strong>1 录入本体信息</strong><span>对象、属性、补充说明</span></div>
+        <div class="domain-step"><strong>2 生成规划方案</strong><span>展示关系和理由</span></div>
+        <div class="domain-step"><strong>3 确认生成图谱</strong><span>写入独立 YAML 并进入画布</span></div>
+      </div>
+      <div class="oag-card domain-form-card">
+        <h2>领域信息</h2>
+        <div class="oag-form-grid">
+          <label>领域名称<input id="domainName" placeholder="例如 客服工单 / 医疗问诊 / 电商订单"></label>
+          <label class="wide">领域说明<textarea id="domainDescription" rows="3" placeholder="描述这个领域的业务范围、核心流程或数据边界"></textarea></label>
+        </div>
+      </div>
+      <div class="oag-card domain-form-card">
+        <div class="domain-section-head"><h2>对象</h2><button id="domainAddObjectBtn">新增对象</button></div>
+        <div id="domainObjectRows" class="domain-edit-table"></div>
+      </div>
+      <div class="oag-card domain-form-card">
+        <div class="domain-section-head"><h2>属性</h2><button id="domainAddAttributeBtn">新增属性</button></div>
+        <div id="domainAttributeRows" class="domain-edit-table"></div>
+      </div>
+      <div class="oag-card domain-form-card">
+        <h2>批量文本与反馈</h2>
+        <label class="domain-wide-label">批量补充<textarea id="domainBulkText" rows="5" placeholder="可粘贴对象清单、属性说明、业务规则或已有草稿"></textarea></label>
+        <label class="domain-wide-label">对上一版规划的调整意见<textarea id="domainFeedback" rows="3" placeholder="例如：把客户和联系人拆开；订单状态应作为属性；增加商品和订单明细关系"></textarea></label>
+      </div>
+      <div id="domainPlanSummary" class="oag-result-panel">
+        ${renderDomainEmptyState(status, domains.domains || [])}
+      </div>
+      <div class="oag-runbar">
+        <span id="domainRunHint">模型响应期间请保持页面打开，结果会先展示给你确认。</span>
+        <button id="domainRunPlanBtn" class="primary-action">生成规划方案</button>
+      </div>
+    </div>
+  `;
+  renderDomainObjectRows([{ object_type: "", object_type_zh: "", description: "" }]);
+  renderDomainAttributeRows([{ attribute_name: "", attribute_name_zh: "", object_types: "", value_type: "string", description: "" }]);
+  on("domainAddObjectBtn", "click", () => {
+    const rows = readDomainObjectRows();
+    rows.push({ object_type: "", object_type_zh: "", description: "" });
+    renderDomainObjectRows(rows);
+  });
+  on("domainAddAttributeBtn", "click", () => {
+    const rows = readDomainAttributeRows();
+    rows.push({ attribute_name: "", attribute_name_zh: "", object_types: "", value_type: "string", description: "" });
+    renderDomainAttributeRows(rows);
+  });
+  on("domainRunPlanBtn", "click", () => guarded(runDomainOntologyPlan));
+  document.querySelectorAll("[data-load-domain]").forEach((button) => {
+    button.addEventListener("click", () => guarded(() => loadDomainGraph(button.dataset.loadDomain)));
+  });
+  renderDomainOntologyPlaceholder();
+}
+
+function renderDomainEmptyState(status, domains) {
+  const recent = domains.slice(0, 5).map((item) => `
+    <button data-load-domain="${escapeHtml(item.domain_id)}">
+      <strong>${escapeHtml(item.domain_name || item.domain_id)}</strong>
+      <span>${escapeHtml(item.domain_id)} · ${escapeHtml(item.modified_at || "")}</span>
+    </button>
+  `).join("");
+  return `
+    <div class="oag-empty-state">
+      <strong>${status.configured ? "等待输入领域信息" : "请先配置百炼 API Key"}</strong>
+      <span>${status.configured ? "填写对象和属性后生成规划方案。" : `配置文件：${escapeHtml(status.config_path || "")}`}</span>
+    </div>
+    ${recent ? `<div class="domain-recent-list"><h3>已生成领域</h3>${recent}</div>` : ""}
+  `;
+}
+
+function renderDomainObjectRows(rows) {
+  const box = el("domainObjectRows");
+  if (!box) return;
+  box.innerHTML = `
+    <div class="domain-row domain-row-head"><span>对象标识</span><span>中文名</span><span>描述</span><span></span></div>
+    ${rows.map((row, index) => `
+      <div class="domain-row" data-domain-object-row>
+        <input data-field="object_type" value="${escapeHtml(row.object_type || "")}" placeholder="Order">
+        <input data-field="object_type_zh" value="${escapeHtml(row.object_type_zh || "")}" placeholder="订单">
+        <input data-field="description" value="${escapeHtml(row.description || "")}" placeholder="对象说明">
+        <button data-remove-domain-object="${index}">删除</button>
+      </div>
+    `).join("")}
+  `;
+  box.querySelectorAll("[data-remove-domain-object]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const next = readDomainObjectRows().filter((_, index) => String(index) !== button.dataset.removeDomainObject);
+      renderDomainObjectRows(next.length ? next : [{ object_type: "", object_type_zh: "", description: "" }]);
+    });
+  });
+}
+
+function renderDomainAttributeRows(rows) {
+  const box = el("domainAttributeRows");
+  if (!box) return;
+  box.innerHTML = `
+    <div class="domain-row domain-row-head domain-attr-row"><span>属性标识</span><span>中文名</span><span>所属对象</span><span>值类型</span><span>描述</span><span></span></div>
+    ${rows.map((row, index) => `
+      <div class="domain-row domain-attr-row" data-domain-attribute-row>
+        <input data-field="attribute_name" value="${escapeHtml(row.attribute_name || "")}" placeholder="order_status">
+        <input data-field="attribute_name_zh" value="${escapeHtml(row.attribute_name_zh || "")}" placeholder="订单状态">
+        <input data-field="object_types" value="${escapeHtml(Array.isArray(row.object_types) ? row.object_types.join(", ") : row.object_types || "")}" placeholder="Order">
+        <input data-field="value_type" value="${escapeHtml(row.value_type || "string")}" placeholder="string">
+        <input data-field="description" value="${escapeHtml(row.description || "")}" placeholder="属性说明">
+        <button data-remove-domain-attribute="${index}">删除</button>
+      </div>
+    `).join("")}
+  `;
+  box.querySelectorAll("[data-remove-domain-attribute]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const next = readDomainAttributeRows().filter((_, index) => String(index) !== button.dataset.removeDomainAttribute);
+      renderDomainAttributeRows(next.length ? next : [{ attribute_name: "", attribute_name_zh: "", object_types: "", value_type: "string", description: "" }]);
+    });
+  });
+}
+
+function readDomainObjectRows() {
+  return [...document.querySelectorAll("[data-domain-object-row]")].map((row) => readDomainRow(row)).filter((item) => item.object_type || item.object_type_zh || item.description);
+}
+
+function readDomainAttributeRows() {
+  return [...document.querySelectorAll("[data-domain-attribute-row]")].map((row) => {
+    const item = readDomainRow(row);
+    item.object_types = splitCsv(item.object_types);
+    return item;
+  }).filter((item) => item.attribute_name || item.attribute_name_zh || item.description);
+}
+
+function readDomainRow(row) {
+  const item = {};
+  row.querySelectorAll("[data-field]").forEach((input) => {
+    item[input.dataset.field] = input.value.trim();
+  });
+  return item;
+}
+
+function readDomainInput() {
+  const domainName = el("domainName").value.trim();
+  if (!domainName) throw new Error("请先填写领域名称");
+  return {
+    domain_name: domainName,
+    description: el("domainDescription").value.trim(),
+    objects: readDomainObjectRows(),
+    attributes: readDomainAttributeRows(),
+    bulk_text: el("domainBulkText").value.trim(),
+  };
+}
+
+async function runDomainOntologyPlan() {
+  currentDomainInput = readDomainInput();
+  const feedback = el("domainFeedback")?.value.trim() || "";
+  const button = el("domainRunPlanBtn");
+  const originalText = button?.textContent || "";
+  if (button) {
+    button.disabled = true;
+    button.textContent = "规划中...";
+  }
+  el("domainPlanSummary").innerHTML = renderDomainWaiting("正在生成本体关系规划", "百炼模型正在分析对象、属性和潜在关系。");
+  setGraphLoading(true, "正在生成本体关系规划", "请稍候，模型正在规划对象、属性和关系...");
+  try {
+    const result = await api("/api/domain-ontology/plan", {
+      method: "POST",
+      body: JSON.stringify({
+        domain_input: currentDomainInput,
+        previous_plan: currentDomainPlan,
+        feedback,
+      }),
+    });
+    currentDomainPlan = result.plan;
+    renderDomainPlanResult(currentDomainPlan);
+    writeOutput({ domain_plan: currentDomainPlan });
+  } finally {
+    setGraphLoading(false);
+    if (button) {
+      button.disabled = false;
+      button.textContent = originalText || "生成规划方案";
+    }
+  }
+}
+
+function renderDomainWaiting(title, text) {
+  return `
+    <div class="domain-waiting-card">
+      <div class="loading-spinner"></div>
+      <strong>${escapeHtml(title)}</strong>
+      <span>${escapeHtml(text)}</span>
+    </div>
+  `;
+}
+
+function renderDomainPlanResult(plan) {
+  const relationships = plan.relationships || [];
+  el("domainPlanSummary").innerHTML = `
+    <div class="oag-card domain-plan-result">
+      <h2>规划方案</h2>
+      <p>${escapeHtml(plan.summary_zh || "已生成规划方案。")}</p>
+      <div class="oag-summary-chips">
+        <div><span>对象</span><strong>${escapeHtml((plan.objects || []).length)}</strong></div>
+        <div><span>属性</span><strong>${escapeHtml((plan.attributes || []).length)}</strong></div>
+        <div><span>关系</span><strong>${escapeHtml(relationships.length)}</strong></div>
+        <div><span>待确认问题</span><strong>${escapeHtml((plan.open_questions || []).length)}</strong></div>
+      </div>
+      <div class="domain-relationship-list">
+        ${relationships.slice(0, 40).map((item) => `
+          <div>
+            <strong>${escapeHtml(item.relation_name_zh || item.relation_type || "关系")}</strong>
+            <span>${escapeHtml(item.source || "")} -> ${escapeHtml(item.target || "")}</span>
+            <em>${escapeHtml(item.reason_zh || "")}</em>
+          </div>
+        `).join("") || `<div class="muted">模型没有返回关系，请补充输入后重新规划。</div>`}
+      </div>
+      ${renderDomainOpenQuestions(plan)}
+      <div class="domain-confirm-actions">
+        <button id="domainRegeneratePlanBtn">按反馈重新规划</button>
+        <button id="domainGenerateYamlBtn" class="primary-action">确认生成 YAML 和关系图</button>
+      </div>
+    </div>
+  `;
+  on("domainRegeneratePlanBtn", "click", () => guarded(runDomainOntologyPlan));
+  on("domainGenerateYamlBtn", "click", () => guarded(generateDomainOntologyYaml));
+}
+
+function renderDomainOpenQuestions(plan) {
+  const rows = [...(plan.open_questions || []), ...(plan.revision_notes || [])].filter(Boolean);
+  if (!rows.length) return "";
+  return `
+    <div class="oag-issue-list">
+      ${rows.slice(0, 8).map((item) => `<button disabled><strong>需要确认</strong><span>${escapeHtml(item)}</span></button>`).join("")}
+    </div>
+  `;
+}
+
+async function generateDomainOntologyYaml() {
+  if (!currentDomainPlan || !currentDomainInput) throw new Error("请先生成并确认规划方案");
+  const button = el("domainGenerateYamlBtn");
+  const originalText = button?.textContent || "";
+  if (button) {
+    button.disabled = true;
+    button.textContent = "生成中...";
+  }
+  el("domainPlanSummary").innerHTML = renderDomainWaiting("正在生成 YAML 和关系图", "模型正在输出可落盘结构，后端将写入 ontology/domains。");
+  setGraphLoading(true, "正在生成领域关系图", "正在生成 YAML、写入独立领域目录并刷新画布...");
+  try {
+    const result = await api("/api/domain-ontology/generate", {
+      method: "POST",
+      body: JSON.stringify({
+        domain_input: currentDomainInput,
+        plan: currentDomainPlan,
+        feedback: el("domainFeedback")?.value.trim() || "",
+      }),
+    });
+    state.currentDomainId = result.domain_id;
+    currentGraph = result.graph;
+    el("workbenchHome").classList.add("hidden");
+    renderGraph();
+    updateCounts();
+    renderDomainGraphInspector(currentGraph);
+    writeSaveReceipt(result.write || result, "domain_graph");
+  } finally {
+    setGraphLoading(false);
+    if (button) {
+      button.disabled = false;
+      button.textContent = originalText || "确认生成 YAML 和关系图";
+    }
+  }
+}
+
+async function loadDomainGraph(domainId) {
+  if (!domainId) return;
+  state.currentDomainId = domainId;
+  setGraphLoading(true, "正在加载领域关系图", "正在读取 ontology/domains 下的独立 YAML...");
+  try {
+    currentGraph = await api(`/api/domain-ontology/${encodeURIComponent(domainId)}/graph`);
+    el("workbenchHome").classList.add("hidden");
+    renderGraph();
+    updateCounts();
+    renderDomainGraphInspector(currentGraph);
+    writeOutput({ domain_id: domainId, summary: currentGraph.summary });
+  } finally {
+    setGraphLoading(false);
+  }
+}
+
+function renderDomainOntologyPlaceholder() {
+  el("inspectorTitle").textContent = "新领域本体规划";
+  el("inspectorMeta").textContent = "等待输入";
+  el("basicInfo").innerHTML = [
+    ["当前阶段", "录入领域信息"],
+    ["输出位置", "ontology/domains/<domain_id>"],
+    ["模型", "qwen3.5-plus-2026-04-20"],
+    ["画布模式", "domain graph mode"],
+  ].map(([key, value]) => `<div>${escapeHtml(key)}</div><strong>${escapeHtml(value)}</strong>`).join("");
+  el("quickForm").innerHTML = `
+    <div class="oag-result-panel">
+      <div class="oag-empty-state">
+        <strong>生成后在这里查看摘要</strong>
+        <span>确认生成 YAML 后，画布会显示独立领域本体关系图。</span>
+      </div>
+    </div>
+  `;
+  el("relatedEdges").innerHTML = `<div class="muted">生成领域图后显示关系边。</div>`;
+  el("impactPanel").innerHTML = `<div class="muted">生成领域图后显示上下游影响。</div>`;
+  el("pathPanel").innerHTML = "";
+  setRaw({});
+  setInspectorTab("overview");
+}
+
+function renderDomainGraphInspector(graph) {
+  const domain = graph.domain || {};
+  el("inspectorTitle").textContent = domain.domain_name || graph.domain_id || "领域关系图";
+  el("inspectorMeta").textContent = "domain graph mode / 独立领域 YAML";
+  el("basicInfo").innerHTML = [
+    ["领域 ID", graph.domain_id || "-"],
+    ["节点数量", graph.summary?.node_count || 0],
+    ["关系数量", graph.summary?.edge_count || 0],
+    ["保存位置", `ontology/domains/${graph.domain_id || ""}`],
+  ].map(([key, value]) => `<div>${escapeHtml(key)}</div><strong>${escapeHtml(value)}</strong>`).join("");
+  el("quickForm").innerHTML = `
+    <div class="oag-result-panel">
+      <div class="oag-status-card ready">
+        <strong>已生成独立领域关系图</strong>
+        <span>进入编辑模式后，可在画布中新增、修改或删除对象、属性和关系边。</span>
+      </div>
+    </div>
+  `;
+  el("relatedEdges").innerHTML = renderTaskGraphEdgeList((graph.edges || []).map((edge) => edge.data));
+  el("impactPanel").innerHTML = `<div class="impact-card"><strong>领域说明</strong><span>${escapeHtml(domain.description || "-")}</span></div>`;
+  setRaw(graph.domain || {});
+  setInspectorTab("overview");
 }
 
 function renderOagPlanningDashboard() {
@@ -2619,6 +2992,23 @@ async function selectTask(taskId) {
     updateCounts();
     return;
   }
+  if (task.dashboard === "domain_ontology") {
+    cy.elements().remove();
+    currentGraph = { nodes: [], edges: [], summary: { node_count: 0, edge_count: 0 }, search_results: [] };
+    state.currentDomainId = "";
+    currentDomainPlan = null;
+    currentDomainInput = null;
+    renderTaskCandidates();
+    renderDashboardLoading("正在进入新领域本体规划", "正在读取百炼配置状态和已生成领域列表...");
+    setGraphLoading(true, "正在进入新领域本体规划", "正在准备对象、属性和关系规划表单...");
+    try {
+      await renderDomainOntologyDashboard();
+    } finally {
+      setGraphLoading(false);
+    }
+    updateCounts();
+    return;
+  }
   if (!currentOptions.object_types?.length || !currentOagOptions.task_types?.length) {
     renderDashboardLoading(`正在进入${task.title}`, "正在读取本体选项和诊断信息...");
     setGraphLoading(true, `正在进入${task.title}`, "正在读取 ontology YAML 和工作台选项...");
@@ -2699,6 +3089,21 @@ function renderTaskCandidates() {
       </div>
     `;
     bindOagSidebarActions();
+    return;
+  }
+  if (task.id === "domain_ontology") {
+    title.textContent = "新领域规划流程";
+    box.innerHTML = `
+      <div class="oag-sidebar-flow">
+        <div class="oag-flow-step active"><strong>1 录入本体</strong><span>填写领域、对象、属性</span></div>
+        <div class="oag-flow-step"><strong>2 规划关系</strong><span>确认模型给出的关系方案</span></div>
+        <div class="oag-flow-step"><strong>3 生成图谱</strong><span>写入独立 YAML 并在画布调整</span></div>
+      </div>
+      <div class="oag-sidebar-examples">
+        <h3>提示</h3>
+        <button disabled><strong>不会写入主 ontology YAML</strong><span>只保存到 ontology/domains/&lt;domain_id&gt;</span></button>
+      </div>
+    `;
     return;
   }
   if (task.id === "diagnostic") {
@@ -2814,6 +3219,10 @@ function optionsForType(type) {
 }
 
 async function loadGraphView({ keepDashboard = false } = {}) {
+  if (currentGraph.kind === "domain_graph" && state.currentDomainId) {
+    await loadDomainGraph(state.currentDomainId);
+    return;
+  }
   const params = new URLSearchParams({
     view_mode: state.viewMode,
     depth: String(state.depth),
@@ -2859,6 +3268,7 @@ function renderGraph() {
   applyLargeGraphLabelMode();
   applyRelationFilter();
   runLayout();
+  applyChangedEdgeHighlight();
   renderEmptyInspector();
 }
 
@@ -3146,6 +3556,8 @@ function clearSelection() {
   updateSelectedRelationSummary(null);
   if (currentGraph.kind === "task_graph" && currentPlan) {
     showOagPlanInspector(currentPlan);
+  } else if (currentGraph.kind === "domain_graph") {
+    renderDomainGraphInspector(currentGraph);
   } else {
     renderEmptyInspector();
   }
@@ -3154,6 +3566,20 @@ function clearSelection() {
 function clearHighlight() {
   cy.elements().removeClass("selected-node neighbor-node neighbor-edge faded show-label path-highlight");
   applyRelationFilter();
+  applyChangedEdgeHighlight();
+}
+
+function applyChangedEdgeHighlight() {
+  if (!cy) return;
+  cy.edges().removeClass("changed-edge");
+  if (!state.changedEdgeId) return;
+  const edge = cy.getElementById(state.changedEdgeId);
+  if (edge.length) edge.addClass("changed-edge");
+}
+
+function markChangedEdge(edgeId) {
+  state.changedEdgeId = edgeId || "";
+  applyChangedEdgeHighlight();
 }
 
 function centerNode(nodeId) {
@@ -3167,6 +3593,10 @@ function centerNode(nodeId) {
 async function focusOnNode(nodeId, depth = 2) {
   const decision = await confirmDirtyIfNeeded();
   if (decision === "cancel") return;
+  if (currentGraph.kind === "domain_graph") {
+    centerNode(nodeId);
+    return;
+  }
   state.focusId = nodeId;
   state.depth = depth;
   syncControls();
@@ -3228,7 +3658,7 @@ function showEdgeInspector(edge) {
   setRaw(raw);
   setOriginalRaw(data.id, raw, data.origin === "explicit" ? "schema_graph_edges.yaml" : "");
   buildQuickForm("Edge", raw);
-  renderInspectorActions(null);
+  renderEdgeInspectorActions(data, raw);
   showRelatedEdges(null);
   renderEdgeImpact(data);
   el("fieldList").innerHTML = "";
@@ -3275,7 +3705,8 @@ function renderInspectorActions(data) {
     `<button id="pathSkillBtn">到 Skill 路径</button>`,
     `<button id="pathTableBtn">到数据表路径</button>`,
     `<button id="pathIntentBtn">到 Intent 路径</button>`,
-    `<button id="drawEdgeBtn" data-edit-only>创建关系</button>`,
+    `<button id="drawEdgeBtn" data-edit-only>创建出边</button>`,
+    `<button id="createIncomingEdgeBtn" data-edit-only>创建入边</button>`,
   ];
   if (data.type === "ObjectType") {
     buttons.push(`<button id="newAttrBtn" data-edit-only>新增属性</button>`);
@@ -3298,6 +3729,7 @@ function renderInspectorActions(data) {
   el("pathTableBtn").addEventListener("click", () => showPathsToType(data.id, "DataTable"));
   el("pathIntentBtn").addEventListener("click", () => showPathsToType(data.id, "IntentProfile"));
   el("drawEdgeBtn")?.addEventListener("click", () => startEdgeCreation(data.id));
+  el("createIncomingEdgeBtn")?.addEventListener("click", () => openEdgeDialog({ target: data.id }));
   el("tableMappingBtnLocal").addEventListener("click", () => viewTableMapping(data.id));
   el("newAttrBtn")?.addEventListener("click", () => openAddNodeDialog("Attribute", { object_types: [data.identity] }));
   el("newSkillBtn")?.addEventListener("click", () => openSkillCoverageEditor({ target_object_type: data.identity }));
@@ -3306,6 +3738,33 @@ function renderInspectorActions(data) {
   el("toggleSkillBtn")?.addEventListener("click", () => toggleSelectedSkillEnabled());
   el("copySkillBtn")?.addEventListener("click", () => openSkillCoverageEditor({ ...(data.raw || {}), skill_id: `${data.identity}_copy`, skill_name: `${data.label || data.identity} copy` }));
   el("expandFieldsBtn")?.addEventListener("click", () => expandFields(data.id));
+  updateEditModeUi();
+}
+
+function renderEdgeInspectorActions(data, raw) {
+  const box = el("contextActions");
+  const buttons = [
+    `<button id="edgeJumpSourceBtn">定位起点</button>`,
+    `<button id="edgeJumpTargetBtn">定位终点</button>`,
+  ];
+  if (data.origin === "explicit") {
+    buttons.push(`<button id="edgeReasonBtn" data-edit-only>补中文原因</button>`);
+    buttons.push(`<button id="edgeDeleteBtn" data-edit-only>删除显式边</button>`);
+  } else if (!data.is_bundle) {
+    buttons.push(`<button id="edgeMaterializeBtn" data-edit-only>转为显式关系</button>`);
+  }
+  box.innerHTML = buttons.join("");
+  el("edgeJumpSourceBtn")?.addEventListener("click", () => jumpToNode(data.source));
+  el("edgeJumpTargetBtn")?.addEventListener("click", () => jumpToNode(data.target));
+  el("edgeReasonBtn")?.addEventListener("click", () => {
+    const next = readInspectorPayload();
+    next.reason_zh = next.reason_zh || "该关系用于支撑本体事实规划和关系扩展。";
+    setRaw(next);
+    buildQuickForm("Edge", next);
+    markDirty();
+  });
+  el("edgeDeleteBtn")?.addEventListener("click", () => deleteEdge(selected));
+  el("edgeMaterializeBtn")?.addEventListener("click", () => openEdgeDialog({ source: data.source, target: data.target, relation_type: data.type, lockedEndpoints: true }));
   updateEditModeUi();
 }
 
@@ -3399,6 +3858,10 @@ function showFieldList(data) {
 }
 
 async function loadNodeImpact(nodeId) {
+  if (currentGraph.kind === "domain_graph") {
+    renderDomainNodeImpact(nodeId);
+    return;
+  }
   el("impactPanel").innerHTML = `<div class="muted">加载中...</div>`;
   try {
     const context = await api(`/api/node-context/${encodeURIComponent(nodeId)}?include_inferred=true`);
@@ -3406,6 +3869,17 @@ async function loadNodeImpact(nodeId) {
   } catch (error) {
     el("impactPanel").innerHTML = `<div class="muted">${escapeHtml(error.message)}</div>`;
   }
+}
+
+function renderDomainNodeImpact(nodeId) {
+  const incoming = cy.edges().filter((edge) => edge.data("target") === nodeId);
+  const outgoing = cy.edges().filter((edge) => edge.data("source") === nodeId);
+  el("impactPanel").innerHTML = [
+    ["入边数量", incoming.length],
+    ["出边数量", outgoing.length],
+    ["领域 ID", state.currentDomainId || "-"],
+    ["写入范围", "ontology/domains 当前领域目录"],
+  ].map(([title, value]) => `<div class="impact-card"><strong>${escapeHtml(title)}</strong><span>${escapeHtml(value)}</span></div>`).join("");
 }
 
 function renderNodeImpact(context) {
@@ -3448,6 +3922,10 @@ async function jumpToNode(nodeId) {
   const node = cy.getElementById(resolvedNodeId);
   if (node.length) {
     centerNode(resolvedNodeId);
+    return;
+  }
+  if (currentGraph.kind === "domain_graph") {
+    writeOutput({ warning: "当前领域图中没有返回该节点", node_id: resolvedNodeId, domain_id: state.currentDomainId });
     return;
   }
   const nodeType = resolvedNodeId.split(":", 1)[0];
@@ -3521,8 +3999,13 @@ async function saveSelected() {
 }
 
 async function performSave(raw) {
+  if (currentGraph.kind === "domain_graph") {
+    await performDomainSave(raw);
+    return;
+  }
   try {
     let result;
+    let savedEdgeId = "";
     if (selected.isEdge()) {
       result = await api("/api/graph/edge", {
         method: "POST",
@@ -3534,6 +4017,9 @@ async function performSave(raw) {
           properties: edgeProperties(raw),
         }),
       });
+      savedEdgeId = result.edge?.edge_id || raw.edge_id || "";
+      state.focusId = raw.source || raw.from || selected.data("source") || "";
+      state.includeInferred = true;
     } else {
       result = await api("/api/graph/node", {
         method: "POST",
@@ -3547,9 +4033,55 @@ async function performSave(raw) {
     }
     el("lastSaved").textContent = `最近保存：${new Date().toLocaleString()}`;
     clearDirty({ keepEditor: true });
-    writeOutput(result);
+    writeSaveReceipt(result, selected.isEdge() ? "edge" : "node");
     await Promise.all([loadFiles(), loadOptions(), loadDiagnostics()]);
+    if (savedEdgeId) markChangedEdge(savedEdgeId);
     await loadGraphView();
+    if (savedEdgeId) markChangedEdge(savedEdgeId);
+    writeSaveReceipt(result, selected.isEdge() ? "edge" : "node");
+  } catch (error) {
+    markDirty();
+    writeOutput({ error: error.message, detail: error.detail });
+  }
+}
+
+async function performDomainSave(raw) {
+  if (!state.currentDomainId) {
+    writeOutput({ error: "当前没有可写入的领域 ID" });
+    return;
+  }
+  try {
+    let result;
+    let savedEdgeId = "";
+    if (selected.isEdge()) {
+      result = await api(`/api/domain-ontology/${encodeURIComponent(state.currentDomainId)}/edge`, {
+        method: "POST",
+        body: JSON.stringify({
+          edge_id: raw.edge_id,
+          source: raw.source || raw.from,
+          target: raw.target || raw.to,
+          relation_type: raw.relation_type,
+          properties: edgeProperties(raw),
+        }),
+      });
+      savedEdgeId = result.edge?.edge_id || raw.edge_id || "";
+    } else {
+      result = await api(`/api/domain-ontology/${encodeURIComponent(state.currentDomainId)}/node`, {
+        method: "POST",
+        body: JSON.stringify({
+          node_type: selected.data("type"),
+          node_id: selected.id(),
+          data: raw,
+        }),
+      });
+    }
+    el("lastSaved").textContent = `最近保存：${new Date().toLocaleString()}`;
+    clearDirty({ keepEditor: true });
+    writeSaveReceipt(result, selected.isEdge() ? "domain_edge" : "domain_node");
+    if (savedEdgeId) markChangedEdge(savedEdgeId);
+    await loadDomainGraph(state.currentDomainId);
+    if (savedEdgeId) markChangedEdge(savedEdgeId);
+    writeSaveReceipt(result, selected.isEdge() ? "domain_edge" : "domain_node");
   } catch (error) {
     markDirty();
     writeOutput({ error: error.message, detail: error.detail });
@@ -3568,6 +4100,10 @@ async function deleteSelected() {
   }
   const id = selected.id();
   if (!confirm(`确认删除 ${id} ?`)) return;
+  if (currentGraph.kind === "domain_graph") {
+    await deleteDomainNode(id);
+    return;
+  }
   try {
     const result = await api(`/api/graph/node/${encodeURIComponent(id)}`, { method: "DELETE" });
     writeOutput(result);
@@ -3592,6 +4128,29 @@ async function deleteSelected() {
   }
 }
 
+async function deleteDomainNode(id) {
+  try {
+    const result = await api(`/api/domain-ontology/${encodeURIComponent(state.currentDomainId)}/node/${encodeURIComponent(id)}`, { method: "DELETE" });
+    writeOutput(result);
+    selected = null;
+    state.selectedNodeId = "";
+    clearDirty({ keepEditor: false });
+    await loadDomainGraph(state.currentDomainId);
+  } catch (error) {
+    const force = error.status === 409 && confirm("节点仍有关联边。是否同步删除该领域中的相关显式边？");
+    if (force) {
+      const result = await api(`/api/domain-ontology/${encodeURIComponent(state.currentDomainId)}/node/${encodeURIComponent(id)}?force=true`, { method: "DELETE" });
+      writeOutput(result);
+      selected = null;
+      state.selectedNodeId = "";
+      clearDirty({ keepEditor: false });
+      await loadDomainGraph(state.currentDomainId);
+    } else {
+      writeOutput({ error: error.message, detail: error.detail });
+    }
+  }
+}
+
 async function deleteEdge(edge) {
   if (!state.editMode) {
     writeOutput({ error: "当前是浏览模式。请先进入编辑模式。" });
@@ -3603,6 +4162,18 @@ async function deleteEdge(edge) {
     return;
   }
   if (!confirm(`确认删除显式边 ${id} ?`)) return;
+  if (currentGraph.kind === "domain_graph") {
+    try {
+      const result = await api(`/api/domain-ontology/${encodeURIComponent(state.currentDomainId)}/edge/${encodeURIComponent(id)}`, { method: "DELETE" });
+      writeOutput(result);
+      selected = null;
+      clearDirty({ keepEditor: false });
+      await loadDomainGraph(state.currentDomainId);
+    } catch (error) {
+      writeOutput({ error: error.message, detail: error.detail });
+    }
+    return;
+  }
   try {
     const result = await api(`/api/graph/edge/${encodeURIComponent(id)}`, { method: "DELETE" });
     writeOutput(result);
@@ -3929,9 +4500,36 @@ async function toggleEditMode() {
   }
 }
 
+async function toggleMaintenanceMode() {
+  if (state.maintenanceMode) {
+    await exitMaintenanceMode();
+    return;
+  }
+  if (!(await requestEditModeForAction("画布维护"))) return;
+  state.maintenanceMode = true;
+  state.includeInferred = true;
+  document.querySelector(".app-shell").classList.add("maintenance-mode");
+  el("maintenanceDock").hidden = false;
+  syncControls();
+  updateEditModeUi();
+  if (!state.activeTaskId) await selectTask("core_graph");
+  writeOutput({ message: "已进入画布维护模式。可直接点击“画布连线”，再依次点击起点和终点。" });
+}
+
+async function exitMaintenanceMode() {
+  const decision = await confirmDirtyIfNeeded();
+  if (decision === "cancel") return;
+  state.maintenanceMode = false;
+  exitEdgeDrawMode();
+  document.querySelector(".app-shell").classList.remove("maintenance-mode");
+  el("maintenanceDock").hidden = true;
+  updateEditModeUi();
+  writeOutput({ message: "已退出画布维护模式。" });
+}
+
 async function requestEditModeForAction(actionLabel = "编辑") {
   if (state.editMode) return true;
-  if (!confirm(`${actionLabel}会修改 ontology/*.yaml，保存前会自动备份。是否进入编辑模式？`)) {
+  if (!confirm(actionLabel + "会修改 ontology/*.yaml，保存前会自动备份。是否进入编辑模式？")) {
     writeOutput({ message: "已取消进入编辑模式。", action: actionLabel });
     return false;
   }
@@ -3943,6 +4541,7 @@ async function requestEditModeForAction(actionLabel = "编辑") {
 
 function updateEditModeUi() {
   el("editModeBtn").textContent = state.editMode ? "退出编辑模式" : "进入编辑模式";
+  el("maintenanceModeBtn").textContent = state.maintenanceMode ? "维护中" : "画布维护";
   el("editModeStatus").textContent = state.editMode ? "编辑模式" : "浏览模式";
   el("editModeStatus").classList.toggle("dirty", state.editMode);
   document.querySelectorAll("[data-edit-only]").forEach((node) => {
@@ -4006,6 +4605,10 @@ async function confirmDirtyIfNeeded() {
 }
 
 async function openAddNodeDialog(initialType = "SkillCapability", defaults = {}, options = {}) {
+  if (state.activeTaskId === "domain_ontology" || currentGraph.kind === "domain_graph") {
+    await openDomainNodeDialog(initialType, defaults, options);
+    return;
+  }
   if (initialType === "SkillCapability") {
     await openSkillCoverageEditor(defaults || {});
     return;
@@ -4232,6 +4835,112 @@ function readWizardData(formId) {
   return data;
 }
 
+async function openDomainNodeDialog(initialType = "ObjectType", defaults = {}, options = {}) {
+  if (!state.currentDomainId) {
+    writeOutput({ error: "请先确认生成 YAML 和关系图，再在画布中新增领域节点。" });
+    return;
+  }
+  if (!(await requestEditModeForAction(`新增${NODE_TYPE_LABELS[initialType] || "领域节点"}`))) return;
+  const domainTypes = new Set(["ObjectType", "Attribute", "RelationType"]);
+  const allowedTypes = (options.allowedTypes || ["ObjectType", "Attribute", "RelationType"]).filter((type) => domainTypes.has(type));
+  const safeInitial = allowedTypes.includes(initialType) ? initialType : "ObjectType";
+  const lockedType = options.lockedType !== false;
+  el("modalTitle").textContent = `新增${NODE_TYPE_LABELS[safeInitial] || safeInitial}`;
+  el("modalBody").innerHTML = `
+    <div class="wizard-panel">
+      ${lockedType
+        ? `<div class="wizard-fixed-type"><span>新增类型</span><strong>${escapeHtml(NODE_TYPE_LABELS[safeInitial] || safeInitial)}</strong><input id="newDomainNodeType" type="hidden" value="${escapeHtml(safeInitial)}"></div>`
+        : `<label>节点类型</label><select id="newDomainNodeType">${allowedTypes.map((type) => `<option value="${escapeHtml(type)}" ${type === safeInitial ? "selected" : ""}>${escapeHtml(NODE_TYPE_LABELS[type] || type)}</option>`).join("")}</select>`}
+      <div id="newDomainNodeForm" class="form-grid wizard-form"></div>
+      <h3>保存预览</h3>
+      <pre id="newDomainNodePreview"></pre>
+    </div>
+  `;
+  const render = () => renderDomainNodeForm(el("newDomainNodeType").value, defaults);
+  el("newDomainNodeType").addEventListener("change", render);
+  render();
+  openModal(async () => {
+    const nodeType = el("newDomainNodeType").value;
+    const data = readWizardData("newDomainNodeForm");
+    validateWizardRequired(nodeType, data);
+    const nodeId = primaryValueForNode(nodeType, data);
+    if (!nodeId) throw new Error("缺少节点主键字段");
+    const result = await api(`/api/domain-ontology/${encodeURIComponent(state.currentDomainId)}/node`, {
+      method: "POST",
+      body: JSON.stringify({ node_type: nodeType, node_id: nodeId, data }),
+    });
+    writeSaveReceipt(result, "domain_node");
+    await loadDomainGraph(state.currentDomainId);
+  });
+}
+
+function renderDomainNodeForm(nodeType, defaults = {}) {
+  const form = el("newDomainNodeForm");
+  const fields = {
+    ObjectType: [["object_type"], ["object_type_zh"], ["description", "textarea"], ["enabled", "boolean"]],
+    Attribute: [["attribute_name"], ["attribute_name_zh"], ["object_types", "domain_objects"], ["value_type"], ["description", "textarea"], ["aliases", "tags"], ["enabled", "boolean"]],
+    RelationType: [["relation_type"], ["relation_name_zh"], ["description", "textarea"], ["direction"], ["enabled", "boolean"]],
+  }[nodeType] || [];
+  form.innerHTML = "";
+  fields.forEach(([name, kind]) => {
+    const wrap = document.createElement("div");
+    wrap.className = "wizard-field";
+    const label = document.createElement("label");
+    label.innerHTML = `<span>${escapeHtml(fieldLabel(name))}</span><em class="${isWizardFieldRequired(nodeType, name) ? "required" : "optional"}">${isWizardFieldRequired(nodeType, name) ? "必填" : "可选"}</em>`;
+    const input = createDomainWizardInput({ name, kind: kind || "text" }, defaults[name]);
+    input.dataset.field = name;
+    input.dataset.kind = kind || "text";
+    input.addEventListener("input", updateDomainNodePreview);
+    input.addEventListener("change", updateDomainNodePreview);
+    wrap.append(label, input);
+    form.append(wrap);
+  });
+  updateDomainNodePreview();
+}
+
+function createDomainWizardInput(field, value) {
+  if (field.kind === "textarea") {
+    const textarea = document.createElement("textarea");
+    textarea.value = formatFormValue(value);
+    return textarea;
+  }
+  if (field.kind === "boolean") {
+    const select = document.createElement("select");
+    select.innerHTML = `<option value="true">启用</option><option value="false">停用</option>`;
+    select.value = String(value !== false);
+    return select;
+  }
+  if (field.kind === "domain_objects") {
+    const group = document.createElement("div");
+    group.className = "multi-choice-list";
+    const selectedValues = new Set(Array.isArray(value) ? value : value ? [value] : []);
+    const options = allNodeOptions().filter((item) => item.type === "ObjectType");
+    group.innerHTML = options.length
+      ? options.map((item) => `
+        <label class="multi-choice-item">
+          <input type="checkbox" value="${escapeHtml(item.id.replace(/^ObjectType:/, ""))}" ${selectedValues.has(item.id.replace(/^ObjectType:/, "")) ? "checked" : ""}>
+          <span>${escapeHtml(item.label || item.id)}</span>
+        </label>
+      `).join("")
+      : `<div class="muted">当前领域还没有对象</div>`;
+    return group;
+  }
+  const input = document.createElement("input");
+  input.placeholder = field.kind === "tags" ? "多个值用逗号分隔" : `填写${fieldLabel(field.name)}`;
+  input.value = Array.isArray(value) ? value.join(", ") : value || "";
+  return input;
+}
+
+function updateDomainNodePreview() {
+  const preview = el("newDomainNodePreview");
+  if (!preview) return;
+  try {
+    preview.textContent = JSON.stringify(readWizardData("newDomainNodeForm"), null, 2);
+  } catch (error) {
+    preview.textContent = error.message;
+  }
+}
+
 function primaryValueForNode(nodeType, data) {
   const keys = {
     ObjectType: "object_type",
@@ -4271,6 +4980,7 @@ async function openEdgeDialog(prefill = {}) {
       <label>关系类型</label>
       <select id="edgeRelation"></select>
       <small id="edgeRelationHelp" class="wizard-help">先选起点和终点，系统会优先推荐常用建模关系。</small>
+      <div id="edgeCandidateStatus" class="edge-candidate-status"></div>
       <label>关系来源</label>
       <input value="显式关系，将写入 YAML" disabled>
       <label>中文原因</label>
@@ -4283,20 +4993,35 @@ async function openEdgeDialog(prefill = {}) {
       <textarea id="edgeProps" rows="6" placeholder="{}">{}</textarea>
     </div>
   `;
-  const refreshRelationOptions = () => {
+  let candidateRequestId = 0;
+  const refreshRelationOptions = async () => {
     const select = el("edgeRelation");
     const source = el("edgeSource").value.trim();
     const target = el("edgeTarget").value.trim();
     const current = select.value || prefill.relation_type || "";
-    const relationOptions = edgeRelationOptions(source, target);
-    select.innerHTML = `<option value="">请选择关系类型</option>${relationOptions.map((item) => `<option value="${escapeHtml(item.value)}">${escapeHtml(relationOptionLabel(item))}</option>`).join("")}`;
+    const requestId = ++candidateRequestId;
+    let candidateData = null;
+    if (currentGraph.kind === "domain_graph") {
+      candidateData = { relation_options: edgeRelationOptions(source, target), endpoint_status: { errors: [] }, duplicate_edges: [] };
+    } else {
+      try {
+        const params = new URLSearchParams({ source, target });
+        candidateData = await api(`/api/maintenance/relation-candidates?${params.toString()}`);
+      } catch (error) {
+        candidateData = { relation_options: edgeRelationOptions(source, target), endpoint_status: { errors: [error.message] }, duplicate_edges: [] };
+      }
+    }
+    if (requestId !== candidateRequestId) return;
+    const relationOptions = candidateData.relation_options?.length ? candidateData.relation_options : edgeRelationOptions(source, target);
+    select.innerHTML = `<option value="">请选择关系类型</option>${relationOptions.map((item) => `<option value="${escapeHtml(item.value)}">${escapeHtml(relationOptionLabel(item))}${item.duplicate ? " · 已存在" : ""}</option>`).join("")}`;
     if ([...select.options].some((option) => option.value === current)) select.value = current;
-    el("edgeRelationHelp").textContent = source && target ? "已根据起点和终点类型刷新推荐关系。" : "先选起点和终点，系统会优先推荐常用建模关系。";
+    el("edgeRelationHelp").textContent = source && target ? "已根据起点和终点刷新推荐关系，并检查重复边。" : "先选起点和终点，系统会优先推荐常用建模关系。";
+    renderEdgeCandidateStatus(candidateData);
   };
   ["edgeSource", "edgeTarget"].forEach((id) => {
     const node = el(id);
-    node?.addEventListener("input", refreshRelationOptions);
-    node?.addEventListener("change", refreshRelationOptions);
+    node?.addEventListener("input", () => refreshRelationOptions());
+    node?.addEventListener("change", () => refreshRelationOptions());
   });
   refreshRelationOptions();
   openModal(async () => {
@@ -4312,16 +5037,47 @@ async function openEdgeDialog(prefill = {}) {
     if (applicableIntents.length) props.applicable_intents = applicableIntents;
     if (!source || !target || !relationType) throw new Error("起点节点、终点节点、关系类型都不能为空");
     if (source === target && !confirm("这是自环边，是否确认？")) return;
-    const result = await api("/api/graph/edge", {
+    const edgeUrl = currentGraph.kind === "domain_graph"
+      ? `/api/domain-ontology/${encodeURIComponent(state.currentDomainId)}/edge`
+      : "/api/graph/edge";
+    const result = await api(edgeUrl, {
       method: "POST",
       body: JSON.stringify({ source, target, relation_type: relationType, properties: props }),
     });
-    writeOutput(result);
-    await refreshAll({ loadGraph: Boolean(state.focusId) });
+    state.focusId = source;
+    state.depth = 2;
+    state.includeInferred = true;
+    state.changedEdgeId = result.edge?.edge_id || `${source}__${relationType}__${target}`;
+    writeSaveReceipt(result, "edge");
+    if (currentGraph.kind === "domain_graph") await loadDomainGraph(state.currentDomainId);
+    else await refreshAll({ loadGraph: true });
+    markChangedEdge(state.changedEdgeId);
+    writeSaveReceipt(result, "edge");
   });
 }
 
+async function openRepairRelationDialog() {
+  if (state.selectedNodeId) {
+    await startEdgeCreation(state.selectedNodeId);
+    return;
+  }
+  await openEdgeDialog({});
+}
+
 function edgeRelationOptions(source = "", target = "") {
+  if (currentGraph.kind === "domain_graph") {
+    const rows = [
+      { value: "has_attribute", label: "拥有属性", type: "RelationType", group: "基础关系" },
+      ...allNodeOptions()
+        .filter((item) => item.type === "RelationType")
+        .map((item) => ({ value: item.id.replace(/^RelationType:/, ""), label: item.label || item.id, type: "RelationType", group: "领域关系" })),
+    ];
+    const map = new Map();
+    rows.forEach((item) => {
+      if (!map.has(item.value)) map.set(item.value, item);
+    });
+    return [...map.values()];
+  }
   const map = new Map();
   const add = (item, group = "") => {
     const value = item.value || item.id;
@@ -4381,13 +5137,40 @@ function nodeTypeFromId(nodeId = "") {
 
 function relationOptionLabel(item) {
   const value = item.value || item.id || "";
-  const label = item.label && item.label !== value ? item.label : relationTypeLabel(value);
-  const group = item.group ? `${item.group} · ` : "";
-  return `${group}${label}（${value}）`;
+  const label = item.label_zh || (item.label && item.label !== value ? item.label : relationTypeLabel(value));
+  const group = item.group_zh || item.group;
+  const groupPrefix = group ? `${group} · ` : "";
+  return `${groupPrefix}${label}（${value}）`;
 }
 
 function relationTypeLabel(type) {
   return RELATION_TYPE_LABELS[type] || type || "";
+}
+
+function renderEdgeCandidateStatus(data = {}) {
+  const box = el("edgeCandidateStatus");
+  if (!box) return;
+  const errors = data.endpoint_status?.errors || [];
+  const duplicates = data.duplicate_edges || [];
+  const candidates = data.candidate_targets || [];
+  const rows = [];
+  if (errors.length) rows.push(`<div class="candidate-error"><strong>端点问题</strong><span>${errors.map(escapeHtml).join("；")}</span></div>`);
+  if (duplicates.length) {
+    rows.push(`<div class="candidate-warning"><strong>已存在关系</strong><span>${duplicates.map((edge) => `${escapeHtml(edge.relation_type)} / ${escapeHtml(edge.origin)}`).join("；")}</span></div>`);
+  }
+  if (!errors.length && !duplicates.length && data.source && data.target) {
+    rows.push(`<div class="candidate-ok"><strong>可创建显式关系</strong><span>${escapeHtml(data.source.id)} -> ${escapeHtml(data.target.id)}</span></div>`);
+  }
+  if (candidates.length) {
+    rows.push(`<div class="candidate-targets"><strong>可点击候选终点</strong>${candidates.slice(0, 12).map((item) => `<button type="button" data-candidate-target="${escapeHtml(item.id)}">${escapeHtml(item.label || item.id)}</button>`).join("")}</div>`);
+  }
+  box.innerHTML = rows.join("") || `<div class="candidate-muted">选择起点和终点后显示重复关系和推荐状态。</div>`;
+  box.querySelectorAll("[data-candidate-target]").forEach((button) => {
+    button.addEventListener("click", () => {
+      el("edgeTarget").value = button.dataset.candidateTarget;
+      el("edgeTarget").dispatchEvent(new Event("change"));
+    });
+  });
 }
 
 function readableNodeName(nodeId) {
@@ -4731,6 +5514,26 @@ async function api(url, options = {}) {
 
 function writeOutput(value) {
   el("output").textContent = JSON.stringify(value, null, 2);
+}
+
+function writeSaveReceipt(result, objectType = "") {
+  const write = result.write || result;
+  const validation = result.validation || {};
+  writeOutput({
+    ok: result.ok !== false,
+    object_type: objectType,
+    action: result.action || write.action || "",
+    saved_id: result.edge?.edge_id || result.write?.node_id || result.node_id || "",
+    yaml_file: write.file || result.file || "",
+    backup_path: write.backup_path || result.backup_path || "",
+    validation: {
+      error_count: (validation.errors || []).length,
+      warning_count: (validation.warnings || []).length,
+      errors: validation.errors || [],
+      warnings: validation.warnings || [],
+    },
+    raw: result,
+  });
 }
 
 function diffJson(oldValue, newValue) {

@@ -1,0 +1,243 @@
+- relation_type: classifies_bond
+  relation_name_zh: 主体分类债券
+  description: 主体性质决定债券类型，支持按发行主体资质筛选债券池与行业准入分析。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: cross_sector_region
+  relation_name_zh: 区域行业交叉
+  description: 地区与行业交叉映射，支持区域信用风险排查与周期性行业轮动分析。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: covers_principal
+  relation_name_zh: 担保覆盖面值
+  description: 担保金额覆盖面值，支持增信覆盖率计算与代偿能力压力测试。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: tracks_underwriting
+  relation_name_zh: 承销业绩追踪
+  description: 承销角色与发行日期关联，支持承销商业绩归因、市场份额统计与簿记建档分析。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: tracks_outlook_change
+  relation_name_zh: 展望变化追踪
+  description: 评级展望与日期联动，支持评级调整趋势追踪、负面展望预警与信用资质演变分析。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: drives_spread
+  relation_name_zh: 评级驱动利差
+  description: 评级等级驱动信用利差，支持信用资质与定价偏离的量化映射、相对价值评估与套利机会识别。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: quantifies_default
+  relation_name_zh: 违约量化统计
+  description: 违约类型与金额关联，支持违约损失率(LGD)测算、风险事件分类统计与处置优先级排序。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: impacts_rating
+  relation_name_zh: 处置影响评级
+  description: 处置状态影响评级，支持信用修复路径追踪、重组效果评估与风险出清进度监控。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: records_pricing
+  relation_name_zh: 日期记录净价
+  description: 交易日期记录净价，支持历史价格序列构建、波动率计算与趋势行情过滤。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: liquidity_yield_link
+  relation_name_zh: 流动性收益关联
+  description: 成交量与到期收益率关联，支持流动性溢价分析、市场深度评估与异常交易识别。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: executes_trade
+  relation_name_zh: 交易执行记录
+  description: 交易日期与价格关联，支持交易执行质量评估、滑点分析与历史成交回溯。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: directional_flow
+  relation_name_zh: 资金流向监控
+  description: 交易方向与金额关联，支持资金流向监控、买卖力量对比与换手率计算。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: compares_execution
+  relation_name_zh: 执行价格对比
+  description: 交易价格与行情净价对比，支持定价效率评估、折溢价分析与套利策略验证。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: allocates_bond
+  relation_name_zh: 持仓标的分配
+  description: 持仓数量关联具体债券，支持单券集中度监控、流动性压力测试与限额管理。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: calculates_pnl
+  relation_name_zh: 成本市值计算
+  description: 成本与市值计算浮动盈亏，支持未实现收益追踪、持仓绩效归因与税务筹划。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: aggregates_portfolio
+  relation_name_zh: 净值市值聚合
+  description: 净值与持仓市值聚合，支持组合整体估值、资金杠杆分析与资产配置比例计算。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: adjusts_position
+  relation_name_zh: 交易调整持仓
+  description: 交易金额调整持仓数量，支持动态仓位管理、成本重算与交易流水对账。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: schedules_cashflow
+  relation_name_zh: 现金流排期
+  description: 支付日期与金额排期，支持现金流匹配、再投资规划与到期收益测算。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: defines_tenor_structure
+  relation_name_zh: 期限结构定义
+  description: 支付类型与到期日定义期限结构，支持含权债（回售/赎回）现金流重估与久期调整。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: defines_yield_curve
+  relation_name_zh: 曲线形态定义
+  description: 期限点与曲线收益率定义曲线形态，支持利率期限结构分析、曲线拟合与骑乘策略构建。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: benchmarks_yield
+  relation_name_zh: 基准收益对比
+  description: 曲线收益率作为基准对比到期收益率，支持相对价值评估、定价偏离分析与基准跟踪。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: measures_interest_risk
+  relation_name_zh: 利率风险度量
+  description: 久期与凸性联合度量利率风险，支持非线性价格变动预测、免疫策略构建与对冲比例计算。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: tracks_portfolio_risk
+  relation_name_zh: 组合风险追踪
+  description: 最大回撤追踪组合风险，支持风险预算控制、极端行情压力测试与业绩归因。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: prices_default_risk
+  relation_name_zh: 利差定价风险
+  description: 信用利差定价违约风险，支持风险溢价分解、信用事件冲击量化与风险调整后收益计算。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: matches_investment_scope
+  relation_name_zh: 投资范围匹配
+  description: 投资者类型与组合类型匹配，支持合规准入检查、产品定位分析与监管报送。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: issued_by
+  relation_name_zh: 债券发行归属
+  description: 债券发行归属，支持实体级发行主体穿透、集团授信管理与关联风险排查。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: contains_holding
+  relation_name_zh: 组合持仓归属
+  description: 组合持仓归属，支持资产层级穿透、持仓明细查询与组合结构可视化。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType

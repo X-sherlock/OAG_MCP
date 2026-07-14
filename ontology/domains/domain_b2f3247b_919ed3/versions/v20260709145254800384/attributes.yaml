@@ -1,0 +1,123 @@
+- attribute_name: grade
+  attribute_name_zh: 年级
+  description: 学生所属的年级阶段，用于学段划分与跨年级学情对比。
+  value_type: string
+  object_types:
+  - Student
+  aliases: []
+  enabled: true
+- attribute_name: class
+  attribute_name_zh: 班级
+  description: 学生所属的行政或教学班级，用于班级级资源分配、考勤统计与作业追踪。
+  value_type: string
+  object_types:
+  - Student
+  aliases: []
+  enabled: true
+- attribute_name: course_level
+  attribute_name_zh: 课程难度
+  description: 课程难度等级。
+  value_type: string
+  object_types:
+  - Course
+  aliases: []
+  enabled: true
+- attribute_name: lesson_duration
+  attribute_name_zh: 课时时长
+  description: 课时持续时间。
+  value_type: number
+  object_types:
+  - Lesson
+  aliases: []
+  enabled: true
+- attribute_name: assignment_status
+  attribute_name_zh: 作业状态
+  description: 作业提交状态。
+  value_type: string
+  object_types:
+  - Assignment
+  aliases: []
+  enabled: true
+- attribute_name: enrollment_date
+  attribute_name_zh: 报名日期
+  description: 学生报名课程的时间节点。
+  value_type: string
+  object_types:
+  - Student
+  - Course
+  aliases: []
+  enabled: true
+- attribute_name: submission_score
+  attribute_name_zh: 提交成绩
+  description: 学生作业提交的得分。
+  value_type: number
+  object_types:
+  - Assignment
+  - Student
+  aliases: []
+  enabled: true
+- attribute_name: attendance_rate
+  attribute_name_zh: 出勤率
+  description: 学生上课出勤的比例。
+  value_type: number
+  object_types:
+  - Student
+  - Course
+  aliases: []
+  enabled: true
+- attribute_name: office_capacity
+  attribute_name_zh: 办公室容量
+  description: 办公室可容纳的教师数量。
+  value_type: number
+  object_types:
+  - Office
+  aliases: []
+  enabled: true
+- attribute_name: classroom_location
+  attribute_name_zh: 教室位置
+  description: 教室的物理地址或虚拟链接。
+  value_type: string
+  object_types:
+  - Classroom
+  aliases: []
+  enabled: true
+- attribute_name: course_progress
+  attribute_name_zh: 课程进度
+  description: 学生已完成课时占比，用于学习进度监控与干预。
+  value_type: number
+  object_types:
+  - Student
+  aliases: []
+  enabled: true
+- attribute_name: assignment_due_date
+  attribute_name_zh: 作业截止日
+  description: 作业提交的最晚期限，用于逾期分析与催交策略制定。
+  value_type: string
+  object_types:
+  - Assignment
+  aliases: []
+  enabled: true
+- attribute_name: lesson_completion_status
+  attribute_name_zh: 课时完成状态
+  description: 课时观看或练习完成状态，用于内容消费分析。
+  value_type: string
+  object_types:
+  - Lesson
+  aliases: []
+  enabled: true
+- attribute_name: teacher_department
+  attribute_name_zh: 教师所属院系
+  description: 教师行政归属院系，用于师资管理与跨部门协作查询。
+  value_type: string
+  object_types:
+  - Teacher
+  aliases: []
+  enabled: true
+- attribute_name: course_instructor
+  attribute_name_zh: 授课教师
+  description: 课程主讲教师标识，用于师资查询与课程归属导航。
+  value_type: string
+  object_types:
+  - Course
+  aliases: []
+  enabled: true

@@ -1,0 +1,333 @@
+domain_input:
+  domain_name: 基金
+  description: 基金领域本体关系图
+  objects: []
+  attributes: []
+  bulk_text: ''
+  ddl_documents:
+  - name: table_info.sql
+    content: "CREATE TABLE `ifund_all_info` (\r\n  `COD_FUND` varchar(20) COLLATE\
+      \ utf8mb4_bin NOT NULL COMMENT '基金产品代码',\r\n  `NAM_FUND` varchar(300) COLLATE\
+      \ utf8mb4_bin DEFAULT NULL COMMENT '基金产品名称',\r\n  `NAM_FUND_SHORT` varchar(200)\
+      \ COLLATE utf8mb4_bin DEFAULT NULL COMMENT '基金产品简称',\r\n  `COD_FUND_TYP` char(2)\
+      \ COLLATE utf8mb4_bin DEFAULT NULL COMMENT '基金产品一级分类代码',\r\n  `COD_FUND_STS`\
+      \ char(2) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '基金状态代码',\r\n  `COD_FUND_RSK_LVL`\
+      \ char(2) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '产品风险等级：01-低，02-中低，03-中，04-中高，05-高',\r\
+      \n  `COD_FUND_LIVE_STS` char(1) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '基金存续状态：0-在售，1-非在售',\r\
+      \n  `COD_PURC_STS` char(1) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '基金产品购买状态',\r\
+      \n  `COD_REDM_STS` char(1) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '基金产品赎回状态',\r\
+      \n  `AMT_IDV_FST_SSCR_MIN` decimal(18,2) DEFAULT NULL COMMENT '对私首次认购下限金额',\r\
+      \n  `AMT_IDV_FST_PURC_MIN` decimal(18,2) DEFAULT NULL COMMENT '对私申购首次购买额下限',\r\
+      \n  `AMT_AIP_MIN` decimal(18,2) DEFAULT NULL COMMENT '最小定投额',\r\n  `AMT_AIP_MAX`\
+      \ decimal(18,2) DEFAULT NULL COMMENT '最大定投额',\r\n  `VLU_DCNT_PURC` decimal(16,8)\
+      \ DEFAULT NULL COMMENT '申购费率折扣（取自基金）',\r\n  `VLU_DCNT_AIP` decimal(16,8) DEFAULT\
+      \ NULL COMMENT '定投费率折扣（取自基金）',\r\n  `VLU_DCNT_SSCR` decimal(16,8) DEFAULT NULL\
+      \ COMMENT '认购费率折扣（取自基金）',\r\n  `IND_PENS_FUND` char(1) COLLATE utf8mb4_bin DEFAULT\
+      \ NULL COMMENT '养老金产品标识',\r\n  `IND_IDX_FUND` char(2) COLLATE utf8mb4_bin DEFAULT\
+      \ NULL COMMENT '指数基金产品标识',\r\n  `IND_FOF` char(2) COLLATE utf8mb4_bin DEFAULT\
+      \ NULL COMMENT '是否为FOF基金',\r\n  `IND_ETF` char(2) COLLATE utf8mb4_bin DEFAULT\
+      \ NULL COMMENT '是否为ETF基金',\r\n  `COD_BONS_TYP` char(1) COLLATE utf8mb4_bin DEFAULT\
+      \ NULL COMMENT '分红方式',\r\n  `AMT_FUND_SCL` decimal(20,4) DEFAULT NULL COMMENT\
+      \ '基金规模（元）',\r\n  `DATE_FUND_MKT` char(8) COLLATE utf8mb4_bin DEFAULT NULL COMMENT\
+      \ '基金产品上市日期',\r\n  `DATE_FUND_CRT` char(8) COLLATE utf8mb4_bin DEFAULT NULL\
+      \ COMMENT '基金产品成立日期/基金合同生效日期',\r\n\r\n  `VLU_MAX_DD_THIS_YEAR` decimal(20,8)\
+      \ DEFAULT NULL COMMENT '最大回撤（今年以来）',\r\n  `VLU_MAX_DD_MTH` decimal(20,8) DEFAULT\
+      \ NULL COMMENT '最大回撤（近一月）',\r\n  `VLU_MAX_DD_3_MTH` decimal(20,8) DEFAULT NULL\
+      \ COMMENT '最大回撤（近三月）',\r\n  `VLU_MAX_DD_6_MTH` decimal(20,8) DEFAULT NULL COMMENT\
+      \ '最大回撤（近六月）',\r\n  `VLU_MAX_DD_YEAR` decimal(20,8) DEFAULT NULL COMMENT '最大回撤（近一年）',\r\
+      \n  `VLU_MAX_DD_2_YEAR` decimal(20,8) DEFAULT NULL COMMENT '最大回撤（近两年）',\r\n\
+      \  `VLU_MAX_DD_3_YEAR` decimal(20,8) DEFAULT NULL COMMENT '最大回撤（近三年）',\r\n \
+      \ `VLU_MAX_DD_YEAR_CRT` decimal(20,8) DEFAULT NULL COMMENT '最大回撤（成立以来）',\r\n\
+      \  `ID_VLU_MAX_DD_KIND_RANK_THIS_YEAR` decimal(20,4) DEFAULT NULL COMMENT '最大回撤同类排名（今年以来）',\r\
+      \n  `ID_VLU_MAX_DD_KIND_RANK_MTH` decimal(20,4) DEFAULT NULL COMMENT '最大回撤同类排名（近一月）',\r\
+      \n  `ID_VLU_MAX_DD_KIND_RANK_3_MTH` decimal(20,4) DEFAULT NULL COMMENT '最大回撤同类排名（近三月）',\r\
+      \n  `ID_VLU_MAX_DD_KIND_RANK_6_MTH` decimal(20,4) DEFAULT NULL COMMENT '最大回撤同类排名（近六月）',\r\
+      \n  `ID_VLU_MAX_DD_KIND_RANK_YEAR` decimal(20,4) DEFAULT NULL COMMENT '最大回撤同类排名（近一年）',\r\
+      \n  `ID_VLU_MAX_DD_KIND_RANK_2_YEAR` decimal(20,4) DEFAULT NULL COMMENT '最大回撤同类排名（近二年）',\r\
+      \n  `ID_VLU_MAX_DD_KIND_RANK_3_YEAR` decimal(20,4) DEFAULT NULL COMMENT '最大回撤同类排名（近三年）',\r\
+      \n  `ID_VLU_MAX_DD_KIND_RANK_CRT` decimal(20,4) DEFAULT NULL COMMENT '最大回撤同类排名（成立以来）',\r\
+      \n\r\n  `VLU_STD_THIS_YEAR` decimal(20,8) DEFAULT NULL COMMENT '标准差（波动率）（今年以来）',\r\
+      \n  `VLU_STD_MTH` decimal(20,8) DEFAULT NULL COMMENT '标准差（波动率）（近一月）',\r\n  `VLU_STD_3_MTH`\
+      \ decimal(20,8) DEFAULT NULL COMMENT '标准差（波动率）（近三月）',\r\n  `VLU_STD_6_MTH` decimal(20,8)\
+      \ DEFAULT NULL COMMENT '标准差（波动率）（近六月）',\r\n  `VLU_STD_YEAR` decimal(20,8) DEFAULT\
+      \ NULL COMMENT '标准差（波动率）（近一年）',\r\n  `VLU_STD_2_YEAR` decimal(20,8) DEFAULT\
+      \ NULL COMMENT '标准差（波动率）（近二年）',\r\n  `VLU_STD_3_YEAR` decimal(20,8) DEFAULT\
+      \ NULL COMMENT '标准差（波动率）（近三年）',\r\n  `VLU_STD_YEAR_CRT` decimal(20,8) DEFAULT\
+      \ NULL COMMENT '标准差（波动率）（成立以来）',\r\n  `ID_STD_KIND_RANK_THIS_YEAR` decimal(20,4)\
+      \ DEFAULT NULL COMMENT '标准差（波动率）同类排名（今年以来）',\r\n  `ID_STD_KIND_RANK_MTH` decimal(20,4)\
+      \ DEFAULT NULL COMMENT '标准差（波动率）同类排名（近一月）',\r\n  `ID_STD_KIND_RANK_3_MTH` decimal(20,4)\
+      \ DEFAULT NULL COMMENT '标准差（波动率）同类排名（近三月）',\r\n  `ID_STD_KIND_RANK_6_MTH` decimal(20,4)\
+      \ DEFAULT NULL COMMENT '标准差（波动率）同类排名（近六月）',\r\n  `ID_STD_KIND_RANK_YEAR` decimal(20,4)\
+      \ DEFAULT NULL COMMENT '标准差（波动率）同类排名（近一年）',\r\n  `ID_STD_KIND_RANK_2_YEAR` decimal(20,4)\
+      \ DEFAULT NULL COMMENT '标准差（波动率）同类排名（近二年）',\r\n  `ID_STD_KIND_RANK_3_YEAR` decimal(20,4)\
+      \ DEFAULT NULL COMMENT '标准差（波动率）同类排名（近三年）',\r\n  `ID_STD_KIND_RANK_YEAR_CRT`\
+      \ decimal(20,4) DEFAULT NULL COMMENT '标准差（波动率）同类排名（成立以来）',\r\n\r\n  `VLU_SHARP_THIS_YEAR`\
+      \ decimal(20,8) DEFAULT NULL COMMENT '夏普比率（今年以来）',\r\n  `VLU_SHARP_MTH` decimal(20,8)\
+      \ DEFAULT NULL COMMENT '夏普比率（近一月）',\r\n  `VLU_SHARP_3_MTH` decimal(20,8) DEFAULT\
+      \ NULL COMMENT '夏普比率（近三月）',\r\n  `VLU_SHARP_6_MTH` decimal(20,8) DEFAULT NULL\
+      \ COMMENT '夏普比率（近六月）',\r\n  `VLU_SHARP_YEAR` decimal(20,8) DEFAULT NULL COMMENT\
+      \ '夏普比率（近一年）',\r\n  `VLU_SHARP_2_YEAR` decimal(20,8) DEFAULT NULL COMMENT '夏普比率（近二年）',\r\
+      \n  `VLU_SHARP_3_YEAR` decimal(20,8) DEFAULT NULL COMMENT '夏普比率（近三年）',\r\n \
+      \ `VLU_SHARP_YEAR_CRT` decimal(20,8) DEFAULT NULL COMMENT '夏普比率（成立以来）',\r\n\
+      \  `ID_SHARP_KIND_RANK_THIS_YEAR` decimal(20,4) DEFAULT NULL COMMENT '夏普比率同类排名（今年以来）',\r\
+      \n  `ID_SHARP_KIND_RANK_MTH` decimal(20,4) DEFAULT NULL COMMENT '夏普比率同类排名（近一月）',\r\
+      \n  `ID_SHARP_KIND_RANK_3_MTH` decimal(20,4) DEFAULT NULL COMMENT '夏普比率同类排名（近三月）',\r\
+      \n  `ID_SHARP_KIND_RANK_6_MTH` decimal(20,4) DEFAULT NULL COMMENT '夏普比率同类排名（近六月）',\r\
+      \n  `ID_SHARP_KIND_RANK_YEAR` decimal(20,4) DEFAULT NULL COMMENT '夏普比率同类排名（近一年）',\r\
+      \n  `ID_SHARP_KIND_RANK_2_YEAR` decimal(20,4) DEFAULT NULL COMMENT '夏普比率同类排名（近二年）',\r\
+      \n  `ID_SHARP_KIND_RANK_3_YEAR` decimal(20,4) DEFAULT NULL COMMENT '夏普比率同类排名（近三年）',\r\
+      \n  `ID_SHARP_KIND_RANK_CRT` decimal(20,4) DEFAULT NULL COMMENT '夏普比率同类排名（成立以来）',\r\
+      \n\r\n  `VLU_FUND_NAV` decimal(20,8) DEFAULT NULL COMMENT '基金单位净值',\r\n  `VLU_FUND_NAV_ACML`\
+      \ decimal(20,8) DEFAULT NULL COMMENT '基金累计净值',\r\n  `AMT_TEN_THOU_EARN` decimal(20,6)\
+      \ DEFAULT NULL COMMENT '每万份基金单位收益',\r\n  `VLU_SEVN_DAY_YEAR_RATE` decimal(20,6)\
+      \ DEFAULT NULL COMMENT '七日年化收益率',\r\n  `VLU_ANNL_MEAN_YLD` decimal(28,6) DEFAULT\
+      \ NULL COMMENT '平均年化收益率',\r\n  `VLU_NAV_GRTH_THIS_DAY` decimal(20,6) DEFAULT\
+      \ NULL COMMENT '收益率（今日）',\r\n  `VLU_NAV_GRTH_THIS_WEEK` decimal(20,6) DEFAULT\
+      \ NULL COMMENT '收益率（本周以来）',\r\n  `VLU_NAV_GRTH_THIS_MTH` decimal(20,6) DEFAULT\
+      \ NULL COMMENT '收益率（本月以来）',\r\n  `VLU_NAV_GRTH_THIS_QTR` decimal(20,6) DEFAULT\
+      \ NULL COMMENT '收益率（本季以来）',\r\n  `VLU_NAV_GRTH_THIS_YEAR` decimal(20,6) DEFAULT\
+      \ NULL COMMENT '收益率（本年以来）',\r\n  `VLU_NAV_GRTH_WEEK` decimal(20,6) DEFAULT NULL\
+      \ COMMENT '收益率（一周）',\r\n  `VLU_NAV_GRTH_MTH` decimal(20,6) DEFAULT NULL COMMENT\
+      \ '收益率（一个月）',\r\n  `VLU_NAV_GRTH_3_MTH` decimal(20,6) DEFAULT NULL COMMENT '收益率（三个月）',\r\
+      \n  `VLU_NAV_GRTH_6_MTH` decimal(20,6) DEFAULT NULL COMMENT '收益率（六个月）',\r\n\
+      \  `VLU_NAV_GRTH_YEAR` decimal(20,6) DEFAULT NULL COMMENT '收益率（一年）',\r\n  `VLU_NAV_GRTH_2_YEAR`\
+      \ decimal(20,6) DEFAULT NULL COMMENT '收益率（两年）',\r\n  `VLU_NAV_GRTH_3_YEAR` decimal(20,6)\
+      \ DEFAULT NULL COMMENT '收益率（三年）',\r\n  `VLU_NAV_GRTH_4_YEAR` decimal(20,6) DEFAULT\
+      \ NULL COMMENT '收益率（四年）',\r\n  `VLU_NAV_GRTH_5_YEAR` decimal(20,6) DEFAULT NULL\
+      \ COMMENT '收益率（五年）',\r\n  `ID_RET_KIND_WEEK_RANK` decimal(20,4) DEFAULT NULL\
+      \ COMMENT '收益率同类排名（一周）',\r\n  `ID_RET_KIND_MTH_RANK` decimal(20,4) DEFAULT NULL\
+      \ COMMENT '收益率同类排名（一个月）',\r\n  `ID_RET_KIND_3_MTH_RANK` decimal(20,4) DEFAULT\
+      \ NULL COMMENT '收益率同类排名（三个月）',\r\n  `ID_RET_KIND_6_MTH_RANK` decimal(20,4) DEFAULT\
+      \ NULL COMMENT '收益率同类排名（六个月）',\r\n  `ID_RET_KIND_YEAR_RANK` decimal(20,4) DEFAULT\
+      \ NULL COMMENT '收益率同类排名（一年）',\r\n  `ID_RET_KIND_2_YEAR_RANK` decimal(20,4) DEFAULT\
+      \ NULL COMMENT '收益率同类排名（两年）',\r\n  `ID_RET_KIND_3_YEAR_RANK` decimal(20,4) DEFAULT\
+      \ NULL COMMENT '收益率同类排名（三年）',\r\n  `ID_RET_KIND_4_YEAR_RANK` decimal(20,4) DEFAULT\
+      \ NULL COMMENT '收益率同类排名（四年）',\r\n  `ID_RET_KIND_5_YEAR_RANK` decimal(20,4) DEFAULT\
+      \ NULL COMMENT '收益率同类排名（五年）',\r\n\r\n  `VLU_EX_BM_WEEK` decimal(20,8) DEFAULT\
+      \ NULL COMMENT '超额收益（近一周）',\r\n  `VLU_EX_BM_MTH` decimal(20,8) DEFAULT NULL\
+      \ COMMENT '超额收益（近一月）',\r\n  `VLU_EX_BM_3_MTH` decimal(20,8) DEFAULT NULL COMMENT\
+      \ '超额收益（近三月）',\r\n  `VLU_EX_BM_6_MTH` decimal(20,8) DEFAULT NULL COMMENT '超额收益（近六月）',\r\
+      \n  `VLU_EX_BM_YEAR` decimal(20,8) DEFAULT NULL COMMENT '超额收益（近一年）',\r\n  `VLU_EX_BM_2_YEAR`\
+      \ decimal(20,8) DEFAULT NULL COMMENT '超额收益（近二年）',\r\n  `VLU_EX_BM_3_YEAR` decimal(20,8)\
+      \ DEFAULT NULL COMMENT '超额收益（近三年）',\r\n  `VLU_EX_BM_5_YEAR` decimal(20,8) DEFAULT\
+      \ NULL COMMENT '超额收益（近五年）',\r\n  `VLU_EX_BM_CRT` decimal(20,8) DEFAULT NULL\
+      \ COMMENT '超额收益（成立以来）',\r\n\r\n  `NAM_MAGR_1` varchar(160) COLLATE utf8mb4_bin\
+      \ DEFAULT NULL COMMENT '基金经理姓名',\r\n  `COD_SEX_1` varchar(2) COLLATE utf8mb4_bin\
+      \ DEFAULT NULL COMMENT '性别',\r\n  `DAYS_OF_MAGR_1` int DEFAULT NULL COMMENT\
+      \ '基金从业天数',\r\n  `AMT_MAGR_SCL_1` decimal(18,2) DEFAULT NULL COMMENT '管理规模（元）',\r\
+      \n  `VLU_MAGR_TERM_RET_1` decimal(18,2) DEFAULT NULL COMMENT '在管期间任期回报（百分数）',\r\
+      \n  `DATE_STRT_1` char(8) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '产品被基金经理开始管理的日期',\r\
+      \n  `NAM_MAGR_2` varchar(160) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '基金经理姓名',\r\
+      \n  `COD_SEX_2` varchar(2) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '性别',\r\n\
+      \  `DAYS_OF_MAGR_2` int DEFAULT NULL COMMENT '基金从业天数',\r\n  `AMT_MAGR_SCL_2`\
+      \ decimal(18,2) DEFAULT NULL COMMENT '管理规模（元）',\r\n  `VLU_MAGR_TERM_RET_2` decimal(18,2)\
+      \ DEFAULT NULL COMMENT '在管期间任期回报（百分数）',\r\n  `DATE_STRT_2` char(8) COLLATE utf8mb4_bin\
+      \ DEFAULT NULL COMMENT '产品被基金经理开始管理的日期',\r\n  `NAM_MAGR_3` varchar(160) COLLATE\
+      \ utf8mb4_bin DEFAULT NULL COMMENT '基金经理姓名',\r\n  `COD_SEX_3` varchar(2) COLLATE\
+      \ utf8mb4_bin DEFAULT NULL COMMENT '性别',\r\n  `DAYS_OF_MAGR_3` int DEFAULT NULL\
+      \ COMMENT '基金从业天数',\r\n  `AMT_MAGR_SCL_3` decimal(18,2) DEFAULT NULL COMMENT\
+      \ '管理规模（元）',\r\n  `VLU_MAGR_TERM_RET_3` decimal(18,2) DEFAULT NULL COMMENT '在管期间任期回报（百分数）',\r\
+      \n  `DATE_STRT_3` char(8) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '产品被基金经理开始管理的日期',\r\
+      \n  `NAM_MAGR_4` varchar(160) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '基金经理姓名',\r\
+      \n  `COD_SEX_4` varchar(2) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '性别',\r\n\
+      \  `DAYS_OF_MAGR_4` int DEFAULT NULL COMMENT '基金从业天数',\r\n  `AMT_MAGR_SCL_4`\
+      \ decimal(18,2) DEFAULT NULL COMMENT '管理规模（元）',\r\n  `VLU_MAGR_TERM_RET_4` decimal(18,2)\
+      \ DEFAULT NULL COMMENT '在管期间任期回报（百分数）',\r\n  `DATE_STRT_4` char(8) COLLATE utf8mb4_bin\
+      \ DEFAULT NULL COMMENT '产品被基金经理开始管理的日期',\r\n  `NAM_MAGR_5` varchar(160) COLLATE\
+      \ utf8mb4_bin DEFAULT NULL COMMENT '基金经理姓名',\r\n  `COD_SEX_5` varchar(2) COLLATE\
+      \ utf8mb4_bin DEFAULT NULL COMMENT '性别',\r\n  `DAYS_OF_MAGR_5` int DEFAULT NULL\
+      \ COMMENT '基金从业天数',\r\n  `AMT_MAGR_SCL_5` decimal(18,2) DEFAULT NULL COMMENT\
+      \ '管理规模（元）',\r\n  `VLU_MAGR_TERM_RET_5` decimal(18,2) DEFAULT NULL COMMENT '在管期间任期回报（百分数）',\r\
+      \n  `DATE_STRT_5` char(8) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '产品被基金经理开始管理的日期',\r\
+      \n\r\n  `PCT_STOCK_ASSET` decimal(20,4) DEFAULT NULL COMMENT '股票资产分布',\r\n \
+      \ `PCT_CCY_ASSET` decimal(20,4) DEFAULT NULL COMMENT '货币资产分布',\r\n  `PCT_BOND_ASSET`\
+      \ decimal(20,4) DEFAULT NULL COMMENT '债券资产分布',\r\n  `PCT_OTHER_ASSET` decimal(20,4)\
+      \ DEFAULT NULL COMMENT '其他资产分布',\r\n  `PCT_FUND_ASSET` decimal(20,4) DEFAULT\
+      \ NULL COMMENT '基金资产分布',\r\n  `NAM_CMPY` varchar(200) COLLATE utf8mb4_bin DEFAULT\
+      \ NULL COMMENT '基金公司名称',\r\n\r\n  PRIMARY KEY (`COD_FUND`)\r\n) ENGINE=InnoDB\
+      \ DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='基金产品全量信息';"
+plan:
+  summary_zh: 基于提供的基金产品全量信息表（ifund_all_info），规划了以“基金产品”为核心对象的本体模型。该模型涵盖了基金的基本属性、风险指标、收益表现、基金经理信息及资产配置分布。由于DDL中未包含显式的外键约束，且所有字段均归属于单一宽表，因此主要建立对象内部的属性归属关系，以及通过关键属性（如基金代码）隐含的逻辑关联。重点提取了用于查询、比较和排名的数值型指标（如收益率、夏普比率、最大回撤等）作为核心事实属性。
+  relationships:
+  - source: ObjectType:FUND_PRODUCT
+    target: Attribute:COD_FUND
+    relation_type: has_attribute
+    relation_name_zh: 拥有属性
+    reason_zh: 基金代码是基金产品的唯一标识符，属于其基本属性。
+  - source: ObjectType:FUND_PRODUCT
+    target: Attribute:NAM_FUND
+    relation_type: has_attribute
+    relation_name_zh: 拥有属性
+    reason_zh: 基金名称是基金产品的核心描述属性。
+  - source: ObjectType:FUND_PRODUCT
+    target: Attribute:VLU_SHARP_YEAR
+    relation_type: has_attribute
+    relation_name_zh: 拥有属性
+    reason_zh: 近一年夏普比率是衡量基金风险调整后收益的关键性能指标。
+  - source: ObjectType:FUND_PRODUCT
+    target: Attribute:VLU_NAV_GRTH_YEAR
+    relation_type: has_attribute
+    relation_name_zh: 拥有属性
+    reason_zh: 近一年收益率是用户评估基金历史表现的最常用指标之一。
+  - source: ObjectType:FUND_PRODUCT
+    target: Attribute:NAM_MAGR_1
+    relation_type: has_attribute
+    relation_name_zh: 拥有属性
+    reason_zh: 基金经理姓名是基金产品的重要管理属性，直接影响投资者决策。
+  - source: ObjectType:FUND_PRODUCT
+    target: Attribute:PCT_STOCK_ASSET
+    relation_type: has_attribute
+    relation_name_zh: 拥有属性
+    reason_zh: 股票资产占比反映了基金的投资风格和风险暴露程度。
+  - source: Attribute:COD_FUND
+    target: Attribute:NAM_FUND
+    relation_type: identifies
+    relation_name_zh: 标识对应
+    reason_zh: 基金代码与基金名称存在一一对应关系，用于在系统中唯一识别特定基金实体。
+  - source: Attribute:NAM_MAGR_1
+    target: Attribute:VLU_MAGR_TERM_RET_1
+    relation_type: evaluates_performance_of
+    relation_name_zh: 评估表现
+    reason_zh: 任期回报直接评价了该基金经理在管理该基金期间的业绩表现。
+  open_questions:
+  - DDL中仅包含一张宽表，缺乏独立的基金经理表或基金公司表，是否需要在后续迭代中将基金经理信息规范化为独立对象以支持更复杂的‘经理-基金’多对多关系分析？
+  - 当前数据为快照数据还是时间序列数据？如果是时间序列，是否需要引入‘时间点’对象来承载净值、收益率等随时间变化的属性？
+  revision_notes:
+  - 初始规划阶段，基于单表结构建立了基础的对象-属性映射。
+  - 将扁平化的列转换为结构化的属性和对象，确保OAG可执行的事实查询需求得到覆盖。
+  - 注意：由于缺乏外键，暂时未建立跨表的导航关系，仅保留了表内逻辑强相关的属性间关系。
+  objects:
+  - object_type: FUND_PRODUCT
+    object_type_zh: 基金产品
+    description: 代表具体的公募基金产品实例，包含其基本信息、风险收益特征及持仓结构。
+  attributes:
+  - attribute_name: COD_FUND
+    attribute_name_zh: 基金代码
+    object_types:
+    - FUND_PRODUCT
+    value_type: string
+    description: 基金的唯一交易代码，用于标识特定的基金产品。
+  - attribute_name: NAM_FUND
+    attribute_name_zh: 基金名称
+    object_types:
+    - FUND_PRODUCT
+    value_type: string
+    description: 基金的法定全称。
+  - attribute_name: NAM_FUND_SHORT
+    attribute_name_zh: 基金简称
+    object_types:
+    - FUND_PRODUCT
+    value_type: string
+    description: 基金的常用简称，便于快速识别。
+  - attribute_name: COD_FUND_TYP
+    attribute_name_zh: 基金一级分类代码
+    object_types:
+    - FUND_PRODUCT
+    value_type: string
+    description: 根据监管或行业标准划分的基金大类代码，如股票型、债券型等。
+  - attribute_name: COD_FUND_STS
+    attribute_name_zh: 基金状态代码
+    object_types:
+    - FUND_PRODUCT
+    value_type: string
+    description: 表示基金当前的运作状态，如正常、清盘、暂停等。
+  - attribute_name: COD_FUND_RSK_LVL
+    attribute_name_zh: 产品风险等级
+    object_types:
+    - FUND_PRODUCT
+    value_type: string
+    description: 基金的风险评级，范围从低到高（01-05）。
+  - attribute_name: COD_FUND_LIVE_STS
+    attribute_name_zh: 基金存续状态
+    object_types:
+    - FUND_PRODUCT
+    value_type: string
+    description: 标识基金是否在售，0-在售，1-非在售。
+  - attribute_name: AMT_FUND_SCL
+    attribute_name_zh: 基金规模
+    object_types:
+    - FUND_PRODUCT
+    value_type: number
+    description: 基金的资产净值总额，单位为元。
+  - attribute_name: DATE_FUND_CRT
+    attribute_name_zh: 成立日期
+    object_types:
+    - FUND_PRODUCT
+    value_type: date
+    description: 基金合同生效日期或产品成立日期。
+  - attribute_name: VLU_MAX_DD_YEAR
+    attribute_name_zh: 最大回撤（近一年）
+    object_types:
+    - FUND_PRODUCT
+    value_type: number
+    description: 在过去一年内，基金净值从最高点到最低点的最大跌幅，衡量下行风险。
+  - attribute_name: VLU_SHARP_YEAR
+    attribute_name_zh: 夏普比率（近一年）
+    object_types:
+    - FUND_PRODUCT
+    value_type: number
+    description: 过去一年的风险调整后收益指标，值越高表示单位风险获得的超额回报越高。
+  - attribute_name: VLU_NAV_GRTH_YEAR
+    attribute_name_zh: 收益率（一年）
+    object_types:
+    - FUND_PRODUCT
+    value_type: number
+    description: 过去一年的基金净值增长率。
+  - attribute_name: ID_RET_KIND_YEAR_RANK
+    attribute_name_zh: 收益率同类排名（一年）
+    object_types:
+    - FUND_PRODUCT
+    value_type: integer
+    description: 该基金近一年收益率在同类型基金中的排名位置。
+  - attribute_name: NAM_MAGR_1
+    attribute_name_zh: 基金经理姓名
+    object_types:
+    - FUND_PRODUCT
+    value_type: string
+    description: 主要负责管理该基金的基金经理姓名。
+  - attribute_name: VLU_MAGR_TERM_RET_1
+    attribute_name_zh: 在管期间任期回报
+    object_types:
+    - FUND_PRODUCT
+    value_type: number
+    description: 现任基金经理管理该基金期间的累计回报率。
+  - attribute_name: PCT_STOCK_ASSET
+    attribute_name_zh: 股票资产分布
+    object_types:
+    - FUND_PRODUCT
+    value_type: number
+    description: 基金资产中投资于股票的比例。
+  - attribute_name: PCT_BOND_ASSET
+    attribute_name_zh: 债券资产分布
+    object_types:
+    - FUND_PRODUCT
+    value_type: number
+    description: 基金资产中投资于债券的比例。
+  - attribute_name: NAM_CMPY
+    attribute_name_zh: 基金公司名称
+    object_types:
+    - FUND_PRODUCT
+    value_type: string
+    description: 发行和管理该基金的基金管理公司全称。
+  ddl_processing:
+    file_count: 1
+    raw_bytes: 13850
+    compact_bytes: 9958
+    compression_ratio: 0.719
+    table_count: 1
+    column_count: 145
+    foreign_key_count: 0
+    estimated_tokens: 2887
+    single_call_token_budget: 60000
+    over_single_call_token_budget: false
+    execution_mode: single
+    chunk_count: 1
+    diagnostic_count: 0
+feedback: ''
+created_at: '2026-07-13T16:55:51'
+version:
+  version_id: v20260713165551850082
+  parent_version_id: ''
+  summary: 基于提供的基金产品全量信息表（ifund_all_info），规划了以“基金产品”为核心对象的本体模型。该模型涵盖了基金的基本属性、风险指标、收益表现、基金经理
+  operation_summary: 基于提供的基金产品全量信息表（ifund_all_info），规划了以“基金产品”为核心对象的本体模型。该模型涵盖了基金的基本属性、风险指标、收益表现、基金经理信息及资产配置分布。由于DDL中未包含显式的外键约束，且所有字段均归属于单一宽表，因此主要建立对象内部的属性归属关系，以及通过关键属性（如基金代码）隐含的逻辑关联。重点提取了用于查询、比较和排名的数值型指标（如收益率、夏普比率、最大回撤等）作为核心事实属性。
+  created_at: '2026-07-13T16:55:51'

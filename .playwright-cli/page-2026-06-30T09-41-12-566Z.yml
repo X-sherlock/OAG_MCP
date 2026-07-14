@@ -1,0 +1,224 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: OAG
+      - generic [ref=e6]:
+        - heading "回答稳定性对比" [level=1] [ref=e7]
+        - paragraph [ref=e8]: 对比无 OAG 与有 OAG 在 5 轮重复问答中的一致性表现
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - text: 导入 CSV
+        - button "导入 CSV" [active]
+      - button "读取默认数据" [ref=e11] [cursor=pointer]
+  - main [ref=e12]:
+    - region "整体概览" [ref=e13]:
+      - article [ref=e14]:
+        - generic [ref=e15]: 问题数
+        - strong [ref=e16]: "1"
+        - text: 5 条回答记录
+      - article [ref=e17]:
+        - generic [ref=e18]: 无 OAG 稳定性
+        - strong [ref=e19]: "35.1"
+        - text: 朴素回答平均分
+      - article [ref=e20]:
+        - generic [ref=e21]: 有 OAG 稳定性
+        - strong [ref=e22]: "86.8"
+        - text: OAG 回答平均分
+      - article [ref=e23]:
+        - generic [ref=e24]: OAG 优势
+        - strong [ref=e25]: "+51.7"
+        - text: 整体提升明显
+    - region "搜索与视图控制" [ref=e26]:
+      - generic [ref=e27]:
+        - searchbox "搜索问题、序号或回答内容" [ref=e28]
+        - button "×" [ref=e29] [cursor=pointer]
+      - combobox "筛选问题" [ref=e30]:
+        - option "全部问题" [selected]
+        - option "OAG 结论更稳定"
+        - option "OAG 事实更稳定"
+        - option "存在事实冲突"
+        - option "有效样本不足"
+        - option "低稳定性问题"
+        - option "数据异常"
+      - combobox "排序方式" [ref=e31]:
+        - option "按序号" [selected]
+        - option "OAG 优势从高到低"
+        - option "OAG 优势从低到高"
+        - option "结论一致性从高到低"
+        - option "事实一致性从高到低"
+        - option "要点覆盖从高到低"
+        - option "无 OAG 稳定性从低到高"
+        - option "有 OAG 稳定性从低到高"
+      - tablist "视图" [ref=e32]:
+        - button "单题对比" [ref=e33] [cursor=pointer]
+        - button "全量列表" [ref=e34] [cursor=pointer]
+    - generic [ref=e35]:
+      - generic [ref=e36]:
+        - button "‹" [disabled] [ref=e37]
+        - generic [ref=e38]:
+          - text: 1 / 1
+          - heading "稳定性算法验证" [level=2] [ref=e311]
+          - paragraph [ref=e40]: 序号 1 · 5 轮记录
+        - button "›" [disabled] [ref=e41]
+      - generic [ref=e42]:
+        - generic [ref=e43]:
+          - text: 当前题 OAG 优势
+          - strong [ref=e44]: "+51.7"
+        - generic [ref=e45]:
+          - generic [ref=e46]: 无 OAG 35.1
+          - generic [ref=e49]: 有 OAG 86.8
+      - generic [ref=e52]:
+        - article [ref=e53]:
+          - generic [ref=e54]:
+            - heading "无 OAG" [level=3] [ref=e55]
+            - paragraph [ref=e56]: 稳定性 35.1 · 字面相似 52.2% · 完全重复 0% · 有效回答 5 条 · 缺失 0 条
+            - generic [ref=e57]:
+              - generic [ref=e312]:
+                - generic [ref=e313]:
+                  - generic [ref=e314]: 结论一致性
+                  - strong [ref=e315]: "40.5"
+                - generic [ref=e318]:
+                  - generic [ref=e319]: 事实一致性
+                  - strong [ref=e320]: "0"
+                - generic [ref=e322]:
+                  - generic [ref=e323]: 要点覆盖
+                  - strong [ref=e324]: "59.3"
+                - generic [ref=e327]:
+                  - generic [ref=e328]: 结构一致性
+                  - strong [ref=e329]: "100"
+              - generic [ref=e332]:
+                - generic [ref=e333]:
+                  - heading "稳定结论" [level=4] [ref=e334]
+                  - paragraph [ref=e335]: 稳定结论：基金A收益更高，最大回撤为 -5.1%，夏普比率 1.2，适合稳健投资者；基金A收益更低，最大回撤为 -5.1%，夏普比率 1.2，不适合稳健投资者；基金A收益更高，需要更多数据；离群轮次：第3轮、第5轮
+                - generic [ref=e336]:
+                  - heading "稳定事实" [level=4] [ref=e337]
+                  - paragraph [ref=e338]: 稳定事实：未抽取到可比事实；冲突/漂移：最大回撤 出现 -5.1% / -8.8% / -3.0%；夏普 出现 1.2 / 0.5 / 2.0
+                - generic [ref=e339]:
+                  - heading "要点覆盖" [level=4] [ref=e340]
+                  - paragraph [ref=e341]: 共同要点：收益；漂移要点：回撤、夏普
+                - generic [ref=e342]:
+                  - heading "结构一致性" [level=4] [ref=e343]
+                  - paragraph [ref=e344]: 结构特征：以普通段落为主
+          - generic [ref=e92]:
+            - article [ref=e345]:
+              - generic [ref=e346]:
+                - strong [ref=e347]: 第 1 轮
+                - generic [ref=e348]: 35 字符
+              - paragraph [ref=e350]: 基金A收益更高，最大回撤为 -5.1%，夏普比率 1.2，适合稳健投资者。
+              - generic [ref=e351]:
+                - button "展开" [ref=e352] [cursor=pointer]
+                - button "查看原文" [ref=e353] [cursor=pointer]
+                - button "复制回答" [ref=e354] [cursor=pointer]
+            - article [ref=e355]:
+              - generic [ref=e356]:
+                - strong [ref=e357]: 第 2 轮
+                - generic [ref=e358]: 35 字符
+              - paragraph [ref=e360]: 基金A收益更高，最大回撤为 -8.8%，夏普比率 0.5，适合稳健投资者。
+              - generic [ref=e361]:
+                - button "展开" [ref=e362] [cursor=pointer]
+                - button "查看原文" [ref=e363] [cursor=pointer]
+                - button "复制回答" [ref=e364] [cursor=pointer]
+            - article [ref=e365]:
+              - generic [ref=e366]:
+                - strong [ref=e367]: 第 3 轮
+                - generic [ref=e368]: 36 字符
+              - paragraph [ref=e370]: 基金A收益更低，最大回撤为 -5.1%，夏普比率 1.2，不适合稳健投资者。
+              - generic [ref=e371]:
+                - button "展开" [ref=e372] [cursor=pointer]
+                - button "查看原文" [ref=e373] [cursor=pointer]
+                - button "复制回答" [ref=e374] [cursor=pointer]
+            - article [ref=e375]:
+              - generic [ref=e376]:
+                - strong [ref=e377]: 第 4 轮
+                - generic [ref=e378]: 32 字符
+              - paragraph [ref=e380]: 基金A收益更高，最大回撤为 -3.0%，夏普比率 2.0，可以考虑。
+              - generic [ref=e381]:
+                - button "展开" [ref=e382] [cursor=pointer]
+                - button "查看原文" [ref=e383] [cursor=pointer]
+                - button "复制回答" [ref=e384] [cursor=pointer]
+            - article [ref=e385]:
+              - generic [ref=e386]:
+                - strong [ref=e387]: 第 5 轮
+                - generic [ref=e388]: 14 字符
+              - paragraph [ref=e390]: 基金A收益更高，需要更多数据。
+              - generic [ref=e391]:
+                - button "展开" [ref=e392] [cursor=pointer]
+                - button "查看原文" [ref=e393] [cursor=pointer]
+                - button "复制回答" [ref=e394] [cursor=pointer]
+        - article [ref=e146]:
+          - generic [ref=e147]:
+            - heading "有 OAG" [level=3] [ref=e148]
+            - paragraph [ref=e149]: 稳定性 86.8 · 字面相似 90.8% · 完全重复 10% · 有效回答 5 条 · 缺失 0 条
+            - generic [ref=e150]:
+              - generic [ref=e395]:
+                - generic [ref=e396]:
+                  - generic [ref=e397]: 结论一致性
+                  - strong [ref=e398]: "67"
+                - generic [ref=e401]:
+                  - generic [ref=e402]: 事实一致性
+                  - strong [ref=e403]: "100"
+                - generic [ref=e406]:
+                  - generic [ref=e407]: 要点覆盖
+                  - strong [ref=e408]: "100"
+                - generic [ref=e411]:
+                  - generic [ref=e412]: 结构一致性
+                  - strong [ref=e413]: "100"
+              - generic [ref=e416]:
+                - generic [ref=e417]:
+                  - heading "稳定结论" [level=4] [ref=e418]
+                  - paragraph [ref=e419]: 稳定结论：基金A收益更高，最大回撤为 -5.1%，夏普比率 1.2，适合稳健投资者；适合稳健投资者；基金A收益更高；离群轮次：第4轮
+                - generic [ref=e420]:
+                  - heading "稳定事实" [level=4] [ref=e421]
+                  - paragraph [ref=e422]: 稳定事实：最大回撤 -5.1%；夏普 1.2；冲突/漂移：未发现关键事实冲突
+                - generic [ref=e423]:
+                  - heading "要点覆盖" [level=4] [ref=e424]
+                  - paragraph [ref=e425]: 共同要点：收益、回撤、夏普；漂移要点：无明显漂移
+                - generic [ref=e426]:
+                  - heading "结构一致性" [level=4] [ref=e427]
+                  - paragraph [ref=e428]: 结构特征：以普通段落为主
+          - generic [ref=e185]:
+            - article [ref=e429]:
+              - generic [ref=e430]:
+                - strong [ref=e431]: 第 1 轮
+                - generic [ref=e432]: 35 字符
+              - paragraph [ref=e434]: 基金A收益更高，最大回撤为 -5.1%，夏普比率 1.2，适合稳健投资者。
+              - generic [ref=e435]:
+                - button "展开" [ref=e436] [cursor=pointer]
+                - button "查看原文" [ref=e437] [cursor=pointer]
+                - button "复制回答" [ref=e438] [cursor=pointer]
+            - article [ref=e439]:
+              - generic [ref=e440]:
+                - strong [ref=e441]: 第 2 轮
+                - generic [ref=e442]: 46 字符
+              - paragraph [ref=e444]: 从收益、回撤和夏普看，基金A收益更高，最大回撤为 -5.1%，夏普比率 1.2，适合稳健投资者。
+              - generic [ref=e445]:
+                - button "展开" [ref=e446] [cursor=pointer]
+                - button "查看原文" [ref=e447] [cursor=pointer]
+                - button "复制回答" [ref=e448] [cursor=pointer]
+            - article [ref=e449]:
+              - generic [ref=e450]:
+                - strong [ref=e451]: 第 3 轮
+                - generic [ref=e452]: 38 字符
+              - paragraph [ref=e454]: 结论：基金A收益更高，最大回撤为 -5.1%，夏普比率 1.2，适合稳健投资者。
+              - generic [ref=e455]:
+                - button "展开" [ref=e456] [cursor=pointer]
+                - button "查看原文" [ref=e457] [cursor=pointer]
+                - button "复制回答" [ref=e458] [cursor=pointer]
+            - article [ref=e459]:
+              - generic [ref=e460]:
+                - strong [ref=e461]: 第 4 轮
+                - generic [ref=e462]: 34 字符
+              - paragraph [ref=e464]: 基金A收益更高；最大回撤 -5.1%；夏普比率 1.2；适合稳健投资者。
+              - generic [ref=e465]:
+                - button "展开" [ref=e466] [cursor=pointer]
+                - button "查看原文" [ref=e467] [cursor=pointer]
+                - button "复制回答" [ref=e468] [cursor=pointer]
+            - article [ref=e469]:
+              - generic [ref=e470]:
+                - strong [ref=e471]: 第 5 轮
+                - generic [ref=e472]: 35 字符
+              - paragraph [ref=e474]: 基金A收益更高，最大回撤为 -5.1%，夏普比率 1.2，适合稳健投资者。
+              - generic [ref=e475]:
+                - button "展开" [ref=e476] [cursor=pointer]
+                - button "查看原文" [ref=e477] [cursor=pointer]
+                - button "复制回答" [ref=e478] [cursor=pointer]

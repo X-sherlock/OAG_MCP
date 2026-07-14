@@ -1,0 +1,24 @@
+- attribute_name: order_status
+  attribute_name_zh: 维修单状态
+  description: 维修单当前状态。
+  value_type: string
+  object_types:
+  - RepairOrder
+  aliases: []
+  enabled: true
+- attribute_name: fault_type
+  attribute_name_zh: 故障类型
+  description: 设备故障分类。
+  value_type: string
+  object_types:
+  - RepairOrder
+  aliases: []
+  enabled: true
+- attribute_name: engineer_level
+  attribute_name_zh: 工程师等级
+  description: 工程师技能等级。
+  value_type: string
+  object_types:
+  - Engineer
+  aliases: []
+  enabled: true

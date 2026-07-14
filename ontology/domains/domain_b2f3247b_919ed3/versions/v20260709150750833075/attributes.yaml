@@ -1,0 +1,123 @@
+- attribute_name: school_name
+  attribute_name_zh: 学校名称
+  description: 学校的官方名称，用于机构标识与校际对比查询。
+  value_type: string
+  object_types:
+  - School
+  aliases: []
+  enabled: true
+- attribute_name: school_type
+  attribute_name_zh: 学校类型
+  description: 学校的办学性质分类，如公立、私立、职业院校等，用于教育资源分布分析。
+  value_type: string
+  object_types:
+  - School
+  aliases: []
+  enabled: true
+- attribute_name: campus_location
+  attribute_name_zh: 校区位置
+  description: 学校主校区或在线运营基地的地理位置，用于区域生源与资源调度分析。
+  value_type: string
+  object_types:
+  - School
+  aliases: []
+  enabled: true
+- attribute_name: total_students
+  attribute_name_zh: 在校生规模
+  description: 学校当前注册学生总数，用于机构体量评估与教学负荷计算。
+  value_type: number
+  object_types:
+  - School
+  aliases: []
+  enabled: true
+- attribute_name: course_level
+  attribute_name_zh: 课程难度
+  description: 课程难度等级。
+  value_type: string
+  object_types:
+  - Course
+  aliases: []
+  enabled: true
+- attribute_name: lesson_duration
+  attribute_name_zh: 课时时长
+  description: 课时持续时间。
+  value_type: number
+  object_types:
+  - Lesson
+  aliases: []
+  enabled: true
+- attribute_name: assignment_status
+  attribute_name_zh: 作业状态
+  description: 作业提交状态。
+  value_type: string
+  object_types:
+  - Assignment
+  aliases: []
+  enabled: true
+- attribute_name: enrollment_date
+  attribute_name_zh: 报名日期
+  description: 学生报名课程的时间节点。
+  value_type: string
+  object_types:
+  - Student
+  - Course
+  aliases: []
+  enabled: true
+- attribute_name: submission_score
+  attribute_name_zh: 提交成绩
+  description: 学生作业提交的得分。
+  value_type: number
+  object_types:
+  - Assignment
+  - Student
+  aliases: []
+  enabled: true
+- attribute_name: attendance_rate
+  attribute_name_zh: 出勤率
+  description: 学生上课出勤的比例。
+  value_type: number
+  object_types:
+  - Student
+  - Course
+  aliases: []
+  enabled: true
+- attribute_name: office_capacity
+  attribute_name_zh: 办公室容量
+  description: 办公室可容纳的教师数量。
+  value_type: number
+  object_types:
+  - Office
+  aliases: []
+  enabled: true
+- attribute_name: classroom_location
+  attribute_name_zh: 教室位置
+  description: 教室的物理地址或虚拟链接。
+  value_type: string
+  object_types:
+  - Classroom
+  aliases: []
+  enabled: true
+- attribute_name: subject_category
+  attribute_name_zh: 科目分类
+  description: 科目的学术分类，如理工、人文、艺术等，用于课程归类与学习路径推荐。
+  value_type: string
+  object_types:
+  - Subject
+  aliases: []
+  enabled: true
+- attribute_name: subject_credit
+  attribute_name_zh: 科目学分
+  description: 科目对应的标准学分值，用于学业进度计算与毕业要求核对。
+  value_type: number
+  object_types:
+  - Subject
+  aliases: []
+  enabled: true
+- attribute_name: subject_code
+  attribute_name_zh: 科目代码
+  description: 科目的唯一标识代码，用于系统检索与教务管理对接。
+  value_type: string
+  object_types:
+  - Subject
+  aliases: []
+  enabled: true

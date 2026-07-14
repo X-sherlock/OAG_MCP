@@ -1,0 +1,63 @@
+- relation_type: enrolls_in
+  relation_name_zh: 报名课程
+  description: 支持实体导航与检索查询，明确学生与课程的归属关系，便于OAG定位选课记录。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: comprises
+  relation_name_zh: 包含课时
+  description: 支持层级导航查询，OAG可通过该关系遍历课程结构，为后续课时序列与进度计算提供基础。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: instructs
+  relation_name_zh: 教授课程
+  description: 支持实体导航查询，明确教师与课程的负责关系，便于OAG检索师资分配与课程归属。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: triggered_by
+  relation_name_zh: 由学生提交触发
+  description: 支持过滤与检索查询，OAG可沿此关系按学生维度筛选作业状态，扩展事实查询路径。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - ObjectType
+- relation_type: aggregated_to
+  relation_name_zh: 汇总至课程
+  description: 支持聚合查询，OAG可通过该关系累加课时时长，计算课程总学习量或进行时长对比。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - ObjectType
+- relation_type: correlates_with
+  relation_name_zh: 与作业状态分布相关
+  description: 支持解释与比较查询，OAG可分析不同难度课程下作业提交状态的分布差异，辅助教学诊断。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: updates
+  relation_name_zh: 批改更新状态
+  description: 支持事实扩展与追踪查询，OAG可沿此关系关联教师操作日志，解释作业状态变更原因。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - Attribute

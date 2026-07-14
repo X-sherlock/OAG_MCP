@@ -1,0 +1,27 @@
+- relation_type: submits
+  relation_name_zh: 提交
+  description: 客户提交维修单。
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+  direction: outbound
+  enabled: true
+- relation_type: assigned_to
+  relation_name_zh: 分配给
+  description: 维修单分配给工程师处理。
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+  direction: outbound
+  enabled: true
+- relation_type: has_attribute
+  relation_name_zh: 拥有属性
+  description: 对象关联其属性字段。
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - Attribute
+  direction: outbound
+  enabled: true

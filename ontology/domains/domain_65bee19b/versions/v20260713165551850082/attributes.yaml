@@ -1,0 +1,144 @@
+- attribute_name: COD_FUND
+  attribute_name_zh: 基金代码
+  description: 基金的唯一交易代码，用于标识特定的基金产品。
+  value_type: string
+  object_types:
+  - FUND_PRODUCT
+  aliases: []
+  enabled: true
+- attribute_name: NAM_FUND
+  attribute_name_zh: 基金名称
+  description: 基金的法定全称。
+  value_type: string
+  object_types:
+  - FUND_PRODUCT
+  aliases: []
+  enabled: true
+- attribute_name: NAM_FUND_SHORT
+  attribute_name_zh: 基金简称
+  description: 基金的常用简称，便于快速识别。
+  value_type: string
+  object_types:
+  - FUND_PRODUCT
+  aliases: []
+  enabled: true
+- attribute_name: COD_FUND_TYP
+  attribute_name_zh: 基金一级分类代码
+  description: 根据监管或行业标准划分的基金大类代码，如股票型、债券型等。
+  value_type: string
+  object_types:
+  - FUND_PRODUCT
+  aliases: []
+  enabled: true
+- attribute_name: COD_FUND_STS
+  attribute_name_zh: 基金状态代码
+  description: 表示基金当前的运作状态，如正常、清盘、暂停等。
+  value_type: string
+  object_types:
+  - FUND_PRODUCT
+  aliases: []
+  enabled: true
+- attribute_name: COD_FUND_RSK_LVL
+  attribute_name_zh: 产品风险等级
+  description: 基金的风险评级，范围从低到高（01-05）。
+  value_type: string
+  object_types:
+  - FUND_PRODUCT
+  aliases: []
+  enabled: true
+- attribute_name: COD_FUND_LIVE_STS
+  attribute_name_zh: 基金存续状态
+  description: 标识基金是否在售，0-在售，1-非在售。
+  value_type: string
+  object_types:
+  - FUND_PRODUCT
+  aliases: []
+  enabled: true
+- attribute_name: AMT_FUND_SCL
+  attribute_name_zh: 基金规模
+  description: 基金的资产净值总额，单位为元。
+  value_type: number
+  object_types:
+  - FUND_PRODUCT
+  aliases: []
+  enabled: true
+- attribute_name: DATE_FUND_CRT
+  attribute_name_zh: 成立日期
+  description: 基金合同生效日期或产品成立日期。
+  value_type: date
+  object_types:
+  - FUND_PRODUCT
+  aliases: []
+  enabled: true
+- attribute_name: VLU_MAX_DD_YEAR
+  attribute_name_zh: 最大回撤（近一年）
+  description: 在过去一年内，基金净值从最高点到最低点的最大跌幅，衡量下行风险。
+  value_type: number
+  object_types:
+  - FUND_PRODUCT
+  aliases: []
+  enabled: true
+- attribute_name: VLU_SHARP_YEAR
+  attribute_name_zh: 夏普比率（近一年）
+  description: 过去一年的风险调整后收益指标，值越高表示单位风险获得的超额回报越高。
+  value_type: number
+  object_types:
+  - FUND_PRODUCT
+  aliases: []
+  enabled: true
+- attribute_name: VLU_NAV_GRTH_YEAR
+  attribute_name_zh: 收益率（一年）
+  description: 过去一年的基金净值增长率。
+  value_type: number
+  object_types:
+  - FUND_PRODUCT
+  aliases: []
+  enabled: true
+- attribute_name: ID_RET_KIND_YEAR_RANK
+  attribute_name_zh: 收益率同类排名（一年）
+  description: 该基金近一年收益率在同类型基金中的排名位置。
+  value_type: integer
+  object_types:
+  - FUND_PRODUCT
+  aliases: []
+  enabled: true
+- attribute_name: NAM_MAGR_1
+  attribute_name_zh: 基金经理姓名
+  description: 主要负责管理该基金的基金经理姓名。
+  value_type: string
+  object_types:
+  - FUND_PRODUCT
+  aliases: []
+  enabled: true
+- attribute_name: VLU_MAGR_TERM_RET_1
+  attribute_name_zh: 在管期间任期回报
+  description: 现任基金经理管理该基金期间的累计回报率。
+  value_type: number
+  object_types:
+  - FUND_PRODUCT
+  aliases: []
+  enabled: true
+- attribute_name: PCT_STOCK_ASSET
+  attribute_name_zh: 股票资产分布
+  description: 基金资产中投资于股票的比例。
+  value_type: number
+  object_types:
+  - FUND_PRODUCT
+  aliases: []
+  enabled: true
+- attribute_name: PCT_BOND_ASSET
+  attribute_name_zh: 债券资产分布
+  description: 基金资产中投资于债券的比例。
+  value_type: number
+  object_types:
+  - FUND_PRODUCT
+  aliases: []
+  enabled: true
+- attribute_name: NAM_CMPY
+  attribute_name_zh: 基金公司名称
+  description: 发行和管理该基金的基金管理公司全称。
+  value_type: string
+  object_types:
+  - FUND_PRODUCT
+  aliases: []
+  enabled: true

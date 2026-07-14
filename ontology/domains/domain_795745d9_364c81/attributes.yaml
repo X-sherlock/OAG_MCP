@@ -1,0 +1,88 @@
+- attribute_name: order_status
+  attribute_name_zh: 维修单状态
+  description: 维修单当前状态，如待分配、处理中、已完成。
+  value_type: string
+  object_types:
+  - RepairOrder
+  aliases: []
+  enabled: true
+- attribute_name: fault_type
+  attribute_name_zh: 故障类型
+  description: 设备故障分类，用于匹配工程师技能。
+  value_type: string
+  object_types:
+  - RepairOrder
+  aliases: []
+  enabled: true
+- attribute_name: engineer_level
+  attribute_name_zh: 工程师等级
+  description: 工程师技能等级，决定可处理的故障复杂度。
+  value_type: string
+  object_types:
+  - Engineer
+  aliases: []
+  enabled: true
+- attribute_name: submit_time
+  attribute_name_zh: 提交时间
+  description: 客户提交维修单的时间戳。
+  value_type: datetime
+  object_types:
+  - RepairOrder
+  aliases: []
+  enabled: true
+- attribute_name: assignee_id
+  attribute_name_zh: 指派工程师ID
+  description: 关联负责处理该维修单的工程师标识。
+  value_type: string
+  object_types:
+  - RepairOrder
+  aliases: []
+  enabled: true
+- attribute_name: completion_time
+  attribute_name_zh: 完成时间
+  description: 维修单处理完毕的时间戳。
+  value_type: datetime
+  object_types:
+  - RepairOrder
+  aliases: []
+  enabled: true
+- attribute_name: repair_result
+  attribute_name_zh: 维修结果
+  description: 维修最终结果，如已修复、需更换部件、无法修复。
+  value_type: string
+  object_types:
+  - RepairOrder
+  aliases: []
+  enabled: true
+- attribute_name: equipment_id
+  attribute_name_zh: 关联设备ID
+  description: 发生故障并关联至该维修单的设备标识。
+  value_type: string
+  object_types:
+  - RepairOrder
+  aliases: []
+  enabled: true
+- attribute_name: equipment_model
+  attribute_name_zh: 设备型号
+  description: 设备的型号或规格标识。
+  value_type: string
+  object_types:
+  - Equipment
+  aliases: []
+  enabled: true
+- attribute_name: engineer_id
+  attribute_name_zh: 工程师ID
+  description: 工程师唯一标识，用于与维修单指派字段匹配。
+  value_type: string
+  object_types:
+  - Engineer
+  aliases: []
+  enabled: true
+- attribute_name: customer_id
+  attribute_name_zh: 客户ID
+  description: 客户唯一标识。
+  value_type: string
+  object_types:
+  - Customer
+  aliases: []
+  enabled: true

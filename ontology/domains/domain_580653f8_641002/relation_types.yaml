@@ -1,0 +1,90 @@
+- relation_type: has_credit_rating
+  relation_name_zh: 关联评级等级
+  description: 债券代码与评级等级关联，支持按历史评级筛选债券及追踪评级下调风险。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: experiences_default_event
+  relation_name_zh: 发生违约事件
+  description: 发行主体编号与违约类型关联，支持主体信用风险排查与违约主体名单生成。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: generates_cashflow
+  relation_name_zh: 产生现金流
+  description: 债券代码与支付金额关联，支持未来现金流折现估值与到期收益测算。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: quotes_market_yield
+  relation_name_zh: 市场报价收益率
+  description: 交易市场名称与到期收益率关联，支持跨市场收益率曲线对比与套利机会识别。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: contains_holding_value
+  relation_name_zh: 包含持仓市值
+  description: 组合编号与持仓市值关联，支持组合资产规模统计与行业或评级敞口分析。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: executes_trade_volume
+  relation_name_zh: 执行交易金额
+  description: 投资者类型与交易金额关联，支持机构交易行为画像与资金流向分析。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: determines_credit_spread
+  relation_name_zh: 决定信用利差
+  description: 曲线收益率与信用利差关联，支持无风险利率与信用风险溢价拆解分析。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: drives_floating_pnl
+  relation_name_zh: 驱动浮动盈亏
+  description: 行情净价与浮动盈亏关联，支持持仓盈亏归因与价格波动敏感性分析。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: influences_interest_rate_risk
+  relation_name_zh: 影响利率风险
+  description: 评级展望与久期关联，支持评级调整预期下的久期管理与再定价风险分析。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: impacts_market_liquidity
+  relation_name_zh: 影响市场流动性
+  description: 违约处置状态与成交量关联，支持信用事件后的流动性枯竭监测与退出策略制定。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute

@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>领域本体关系规划</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f8f8a'/%3E%3Ccircle cx='10' cy='12' r='3' fill='white'/%3E%3Ccircle cx='22' cy='20' r='3' fill='white'/%3E%3Cpath d='M12.8 13.8 19.2 18.2' stroke='white' stroke-width='2'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="/domain-static/domain_style.css" />
+    <script src="/static/vendor/cytoscape.min.js"></script>
+  </head>
+  <body>
+    <div class="domain-app">
+      <header class="topbar">
+        <div class="brand-block">
+          <span class="eyebrow">Domain Ontology Planner</span>
+          <h1>领域本体关系规划</h1>
+        </div>
+        <div class="top-status">
+          <button id="configStatus" class="status-pill api-status-btn pending" type="button" aria-haspopup="dialog">大模型API</button>
+          <span id="currentDomainStatus" class="soft-pill">未生成领域</span>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <section class="input-column">
+          <section class="panel domain-form">
+            <div class="panel-head">
+              <div>
+                <h2>领域信息</h2>
+                <p>描述一个全新业务领域，系统会先规划关系，再由你确认生成图谱。</p>
+              </div>
+              <button id="resetBtn" class="ghost-btn" type="button">清空</button>
+            </div>
+            <label>领域名称
+              <input id="domainName" placeholder="例如 售后维修 / 电商订单 / 医院门诊" />
+            </label>
+            <label>领域说明
+              <textarea id="domainDescription" rows="3" placeholder="说明业务范围、主要对象、关键流程或边界"></textarea>
+            </label>
+            <div class="example-strip">
+              <button type="button" data-example="repair">售后维修示例</button>
+              <button type="button" data-example="commerce">电商订单示例</button>
+              <button type="button" data-example="course">在线课程示例</button>
+              <button type="button" data-example="bond">债券投资分析示例</button>
+            </div>
+          </section>
+
+          <section class="panel ddl-upload-panel">
+            <div class="panel-head compact">
+              <div>
+                <h2>批量 DDL</h2>
+                <p>可一次上传多份 SQL/DDL，模型会识别表、字段、主外键和跨文件关系。</p>
+              </div>
+              <button id="clearDdlFilesBtn" type="button" disabled>清空文件</button>
+            </div>
+            <input id="ddlFiles" class="visually-hidden" type="file" accept=".sql,.ddl,.txt,text/plain,application/sql" multiple />
+            <label id="ddlDropzone" class="ddl-dropzone" for="ddlFiles" tabindex="0">
+              <strong>选择或拖入 DDL 文件</strong>
+              <span>最多 200 个文件，总大小不超过 5 MB</span>
+            </label>
+            <div id="ddlFileSummary" class="ddl-file-summary empty">尚未选择文件</div>
+            <div id="ddlFileList" class="ddl-file-list"></div>
+            <div id="ddlAnalysisPanel" class="ddl-analysis-panel hidden">
+              <div id="ddlAnalysisStatus" class="ddl-analysis-status">等待分析 DDL</div>
+              <div id="ddlAnalysisMetrics" class="ddl-analysis-metrics"></div>
+              <div id="ddlAnalysisDiagnostics" class="ddl-analysis-diagnostics hidden"></div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head compact">
+              <h2>对象</h2>
+              <button id="addObjectRowBtn" type="button">新增对象</button>
+            </div>
+            <div id="objectRows" class="row-editor object-editor"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head compact">
+              <h2>属性</h2>
+              <button id="addAttributeRowBtn" type="button">新增属性</button>
+            </div>
+            <div id="attributeRows" class="row-editor attribute-editor"></div>
+          </section>
+
+          <section class="panel">
+            <h2>批量说明</h2>
+            <label>批量补充
+              <textarea id="bulkText" rows="5" placeholder="粘贴对象清单、属性说明、业务规则、已有草稿等"></textarea>
+            </label>
+            <div class="runbar">
+              <button id="runPlanBtn" class="primary-btn" type="button">生成规划方案</button>
+              <div id="refillPlanActions" class="refill-plan-actions hidden">
+                <button id="updateRefilledPlanBtn" class="primary-btn" type="button">更新规划方案</button>
+                <button id="createRefilledPlanBtn" type="button">创建新的领域规划</button>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <section class="side-column">
+          <section id="planStatusPanel" class="panel plan-status-panel hidden">
+            <div class="panel-head">
+              <div>
+                <h2>规划状态</h2>
+                <p>规划方案生成后会以弹窗方式展示，确认前不会写入 YAML。</p>
+              </div>
+            </div>
+            <div id="planContent" class="plan-status-card empty-state">
+              <strong>等待生成规划方案</strong>
+              <span>填写领域对象、属性和业务说明后，点击“生成规划方案”。</span>
+            </div>
+            <div class="plan-status-actions">
+              <button id="viewPlanBtn" class="ghost-btn" type="button" disabled>查看规划方案</button>
+              <button id="generateYamlBtn" class="primary-btn" type="button" disabled>确认生成关系图</button>
+            </div>
+          </section>
+
+          <section class="panel recent-panel">
+            <div class="panel-head compact">
+              <h2>已生成领域</h2>
+              <button id="refreshDomainsBtn" type="button">刷新</button>
+            </div>
+            <div id="domainList" class="domain-list"></div>
+          </section>
+        </section>
+
+        <section class="graph-column">
+          <section id="graphPanel" class="panel graph-panel">
+            <div class="panel-head">
+              <div>
+                <h2>本体关系图</h2>
+                <p id="graphSubtitle">生成后可在画布中查看和调整对象、属性与关系。</p>
+              </div>
+              <div class="graph-actions">
+                <button id="toggleGraphBtn" type="button">展开画布</button>
+                <button id="addNodeBtn" type="button" disabled>新增节点</button>
+                <button id="addEdgeBtn" type="button" disabled>新增关系</button>
+              </div>
+            </div>
+            <div id="graphStatus" class="graph-status">暂无图谱</div>
+            <div id="graphFeedbackPanel" class="graph-feedback-panel hidden">
+              <div class="panel-head compact">
+                <h2>调整反馈</h2>
+                <p>基于当前图谱和原规划继续调整。</p>
+              </div>
+              <label>反馈内容
+                <textarea id="graphFeedbackText" rows="4" placeholder="例如：拆分对象、调整关系方向、补充缺失属性"></textarea>
+              </label>
+              <div class="feedback-actions">
+                <button id="graphApplyInputBtn" type="button">回填到录入区</button>
+                <button id="graphRegeneratePlanBtn" class="primary-btn" type="button">按反馈重新规划</button>
+              </div>
+            </div>
+            <div id="graphLegend" class="graph-legend" aria-label="图例">
+              <span><i class="legend-node object"></i>对象节点</span>
+              <span><i class="legend-node attribute"></i>属性节点</span>
+              <span><i class="legend-edge"></i>关系边</span>
+              <span><i class="legend-focus"></i>当前聚焦</span>
+              <span><i class="legend-muted"></i>非相关元素淡化</span>
+            </div>
+            <div id="graphSpacingControl" class="graph-spacing-control hidden">
+              <label for="graphSpacingRange">布局松散度</label>
+              <input id="graphSpacingRange" type="range" min="0.75" max="1.9" step="0.05" value="1" />
+              <span id="graphSpacingValue">1.00x</span>
+            </div>
+            <div id="graphBody" class="graph-body collapsed">
+              <div id="cy" class="graph-canvas"></div>
+              <div id="graphResizeHandle" class="graph-resize-handle" role="separator" aria-orientation="horizontal" tabindex="0" title="拖动调整画布高度">
+                <span>拖动调整画布高度</span>
+              </div>
+            </div>
+          </section>
+        </section>
+      </main>
+
+      <dialog id="llmConfigDialog">
+        <div class="llm-config-dialog-card">
+          <div class="dialog-head">
+            <div>
+              <h2>大模型接入配置</h2>
+              <p>保存后自动记住当前接入方式和创新工厂地址。</p>
+            </div>
+            <button type="button" id="llmConfigCloseBtn" aria-label="关闭大模型接入配置">×</button>
+          </div>
+          <div class="llm-config-body">
+            <div class="provider-switch" role="tablist" aria-label="大模型接入方式">
+              <button type="button" class="active" data-provider="configured">大模型API</button>
+              <button type="button" data-provider="innovation_factory">创新工厂API</button>
+            </div>
+            <div id="configuredProviderPanel" class="provider-panel">
+              <strong>使用服务端兼容模型配置</strong>
+              <span id="configuredProviderHint">正在读取配置状态...</span>
+              <span class="provider-note">配置来自服务端 YAML。保存后，右上角状态显示为“大模型API”。</span>
+            </div>
+            <div id="lightAppProviderPanel" class="provider-panel hidden">
+              <div class="provider-fields">
+                <label>创新工厂服务地址
+                  <input id="lightAppUrl" type="url" placeholder="http://endpoint-agent 或完整 use_as_tool URL" autocomplete="off" />
+                  <small>支持填写服务根地址或完整接口地址。正常规划只调用 <code>/chatabc/use_as_tool</code>，DDL 由本系统解析压缩后写入 txt。</small>
+                </label>
+                <label>访问令牌
+                  <input id="lightAppApiKey" type="password" placeholder="可选；仅保存在当前浏览器会话" autocomplete="new-password" />
+                </label>
+                <label>中止 URL
+                  <input id="lightAppCancelUrl" type="url" placeholder="可选；默认使用 /chatabc/stop" autocomplete="off" />
+                </label>
+              </div>
+              <div class="factory-flow">
+                <span><b>1</b> 本地解析压缩</span>
+                <span><b>2</b> use_as_tool 流式生成</span>
+              </div>
+              <details id="lightAppPromptDetails" class="prompt-config-details">
+                <summary>查看创新工厂需要配置的提示词</summary>
+                <div class="prompt-config-head">
+                  <span>只需 1 份结构化提示词；运行时 JSON 由 <code>txt</code> 传入，内含完整输入/输出示例。</span>
+                  <button id="copyLightAppPromptBtn" type="button">复制提示词</button>
+                </div>
+                <pre id="lightAppPromptText">正在加载提示词...</pre>
+              </details>
+            </div>
+          </div>
+          <div class="dialog-actions">
+            <button id="llmConfigCancelBtn" type="button">取消</button>
+            <button id="llmConfigSaveBtn" class="primary-btn" type="button">保存配置</button>
+          </div>
+        </div>
+      </dialog>
+
+      <dialog id="planDialog">
+        <div class="plan-dialog-card">
+          <div class="dialog-head">
+            <div>
+              <h2>关系规划方案</h2>
+              <p>确认前不会写入 YAML。你可以继续反馈并重新规划。</p>
+            </div>
+            <button type="button" id="planDialogCloseBtn" aria-label="关闭规划方案">×</button>
+          </div>
+          <div id="planDialogBody" class="plan-dialog-body"></div>
+          <div class="plan-feedback-block">
+            <label>调整反馈
+              <textarea id="feedbackText" rows="4" placeholder="对当前规划不满意时，在这里输入要调整的地方后重新规划"></textarea>
+            </label>
+          </div>
+          <div class="dialog-actions">
+            <button id="planDialogCancelBtn" type="button">关闭</button>
+            <button id="planDialogRegenerateBtn" type="button">按反馈重新规划</button>
+            <button id="planDialogGenerateBtn" class="primary-btn" type="button">确认生成关系图</button>
+          </div>
+        </div>
+      </dialog>
+
+      <dialog id="versionDialog">
+        <div class="version-dialog-card">
+          <div class="dialog-head">
+            <div>
+              <h2 id="versionDialogTitle">领域版本树</h2>
+              <p id="versionDialogSubtitle">选择版本查看留言、加载图谱或删除无用版本。</p>
+            </div>
+            <button type="button" id="versionDialogCloseBtn" aria-label="关闭版本树">×</button>
+          </div>
+          <div class="version-dialog-body">
+            <div id="versionGraph" class="version-graph"></div>
+            <div id="versionDetailResizeHandle" class="version-detail-resize-handle" role="separator" aria-orientation="vertical" tabindex="0" title="拖动调整信息栏宽度"></div>
+            <aside id="versionDetail" class="version-detail empty-state">
+              <button type="button" id="versionDetailToggleBtn" class="version-detail-toggle">收起信息栏</button>
+              <strong>选择一个版本或箭头</strong>
+              <span>点击版本节点查看 commit 留言；点击箭头查看本次迭代反馈。</span>
+            </aside>
+          </div>
+        </div>
+      </dialog>
+
+      <aside id="detailDrawer" class="detail-drawer" aria-label="详情面板">
+        <div class="drawer-head">
+          <div>
+            <h2 id="drawerTitle">未选择</h2>
+            <p id="drawerMeta">点击图中的节点或关系查看详情。</p>
+          </div>
+          <button id="closeDrawerBtn" type="button" aria-label="关闭详情">×</button>
+        </div>
+        <div id="drawerBody" class="drawer-body empty-state">
+          <strong>没有选中元素</strong>
+          <span>生成关系图后，选择对象、属性或关系进行编辑。</span>
+        </div>
+      </aside>
+
+      <dialog id="editDialog">
+        <form method="dialog" class="dialog-card">
+          <div class="dialog-head">
+            <h2 id="dialogTitle">编辑</h2>
+            <button type="button" id="dialogCloseBtn" aria-label="关闭">×</button>
+          </div>
+          <div id="dialogBody"></div>
+          <div class="dialog-actions">
+            <button type="button" id="dialogCancelBtn">取消</button>
+            <button type="button" id="dialogOkBtn" class="primary-btn">保存</button>
+          </div>
+        </form>
+      </dialog>
+
+      <dialog id="appModal">
+        <div class="app-modal-card">
+          <div class="dialog-head">
+            <div>
+              <h2 id="appModalTitle">提示</h2>
+              <p id="appModalMessage"></p>
+            </div>
+            <button type="button" id="appModalCloseBtn" aria-label="关闭">×</button>
+          </div>
+          <pre id="appModalDetail" class="app-modal-detail hidden"></pre>
+          <div id="appModalActions" class="dialog-actions"></div>
+        </div>
+      </dialog>
+
+      <div id="loadingOverlay" class="loading-overlay" hidden>
+        <div class="loading-card">
+          <div class="spinner"></div>
+          <strong id="loadingTitle">正在处理</strong>
+          <span id="loadingText">请稍候...</span>
+          <button id="cancelLlmBtn" class="danger-btn hidden" type="button">中止模型调用</button>
+          <small id="cancelLlmHint" class="loading-hint hidden">将关闭当前连接，并向模型平台发送停止指令。</small>
+        </div>
+      </div>
+    </div>
+
+    <script src="/domain-static/domain_app.js"></script>
+  </body>
+</html>

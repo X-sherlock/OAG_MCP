@@ -1,0 +1,117 @@
+- relation_type: assigned_to
+  relation_name_zh: 分配办公
+  description: 支持实体导航查询，明确教师与办公空间的归属关系，便于OAG检索师资分布与办公资源占用。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: attends_in
+  relation_name_zh: 上课地点
+  description: 支持实体导航查询，明确学生上课的物理或虚拟空间，便于OAG定位教学场景与考勤轨迹。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: scheduled_in
+  relation_name_zh: 排课关联
+  description: 支持实体导航查询，建立课程与教室的调度关系，便于OAG查询课表安排与空间资源冲突检测。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: enrolls_in
+  relation_name_zh: 报名课程
+  description: 支持实体导航与检索查询，明确学生与课程的归属关系，便于OAG定位选课记录。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: comprises
+  relation_name_zh: 包含课时
+  description: 支持层级导航查询，OAG可通过该关系遍历课程结构，为后续课时序列与进度计算提供基础。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: instructs
+  relation_name_zh: 教授课程
+  description: 支持实体导航查询，明确教师与课程的负责关系，便于OAG检索师资分配与课程归属。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: categorized_as
+  relation_name_zh: 科目归类
+  description: 支持实体导航查询，明确课程所属学科分类，便于OAG按知识领域检索课程资源与构建学习路径。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: filtered_by
+  relation_name_zh: 按学生时间过滤
+  description: 支持时间序列查询，OAG可沿此关系按学生维度筛选报名时间节点，支持按时间窗口检索选课行为。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - ObjectType
+- relation_type: evaluated_by
+  relation_name_zh: 教师评估
+  description: 支持排名与比较查询，OAG可关联教师批改记录进行成绩分布分析，辅助教学质量评估。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - ObjectType
+- relation_type: aggregated_to
+  relation_name_zh: 汇总至教室
+  description: 支持聚合查询，OAG可累加学生上课记录，计算教室利用率或出勤统计，优化空间调度。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - ObjectType
+- relation_type: correlates_with
+  relation_name_zh: 难度与成绩相关
+  description: 支持解释与比较查询，OAG可分析不同难度课程下学生成绩的分布差异，辅助教学诊断与难度调优。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: triggered_by
+  relation_name_zh: 由学生提交触发
+  description: 支持过滤与检索查询，OAG可沿此关系按学生维度筛选作业状态，扩展事实查询路径。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - ObjectType
+- relation_type: updates
+  relation_name_zh: 批改更新状态
+  description: 支持事实扩展与追踪查询，OAG可沿此关系关联教师操作日志，解释作业状态变更原因。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - Attribute

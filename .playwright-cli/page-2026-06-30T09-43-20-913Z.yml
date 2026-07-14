@@ -1,0 +1,88 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: OAG
+      - generic [ref=e6]:
+        - heading "回答稳定性对比" [level=1] [ref=e7]
+        - paragraph [ref=e8]: 对比无 OAG 与有 OAG 在 5 轮重复问答中的一致性表现
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - text: 导入 CSV
+        - button "导入 CSV"
+      - button "读取默认数据" [ref=e11] [cursor=pointer]
+  - main [ref=e12]:
+    - region "整体概览" [ref=e13]:
+      - article [ref=e14]:
+        - generic [ref=e15]: 问题数
+        - strong [ref=e16]: "1"
+        - text: 5 条回答记录
+      - article [ref=e17]:
+        - generic [ref=e18]: 无 OAG 稳定性
+        - strong [ref=e19]: "35.1"
+        - text: 朴素回答平均分
+      - article [ref=e20]:
+        - generic [ref=e21]: 有 OAG 稳定性
+        - strong [ref=e22]: "86.8"
+        - text: OAG 回答平均分
+      - article [ref=e23]:
+        - generic [ref=e24]: OAG 优势
+        - strong [ref=e25]: "+51.7"
+        - text: 整体提升明显
+    - region "搜索与视图控制" [ref=e26]:
+      - generic [ref=e27]:
+        - searchbox "搜索问题、序号或回答内容" [ref=e28]
+        - button "×" [ref=e29] [cursor=pointer]
+      - combobox "筛选问题" [ref=e30]:
+        - option "全部问题"
+        - option "OAG 结论更稳定"
+        - option "OAG 事实更稳定"
+        - option "存在事实冲突" [selected]
+        - option "有效样本不足"
+        - option "低稳定性问题"
+        - option "数据异常"
+      - combobox "排序方式" [ref=e31]:
+        - option "按序号" [selected]
+        - option "OAG 优势从高到低"
+        - option "OAG 优势从低到高"
+        - option "结论一致性从高到低"
+        - option "事实一致性从高到低"
+        - option "要点覆盖从高到低"
+        - option "无 OAG 稳定性从低到高"
+        - option "有 OAG 稳定性从低到高"
+      - tablist "视图" [ref=e32]:
+        - button "单题对比" [ref=e33] [cursor=pointer]
+        - button "全量列表" [active] [ref=e34] [cursor=pointer]
+    - generic [ref=e479]:
+      - generic [ref=e480]:
+        - heading "全部问题" [level=2] [ref=e481]
+        - paragraph [ref=e482]: 1 个结果
+      - table [ref=e484]:
+        - rowgroup [ref=e485]:
+          - row "序号 问题 无 OAG 有 OAG 结论差异 事实差异 要点差异 OAG 优势 轮次 状态" [ref=e486]:
+            - columnheader "序号" [ref=e487]
+            - columnheader "问题" [ref=e488]
+            - columnheader "无 OAG" [ref=e489]
+            - columnheader "有 OAG" [ref=e490]
+            - columnheader "结论差异" [ref=e491]
+            - columnheader "事实差异" [ref=e492]
+            - columnheader "要点差异" [ref=e493]
+            - columnheader "OAG 优势" [ref=e494]
+            - columnheader "轮次" [ref=e495]
+            - columnheader "状态" [ref=e496]
+        - rowgroup [ref=e497]:
+          - row "1 稳定性算法验证 35.1 86.8 +26.5 +100 +40.7 +51.7 5 / 5 正常" [ref=e530] [cursor=pointer]:
+            - cell "1" [ref=e531]
+            - cell "稳定性算法验证" [ref=e532]
+            - cell "35.1" [ref=e533]
+            - cell "86.8" [ref=e534]
+            - cell "+26.5" [ref=e535]:
+              - generic [ref=e536]: "+26.5"
+            - cell "+100" [ref=e537]:
+              - generic [ref=e538]: "+100"
+            - cell "+40.7" [ref=e539]:
+              - generic [ref=e540]: "+40.7"
+            - cell "+51.7" [ref=e541]:
+              - generic [ref=e542]: "+51.7"
+            - cell "5 / 5" [ref=e543]
+            - cell "正常" [ref=e544]:
+              - generic [ref=e545]: 正常

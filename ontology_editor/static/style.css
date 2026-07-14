@@ -642,6 +642,152 @@ button.danger {
   box-shadow: 0 -8px 18px rgba(15, 23, 42, 0.08);
 }
 
+.domain-ontology-panel {
+  display: grid;
+  gap: 12px;
+}
+
+.domain-workflow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.domain-step,
+.domain-config-pill,
+.domain-waiting-card {
+  border: 1px solid #dbe3ef;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.domain-step {
+  display: grid;
+  gap: 4px;
+  padding: 10px;
+  color: var(--muted);
+}
+
+.domain-step.active {
+  border-color: #bfdbfe;
+  background: #eff6ff;
+}
+
+.domain-step strong,
+.domain-config-pill.ready {
+  color: var(--text);
+}
+
+.domain-config-pill {
+  padding: 7px 10px;
+  white-space: nowrap;
+  font-weight: 700;
+}
+
+.domain-config-pill.ready {
+  border-color: #bbf7d0;
+  background: #f0fdf4;
+}
+
+.domain-config-pill.blocked {
+  border-color: #fed7aa;
+  background: #fff7ed;
+  color: #9a3412;
+}
+
+.domain-section-head,
+.domain-confirm-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.domain-edit-table {
+  display: grid;
+  gap: 6px;
+  overflow-x: auto;
+}
+
+.domain-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.8fr) minmax(120px, 0.8fr) minmax(220px, 1.4fr) auto;
+  gap: 6px;
+  align-items: center;
+}
+
+.domain-attr-row {
+  grid-template-columns: minmax(120px, 0.8fr) minmax(120px, 0.8fr) minmax(120px, 0.8fr) minmax(90px, 0.6fr) minmax(200px, 1.2fr) auto;
+}
+
+.domain-row-head {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.domain-row input,
+.domain-wide-label textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 7px 8px;
+}
+
+.domain-wide-label {
+  display: grid;
+  gap: 5px;
+}
+
+.domain-recent-list,
+.domain-relationship-list {
+  display: grid;
+  gap: 6px;
+}
+
+.domain-recent-list button,
+.domain-relationship-list div {
+  display: grid;
+  gap: 3px;
+  padding: 9px;
+  text-align: left;
+  border: 1px solid #e5e9ef;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.domain-relationship-list span,
+.domain-relationship-list em,
+.domain-recent-list span {
+  color: var(--muted);
+  font-style: normal;
+  overflow-wrap: anywhere;
+}
+
+.domain-waiting-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 4px 10px;
+  align-items: center;
+  padding: 14px;
+}
+
+.domain-waiting-card .loading-spinner {
+  grid-row: span 2;
+}
+
+.domain-waiting-card span {
+  color: var(--muted);
+}
+
+@media (max-width: 920px) {
+  .domain-workflow,
+  .domain-row,
+  .domain-attr-row {
+    grid-template-columns: 1fr;
+  }
+}
+
 .oag-debug-toggle {
   color: var(--muted);
   font-size: 12px;
@@ -1181,6 +1327,37 @@ label {
   pointer-events: none;
 }
 
+.maintenance-dock {
+  position: absolute;
+  z-index: 5;
+  top: 48px;
+  left: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  max-width: min(760px, calc(100% - 220px));
+  padding: 8px;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  background: rgba(239, 246, 255, 0.96);
+  box-shadow: 0 10px 28px rgba(37, 99, 235, 0.16);
+}
+
+.maintenance-dock button {
+  min-height: 30px;
+}
+
+.maintenance-dock button:first-child,
+.maintenance-dock button:nth-child(2) {
+  border-color: #2563eb;
+  background: #2563eb;
+  color: #fff;
+}
+
+.app-shell.maintenance-mode #cy {
+  background: #f8fbff;
+}
+
 .graph-loading {
   position: absolute;
   z-index: 6;
@@ -1689,6 +1866,55 @@ label {
 .wizard-panel h3 {
   margin: 4px 0 0;
   font-size: 14px;
+}
+
+.edge-candidate-status {
+  display: grid;
+  gap: 6px;
+}
+
+.edge-candidate-status > div {
+  display: grid;
+  gap: 4px;
+  padding: 8px;
+  border: 1px solid #e5e9ef;
+  border-radius: 6px;
+  background: #f8fafc;
+  font-size: 12px;
+}
+
+.edge-candidate-status strong {
+  color: var(--text);
+}
+
+.edge-candidate-status span,
+.candidate-muted {
+  color: var(--muted);
+}
+
+.candidate-ok {
+  border-color: #bbf7d0 !important;
+  background: #f0fdf4 !important;
+}
+
+.candidate-warning {
+  border-color: #fde68a !important;
+  background: #fffbeb !important;
+}
+
+.candidate-error {
+  border-color: #fecaca !important;
+  background: #fef2f2 !important;
+}
+
+.candidate-targets {
+  grid-template-columns: 1fr;
+}
+
+.candidate-targets button {
+  text-align: left;
+  padding: 5px 7px;
+  font-size: 12px;
 }
 
 .wizard-help,

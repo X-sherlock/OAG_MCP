@@ -1,0 +1,216 @@
+domain_input:
+  domain_name: 在线课程
+  description: 在线教育课程学习领域，描述学生选课、观看课程、提交作业、教师批改和成绩反馈。
+  objects:
+  - object_type: Student
+    object_type_zh: 学生
+    description: 学习课程的用户。
+    enabled: true
+  - object_type: Course
+    object_type_zh: 课程
+    description: 在线课程。
+    enabled: true
+  - object_type: Lesson
+    object_type_zh: 课时
+    description: 课程下的教学单元。
+    enabled: true
+  - object_type: Assignment
+    object_type_zh: 作业
+    description: 课程作业。
+    enabled: true
+  - object_type: Teacher
+    object_type_zh: 教师
+    description: 课程教师。
+    enabled: true
+  attributes:
+  - attribute_name: course_level
+    attribute_name_zh: 课程难度
+    description: 课程难度等级。
+    value_type: string
+    object_types:
+    - Course
+    aliases: []
+    enabled: true
+  - attribute_name: lesson_duration
+    attribute_name_zh: 课时时长
+    description: 课时持续时间。
+    value_type: number
+    object_types:
+    - Lesson
+    aliases: []
+    enabled: true
+  - attribute_name: assignment_status
+    attribute_name_zh: 作业状态
+    description: 作业提交状态。
+    value_type: string
+    object_types:
+    - Assignment
+    aliases: []
+    enabled: true
+  bulk_text: ''
+plan:
+  summary_zh: 在线教育课程学习领域，在原有学生、课程、课时、作业、教师基础上，新增办公室与教室对象，完善教师办公分配与学生上课座位管理。遵循OAG可执行事实原则，补充排课时间、作业得分、课程完成率、教室容量等属性，强化属性间逻辑关联以支持查询、筛选、统计与解释类需求。
+  relationships:
+  - source: ObjectType:Student
+    target: ObjectType:Course
+    relation_type: enrolls_in
+    relation_name_zh: 报名课程
+    reason_zh: 描述学生选课报名的核心业务行为。
+  - source: ObjectType:Course
+    target: ObjectType:Lesson
+    relation_type: contains_lesson
+    relation_name_zh: 包含课时
+    reason_zh: 课程由多个课时组成，体现教学内容的层级结构。
+  - source: ObjectType:Course
+    target: ObjectType:Assignment
+    relation_type: contains_assignment
+    relation_name_zh: 包含作业
+    reason_zh: 课程包含作业，用于考核学生学习效果。
+  - source: ObjectType:Teacher
+    target: ObjectType:Course
+    relation_type: teaches_course
+    relation_name_zh: 教授课程
+    reason_zh: 教师负责课程的教学与内容发布。
+  - source: ObjectType:Student
+    target: ObjectType:Assignment
+    relation_type: submits_assignment
+    relation_name_zh: 提交作业
+    reason_zh: 学生完成学习后需提交对应课程的作业。
+  - source: ObjectType:Teacher
+    target: ObjectType:Assignment
+    relation_type: grades_assignment
+    relation_name_zh: 批改作业
+    reason_zh: 教师对学生提交的作业进行批改并反馈成绩。
+  - source: ObjectType:Teacher
+    target: ObjectType:Office
+    relation_type: works_in
+    relation_name_zh: 办公关系
+    reason_zh: 教师与办公室之间的日常办公与教研归属关系。
+  - source: ObjectType:Student
+    target: ObjectType:Classroom
+    relation_type: attends_class
+    relation_name_zh: 上课关系
+    reason_zh: 学生与教室之间的集中上课与互动归属关系。
+  - source: ObjectType:Classroom
+    target: ObjectType:Lesson
+    relation_type: hosts_lesson
+    relation_name_zh: 承载课时
+    reason_zh: 教室作为物理或虚拟空间承载具体课时的教学活动。
+  - source: Attribute:lesson_duration
+    target: Attribute:lesson_schedule_time
+    relation_type: determines_schedule
+    relation_name_zh: 决定排课
+    reason_zh: 课时时长直接影响排课时间窗口的规划与冲突检测。
+  - source: Attribute:assignment_status
+    target: Attribute:assignment_score
+    relation_type: triggers_grading
+    relation_name_zh: 触发批改
+    reason_zh: 作业提交状态变更为已提交后，触发教师批改并生成得分。
+  - source: Attribute:course_level
+    target: Attribute:course_completion_rate
+    relation_type: influences_completion
+    relation_name_zh: 影响完成率
+    reason_zh: 课程难度等级与学生完成率存在统计相关性，用于学习效果分析。
+  - source: Attribute:teacher_office_assignment_date
+    target: Attribute:office_location
+    relation_type: maps_to_location
+    relation_name_zh: 映射位置
+    reason_zh: 教师办公分配日期与办公室位置关联，支持按时间查询办公地点。
+  - source: Attribute:student_classroom_seat_number
+    target: Attribute:classroom_capacity
+    relation_type: validates_capacity
+    relation_name_zh: 校验容量
+    reason_zh: 学生座位号需在校验教室容量范围内，支持座位分配与超员预警。
+  open_questions:
+  - 教室对象是否需区分物理教室与虚拟在线教室（如直播房间ID）？
+  - 教师办公分配是否支持按学期或项目轮转，需记录历史分配记录？
+  - 作业批改是否支持多人协同或助教参与，需扩展批改人属性？
+  revision_notes:
+  - 根据用户反馈新增办公室(Office)与教室(Classroom)对象，并建立教师办公与学生上课关系。
+  - 遵循OAG可执行事实原则，补充排课时间、作业得分、课程完成率、教室容量等属性以增强查询与聚合能力。
+  - 移除冗余的归属关系，强化属性间逻辑关联，确保关系集聚焦于实体导航与属性推导。
+  objects:
+  - object_type: Student
+    object_type_zh: 学生
+    description: 学习课程的用户。
+  - object_type: Course
+    object_type_zh: 课程
+    description: 在线课程。
+  - object_type: Lesson
+    object_type_zh: 课时
+    description: 课程下的教学单元。
+  - object_type: Assignment
+    object_type_zh: 作业
+    description: 课程作业。
+  - object_type: Teacher
+    object_type_zh: 教师
+    description: 课程教师。
+  - object_type: Office
+    object_type_zh: 办公室
+    description: 教师日常办公与教研的场所。
+  - object_type: Classroom
+    object_type_zh: 教室
+    description: 学生集中上课与互动的物理或虚拟空间。
+  attributes:
+  - attribute_name: course_level
+    attribute_name_zh: 课程难度
+    object_types:
+    - Course
+    value_type: string
+    description: 课程难度等级。
+  - attribute_name: lesson_duration
+    attribute_name_zh: 课时时长
+    object_types:
+    - Lesson
+    value_type: number
+    description: 课时持续时间。
+  - attribute_name: assignment_status
+    attribute_name_zh: 作业状态
+    object_types:
+    - Assignment
+    value_type: string
+    description: 作业提交状态。
+  - attribute_name: office_location
+    attribute_name_zh: 办公室位置
+    object_types:
+    - Office
+    value_type: string
+    description: 办公室的具体地址或楼栋房间号。
+  - attribute_name: classroom_capacity
+    attribute_name_zh: 教室容量
+    object_types:
+    - Classroom
+    value_type: number
+    description: 教室可容纳的最大人数。
+  - attribute_name: teacher_office_assignment_date
+    attribute_name_zh: 教师办公分配日期
+    object_types:
+    - Teacher
+    value_type: string
+    description: 教师被分配至特定办公室的生效日期。
+  - attribute_name: student_classroom_seat_number
+    attribute_name_zh: 学生教室座位号
+    object_types:
+    - Student
+    value_type: string
+    description: 学生在指定教室的固定或临时座位编号。
+  - attribute_name: lesson_schedule_time
+    attribute_name_zh: 课时排课时间
+    object_types:
+    - Lesson
+    value_type: string
+    description: 课时计划上课的具体时间或时间段。
+  - attribute_name: assignment_score
+    attribute_name_zh: 作业得分
+    object_types:
+    - Assignment
+    value_type: number
+    description: 教师批改后给出的作业分数。
+  - attribute_name: course_completion_rate
+    attribute_name_zh: 课程完成率
+    object_types:
+    - Course
+    value_type: number
+    description: 选课学生中完成课程全部内容的比例。
+feedback: ''
+created_at: '2026-07-09T10:05:12'

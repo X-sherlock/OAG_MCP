@@ -1,0 +1,224 @@
+- generic [ref=f2e2]:
+  - banner [ref=f2e3]:
+    - generic [ref=f2e4]:
+      - generic [ref=f2e5]: OAG
+      - generic [ref=f2e6]:
+        - heading "回答稳定性对比" [level=1] [ref=f2e7]
+        - paragraph [ref=f2e8]: 对比无 OAG 与有 OAG 在 5 轮重复问答中的一致性表现
+    - generic [ref=f2e9]:
+      - generic [ref=f2e10]:
+        - text: 导入 CSV
+        - button "导入 CSV" [active]
+      - button "读取默认数据" [ref=f2e11] [cursor=pointer]
+  - main [ref=f2e12]:
+    - region "整体概览" [ref=f2e13]:
+      - article [ref=f2e14]:
+        - generic [ref=f2e15]: 问题数
+        - strong [ref=f2e16]: "1"
+        - text: 5 条回答记录
+      - article [ref=f2e17]:
+        - generic [ref=f2e18]: 无 OAG 稳定性
+        - strong [ref=f2e19]: "50.4"
+        - text: 朴素回答平均分
+      - article [ref=f2e20]:
+        - generic [ref=f2e21]: 有 OAG 稳定性
+        - strong [ref=f2e22]: "74.1"
+        - text: OAG 回答平均分
+      - article [ref=f2e23]:
+        - generic [ref=f2e24]: OAG 优势
+        - strong [ref=f2e25]: "+23.7"
+        - text: 整体提升明显
+    - region "搜索与视图控制" [ref=f2e26]:
+      - generic [ref=f2e27]:
+        - searchbox "搜索问题、序号或回答内容" [ref=f2e28]
+        - button "×" [ref=f2e29] [cursor=pointer]
+      - combobox "筛选问题" [ref=f2e30]:
+        - option "全部问题" [selected]
+        - option "OAG 共识更稳定"
+        - option "OAG 信息覆盖更稳定"
+        - option "存在数值漂移"
+        - option "有效样本不足"
+        - option "低稳定性问题"
+        - option "数据异常"
+      - combobox "排序方式" [ref=f2e31]:
+        - option "按序号" [selected]
+        - option "OAG 优势从高到低"
+        - option "OAG 优势从低到高"
+        - option "共识差异从高到低"
+        - option "信息覆盖差异从高到低"
+        - option "数值一致差异从高到低"
+        - option "无 OAG 稳定性从低到高"
+        - option "有 OAG 稳定性从低到高"
+      - tablist "视图" [ref=f2e32]:
+        - button "单题对比" [ref=f2e33] [cursor=pointer]
+        - button "全量列表" [ref=f2e34] [cursor=pointer]
+    - generic [ref=f2e35]:
+      - generic [ref=f2e36]:
+        - button "‹" [disabled] [ref=f2e37]
+        - generic [ref=f2e38]:
+          - text: 1 / 1
+          - heading "算法一致性验证" [level=2] [ref=f2e311]
+          - paragraph [ref=f2e40]: 序号 1 · 5 轮记录
+        - button "›" [disabled] [ref=f2e41]
+      - generic [ref=f2e42]:
+        - generic [ref=f2e43]:
+          - text: 当前题 OAG 优势
+          - strong [ref=f2e44]: "+23.7"
+        - generic [ref=f2e45]:
+          - generic [ref=f2e46]: 无 OAG 50.4
+          - generic [ref=f2e49]: 有 OAG 74.1
+      - generic [ref=f2e52]:
+        - article [ref=f2e53]:
+          - generic [ref=f2e54]:
+            - heading "无 OAG" [level=3] [ref=f2e55]
+            - paragraph [ref=f2e56]: 稳定性 50.4 · 字面相似 79.6% · 完全重复 0% · 有效回答 5 条 · 缺失 0 条
+            - generic [ref=f2e57]:
+              - generic [ref=f2e312]:
+                - generic [ref=f2e313]:
+                  - generic [ref=f2e314]: 共识相似
+                  - strong [ref=f2e315]: "72.4"
+                - generic [ref=f2e318]:
+                  - generic [ref=f2e319]: 信息覆盖
+                  - strong [ref=f2e320]: "75.6"
+                - generic [ref=f2e323]:
+                  - generic [ref=f2e324]: 数值一致
+                  - strong [ref=f2e325]: "0"
+                - generic [ref=f2e327]:
+                  - generic [ref=f2e328]: 结构一致性
+                  - strong [ref=f2e329]: "100"
+              - generic [ref=f2e332]:
+                - generic [ref=f2e333]:
+                  - heading "多数派共识" [level=4] [ref=f2e334]
+                  - paragraph [ref=f2e335]: 多数派共识：4/5 轮进入多数派；平均相似 71.4%；中位相似 71.1%；离群轮次：第3轮
+                - generic [ref=f2e336]:
+                  - heading "信息覆盖" [level=4] [ref=f2e337]
+                  - paragraph [ref=f2e338]: 共同信息：本基金近一年表现较好，收益为 8.2%，回撤为 -5.1%，整体可以关注；本基金近一年表现较好，收益为 6.1%，回撤为 -9.8%，整体可以关注；本基金近一年表现较好，收益为 9.9%，回撤为 -6.4%，整体可以关注；本基金近一年表现较好，收益为 5.0%，回撤为 -12.2%，整体可以关...；覆盖不足：无明显覆盖不足
+                - generic [ref=f2e339]:
+                  - heading "数值一致" [level=4] [ref=f2e340]
+                  - paragraph [ref=f2e341]: 稳定数值/实体：无高频稳定项；数值漂移：8.2%、-5.1%、6.1%、-9.8%、11.4%、-3.0%、5.0%、-12.2%
+                - generic [ref=f2e342]:
+                  - heading "结构一致性" [level=4] [ref=f2e343]
+                  - paragraph [ref=f2e344]: 结构特征：以普通段落为主
+          - generic [ref=f2e92]:
+            - article [ref=f2e345]:
+              - generic [ref=f2e346]:
+                - strong [ref=f2e347]: 第 1 轮
+                - generic [ref=f2e348]: 35 字符
+              - paragraph [ref=f2e350]: 本基金近一年表现较好，收益为 8.2%，回撤为 -5.1%，整体可以关注。
+              - generic [ref=f2e351]:
+                - button "展开" [ref=f2e352] [cursor=pointer]
+                - button "查看原文" [ref=f2e353] [cursor=pointer]
+                - button "复制回答" [ref=f2e354] [cursor=pointer]
+            - article [ref=f2e355]:
+              - generic [ref=f2e356]:
+                - strong [ref=f2e357]: 第 2 轮
+                - generic [ref=f2e358]: 35 字符
+              - paragraph [ref=f2e360]: 本基金近一年表现较好，收益为 6.1%，回撤为 -9.8%，整体可以关注。
+              - generic [ref=f2e361]:
+                - button "展开" [ref=f2e362] [cursor=pointer]
+                - button "查看原文" [ref=f2e363] [cursor=pointer]
+                - button "复制回答" [ref=f2e364] [cursor=pointer]
+            - article [ref=f2e365]:
+              - generic [ref=f2e366]:
+                - strong [ref=f2e367]: 第 3 轮
+                - generic [ref=f2e368]: 36 字符
+              - paragraph [ref=f2e370]: 本基金近一年表现较好，收益为 11.4%，回撤为 -3.0%，整体可以关注。
+              - generic [ref=f2e371]:
+                - button "展开" [ref=f2e372] [cursor=pointer]
+                - button "查看原文" [ref=f2e373] [cursor=pointer]
+                - button "复制回答" [ref=f2e374] [cursor=pointer]
+            - article [ref=f2e375]:
+              - generic [ref=f2e376]:
+                - strong [ref=f2e377]: 第 4 轮
+                - generic [ref=f2e378]: 36 字符
+              - paragraph [ref=f2e380]: 本基金近一年表现较好，收益为 5.0%，回撤为 -12.2%，整体可以关注。
+              - generic [ref=f2e381]:
+                - button "展开" [ref=f2e382] [cursor=pointer]
+                - button "查看原文" [ref=f2e383] [cursor=pointer]
+                - button "复制回答" [ref=f2e384] [cursor=pointer]
+            - article [ref=f2e385]:
+              - generic [ref=f2e386]:
+                - strong [ref=f2e387]: 第 5 轮
+                - generic [ref=f2e388]: 35 字符
+              - paragraph [ref=f2e390]: 本基金近一年表现较好，收益为 9.9%，回撤为 -6.4%，整体可以关注。
+              - generic [ref=f2e391]:
+                - button "展开" [ref=f2e392] [cursor=pointer]
+                - button "查看原文" [ref=f2e393] [cursor=pointer]
+                - button "复制回答" [ref=f2e394] [cursor=pointer]
+        - article [ref=f2e146]:
+          - generic [ref=f2e147]:
+            - heading "有 OAG" [level=3] [ref=f2e148]
+            - paragraph [ref=f2e149]: 稳定性 74.1 · 字面相似 52.1% · 完全重复 0% · 有效回答 5 条 · 缺失 0 条
+            - generic [ref=f2e150]:
+              - generic [ref=f2e395]:
+                - generic [ref=f2e396]:
+                  - generic [ref=f2e397]: 共识相似
+                  - strong [ref=f2e398]: "55.1"
+                - generic [ref=f2e401]:
+                  - generic [ref=f2e402]: 信息覆盖
+                  - strong [ref=f2e403]: "49.2"
+                - generic [ref=f2e406]:
+                  - generic [ref=f2e407]: 数值一致
+                  - strong [ref=f2e408]: "100"
+                - generic [ref=f2e411]:
+                  - generic [ref=f2e412]: 结构一致性
+                  - strong [ref=f2e413]: "100"
+              - generic [ref=f2e416]:
+                - generic [ref=f2e417]:
+                  - heading "多数派共识" [level=4] [ref=f2e418]
+                  - paragraph [ref=f2e419]: 多数派共识：5/5 轮进入多数派；平均相似 47.9%；中位相似 47.4%；离群轮次：无明显离群
+                - generic [ref=f2e420]:
+                  - heading "信息覆盖" [level=4] [ref=f2e421]
+                  - paragraph [ref=f2e422]: 共同信息：结论看，该基金近一年表现稳健：收益 8.2%，最大回撤 -5.1%，可以...；从收益和回撤看，基金近一年收益 8.2%，最大回撤 -5.1%，整体可关...；基金近一年收益为 8.2%，最大回撤为 -5.1%，表现较稳定，可以关注；该产品近一年收益达到 8.2%，最大回撤为 -5.1%，整体表现稳健，值...；覆盖不足：第1轮、第2轮、第3轮、第4轮、第5轮
+                - generic [ref=f2e423]:
+                  - heading "数值一致" [level=4] [ref=f2e424]
+                  - paragraph [ref=f2e425]: 稳定数值/实体：8.2%、-5.1%；数值漂移：无明显漂移
+                - generic [ref=f2e426]:
+                  - heading "结构一致性" [level=4] [ref=f2e427]
+                  - paragraph [ref=f2e428]: 结构特征：以普通段落为主
+          - generic [ref=f2e185]:
+            - article [ref=f2e429]:
+              - generic [ref=f2e430]:
+                - strong [ref=f2e431]: 第 1 轮
+                - generic [ref=f2e432]: 37 字符
+              - paragraph [ref=f2e434]: 结论看，该基金近一年表现稳健：收益 8.2%，最大回撤 -5.1%，可以关注。
+              - generic [ref=f2e435]:
+                - button "展开" [ref=f2e436] [cursor=pointer]
+                - button "查看原文" [ref=f2e437] [cursor=pointer]
+                - button "复制回答" [ref=f2e438] [cursor=pointer]
+            - article [ref=f2e439]:
+              - generic [ref=f2e440]:
+                - strong [ref=f2e441]: 第 2 轮
+                - generic [ref=f2e442]: 38 字符
+              - paragraph [ref=f2e444]: 该产品近一年收益达到 8.2%，最大回撤为 -5.1%，整体表现稳健，值得关注。
+              - generic [ref=f2e445]:
+                - button "展开" [ref=f2e446] [cursor=pointer]
+                - button "查看原文" [ref=f2e447] [cursor=pointer]
+                - button "复制回答" [ref=f2e448] [cursor=pointer]
+            - article [ref=f2e449]:
+              - generic [ref=f2e450]:
+                - strong [ref=f2e451]: 第 3 轮
+                - generic [ref=f2e452]: 33 字符
+              - paragraph [ref=f2e454]: 近一年看，收益 8.2%、回撤 -5.1%，整体较稳健，可以继续关注。
+              - generic [ref=f2e455]:
+                - button "展开" [ref=f2e456] [cursor=pointer]
+                - button "查看原文" [ref=f2e457] [cursor=pointer]
+                - button "复制回答" [ref=f2e458] [cursor=pointer]
+            - article [ref=f2e459]:
+              - generic [ref=f2e460]:
+                - strong [ref=f2e461]: 第 4 轮
+                - generic [ref=f2e462]: 36 字符
+              - paragraph [ref=f2e464]: 从收益和回撤看，基金近一年收益 8.2%，最大回撤 -5.1%，整体可关注。
+              - generic [ref=f2e465]:
+                - button "展开" [ref=f2e466] [cursor=pointer]
+                - button "查看原文" [ref=f2e467] [cursor=pointer]
+                - button "复制回答" [ref=f2e468] [cursor=pointer]
+            - article [ref=f2e469]:
+              - generic [ref=f2e470]:
+                - strong [ref=f2e471]: 第 5 轮
+                - generic [ref=f2e472]: 35 字符
+              - paragraph [ref=f2e474]: 基金近一年收益为 8.2%，最大回撤为 -5.1%，表现较稳定，可以关注。
+              - generic [ref=f2e475]:
+                - button "展开" [ref=f2e476] [cursor=pointer]
+                - button "查看原文" [ref=f2e477] [cursor=pointer]
+                - button "复制回答" [ref=f2e478] [cursor=pointer]

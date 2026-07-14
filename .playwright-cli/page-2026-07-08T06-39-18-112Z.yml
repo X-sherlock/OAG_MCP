@@ -1,0 +1,125 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: Domain Ontology Planner
+      - heading "新领域本体关系规划" [level=1] [ref=e6]
+    - generic [ref=e7]:
+      - generic [ref=e8]: 百炼配置已就绪
+      - generic [ref=e9]: qwen3.5-plus-2026-04-20
+      - generic [ref=e10]: 未生成领域
+  - main [ref=e11]:
+    - generic [ref=e12]:
+      - generic "流程" [ref=e13]:
+        - generic [ref=e14]:
+          - strong [ref=e15]: 录入
+          - generic [ref=e16]: 对象与属性
+        - generic [ref=e17]:
+          - strong [ref=e18]: 规划
+          - generic [ref=e19]: 关系方案
+        - generic [ref=e20]:
+          - strong [ref=e21]: 生成
+          - generic [ref=e22]: YAML 与图谱
+      - generic [ref=e23]:
+        - generic [ref=e24]:
+          - generic [ref=e25]:
+            - heading "领域信息" [level=2] [ref=e26]
+            - paragraph [ref=e27]: 描述一个全新业务领域，系统会先规划关系，再由你确认生成图谱。
+          - button "清空" [ref=e28] [cursor=pointer]
+        - generic [ref=e29]:
+          - text: 领域名称
+          - textbox "领域名称" [ref=e30]:
+            - /placeholder: 例如 售后维修 / 电商订单 / 医院门诊
+        - generic [ref=e31]:
+          - text: 领域说明
+          - textbox "领域说明" [ref=e32]:
+            - /placeholder: 说明业务范围、主要对象、关键流程或边界
+        - generic [ref=e33]:
+          - button "售后维修示例" [ref=e34] [cursor=pointer]
+          - button "电商订单示例" [ref=e35] [cursor=pointer]
+          - button "在线课程示例" [ref=e36] [cursor=pointer]
+      - generic [ref=e37]:
+        - generic [ref=e38]:
+          - heading "对象" [level=2] [ref=e39]
+          - button "新增对象" [ref=e40] [cursor=pointer]
+        - generic [ref=e41]:
+          - generic [ref=e42]:
+            - generic [ref=e43]: 对象标识
+            - generic [ref=e44]: 中文名
+            - generic [ref=e45]: 描述
+          - generic [ref=e46]:
+            - textbox "RepairOrder" [ref=e47]
+            - textbox "维修单" [ref=e48]
+            - textbox "对象说明" [ref=e49]
+            - button "删除" [ref=e50] [cursor=pointer]
+      - generic [ref=e51]:
+        - generic [ref=e52]:
+          - heading "属性" [level=2] [ref=e53]
+          - button "新增属性" [ref=e54] [cursor=pointer]
+        - generic [ref=e55]:
+          - generic [ref=e56]:
+            - generic [ref=e57]: 属性标识
+            - generic [ref=e58]: 中文名
+            - generic [ref=e59]: 所属对象
+            - generic [ref=e60]: 值类型
+            - generic [ref=e61]: 描述
+          - generic [ref=e62]:
+            - textbox "order_status" [ref=e63]
+            - textbox "维修单状态" [ref=e64]
+            - textbox "RepairOrder" [ref=e65]
+            - textbox "string" [ref=e66]
+            - textbox "属性说明" [ref=e67]
+            - button "删除" [ref=e68] [cursor=pointer]
+      - generic [ref=e69]:
+        - heading "批量说明与反馈" [level=2] [ref=e70]
+        - generic [ref=e71]:
+          - text: 批量补充
+          - textbox "批量补充" [ref=e72]:
+            - /placeholder: 粘贴对象清单、属性说明、业务规则、已有草稿等
+        - generic [ref=e73]:
+          - text: 调整反馈
+          - textbox "调整反馈" [ref=e74]:
+            - /placeholder: 对上一版规划不满意时，输入要调整的地方后重新规划
+        - generic [ref=e75]:
+          - button "生成规划方案" [ref=e76] [cursor=pointer]
+          - button "按反馈重新规划" [disabled] [ref=e77]
+    - generic [ref=e78]:
+      - generic [ref=e79]:
+        - generic [ref=e81]:
+          - heading "规划状态" [level=2] [ref=e82]
+          - paragraph [ref=e83]: 规划方案生成后会以弹窗方式展示，确认前不会写入 YAML。
+        - generic [ref=e84]:
+          - strong [ref=e85]: 等待生成规划方案
+          - generic [ref=e86]: 填写领域对象、属性和业务说明后，点击“生成规划方案”。
+        - generic [ref=e87]:
+          - button "查看规划方案" [disabled] [ref=e88]
+          - button "确认生成关系图" [disabled] [ref=e89]
+      - generic [ref=e90]:
+        - generic [ref=e91]:
+          - heading "已生成领域" [level=2] [ref=e92]
+          - button "刷新" [ref=e93] [cursor=pointer]
+        - generic [ref=e94]:
+          - button "售后维修 domain_795745d9 · 2026-07-08T14:27:52" [ref=e95] [cursor=pointer]:
+            - strong [ref=e96]: 售后维修
+            - generic [ref=e97]: domain_795745d9 · 2026-07-08T14:27:52
+          - button "售后维修 domain_795745d9_1ccdb8 · 2026-07-08T11:36:17" [ref=e98] [cursor=pointer]:
+            - strong [ref=e99]: 售后维修
+            - generic [ref=e100]: domain_795745d9_1ccdb8 · 2026-07-08T11:36:17
+    - generic [ref=e102]:
+      - generic [ref=e103]:
+        - generic [ref=e104]:
+          - heading "本体关系图" [level=2] [ref=e105]
+          - paragraph [ref=e106]: 生成后可在画布中查看和调整对象、属性与关系。
+        - generic [ref=e107]:
+          - button "展开画布" [ref=e108] [cursor=pointer]
+          - button "新增节点" [disabled] [ref=e109]
+          - button "新增关系" [disabled] [ref=e110]
+      - generic [ref=e111]: 暂无图谱
+  - complementary "详情面板" [ref=e112]:
+    - generic [ref=e113]:
+      - generic [ref=e114]:
+        - heading "未选择" [level=2] [ref=e115]
+        - paragraph [ref=e116]: 点击图中的节点或关系查看详情。
+      - button "关闭详情" [ref=e117] [cursor=pointer]: ×
+    - generic [ref=e118]:
+      - strong [ref=e119]: 没有选中元素
+      - generic [ref=e120]: 生成关系图后，选择对象、属性或关系进行编辑。

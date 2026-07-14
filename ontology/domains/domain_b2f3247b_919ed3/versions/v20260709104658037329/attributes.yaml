@@ -1,0 +1,67 @@
+- attribute_name: course_level
+  attribute_name_zh: 课程难度
+  description: 课程难度等级。
+  value_type: string
+  object_types:
+  - Course
+  aliases: []
+  enabled: true
+- attribute_name: lesson_duration
+  attribute_name_zh: 课时时长
+  description: 课时持续时间。
+  value_type: number
+  object_types:
+  - Lesson
+  aliases: []
+  enabled: true
+- attribute_name: assignment_status
+  attribute_name_zh: 作业状态
+  description: 作业提交状态。
+  value_type: string
+  object_types:
+  - Assignment
+  aliases: []
+  enabled: true
+- attribute_name: enrollment_date
+  attribute_name_zh: 报名日期
+  description: 学生报名课程的时间节点。
+  value_type: string
+  object_types:
+  - Student
+  - Course
+  aliases: []
+  enabled: true
+- attribute_name: submission_score
+  attribute_name_zh: 提交成绩
+  description: 学生作业提交的得分。
+  value_type: number
+  object_types:
+  - Assignment
+  - Student
+  aliases: []
+  enabled: true
+- attribute_name: attendance_rate
+  attribute_name_zh: 出勤率
+  description: 学生上课出勤的比例。
+  value_type: number
+  object_types:
+  - Student
+  - Course
+  aliases: []
+  enabled: true
+- attribute_name: classroom_location
+  attribute_name_zh: 教室位置
+  description: 教室的物理地址或虚拟链接。
+  value_type: string
+  object_types:
+  - Classroom
+  aliases: []
+  enabled: true
+- attribute_name: office_capacity
+  attribute_name_zh: 办公室容量
+  description: 办公室可容纳的教师数量。
+  value_type: number
+  object_types:
+  - Office
+  aliases: []
+  enabled: true

@@ -1,0 +1,45 @@
+- relation_type: submits_order
+  relation_name_zh: 提交维修单
+  description: 客户是维修单的发起者，负责提交维修申请。
+  source_node_types:
+  - ObjectType:Customer
+  target_node_types:
+  - ObjectType:RepairOrder
+  direction: outbound
+  enabled: true
+- relation_type: assigned_to_engineer
+  relation_name_zh: 分配给工程师
+  description: 维修单创建后需分配给具体工程师进行处理和跟进。
+  source_node_types:
+  - ObjectType:RepairOrder
+  target_node_types:
+  - ObjectType:Engineer
+  direction: outbound
+  enabled: true
+- relation_type: has_status
+  relation_name_zh: 具有状态属性
+  description: 维修单需要记录当前的处理进度状态以跟踪服务流程。
+  source_node_types:
+  - ObjectType:RepairOrder
+  target_node_types:
+  - Attribute:order_status
+  direction: outbound
+  enabled: true
+- relation_type: has_fault_type
+  relation_name_zh: 具有故障类型属性
+  description: 维修单需明确故障分类，以便系统或工程师匹配相应的维修方案。
+  source_node_types:
+  - ObjectType:RepairOrder
+  target_node_types:
+  - Attribute:fault_type
+  direction: outbound
+  enabled: true
+- relation_type: has_skill_level
+  relation_name_zh: 具有技能等级属性
+  description: 工程师的技能等级决定了其可处理的维修单类型和优先级。
+  source_node_types:
+  - ObjectType:Engineer
+  target_node_types:
+  - Attribute:engineer_level
+  direction: outbound
+  enabled: true

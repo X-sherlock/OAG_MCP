@@ -1,0 +1,63 @@
+- relation_type: enrolls_in
+  relation_name_zh: 报名课程
+  description: 描述学生选课报名的核心业务行为。
+  source_node_types:
+  - Student
+  target_node_types:
+  - Course
+  direction: outbound
+  enabled: true
+- relation_type: contains_lesson
+  relation_name_zh: 包含课时
+  description: 课程由多个课时组成，体现教学内容的层级结构。
+  source_node_types:
+  - Course
+  target_node_types:
+  - Lesson
+  direction: outbound
+  enabled: true
+- relation_type: contains_assignment
+  relation_name_zh: 包含作业
+  description: 课程包含作业，用于考核学生学习效果。
+  source_node_types:
+  - Course
+  target_node_types:
+  - Assignment
+  direction: outbound
+  enabled: true
+- relation_type: teaches_course
+  relation_name_zh: 教授课程
+  description: 教师负责课程的教学与内容发布。
+  source_node_types:
+  - Teacher
+  target_node_types:
+  - Course
+  direction: outbound
+  enabled: true
+- relation_type: submits_assignment
+  relation_name_zh: 提交作业
+  description: 学生完成学习后需提交对应课程的作业。
+  source_node_types:
+  - Student
+  target_node_types:
+  - Assignment
+  direction: outbound
+  enabled: true
+- relation_type: grades_assignment
+  relation_name_zh: 批改作业
+  description: 教师对学生提交的作业进行批改并反馈成绩。
+  source_node_types:
+  - Teacher
+  target_node_types:
+  - Assignment
+  direction: outbound
+  enabled: true
+- relation_type: has_attribute
+  relation_name_zh: 具有属性
+  description: 对象与数据属性的关联关系。
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - Attribute
+  direction: outbound
+  enabled: true

@@ -1,0 +1,310 @@
+- generic [ref=f5e2]:
+  - banner [ref=f5e3]:
+    - generic [ref=f5e4]:
+      - generic [ref=f5e5]: OAG
+      - generic [ref=f5e6]:
+        - heading "回答稳定性对比" [level=1] [ref=f5e7]
+        - paragraph [ref=f5e8]: 对比无 OAG 与有 OAG 在 5 轮重复问答中的一致性表现
+    - generic [ref=f5e9]:
+      - generic [ref=f5e10]:
+        - text: 导入 CSV
+        - button "导入 CSV"
+      - button "读取默认数据" [ref=f5e11] [cursor=pointer]
+  - main [ref=f5e12]:
+    - region "整体概览" [ref=f5e13]:
+      - article [ref=f5e14]:
+        - generic [ref=f5e15]: 问题数
+        - strong [ref=f5e16]: "3"
+        - text: 15 条回答记录
+      - article [ref=f5e17]:
+        - generic [ref=f5e18]: 无 OAG 稳定性
+        - strong [ref=f5e19]: "63.7"
+        - text: 朴素回答平均分
+      - article [ref=f5e20]:
+        - generic [ref=f5e21]: 有 OAG 稳定性
+        - strong [ref=f5e22]: "99.1"
+        - text: OAG 回答平均分
+      - article [ref=f5e23]:
+        - generic [ref=f5e24]: OAG 优势
+        - strong [ref=f5e25]: "+35.4"
+        - text: 整体提升明显
+    - region "搜索与视图控制" [ref=f5e26]:
+      - generic [ref=f5e27]:
+        - searchbox "搜索问题、序号或回答内容" [ref=f5e28]
+        - button "×" [ref=f5e29] [cursor=pointer]
+      - combobox "筛选问题" [ref=f5e30]:
+        - option "全部问题" [selected]
+        - option "OAG 共识更稳定"
+        - option "OAG 信息覆盖更稳定"
+        - option "存在数值漂移"
+        - option "有效样本不足"
+        - option "低稳定性问题"
+        - option "数据异常"
+      - combobox "排序方式" [ref=f5e31]:
+        - option "按序号" [selected]
+        - option "OAG 优势从高到低"
+        - option "OAG 优势从低到高"
+        - option "共识差异从高到低"
+        - option "信息覆盖差异从高到低"
+        - option "数值一致差异从高到低"
+        - option "无 OAG 稳定性从低到高"
+        - option "有 OAG 稳定性从低到高"
+      - tablist "视图" [ref=f5e32]:
+        - button "单题对比" [ref=f5e33] [cursor=pointer]
+        - button "全量列表" [ref=f5e34] [cursor=pointer]
+    - generic [ref=f5e35]:
+      - generic [ref=f5e36]:
+        - button "‹" [disabled] [ref=f5e37]
+        - generic [ref=f5e38]:
+          - text: 1 / 3
+          - heading "对比两只基金近一年收益稳定性" [level=2] [ref=f5e39]
+          - paragraph [ref=f5e40]: 序号 1 · 5 轮记录
+        - button "›" [ref=f5e41] [cursor=pointer]
+      - generic [ref=f5e42]:
+        - generic [ref=f5e43]:
+          - text: 当前题 OAG 优势
+          - strong [ref=f5e44]: "+28.8"
+        - generic [ref=f5e45]:
+          - generic [ref=f5e46]: 无 OAG 68.5
+          - generic [ref=f5e49]: 有 OAG 97.3
+      - generic [ref=f5e52]:
+        - article [ref=f5e53]:
+          - generic [ref=f5e54]:
+            - heading "无 OAG" [level=3] [ref=f5e55]
+            - paragraph [ref=f5e56]: 稳定性 68.5 · 字面相似 18.1% · 完全重复 0% · 有效回答 5 条 · 缺失 0 条
+            - generic [ref=f5e57]:
+              - generic [ref=f5e58]:
+                - generic [ref=f5e59]:
+                  - generic [ref=f5e60]: 共识相似
+                  - strong [ref=f5e61]: "51.5"
+                - generic [ref=f5e64]:
+                  - generic [ref=f5e65]: 信息覆盖
+                  - strong [ref=f5e66]: "48.1"
+                - generic [ref=f5e69]:
+                  - generic [ref=f5e70]: 数值一致
+                  - strong [ref=f5e71]: "100"
+                - generic [ref=f5e74]:
+                  - generic [ref=f5e75]: 结构一致性
+                  - strong [ref=f5e76]: "59"
+              - generic [ref=f5e79]:
+                - generic [ref=f5e80]:
+                  - heading "多数派共识" [level=4] [ref=f5e81]
+                  - paragraph [ref=f5e82]: 多数派共识：4/5 轮进入多数派；平均相似 22.1%；中位相似 23.3%；离群轮次：第5轮
+                - generic [ref=f5e83]:
+                  - heading "信息覆盖" [level=4] [ref=f5e84]
+                  - paragraph [ref=f5e85]: 共同信息：未形成稳定共同信息单元；覆盖不足：第1轮、第2轮、第3轮、第4轮、第5轮
+                - generic [ref=f5e86]:
+                  - heading "数值一致" [level=4] [ref=f5e87]
+                  - paragraph [ref=f5e88]: 数值/实体：未检测到可比较数值，按中性一致处理。；数值漂移：无
+                - generic [ref=f5e89]:
+                  - heading "结构一致性" [level=4] [ref=f5e90]
+                  - paragraph [ref=f5e91]: 结构特征：标题、列表
+          - generic [ref=f5e92]:
+            - article [ref=f5e93]:
+              - generic [ref=f5e94]:
+                - strong [ref=f5e95]: 第 1 轮
+                - generic [ref=f5e96]: 35 字符
+              - generic [ref=f5e97]:
+                - heading "结论" [level=1] [ref=f5e98]
+                - text: 近一年收益表现需要结合波动率观察。
+                - list [ref=f5e99]:
+                  - listitem [ref=f5e100]: 基金A收益较高
+                  - listitem [ref=f5e101]: 基金B波动较低
+              - generic [ref=f5e102]:
+                - button "展开" [ref=f5e103] [cursor=pointer]
+                - button "查看原文" [ref=f5e104] [cursor=pointer]
+                - button "复制回答" [ref=f5e105] [cursor=pointer]
+            - article [ref=f5e106]:
+              - generic [ref=f5e107]:
+                - strong [ref=f5e108]: 第 2 轮
+                - generic [ref=f5e109]: 42 字符
+              - paragraph [ref=f5e111]: 基金A和基金B各有优势。基金A收益可能更好，基金B风险可能更低，建议结合投资目标判断。
+              - generic [ref=f5e112]:
+                - button "展开" [ref=f5e113] [cursor=pointer]
+                - button "查看原文" [ref=f5e114] [cursor=pointer]
+                - button "复制回答" [ref=f5e115] [cursor=pointer]
+            - article [ref=f5e116]:
+              - generic [ref=f5e117]:
+                - strong [ref=f5e118]: 第 3 轮
+                - generic [ref=f5e119]: 31 字符
+              - paragraph [ref=f5e121]: 从收益看基金A略好，从风险看基金B略稳。若偏稳健可以考虑基金B。
+              - generic [ref=f5e122]:
+                - button "展开" [ref=f5e123] [cursor=pointer]
+                - button "查看原文" [ref=f5e124] [cursor=pointer]
+                - button "复制回答" [ref=f5e125] [cursor=pointer]
+            - article [ref=f5e126]:
+              - generic [ref=f5e127]:
+                - strong [ref=f5e128]: 第 4 轮
+                - generic [ref=f5e129]: 31 字符
+              - paragraph [ref=f5e131]: 基金A最近一年收益更突出，但基金B可能更适合风险偏好低的投资者。
+              - generic [ref=f5e132]:
+                - button "展开" [ref=f5e133] [cursor=pointer]
+                - button "查看原文" [ref=f5e134] [cursor=pointer]
+                - button "复制回答" [ref=f5e135] [cursor=pointer]
+            - article [ref=f5e136]:
+              - generic [ref=f5e137]:
+                - strong [ref=f5e138]: 第 5 轮
+                - generic [ref=f5e139]: 30 字符
+              - paragraph [ref=f5e141]: 需要更多数据才能判断。一般应比较收益、回撤、波动率和基金经理。
+              - generic [ref=f5e142]:
+                - button "展开" [ref=f5e143] [cursor=pointer]
+                - button "查看原文" [ref=f5e144] [cursor=pointer]
+                - button "复制回答" [ref=f5e145] [cursor=pointer]
+        - article [ref=f5e146]:
+          - generic [ref=f5e147]:
+            - heading "有 OAG" [level=3] [ref=f5e148]
+            - paragraph [ref=f5e149]: 稳定性 97.3 · 字面相似 98.2% · 完全重复 30% · 有效回答 5 条 · 缺失 0 条
+            - generic [ref=f5e150]:
+              - generic [ref=f5e151]:
+                - generic [ref=f5e152]:
+                  - generic [ref=f5e153]: 共识相似
+                  - strong [ref=f5e154]: "99"
+                - generic [ref=f5e157]:
+                  - generic [ref=f5e158]: 信息覆盖
+                  - strong [ref=f5e159]: "90.9"
+                - generic [ref=f5e162]:
+                  - generic [ref=f5e163]: 数值一致
+                  - strong [ref=f5e164]: "100"
+                - generic [ref=f5e167]:
+                  - generic [ref=f5e168]: 结构一致性
+                  - strong [ref=f5e169]: "94.3"
+              - generic [ref=f5e172]:
+                - generic [ref=f5e173]:
+                  - heading "多数派共识" [level=4] [ref=f5e174]
+                  - paragraph [ref=f5e175]: 多数派共识：5/5 轮进入多数派；平均相似 97.8%；中位相似 98.2%；离群轮次：无明显离群
+                - generic [ref=f5e176]:
+                  - heading "信息覆盖" [level=4] [ref=f5e177]
+                  - paragraph [ref=f5e178]: 共同信息：指标 基金A 基金B；年化收益 8.2% 6.9%；基于 OAG 检索到的收益率、波动率和回撤事实，基金A近一年收益更高，但...；指标 基金A 基金B --- --- --- 年化收益 8.2% 6.9...；覆盖不足：无明显覆盖不足
+                - generic [ref=f5e179]:
+                  - heading "数值一致" [level=4] [ref=f5e180]
+                  - paragraph [ref=f5e181]: 稳定数值/实体：8.2%、6.9%、-5.1%、-3.7%；数值漂移：无明显漂移
+                - generic [ref=f5e182]:
+                  - heading "结构一致性" [level=4] [ref=f5e183]
+                  - paragraph [ref=f5e184]: 结构特征：标题、表格
+          - generic [ref=f5e185]:
+            - article [ref=f5e186]:
+              - generic [ref=f5e187]:
+                - strong [ref=f5e188]: 第 1 轮
+                - generic [ref=f5e189]: 87 字符
+              - generic [ref=f5e190]:
+                - heading "结论" [level=1] [ref=f5e191]
+                - text: 基于 OAG 检索到的收益率、波动率和回撤事实，基金A近一年收益更高，但基金B波动更低。
+                - table [ref=f5e192]:
+                  - rowgroup [ref=f5e193]:
+                    - row "指标 基金A 基金B" [ref=f5e194]:
+                      - columnheader "指标" [ref=f5e195]
+                      - columnheader "基金A" [ref=f5e196]
+                      - columnheader "基金B" [ref=f5e197]
+                  - rowgroup [ref=f5e198]:
+                    - row "年化收益 8.2% 6.9%" [ref=f5e199]:
+                      - cell "年化收益" [ref=f5e200]
+                      - cell "8.2%" [ref=f5e201]
+                      - cell "6.9%" [ref=f5e202]
+                    - row "最大回撤 -5.1% -3.7%" [ref=f5e203]:
+                      - cell "最大回撤" [ref=f5e204]
+                      - cell "-5.1%" [ref=f5e205]
+                      - cell "-3.7%" [ref=f5e206]
+              - generic [ref=f5e207]:
+                - button "展开" [ref=f5e208] [cursor=pointer]
+                - button "查看原文" [ref=f5e209] [cursor=pointer]
+                - button "复制回答" [ref=f5e210] [cursor=pointer]
+            - article [ref=f5e211]:
+              - generic [ref=f5e212]:
+                - strong [ref=f5e213]: 第 2 轮
+                - generic [ref=f5e214]: 84 字符
+              - generic [ref=f5e215]:
+                - paragraph [ref=f5e216]: 基于 OAG 检索到的收益率、波动率和回撤事实，基金A近一年收益更高，但基金B波动更低。
+                - table [ref=f5e217]:
+                  - rowgroup [ref=f5e218]:
+                    - row "指标 基金A 基金B" [ref=f5e219]:
+                      - columnheader "指标" [ref=f5e220]
+                      - columnheader "基金A" [ref=f5e221]
+                      - columnheader "基金B" [ref=f5e222]
+                  - rowgroup [ref=f5e223]:
+                    - row "年化收益 8.2% 6.9%" [ref=f5e224]:
+                      - cell "年化收益" [ref=f5e225]
+                      - cell "8.2%" [ref=f5e226]
+                      - cell "6.9%" [ref=f5e227]
+                    - row "最大回撤 -5.1% -3.7%" [ref=f5e228]:
+                      - cell "最大回撤" [ref=f5e229]
+                      - cell "-5.1%" [ref=f5e230]
+                      - cell "-3.7%" [ref=f5e231]
+              - generic [ref=f5e232]:
+                - button "展开" [ref=f5e233] [cursor=pointer]
+                - button "查看原文" [ref=f5e234] [cursor=pointer]
+                - button "复制回答" [ref=f5e235] [cursor=pointer]
+            - article [ref=f5e236]:
+              - generic [ref=f5e237]:
+                - strong [ref=f5e238]: 第 3 轮
+                - generic [ref=f5e239]: 84 字符
+              - generic [ref=f5e240]:
+                - paragraph [ref=f5e241]: 基于 OAG 检索到的收益率、波动率和回撤事实，基金A近一年收益更高，但基金B波动更低。
+                - table [ref=f5e242]:
+                  - rowgroup [ref=f5e243]:
+                    - row "指标 基金A 基金B" [ref=f5e244]:
+                      - columnheader "指标" [ref=f5e245]
+                      - columnheader "基金A" [ref=f5e246]
+                      - columnheader "基金B" [ref=f5e247]
+                  - rowgroup [ref=f5e248]:
+                    - row "年化收益 8.2% 6.9%" [ref=f5e249]:
+                      - cell "年化收益" [ref=f5e250]
+                      - cell "8.2%" [ref=f5e251]
+                      - cell "6.9%" [ref=f5e252]
+                    - row "最大回撤 -5.1% -3.7%" [ref=f5e253]:
+                      - cell "最大回撤" [ref=f5e254]
+                      - cell "-5.1%" [ref=f5e255]
+                      - cell "-3.7%" [ref=f5e256]
+              - generic [ref=f5e257]:
+                - button "展开" [ref=f5e258] [cursor=pointer]
+                - button "查看原文" [ref=f5e259] [cursor=pointer]
+                - button "复制回答" [ref=f5e260] [cursor=pointer]
+            - article [ref=f5e261]:
+              - generic [ref=f5e262]:
+                - strong [ref=f5e263]: 第 4 轮
+                - generic [ref=f5e264]: 84 字符
+              - generic [ref=f5e265]:
+                - paragraph [ref=f5e266]: 基于 OAG 检索到的收益率、波动率和回撤事实，基金A近一年收益更高，但基金B波动更低。
+                - table [ref=f5e267]:
+                  - rowgroup [ref=f5e268]:
+                    - row "指标 基金A 基金B" [ref=f5e269]:
+                      - columnheader "指标" [ref=f5e270]
+                      - columnheader "基金A" [ref=f5e271]
+                      - columnheader "基金B" [ref=f5e272]
+                  - rowgroup [ref=f5e273]:
+                    - row "年化收益 8.2% 6.9%" [ref=f5e274]:
+                      - cell "年化收益" [ref=f5e275]
+                      - cell "8.2%" [ref=f5e276]
+                      - cell "6.9%" [ref=f5e277]
+                    - row "最大回撤 -5.1% -3.7%" [ref=f5e278]:
+                      - cell "最大回撤" [ref=f5e279]
+                      - cell "-5.1%" [ref=f5e280]
+                      - cell "-3.7%" [ref=f5e281]
+              - generic [ref=f5e282]:
+                - button "展开" [ref=f5e283] [cursor=pointer]
+                - button "查看原文" [ref=f5e284] [cursor=pointer]
+                - button "复制回答" [ref=f5e285] [cursor=pointer]
+            - article [ref=f5e286]:
+              - generic [ref=f5e287]:
+                - strong [ref=f5e288]: 第 5 轮
+                - generic [ref=f5e289]: 84 字符
+              - generic [ref=f5e290]:
+                - paragraph [ref=f5e291]: 基于 OAG 检索到的收益率、波动率和回撤事实，基金A近一年收益更高，但基金B波动更低。
+                - table [ref=f5e292]:
+                  - rowgroup [ref=f5e293]:
+                    - row "指标 基金A 基金B" [ref=f5e294]:
+                      - columnheader "指标" [ref=f5e295]
+                      - columnheader "基金A" [ref=f5e296]
+                      - columnheader "基金B" [ref=f5e297]
+                  - rowgroup [ref=f5e298]:
+                    - row "年化收益 8.2% 6.9%" [ref=f5e299]:
+                      - cell "年化收益" [ref=f5e300]
+                      - cell "8.2%" [ref=f5e301]
+                      - cell "6.9%" [ref=f5e302]
+                    - row "最大回撤 -3.7% -5.1%" [ref=f5e303]:
+                      - cell "最大回撤" [ref=f5e304]
+                      - cell "-3.7%" [ref=f5e305]
+                      - cell "-5.1%" [ref=f5e306]
+              - generic [ref=f5e307]:
+                - button "展开" [ref=f5e308] [cursor=pointer]
+                - button "查看原文" [ref=f5e309] [cursor=pointer]
+                - button "复制回答" [ref=f5e310] [cursor=pointer]

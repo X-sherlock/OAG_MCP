@@ -1,0 +1,37 @@
+- relation_type: correlates_with
+  relation_name_zh: 年级与成绩关联
+  description: 支持对比与解释查询，OAG可分析不同年级学生的成绩分布差异，辅助教学难度评估与分层辅导策略制定。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: assigned_to
+  relation_name_zh: 班级绑定教室
+  description: 支持实体导航查询，明确行政班级与固定教学空间的对应关系，便于OAG查询班级教室分配与空间调度。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - ObjectType
+- relation_type: filtered_by
+  relation_name_zh: 年级过滤课程
+  description: 支持过滤查询，OAG可按年级筛选适配课程或统计各年级选课分布，支撑学段课程推荐与资源规划。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+  - ObjectType
+- relation_type: aggregated_to
+  relation_name_zh: 班级聚合出勤
+  description: 支持聚合查询，OAG可汇总班级内学生出勤数据，生成班级级考勤报表，辅助班主任管理与异常预警。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute

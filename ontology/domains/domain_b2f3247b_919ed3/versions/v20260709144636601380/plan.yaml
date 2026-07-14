@@ -1,0 +1,365 @@
+domain_input:
+  domain_name: 在线课程
+  description: 在线教育课程学习领域，描述学生选课、观看课程、提交作业、教师批改和成绩反馈。
+  objects:
+  - object_type: Student
+    object_type_zh: 学生
+    description: 学习课程的用户。
+    enabled: true
+  - object_type: Course
+    object_type_zh: 课程
+    description: 在线课程。
+    enabled: true
+  - object_type: Lesson
+    object_type_zh: 课时
+    description: 课程下的教学单元。
+    enabled: true
+  - object_type: Assignment
+    object_type_zh: 作业
+    description: 课程作业。
+    enabled: true
+  - object_type: Teacher
+    object_type_zh: 教师
+    description: 课程教师。
+    enabled: true
+  - object_type: Office
+    object_type_zh: 办公室
+    description: 教师办公与答疑的物理或虚拟空间。
+    enabled: true
+  - object_type: Classroom
+    object_type_zh: 教室
+    description: 学生上课与互动的教学空间。
+    enabled: true
+  - object_type: Subject
+    object_type_zh: 科目
+    description: 学术分类或知识领域，用于归类课程与评估学习方向。
+    enabled: true
+  attributes:
+  - attribute_name: course_level
+    attribute_name_zh: 课程难度
+    description: 课程难度等级。
+    value_type: string
+    object_types:
+    - Course
+    aliases: []
+    enabled: true
+  - attribute_name: lesson_duration
+    attribute_name_zh: 课时时长
+    description: 课时持续时间。
+    value_type: number
+    object_types:
+    - Lesson
+    aliases: []
+    enabled: true
+  - attribute_name: assignment_status
+    attribute_name_zh: 作业状态
+    description: 作业提交状态。
+    value_type: string
+    object_types:
+    - Assignment
+    aliases: []
+    enabled: true
+  - attribute_name: enrollment_date
+    attribute_name_zh: 报名日期
+    description: 学生报名课程的时间节点。
+    value_type: string
+    object_types:
+    - Student
+    - Course
+    aliases: []
+    enabled: true
+  - attribute_name: submission_score
+    attribute_name_zh: 提交成绩
+    description: 学生作业提交的得分。
+    value_type: number
+    object_types:
+    - Assignment
+    - Student
+    aliases: []
+    enabled: true
+  - attribute_name: attendance_rate
+    attribute_name_zh: 出勤率
+    description: 学生上课出勤的比例。
+    value_type: number
+    object_types:
+    - Student
+    - Course
+    aliases: []
+    enabled: true
+  - attribute_name: office_capacity
+    attribute_name_zh: 办公室容量
+    description: 办公室可容纳的教师数量。
+    value_type: number
+    object_types:
+    - Office
+    aliases: []
+    enabled: true
+  - attribute_name: classroom_location
+    attribute_name_zh: 教室位置
+    description: 教室的物理地址或虚拟链接。
+    value_type: string
+    object_types:
+    - Classroom
+    aliases: []
+    enabled: true
+  - attribute_name: subject_category
+    attribute_name_zh: 科目分类
+    description: 科目的学术分类，如理工、人文、艺术等，用于课程归类与学习路径推荐。
+    value_type: string
+    object_types:
+    - Subject
+    aliases: []
+    enabled: true
+  - attribute_name: subject_credit
+    attribute_name_zh: 科目学分
+    description: 科目对应的标准学分值，用于学业进度计算与毕业要求核对。
+    value_type: number
+    object_types:
+    - Subject
+    aliases: []
+    enabled: true
+  - attribute_name: subject_code
+    attribute_name_zh: 科目代码
+    description: 科目的唯一标识代码，用于系统检索与教务管理对接。
+    value_type: string
+    object_types:
+    - Subject
+    aliases: []
+    enabled: true
+  bulk_text: 学生报名课程；课程由多个课时组成；课程包含作业；教师批改作业并反馈成绩。
+plan:
+  summary_zh: 全量优化在线课程领域本体关系图，严格遵循OAG“属性驱动事实”原则，重构对象导航与属性关联网络。新增watch_progress、submission_time、feedback_content等核心可执行属性，补齐“观看课程、提交作业、教师批改”业务闭环。将关系重心从实体间跳转转向属性间关联，建立难度-成绩、时长-进度、出勤-学分、提交时间-状态等多维分析路径。优化后图谱支持按学科/时间/难度维度的检索、聚合、对比与归因查询，显著提升OAG对教学全链路事实的推理与执行能力。
+  relationships:
+  - source: ObjectType:Teacher
+    target: ObjectType:Office
+    relation_type: assigned_to
+    relation_name_zh: 分配办公
+    reason_zh: 支持实体导航查询，明确教师与办公空间的归属关系，便于OAG检索师资分布与办公资源占用。
+  - source: ObjectType:Student
+    target: ObjectType:Classroom
+    relation_type: attends_in
+    relation_name_zh: 上课地点
+    reason_zh: 支持实体导航查询，明确学生上课的物理或虚拟空间，便于OAG定位教学场景与考勤轨迹。
+  - source: ObjectType:Course
+    target: ObjectType:Classroom
+    relation_type: scheduled_in
+    relation_name_zh: 排课关联
+    reason_zh: 支持实体导航查询，建立课程与教室的调度关系，便于OAG查询课表安排与空间资源冲突检测。
+  - source: ObjectType:Student
+    target: ObjectType:Course
+    relation_type: enrolls_in
+    relation_name_zh: 报名课程
+    reason_zh: 支持实体导航与检索查询，明确学生与课程的归属关系，便于OAG定位选课记录。
+  - source: ObjectType:Course
+    target: ObjectType:Lesson
+    relation_type: comprises
+    relation_name_zh: 包含课时
+    reason_zh: 支持层级导航查询，OAG可通过该关系遍历课程结构，为后续课时序列与进度计算提供基础。
+  - source: ObjectType:Teacher
+    target: ObjectType:Course
+    relation_type: instructs
+    relation_name_zh: 教授课程
+    reason_zh: 支持实体导航查询，明确教师与课程的负责关系，便于OAG检索师资分配与课程归属。
+  - source: ObjectType:Course
+    target: ObjectType:Subject
+    relation_type: categorized_as
+    relation_name_zh: 科目归类
+    reason_zh: 支持实体导航查询，明确课程所属学科分类，便于OAG按知识领域检索课程资源与构建学习路径。
+  - source: Attribute:enrollment_date
+    target: ObjectType:Student
+    relation_type: filtered_by
+    relation_name_zh: 按学生时间过滤
+    reason_zh: 支持时间序列查询，OAG可沿此关系按学生维度筛选报名时间节点，支持按时间窗口检索选课行为。
+  - source: Attribute:submission_score
+    target: ObjectType:Teacher
+    relation_type: evaluated_by
+    relation_name_zh: 教师评估
+    reason_zh: 支持排名与比较查询，OAG可关联教师批改记录进行成绩分布分析，辅助教学质量评估。
+  - source: Attribute:attendance_rate
+    target: ObjectType:Classroom
+    relation_type: aggregated_to
+    relation_name_zh: 汇总至教室
+    reason_zh: 支持聚合查询，OAG可累加学生上课记录，计算教室利用率或出勤统计，优化空间调度。
+  - source: Attribute:course_level
+    target: Attribute:submission_score
+    relation_type: correlates_with
+    relation_name_zh: 难度与成绩相关
+    reason_zh: 支持解释与比较查询，OAG可分析不同难度课程下学生成绩的分布差异，辅助教学诊断与难度调优。
+  - source: Attribute:lesson_duration
+    target: Attribute:watch_progress
+    relation_type: correlates_with
+    relation_name_zh: 时长与进度关联
+    reason_zh: 支持对比与归因查询，OAG可评估课时设计长度与学生实际观看进度的匹配度，优化内容节奏。
+  - source: Attribute:assignment_status
+    target: Attribute:submission_time
+    relation_type: triggered_by
+    relation_name_zh: 时间触发状态
+    reason_zh: 支持状态流转追踪，OAG可分析提交时间分布与作业状态变更规律，识别拖延或集中提交行为。
+  - source: Attribute:submission_score
+    target: Attribute:feedback_content
+    relation_type: explained_by
+    relation_name_zh: 内容解释成绩
+    reason_zh: 支持成绩归因查询，OAG可关联教师评语解释分数高低，辅助教学反馈优化与个性化辅导。
+  - source: Attribute:course_level
+    target: Attribute:subject_category
+    relation_type: correlates_with
+    relation_name_zh: 难度与科目分布
+    reason_zh: 支持解释与对比查询，OAG可分析不同学科分类下的课程难度分布特征，辅助教学资源倾斜与学科难度调优。
+  - source: Attribute:submission_score
+    target: ObjectType:Subject
+    relation_type: aggregated_to
+    relation_name_zh: 按科目聚合
+    reason_zh: 支持聚合与排名查询，OAG可按科目维度聚合学生成绩，用于学科教学质量横向对比与优势学科识别。
+  - source: Attribute:enrollment_date
+    target: ObjectType:Subject
+    relation_type: filtered_by
+    relation_name_zh: 按科目过滤
+    reason_zh: 支持趋势预测查询，OAG可按科目分类筛选报名时间序列，用于热门学科预测与排课容量规划。
+  - source: Attribute:attendance_rate
+    target: Attribute:subject_credit
+    relation_type: correlates_with
+    relation_name_zh: 出勤与学分关联
+    reason_zh: 支持预警与解释查询，OAG可探索学分权重与学生出勤率的关联规律，辅助学业风险预警模型构建。
+  - source: Attribute:watch_progress
+    target: ObjectType:Course
+    relation_type: aggregated_to
+    relation_name_zh: 进度汇总至课程
+    reason_zh: 支持聚合查询，OAG可汇总学生观看进度计算课程整体完课率，评估课程吸引力与教学有效性。
+  - source: Attribute:submission_time
+    target: ObjectType:Student
+    relation_type: filtered_by
+    relation_name_zh: 按学生过滤提交
+    reason_zh: 支持检索与对比查询，OAG可按学生维度筛选作业提交时间，分析学习习惯与时间管理能力。
+  open_questions:
+  - 是否需要引入“学习资源”(LearningResource)对象以支持视频/文档等课时内容的细粒度追踪与版权管理？
+  - 是否需补充“课程先修关系”(prerequisite_course)属性以支持自动化学习路径推荐与依赖校验？
+  - 科目分类体系是否采用标准教育分类标准（如CIP或教育部学科目录），以便与外部教务系统或知识图谱对齐？
+  revision_notes:
+  - 全量重构本体关系网络，严格遵循OAG属性驱动原则。新增watch_progress、submission_time、feedback_content属性以覆盖“观看、提交、批改”业务动词。
+  - 将关系重心从实体跳转转向属性关联，建立难度-成绩、时长-进度、出勤-学分、提交-状态等多维可执行路径。
+  - 修正原计划中属性聚合指向错误的问题，明确ObjectType间仅保留导航关系，Attribute间承担分析、过滤与解释职能。
+  - 整体提升图谱对教学全链路事实的检索、对比、聚合与归因能力，确保所有关系均可直接映射为OAG可执行查询。
+  objects:
+  - object_type: Student
+    object_type_zh: 学生
+    description: 学习课程的用户。
+  - object_type: Course
+    object_type_zh: 课程
+    description: 在线课程。
+  - object_type: Lesson
+    object_type_zh: 课时
+    description: 课程下的教学单元。
+  - object_type: Assignment
+    object_type_zh: 作业
+    description: 课程作业。
+  - object_type: Teacher
+    object_type_zh: 教师
+    description: 课程教师。
+  - object_type: Office
+    object_type_zh: 办公室
+    description: 教师办公与答疑的物理或虚拟空间。
+  - object_type: Classroom
+    object_type_zh: 教室
+    description: 学生上课与互动的教学空间。
+  - object_type: Subject
+    object_type_zh: 科目
+    description: 学术分类或知识领域，用于归类课程与评估学习方向。
+  attributes:
+  - attribute_name: course_level
+    attribute_name_zh: 课程难度
+    object_types:
+    - Course
+    value_type: string
+    description: 课程难度等级。
+  - attribute_name: lesson_duration
+    attribute_name_zh: 课时时长
+    object_types:
+    - Lesson
+    value_type: number
+    description: 课时持续时间。
+  - attribute_name: assignment_status
+    attribute_name_zh: 作业状态
+    object_types:
+    - Assignment
+    value_type: string
+    description: 作业提交状态。
+  - attribute_name: enrollment_date
+    attribute_name_zh: 报名日期
+    object_types:
+    - Student
+    - Course
+    value_type: string
+    description: 学生报名课程的时间节点。
+  - attribute_name: submission_score
+    attribute_name_zh: 提交成绩
+    object_types:
+    - Assignment
+    - Student
+    value_type: number
+    description: 学生作业提交的得分。
+  - attribute_name: attendance_rate
+    attribute_name_zh: 出勤率
+    object_types:
+    - Student
+    - Course
+    value_type: number
+    description: 学生上课出勤的比例。
+  - attribute_name: office_capacity
+    attribute_name_zh: 办公室容量
+    object_types:
+    - Office
+    value_type: number
+    description: 办公室可容纳的教师数量。
+  - attribute_name: classroom_location
+    attribute_name_zh: 教室位置
+    object_types:
+    - Classroom
+    value_type: string
+    description: 教室的物理地址或虚拟链接。
+  - attribute_name: subject_category
+    attribute_name_zh: 科目分类
+    object_types:
+    - Subject
+    value_type: string
+    description: 科目的学术分类，如理工、人文、艺术等，用于课程归类与学习路径推荐。
+  - attribute_name: subject_credit
+    attribute_name_zh: 科目学分
+    object_types:
+    - Subject
+    value_type: number
+    description: 科目对应的标准学分值，用于学业进度计算与毕业要求核对。
+  - attribute_name: subject_code
+    attribute_name_zh: 科目代码
+    object_types:
+    - Subject
+    value_type: string
+    description: 科目的唯一标识代码，用于系统检索与教务管理对接。
+  - attribute_name: watch_progress
+    attribute_name_zh: 观看进度
+    object_types:
+    - Student
+    - Course
+    value_type: number
+    description: 学生观看课程视频的完成比例，用于追踪学习投入度。
+  - attribute_name: submission_time
+    attribute_name_zh: 提交时间
+    object_types:
+    - Student
+    - Assignment
+    value_type: string
+    description: 学生提交作业的具体时间戳，用于分析提交习惯与截止期行为。
+  - attribute_name: feedback_content
+    attribute_name_zh: 批改评语
+    object_types:
+    - Teacher
+    - Assignment
+    value_type: string
+    description: 教师对作业的文字反馈内容，用于成绩归因与个性化指导。
+feedback: 请全量优化当前本体关系图，可以增加或修改现有对象、对象属性，以及关系。
+created_at: '2026-07-09T14:46:36'
+version:
+  version_id: v20260709144636601380
+  parent_version_id: v20260709105127272734
+  summary: 请全量优化当前本体关系图，可以增加或修改现有对象、对象属性，以及关系。
+  operation_summary: 请全量优化当前本体关系图，可以增加或修改现有对象、对象属性，以及关系。
+  created_at: '2026-07-09T14:46:36'

@@ -1,0 +1,117 @@
+- relation_type: manages
+  relation_name_zh: 机构管理
+  description: 支持实体导航查询，明确教师与所属学校的归属关系，便于OAG检索师资分布与机构编制。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: offers
+  relation_name_zh: 课程提供
+  description: 支持实体导航查询，明确课程发布方与学校的对应关系，便于OAG按机构检索课程资源库。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: owns
+  relation_name_zh: 资产归属
+  description: 支持实体导航查询，明确教学空间与学校的产权或管理关系，便于OAG进行资产盘点与调度规划。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: correlates_with
+  relation_name_zh: 类型与难度关联
+  description: 支持对比与解释查询，OAG可分析不同办学性质学校下的课程难度分布特征，辅助教育资源配置评估。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: filtered_by
+  relation_name_zh: 按地域时间过滤
+  description: 支持趋势预测查询，OAG可按校区地理位置筛选报名时间序列，用于区域生源热度分析与排课容量规划。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: aggregated_to
+  relation_name_zh: 按校聚合成绩
+  description: 支持排名与比较查询，OAG可按学校维度聚合作业提交成绩，用于校际学术水平横向对比与优势机构识别。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: contains
+  relation_name_zh: 课程包含课时
+  description: 支持实体导航查询，明确课程与课时的层级结构，便于OAG检索课程大纲与课时明细。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: teaches
+  relation_name_zh: 教师授课
+  description: 支持实体导航查询，明确授课教师与课程的对应关系，便于OAG查询师资排课与课程负责人。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: grades
+  relation_name_zh: 教师批改
+  description: 支持实体导航查询，明确作业批改责任主体，便于OAG追踪成绩反馈链路与管理责任归属。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: submits
+  relation_name_zh: 学生提交
+  description: 支持实体导航查询，明确作业提交主体，便于OAG查询学生个人作业记录与完成轨迹。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: categorized_by
+  relation_name_zh: 课程归类
+  description: 支持实体导航查询，明确课程所属学科分类，便于OAG按知识领域检索课程与规划学习路径。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: uses
+  relation_name_zh: 教师使用
+  description: 支持实体导航查询，明确教师答疑空间归属，便于OAG调度线下/线上辅导资源与排期。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: held_in
+  relation_name_zh: 课程场地
+  description: 支持实体导航查询，明确课程授课场地，便于OAG进行教室排期、容量管理与空间调度。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType

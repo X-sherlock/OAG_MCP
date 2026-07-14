@@ -1,0 +1,126 @@
+- relation_type: enrolls_in
+  relation_name_zh: 报名课程
+  description: 描述学生选课报名的核心业务行为。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: contains_lesson
+  relation_name_zh: 包含课时
+  description: 课程由多个课时组成，体现教学内容的层级结构。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: contains_assignment
+  relation_name_zh: 包含作业
+  description: 课程包含作业，用于考核学生学习效果。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: teaches_course
+  relation_name_zh: 教授课程
+  description: 教师负责课程的教学与内容发布。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: submits_assignment
+  relation_name_zh: 提交作业
+  description: 学生完成学习后需提交对应课程的作业。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: grades_assignment
+  relation_name_zh: 批改作业
+  description: 教师对学生提交的作业进行批改并反馈成绩。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: works_in
+  relation_name_zh: 办公关系
+  description: 教师与办公室之间的日常办公与教研归属关系。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: attends_class
+  relation_name_zh: 上课关系
+  description: 学生与教室之间的集中上课与互动归属关系。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: hosts_lesson
+  relation_name_zh: 承载课时
+  description: 教室作为物理或虚拟空间承载具体课时的教学活动。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: determines_schedule
+  relation_name_zh: 决定排课
+  description: 课时时长直接影响排课时间窗口的规划与冲突检测。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: triggers_grading
+  relation_name_zh: 触发批改
+  description: 作业提交状态变更为已提交后，触发教师批改并生成得分。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: influences_completion
+  relation_name_zh: 影响完成率
+  description: 课程难度等级与学生完成率存在统计相关性，用于学习效果分析。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: maps_to_location
+  relation_name_zh: 映射位置
+  description: 教师办公分配日期与办公室位置关联，支持按时间查询办公地点。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: validates_capacity
+  relation_name_zh: 校验容量
+  description: 学生座位号需在校验教室容量范围内，支持座位分配与超员预警。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute

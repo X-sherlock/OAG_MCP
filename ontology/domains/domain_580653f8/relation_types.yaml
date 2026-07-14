@@ -1,0 +1,162 @@
+- relation_type: issues
+  relation_name_zh: 发行
+  description: 明确发行主体与债券的基础归属关系，用于导航查询某主体发行的全部债券及其基础条款。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: manages
+  relation_name_zh: 管理
+  description: 界定投资者与投资组合的从属关系，支撑按投资者维度聚合组合净值与风险敞口。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: generates
+  relation_name_zh: 产生
+  description: 明确交易市场与行情数据的来源关系，用于限定行情查询的市场范围与上市状态。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: compares
+  relation_name_zh: 收益率对比
+  description: 将债券票面利率与对应期限的收益率曲线利率关联，支撑相对价值分析与定价偏离度计算。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: matches
+  relation_name_zh: 期限匹配
+  description: 将债券到期日映射至收益率曲线的期限点，用于久期计算与利率风险基准对齐。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: influences
+  relation_name_zh: 评级影响利差
+  description: 信用评级等级直接驱动信用利差水平，关联后可支持按评级分层筛选利差分布与信用风险定价。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: correlates
+  relation_name_zh: 展望关联处置
+  description: 评级展望变化常预示或伴随违约处置进展，关联后可追踪负面展望向实际违约及重组状态的转化路径。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: benchmarks
+  relation_name_zh: 价格基准对比
+  description: 将市场净价与持仓成本对齐，支撑浮盈亏计算、交易绩效归因与估值偏离监控。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: interacts
+  relation_name_zh: 收益久期交互
+  description: 到期收益率与久期存在数学与风险传导关系，关联后可支持利率敏感性压力测试与组合免疫策略分析。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: drives
+  relation_name_zh: 交易驱动持仓
+  description: 买卖方向直接决定持仓数量的增减，关联后可实现交易流水与持仓变动的实时对账与敞口追踪。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: aligns
+  relation_name_zh: 成交价对齐全价
+  description: 实际交易价格需与含息全价对比，用于识别交易滑点、应计利息计算与结算金额校验。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: aggregates
+  relation_name_zh: 净值汇总
+  description: 组合净值由底层各债券持仓市值加权汇总得出，关联后可支持组合层面与个券层面的价值穿透查询。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: shapes
+  relation_name_zh: 凸性刻画曲线
+  description: 凸性反映收益率曲线非线性变动对价格的影响，关联后可优化利率风险模型与曲线形态分析。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: triggers
+  relation_name_zh: 违约触发下调
+  description: 违约事件类型直接导致评级等级下调或列入观察，关联后可构建信用风险预警与评级迁移矩阵。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: schedules
+  relation_name_zh: 付息排期
+  description: 现金流支付日期与交易日对齐，用于除息日判断、应计利息截断与交易结算日历管理。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: impacts
+  relation_name_zh: 现金流影响盈亏
+  description: 实际付息或兑付金额改变持仓成本基础，进而影响未实现盈亏的计算口径与收益确认。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: accompanies
+  relation_name_zh: 承销伴随发行
+  description: 承销商角色与发行日期绑定，用于分析不同承销模式下的发行效率、定价能力与市场表现。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: mitigates
+  relation_name_zh: 担保缓释利差
+  description: 担保方式直接影响信用风险溢价，关联后可量化增信措施对信用利差的压缩效应与风险缓释价值。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute

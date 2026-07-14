@@ -1,0 +1,1232 @@
+domain_input:
+  domain_name: 债券投资分析
+  description: 本领域用于描述债券从发行、上市交易、评级跟踪、价格行情、收益率计算、投资组合持仓到风险监控的核心对象和关系。系统需要能够识别债券、发行主体、担保主体、承销商、评级机构、交易市场、行情报价、投资组合、投资者、交易记录、收益率曲线和风险指标之间的关系，并支持围绕债券收益、价格波动、信用风险、久期风险、评级变化、持仓敞口等问题进行查询和分析。
+  objects:
+  - object_type: Bond
+    object_type_zh: 债券
+    description: 固定收益类证券，包含债券代码、债券名称、期限、票面利率、付息方式、到期日等基础信息。
+  - object_type: Issuer
+    object_type_zh: 发行主体
+    description: 发行债券的企业、金融机构、地方政府或其他机构。
+  - object_type: Guarantor
+    object_type_zh: 担保主体
+    description: 为债券偿付提供担保的机构，可为空。
+  - object_type: Underwriter
+    object_type_zh: 承销商
+    description: 负责债券发行承销、销售或簿记建档的金融机构。
+  - object_type: CreditRating
+    object_type_zh: 信用评级
+    description: 评级机构对债券或发行主体给出的信用等级及评级展望。
+  - object_type: RatingAgency
+    object_type_zh: 评级机构
+    description: 提供债券评级、主体评级、评级调整和评级报告的机构。
+  - object_type: BondMarket
+    object_type_zh: 交易市场
+    description: 债券挂牌和交易的市场，例如银行间市场、交易所市场。
+  - object_type: BondQuote
+    object_type_zh: 债券行情
+    description: 某只债券在某个交易日、某个市场上的价格、收益率、成交量等行情数据。
+  - object_type: BondTransaction
+    object_type_zh: 债券交易
+    description: 投资者或组合买入、卖出债券形成的交易记录。
+  - object_type: BondHolding
+    object_type_zh: 债券持仓
+    description: 投资组合或投资者当前持有某只债券的数量、市值、成本和浮盈亏。
+  - object_type: BondPortfolio
+    object_type_zh: 债券组合
+    description: 由多只债券构成的投资组合，用于分析收益、风险和资产配置。
+  - object_type: Investor
+    object_type_zh: 投资者
+    description: 持有或交易债券的个人、机构或账户主体。
+  - object_type: YieldCurve
+    object_type_zh: 收益率曲线
+    description: 不同期限债券对应的市场收益率曲线，用于估值和利率风险分析。
+  - object_type: RiskIndicator
+    object_type_zh: 风险指标
+    description: 债券或组合的久期、凸性、信用利差、到期收益率、最大回撤等指标。
+  - object_type: CashflowSchedule
+    object_type_zh: 现金流计划
+    description: 债券未来付息、本金兑付、提前赎回等现金流安排。
+  - object_type: DefaultEvent
+    object_type_zh: 违约事件
+    description: 债券或发行主体发生的本金违约、利息违约、展期、重组等信用事件。
+  attributes:
+  - attribute_name: bond_code
+    attribute_name_zh: 债券代码
+    object_types:
+    - Bond
+    value_type: string
+    description: 债券在市场中的唯一代码。
+  - attribute_name: bond_name
+    attribute_name_zh: 债券名称
+    object_types:
+    - Bond
+    value_type: string
+    description: 债券简称或全称。
+  - attribute_name: bond_type
+    attribute_name_zh: 债券类型
+    object_types:
+    - Bond
+    value_type: string
+    description: 国债、地方债、金融债、企业债、公司债、可转债等。
+  - attribute_name: issue_date
+    attribute_name_zh: 发行日期
+    object_types:
+    - Bond
+    value_type: date
+    description: 债券正式发行的日期。
+  - attribute_name: maturity_date
+    attribute_name_zh: 到期日期
+    object_types:
+    - Bond
+    value_type: date
+    description: 债券本金最终兑付日期。
+  - attribute_name: coupon_rate
+    attribute_name_zh: 票面利率
+    object_types:
+    - Bond
+    value_type: number
+    description: 债券约定的年化票面利率。
+  - attribute_name: coupon_type
+    attribute_name_zh: 付息方式
+    object_types:
+    - Bond
+    value_type: string
+    description: 固定利率、浮动利率、贴现债、零息债等。
+  - attribute_name: face_value
+    attribute_name_zh: 面值
+    object_types:
+    - Bond
+    value_type: number
+    description: 单张债券的票面本金金额。
+  - attribute_name: remaining_term
+    attribute_name_zh: 剩余期限
+    object_types:
+    - Bond
+    value_type: number
+    description: 距离债券到期日的剩余时间。
+  - attribute_name: issuer_id
+    attribute_name_zh: 发行主体编号
+    object_types:
+    - Issuer
+    value_type: string
+    description: 发行主体的唯一标识。
+  - attribute_name: issuer_name
+    attribute_name_zh: 发行主体名称
+    object_types:
+    - Issuer
+    value_type: string
+    description: 发行债券的机构名称。
+  - attribute_name: issuer_type
+    attribute_name_zh: 发行主体类型
+    object_types:
+    - Issuer
+    value_type: string
+    description: 企业、金融机构、政府平台、地方政府等。
+  - attribute_name: industry
+    attribute_name_zh: 所属行业
+    object_types:
+    - Issuer
+    value_type: string
+    description: 发行主体所属行业。
+  - attribute_name: region
+    attribute_name_zh: 所属地区
+    object_types:
+    - Issuer
+    value_type: string
+    description: 发行主体注册地或主要经营地区。
+  - attribute_name: ownership_type
+    attribute_name_zh: 企业性质
+    object_types:
+    - Issuer
+    value_type: string
+    description: 国有企业、民营企业、央企、地方国企等。
+  - attribute_name: guarantor_id
+    attribute_name_zh: 担保主体编号
+    object_types:
+    - Guarantor
+    value_type: string
+    description: 担保主体的唯一标识。
+  - attribute_name: guarantor_name
+    attribute_name_zh: 担保主体名称
+    object_types:
+    - Guarantor
+    value_type: string
+    description: 为债券提供担保的机构名称。
+  - attribute_name: guarantee_type
+    attribute_name_zh: 担保方式
+    object_types:
+    - Guarantor
+    value_type: string
+    description: 全额担保、连带责任担保、抵押担保、质押担保等。
+  - attribute_name: guarantee_amount
+    attribute_name_zh: 担保金额
+    object_types:
+    - Guarantor
+    value_type: number
+    description: 担保覆盖的本金或本息金额。
+  - attribute_name: underwriter_id
+    attribute_name_zh: 承销商编号
+    object_types:
+    - Underwriter
+    value_type: string
+    description: 承销商的唯一标识。
+  - attribute_name: underwriter_name
+    attribute_name_zh: 承销商名称
+    object_types:
+    - Underwriter
+    value_type: string
+    description: 承销机构名称。
+  - attribute_name: underwriter_role
+    attribute_name_zh: 承销角色
+    object_types:
+    - Underwriter
+    value_type: string
+    description: 主承销商、联席主承销商、副主承销商、簿记管理人等。
+  - attribute_name: rating_id
+    attribute_name_zh: 评级编号
+    object_types:
+    - CreditRating
+    value_type: string
+    description: 单条评级记录的唯一标识。
+  - attribute_name: rating_target_type
+    attribute_name_zh: 评级对象类型
+    object_types:
+    - CreditRating
+    value_type: string
+    description: 债项评级或主体评级。
+  - attribute_name: rating_level
+    attribute_name_zh: 评级等级
+    object_types:
+    - CreditRating
+    value_type: string
+    description: AAA、AA+、AA、A+ 等信用等级。
+  - attribute_name: rating_outlook
+    attribute_name_zh: 评级展望
+    object_types:
+    - CreditRating
+    value_type: string
+    description: 稳定、正面、负面、列入观察等。
+  - attribute_name: rating_date
+    attribute_name_zh: 评级日期
+    object_types:
+    - CreditRating
+    value_type: date
+    description: 评级结果生效或发布的日期。
+  - attribute_name: agency_id
+    attribute_name_zh: 评级机构编号
+    object_types:
+    - RatingAgency
+    value_type: string
+    description: 评级机构唯一标识。
+  - attribute_name: agency_name
+    attribute_name_zh: 评级机构名称
+    object_types:
+    - RatingAgency
+    value_type: string
+    description: 提供评级服务的机构名称。
+  - attribute_name: market_id
+    attribute_name_zh: 市场编号
+    object_types:
+    - BondMarket
+    value_type: string
+    description: 交易市场唯一标识。
+  - attribute_name: market_name
+    attribute_name_zh: 市场名称
+    object_types:
+    - BondMarket
+    value_type: string
+    description: 银行间市场、上交所、深交所、北交所等。
+  - attribute_name: listing_date
+    attribute_name_zh: 上市日期
+    object_types:
+    - BondMarket
+    value_type: date
+    description: 债券在该市场开始交易的日期。
+  - attribute_name: quote_id
+    attribute_name_zh: 行情编号
+    object_types:
+    - BondQuote
+    value_type: string
+    description: 行情记录唯一标识。
+  - attribute_name: trade_date
+    attribute_name_zh: 交易日期
+    object_types:
+    - BondQuote
+    value_type: date
+    description: 行情对应的交易日。
+  - attribute_name: clean_price
+    attribute_name_zh: 净价
+    object_types:
+    - BondQuote
+    value_type: number
+    description: 不含应计利息的债券价格。
+  - attribute_name: full_price
+    attribute_name_zh: 全价
+    object_types:
+    - BondQuote
+    value_type: number
+    description: 包含应计利息的债券价格。
+  - attribute_name: yield_to_maturity
+    attribute_name_zh: 到期收益率
+    object_types:
+    - BondQuote
+    value_type: number
+    description: 按当前价格持有至到期的年化收益率。
+  - attribute_name: volume
+    attribute_name_zh: 成交量
+    object_types:
+    - BondQuote
+    value_type: number
+    description: 当日成交数量或成交面额。
+  - attribute_name: transaction_id
+    attribute_name_zh: 交易编号
+    object_types:
+    - BondTransaction
+    value_type: string
+    description: 单笔交易记录唯一标识。
+  - attribute_name: transaction_date
+    attribute_name_zh: 交易日期
+    object_types:
+    - BondTransaction
+    value_type: date
+    description: 买入或卖出发生日期。
+  - attribute_name: transaction_type
+    attribute_name_zh: 交易方向
+    object_types:
+    - BondTransaction
+    value_type: string
+    description: 买入、卖出、回购、赎回等。
+  - attribute_name: transaction_price
+    attribute_name_zh: 交易价格
+    object_types:
+    - BondTransaction
+    value_type: number
+    description: 交易成交价格。
+  - attribute_name: transaction_amount
+    attribute_name_zh: 交易金额
+    object_types:
+    - BondTransaction
+    value_type: number
+    description: 交易对应的金额。
+  - attribute_name: holding_id
+    attribute_name_zh: 持仓编号
+    object_types:
+    - BondHolding
+    value_type: string
+    description: 持仓记录唯一标识。
+  - attribute_name: holding_quantity
+    attribute_name_zh: 持仓数量
+    object_types:
+    - BondHolding
+    value_type: number
+    description: 当前持有债券数量或面额。
+  - attribute_name: holding_cost
+    attribute_name_zh: 持仓成本
+    object_types:
+    - BondHolding
+    value_type: number
+    description: 当前持仓的成本金额。
+  - attribute_name: market_value
+    attribute_name_zh: 持仓市值
+    object_types:
+    - BondHolding
+    value_type: number
+    description: 按最新行情估算的持仓价值。
+  - attribute_name: unrealized_pnl
+    attribute_name_zh: 浮动盈亏
+    object_types:
+    - BondHolding
+    value_type: number
+    description: 当前持仓未实现收益或亏损。
+  - attribute_name: portfolio_id
+    attribute_name_zh: 组合编号
+    object_types:
+    - BondPortfolio
+    value_type: string
+    description: 投资组合唯一标识。
+  - attribute_name: portfolio_name
+    attribute_name_zh: 组合名称
+    object_types:
+    - BondPortfolio
+    value_type: string
+    description: 债券组合名称。
+  - attribute_name: portfolio_type
+    attribute_name_zh: 组合类型
+    object_types:
+    - BondPortfolio
+    value_type: string
+    description: 自营组合、理财组合、基金组合、保险资管组合等。
+  - attribute_name: nav
+    attribute_name_zh: 组合净值
+    object_types:
+    - BondPortfolio
+    value_type: number
+    description: 组合当前净值。
+  - attribute_name: investor_id
+    attribute_name_zh: 投资者编号
+    object_types:
+    - Investor
+    value_type: string
+    description: 投资者或账户唯一标识。
+  - attribute_name: investor_name
+    attribute_name_zh: 投资者名称
+    object_types:
+    - Investor
+    value_type: string
+    description: 投资者、机构或账户名称。
+  - attribute_name: investor_type
+    attribute_name_zh: 投资者类型
+    object_types:
+    - Investor
+    value_type: string
+    description: 银行、基金、保险、券商、个人等。
+  - attribute_name: curve_id
+    attribute_name_zh: 曲线编号
+    object_types:
+    - YieldCurve
+    value_type: string
+    description: 收益率曲线唯一标识。
+  - attribute_name: curve_date
+    attribute_name_zh: 曲线日期
+    object_types:
+    - YieldCurve
+    value_type: date
+    description: 收益率曲线对应日期。
+  - attribute_name: curve_type
+    attribute_name_zh: 曲线类型
+    object_types:
+    - YieldCurve
+    value_type: string
+    description: 国债收益率曲线、信用债收益率曲线、同业存单曲线等。
+  - attribute_name: tenor
+    attribute_name_zh: 期限点
+    object_types:
+    - YieldCurve
+    value_type: string
+    description: 1M、3M、1Y、3Y、5Y、10Y 等期限。
+  - attribute_name: curve_yield
+    attribute_name_zh: 曲线收益率
+    object_types:
+    - YieldCurve
+    value_type: number
+    description: 该期限点对应的市场收益率。
+  - attribute_name: risk_id
+    attribute_name_zh: 风险指标编号
+    object_types:
+    - RiskIndicator
+    value_type: string
+    description: 风险指标记录唯一标识。
+  - attribute_name: indicator_date
+    attribute_name_zh: 指标日期
+    object_types:
+    - RiskIndicator
+    value_type: date
+    description: 风险指标计算日期。
+  - attribute_name: duration
+    attribute_name_zh: 久期
+    object_types:
+    - RiskIndicator
+    value_type: number
+    description: 衡量债券价格对利率变化敏感程度的指标。
+  - attribute_name: convexity
+    attribute_name_zh: 凸性
+    object_types:
+    - RiskIndicator
+    value_type: number
+    description: 衡量久期随收益率变化而变化的指标。
+  - attribute_name: credit_spread
+    attribute_name_zh: 信用利差
+    object_types:
+    - RiskIndicator
+    value_type: number
+    description: 债券收益率相对无风险收益率的利差。
+  - attribute_name: max_drawdown
+    attribute_name_zh: 最大回撤
+    object_types:
+    - RiskIndicator
+    value_type: number
+    description: 债券或组合在一段时间内的最大跌幅。
+  - attribute_name: cashflow_id
+    attribute_name_zh: 现金流编号
+    object_types:
+    - CashflowSchedule
+    value_type: string
+    description: 现金流计划唯一标识。
+  - attribute_name: payment_date
+    attribute_name_zh: 支付日期
+    object_types:
+    - CashflowSchedule
+    value_type: date
+    description: 付息或兑付发生日期。
+  - attribute_name: payment_type
+    attribute_name_zh: 支付类型
+    object_types:
+    - CashflowSchedule
+    value_type: string
+    description: 利息、本金、提前赎回、回售等。
+  - attribute_name: payment_amount
+    attribute_name_zh: 支付金额
+    object_types:
+    - CashflowSchedule
+    value_type: number
+    description: 计划支付的现金流金额。
+  - attribute_name: default_id
+    attribute_name_zh: 违约事件编号
+    object_types:
+    - DefaultEvent
+    value_type: string
+    description: 违约事件唯一标识。
+  - attribute_name: default_date
+    attribute_name_zh: 违约日期
+    object_types:
+    - DefaultEvent
+    value_type: date
+    description: 违约或风险事件发生日期。
+  - attribute_name: default_type
+    attribute_name_zh: 违约类型
+    object_types:
+    - DefaultEvent
+    value_type: string
+    description: 本金违约、利息违约、展期、交叉违约等。
+  - attribute_name: default_amount
+    attribute_name_zh: 违约金额
+    object_types:
+    - DefaultEvent
+    value_type: number
+    description: 涉及违约的本金或利息金额。
+  - attribute_name: resolution_status
+    attribute_name_zh: 处置状态
+    object_types:
+    - DefaultEvent
+    value_type: string
+    description: 未处置、展期、重组、部分兑付、已兑付等。
+  bulk_text: 债券由发行主体发行；发行主体可以发行多只债券；债券可以有一个或多个承销商参与发行；承销商在债券发行中承担主承销、联席主承销或簿记管理等角色；债券可以由担保主体提供担保；一个担保主体可以为多只债券提供担保；债券在一个或多个交易市场挂牌交易；交易市场产生债券行情；债券行情记录债券在某个交易日的净价、全价、到期收益率和成交量；评级机构对发行主体进行主体评级；评级机构也可以对具体债券进行债项评级；同一只债券在不同日期可以有多条信用评级记录；信用评级变化会影响债券的信用风险判断；投资者可以创建或管理债券组合；债券组合持有多只债券；债券持仓记录组合对某只债券的持仓数量、成本、市值和浮动盈亏；投资者通过债券交易买入或卖出债券；债券交易会改变债券持仓；债券未来会产生付息、本金兑付、回售或提前赎回等现金流；现金流计划属于具体债券；收益率曲线描述不同期限的市场收益率；债券估值和风险分析可以参考收益率曲线；风险指标可以针对单只债券计算，也可以针对债券组合计算；风险指标包括久期、凸性、信用利差、到期收益率、最大回撤等；发行主体或债券发生违约事件时，需要记录违约类型、违约金额和处置状态；违约事件会影响债券评级、债券价格、持仓风险和组合风险敞口。
+plan:
+  summary_zh: 针对属性孤立问题，本次规划以“可执行计算链”为核心重构关系网络。通过引入应计利息、修正久期、组合权重等计算型属性，将债券定价、现金流折现、持仓归集与风险传导转化为明确的属性级依赖关系。关系设计严格遵循OAG规范，优先使用Attribute端点构建数学计算、时序对齐、风险驱动与聚合逻辑，彻底打通发行、交易、评级、持仓与风控的数据孤岛，支持高精度估值、组合风险归因与动态压力测试。
+  objects:
+  - object_type: Bond
+    object_type_zh: 债券
+    description: 固定收益类证券，包含债券代码、债券名称、期限、票面利率、付息方式、到期日等基础信息。
+  - object_type: Issuer
+    object_type_zh: 发行主体
+    description: 发行债券的企业、金融机构、地方政府或其他机构。
+  - object_type: Guarantor
+    object_type_zh: 担保主体
+    description: 为债券偿付提供担保的机构，可为空。
+  - object_type: Underwriter
+    object_type_zh: 承销商
+    description: 负责债券发行承销、销售或簿记建档的金融机构。
+  - object_type: CreditRating
+    object_type_zh: 信用评级
+    description: 评级机构对债券或发行主体给出的信用等级及评级展望。
+  - object_type: RatingAgency
+    object_type_zh: 评级机构
+    description: 提供债券评级、主体评级、评级调整和评级报告的机构。
+  - object_type: BondMarket
+    object_type_zh: 交易市场
+    description: 债券挂牌和交易的市场，例如银行间市场、交易所市场。
+  - object_type: BondQuote
+    object_type_zh: 债券行情
+    description: 某只债券在某个交易日、某个市场上的价格、收益率、成交量等行情数据。
+  - object_type: BondTransaction
+    object_type_zh: 债券交易
+    description: 投资者或组合买入、卖出债券形成的交易记录。
+  - object_type: BondHolding
+    object_type_zh: 债券持仓
+    description: 投资组合或投资者当前持有某只债券的数量、市值、成本和浮盈亏。
+  - object_type: BondPortfolio
+    object_type_zh: 债券组合
+    description: 由多只债券构成的投资组合，用于分析收益、风险和资产配置。
+  - object_type: Investor
+    object_type_zh: 投资者
+    description: 持有或交易债券的个人、机构或账户主体。
+  - object_type: YieldCurve
+    object_type_zh: 收益率曲线
+    description: 不同期限债券对应的市场收益率曲线，用于估值和利率风险分析。
+  - object_type: RiskIndicator
+    object_type_zh: 风险指标
+    description: 债券或组合的久期、凸性、信用利差、到期收益率、最大回撤等指标。
+  - object_type: CashflowSchedule
+    object_type_zh: 现金流计划
+    description: 债券未来付息、本金兑付、提前赎回等现金流安排。
+  - object_type: DefaultEvent
+    object_type_zh: 违约事件
+    description: 债券或发行主体发生的本金违约、利息违约、展期、重组等信用事件。
+  attributes:
+  - attribute_name: bond_code
+    attribute_name_zh: 债券代码
+    object_types:
+    - Bond
+    value_type: string
+    description: 债券在市场中的唯一代码。
+  - attribute_name: bond_name
+    attribute_name_zh: 债券名称
+    object_types:
+    - Bond
+    value_type: string
+    description: 债券简称或全称。
+  - attribute_name: bond_type
+    attribute_name_zh: 债券类型
+    object_types:
+    - Bond
+    value_type: string
+    description: 国债、地方债、金融债、企业债、公司债、可转债等。
+  - attribute_name: issue_date
+    attribute_name_zh: 发行日期
+    object_types:
+    - Bond
+    value_type: date
+    description: 债券正式发行的日期。
+  - attribute_name: maturity_date
+    attribute_name_zh: 到期日期
+    object_types:
+    - Bond
+    value_type: date
+    description: 债券本金最终兑付日期。
+  - attribute_name: coupon_rate
+    attribute_name_zh: 票面利率
+    object_types:
+    - Bond
+    value_type: number
+    description: 债券约定的年化票面利率。
+  - attribute_name: coupon_type
+    attribute_name_zh: 付息方式
+    object_types:
+    - Bond
+    value_type: string
+    description: 固定利率、浮动利率、贴现债、零息债等。
+  - attribute_name: face_value
+    attribute_name_zh: 面值
+    object_types:
+    - Bond
+    value_type: number
+    description: 单张债券的票面本金金额。
+  - attribute_name: remaining_term
+    attribute_name_zh: 剩余期限
+    object_types:
+    - Bond
+    value_type: number
+    description: 距离债券到期日的剩余时间。
+  - attribute_name: issuer_id
+    attribute_name_zh: 发行主体编号
+    object_types:
+    - Issuer
+    value_type: string
+    description: 发行主体的唯一标识。
+  - attribute_name: issuer_name
+    attribute_name_zh: 发行主体名称
+    object_types:
+    - Issuer
+    value_type: string
+    description: 发行债券的机构名称。
+  - attribute_name: issuer_type
+    attribute_name_zh: 发行主体类型
+    object_types:
+    - Issuer
+    value_type: string
+    description: 企业、金融机构、政府平台、地方政府等。
+  - attribute_name: industry
+    attribute_name_zh: 所属行业
+    object_types:
+    - Issuer
+    value_type: string
+    description: 发行主体所属行业。
+  - attribute_name: region
+    attribute_name_zh: 所属地区
+    object_types:
+    - Issuer
+    value_type: string
+    description: 发行主体注册地或主要经营地区。
+  - attribute_name: ownership_type
+    attribute_name_zh: 企业性质
+    object_types:
+    - Issuer
+    value_type: string
+    description: 国有企业、民营企业、央企、地方国企等。
+  - attribute_name: guarantor_id
+    attribute_name_zh: 担保主体编号
+    object_types:
+    - Guarantor
+    value_type: string
+    description: 担保主体的唯一标识。
+  - attribute_name: guarantor_name
+    attribute_name_zh: 担保主体名称
+    object_types:
+    - Guarantor
+    value_type: string
+    description: 为债券提供担保的机构名称。
+  - attribute_name: guarantee_type
+    attribute_name_zh: 担保方式
+    object_types:
+    - Guarantor
+    value_type: string
+    description: 全额担保、连带责任担保、抵押担保、质押担保等。
+  - attribute_name: guarantee_amount
+    attribute_name_zh: 担保金额
+    object_types:
+    - Guarantor
+    value_type: number
+    description: 担保覆盖的本金或本息金额。
+  - attribute_name: underwriter_id
+    attribute_name_zh: 承销商编号
+    object_types:
+    - Underwriter
+    value_type: string
+    description: 承销商的唯一标识。
+  - attribute_name: underwriter_name
+    attribute_name_zh: 承销商名称
+    object_types:
+    - Underwriter
+    value_type: string
+    description: 承销机构名称。
+  - attribute_name: underwriter_role
+    attribute_name_zh: 承销角色
+    object_types:
+    - Underwriter
+    value_type: string
+    description: 主承销商、联席主承销商、副主承销商、簿记管理人等。
+  - attribute_name: rating_id
+    attribute_name_zh: 评级编号
+    object_types:
+    - CreditRating
+    value_type: string
+    description: 单条评级记录的唯一标识。
+  - attribute_name: rating_target_type
+    attribute_name_zh: 评级对象类型
+    object_types:
+    - CreditRating
+    value_type: string
+    description: 债项评级或主体评级。
+  - attribute_name: rating_level
+    attribute_name_zh: 评级等级
+    object_types:
+    - CreditRating
+    value_type: string
+    description: AAA、AA+、AA、A+ 等信用等级。
+  - attribute_name: rating_outlook
+    attribute_name_zh: 评级展望
+    object_types:
+    - CreditRating
+    value_type: string
+    description: 稳定、正面、负面、列入观察等。
+  - attribute_name: rating_date
+    attribute_name_zh: 评级日期
+    object_types:
+    - CreditRating
+    value_type: date
+    description: 评级结果生效或发布的日期。
+  - attribute_name: agency_id
+    attribute_name_zh: 评级机构编号
+    object_types:
+    - RatingAgency
+    value_type: string
+    description: 评级机构唯一标识。
+  - attribute_name: agency_name
+    attribute_name_zh: 评级机构名称
+    object_types:
+    - RatingAgency
+    value_type: string
+    description: 提供评级服务的机构名称。
+  - attribute_name: market_id
+    attribute_name_zh: 市场编号
+    object_types:
+    - BondMarket
+    value_type: string
+    description: 交易市场唯一标识。
+  - attribute_name: market_name
+    attribute_name_zh: 市场名称
+    object_types:
+    - BondMarket
+    value_type: string
+    description: 银行间市场、上交所、深交所、北交所等。
+  - attribute_name: listing_date
+    attribute_name_zh: 上市日期
+    object_types:
+    - BondMarket
+    value_type: date
+    description: 债券在该市场开始交易的日期。
+  - attribute_name: quote_id
+    attribute_name_zh: 行情编号
+    object_types:
+    - BondQuote
+    value_type: string
+    description: 行情记录唯一标识。
+  - attribute_name: trade_date
+    attribute_name_zh: 交易日期
+    object_types:
+    - BondQuote
+    value_type: date
+    description: 行情对应的交易日。
+  - attribute_name: clean_price
+    attribute_name_zh: 净价
+    object_types:
+    - BondQuote
+    value_type: number
+    description: 不含应计利息的债券价格。
+  - attribute_name: full_price
+    attribute_name_zh: 全价
+    object_types:
+    - BondQuote
+    value_type: number
+    description: 包含应计利息的债券价格。
+  - attribute_name: yield_to_maturity
+    attribute_name_zh: 到期收益率
+    object_types:
+    - BondQuote
+    value_type: number
+    description: 按当前价格持有至到期的年化收益率。
+  - attribute_name: volume
+    attribute_name_zh: 成交量
+    object_types:
+    - BondQuote
+    value_type: number
+    description: 当日成交数量或成交面额。
+  - attribute_name: transaction_id
+    attribute_name_zh: 交易编号
+    object_types:
+    - BondTransaction
+    value_type: string
+    description: 单笔交易记录唯一标识。
+  - attribute_name: transaction_date
+    attribute_name_zh: 交易日期
+    object_types:
+    - BondTransaction
+    value_type: date
+    description: 买入或卖出发生日期。
+  - attribute_name: transaction_type
+    attribute_name_zh: 交易方向
+    object_types:
+    - BondTransaction
+    value_type: string
+    description: 买入、卖出、回购、赎回等。
+  - attribute_name: transaction_price
+    attribute_name_zh: 交易价格
+    object_types:
+    - BondTransaction
+    value_type: number
+    description: 交易成交价格。
+  - attribute_name: transaction_amount
+    attribute_name_zh: 交易金额
+    object_types:
+    - BondTransaction
+    value_type: number
+    description: 交易对应的金额。
+  - attribute_name: holding_id
+    attribute_name_zh: 持仓编号
+    object_types:
+    - BondHolding
+    value_type: string
+    description: 持仓记录唯一标识。
+  - attribute_name: holding_quantity
+    attribute_name_zh: 持仓数量
+    object_types:
+    - BondHolding
+    value_type: number
+    description: 当前持有债券数量或面额。
+  - attribute_name: holding_cost
+    attribute_name_zh: 持仓成本
+    object_types:
+    - BondHolding
+    value_type: number
+    description: 当前持仓的成本金额。
+  - attribute_name: market_value
+    attribute_name_zh: 持仓市值
+    object_types:
+    - BondHolding
+    value_type: number
+    description: 按最新行情估算的持仓价值。
+  - attribute_name: unrealized_pnl
+    attribute_name_zh: 浮动盈亏
+    object_types:
+    - BondHolding
+    value_type: number
+    description: 当前持仓未实现收益或亏损。
+  - attribute_name: portfolio_id
+    attribute_name_zh: 组合编号
+    object_types:
+    - BondPortfolio
+    value_type: string
+    description: 投资组合唯一标识。
+  - attribute_name: portfolio_name
+    attribute_name_zh: 组合名称
+    object_types:
+    - BondPortfolio
+    value_type: string
+    description: 债券组合名称。
+  - attribute_name: portfolio_type
+    attribute_name_zh: 组合类型
+    object_types:
+    - BondPortfolio
+    value_type: string
+    description: 自营组合、理财组合、基金组合、保险资管组合等。
+  - attribute_name: nav
+    attribute_name_zh: 组合净值
+    object_types:
+    - BondPortfolio
+    value_type: number
+    description: 组合当前净值。
+  - attribute_name: investor_id
+    attribute_name_zh: 投资者编号
+    object_types:
+    - Investor
+    value_type: string
+    description: 投资者或账户唯一标识。
+  - attribute_name: investor_name
+    attribute_name_zh: 投资者名称
+    object_types:
+    - Investor
+    value_type: string
+    description: 投资者、机构或账户名称。
+  - attribute_name: investor_type
+    attribute_name_zh: 投资者类型
+    object_types:
+    - Investor
+    value_type: string
+    description: 银行、基金、保险、券商、个人等。
+  - attribute_name: curve_id
+    attribute_name_zh: 曲线编号
+    object_types:
+    - YieldCurve
+    value_type: string
+    description: 收益率曲线唯一标识。
+  - attribute_name: curve_date
+    attribute_name_zh: 曲线日期
+    object_types:
+    - YieldCurve
+    value_type: date
+    description: 收益率曲线对应日期。
+  - attribute_name: curve_type
+    attribute_name_zh: 曲线类型
+    object_types:
+    - YieldCurve
+    value_type: string
+    description: 国债收益率曲线、信用债收益率曲线、同业存单曲线等。
+  - attribute_name: tenor
+    attribute_name_zh: 期限点
+    object_types:
+    - YieldCurve
+    value_type: string
+    description: 1M、3M、1Y、3Y、5Y、10Y 等期限。
+  - attribute_name: curve_yield
+    attribute_name_zh: 曲线收益率
+    object_types:
+    - YieldCurve
+    value_type: number
+    description: 该期限点对应的市场收益率。
+  - attribute_name: risk_id
+    attribute_name_zh: 风险指标编号
+    object_types:
+    - RiskIndicator
+    value_type: string
+    description: 风险指标记录唯一标识。
+  - attribute_name: indicator_date
+    attribute_name_zh: 指标日期
+    object_types:
+    - RiskIndicator
+    value_type: date
+    description: 风险指标计算日期。
+  - attribute_name: duration
+    attribute_name_zh: 久期
+    object_types:
+    - RiskIndicator
+    value_type: number
+    description: 衡量债券价格对利率变化敏感程度的指标。
+  - attribute_name: convexity
+    attribute_name_zh: 凸性
+    object_types:
+    - RiskIndicator
+    value_type: number
+    description: 衡量久期随收益率变化而变化的指标。
+  - attribute_name: credit_spread
+    attribute_name_zh: 信用利差
+    object_types:
+    - RiskIndicator
+    value_type: number
+    description: 债券收益率相对无风险收益率的利差。
+  - attribute_name: max_drawdown
+    attribute_name_zh: 最大回撤
+    object_types:
+    - RiskIndicator
+    value_type: number
+    description: 债券或组合在一段时间内的最大跌幅。
+  - attribute_name: cashflow_id
+    attribute_name_zh: 现金流编号
+    object_types:
+    - CashflowSchedule
+    value_type: string
+    description: 现金流计划唯一标识。
+  - attribute_name: payment_date
+    attribute_name_zh: 支付日期
+    object_types:
+    - CashflowSchedule
+    value_type: date
+    description: 付息或兑付发生日期。
+  - attribute_name: payment_type
+    attribute_name_zh: 支付类型
+    object_types:
+    - CashflowSchedule
+    value_type: string
+    description: 利息、本金、提前赎回、回售等。
+  - attribute_name: payment_amount
+    attribute_name_zh: 支付金额
+    object_types:
+    - CashflowSchedule
+    value_type: number
+    description: 计划支付的现金流金额。
+  - attribute_name: default_id
+    attribute_name_zh: 违约事件编号
+    object_types:
+    - DefaultEvent
+    value_type: string
+    description: 违约事件唯一标识。
+  - attribute_name: default_date
+    attribute_name_zh: 违约日期
+    object_types:
+    - DefaultEvent
+    value_type: date
+    description: 违约或风险事件发生日期。
+  - attribute_name: default_type
+    attribute_name_zh: 违约类型
+    object_types:
+    - DefaultEvent
+    value_type: string
+    description: 本金违约、利息违约、展期、交叉违约等。
+  - attribute_name: default_amount
+    attribute_name_zh: 违约金额
+    object_types:
+    - DefaultEvent
+    value_type: number
+    description: 涉及违约的本金或利息金额。
+  - attribute_name: resolution_status
+    attribute_name_zh: 处置状态
+    object_types:
+    - DefaultEvent
+    value_type: string
+    description: 未处置、展期、重组、部分兑付、已兑付等。
+  - attribute_name: accrued_interest
+    attribute_name_zh: 应计利息
+    object_types:
+    - BondQuote
+    value_type: number
+    description: 自上一付息日至估值日累计的利息金额，用于全价计算与除息调整。
+  - attribute_name: modified_duration
+    attribute_name_zh: 修正久期
+    object_types:
+    - RiskIndicator
+    value_type: number
+    description: 衡量收益率变动1%时债券价格变动的百分比，比麦考利久期更适用于价格敏感性分析。
+  - attribute_name: portfolio_weight
+    attribute_name_zh: 组合权重
+    object_types:
+    - BondHolding
+    value_type: number
+    description: 单只债券市值占组合总市值的比例，用于资产配置分析与风险预算分配。
+  - attribute_name: yield_change_assumption
+    attribute_name_zh: 收益率变动假设
+    object_types:
+    - RiskIndicator
+    value_type: number
+    description: 压力测试或情景分析中假设的收益率平行移动幅度(基点)，用于计算组合净值冲击。
+  - attribute_name: z_spread
+    attribute_name_zh: Z利差
+    object_types:
+    - RiskIndicator
+    value_type: number
+    description: 使债券现金流折现值等于市场价格的固定利差，比静态利差更精确反映信用风险溢价。
+  relationships:
+  - source: Attribute:issuer_id
+    target: Attribute:issuer_id
+    relation_type: references
+    relation_name_zh: 归属发行主体
+    reason_zh: 建立债券与发行主体的归属桥梁，支持按主体筛选债券、聚合主体信用风险指标及追踪主体融资行为。
+  - source: Attribute:underwriter_id
+    target: Attribute:underwriter_id
+    relation_type: references
+    relation_name_zh: 归属发行主体
+    reason_zh: 关联债券与承销机构，支持查询承销商承销规模、分析承销集中度及承销角色分布。
+  - source: Attribute:guarantor_id
+    target: Attribute:guarantor_id
+    relation_type: references
+    relation_name_zh: 归属发行主体
+    reason_zh: 关联债券与担保机构，支持担保增信效果评估、担保代偿风险追踪及担保金额覆盖分析。
+  - source: Attribute:market_id
+    target: Attribute:market_id
+    relation_type: lists_on
+    relation_name_zh: 挂牌交易市场
+    reason_zh: 明确债券流通场所，支持分市场查询流动性特征、交易规则差异及行情数据源隔离。
+  - source: Attribute:rating_date
+    target: Attribute:rating_level
+    relation_type: tracks_over_time
+    relation_name_zh: 时序评级追踪
+    reason_zh: 将评级日期与等级绑定，支持按时间序列识别评级上调/下调趋势、计算评级变动频率及预警信号。
+  - source: Attribute:agency_id
+    target: Attribute:agency_id
+    relation_type: issued_by
+    relation_name_zh: 评级机构出具
+    reason_zh: 关联评级记录与评级机构，支持按机构维度统计评级分布、对比不同机构评级标准与历史准确性。
+  - source: Attribute:trade_date
+    target: Attribute:issue_date
+    relation_type: valid_after
+    relation_name_zh: 行情有效校验
+    reason_zh: 确保行情数据在债券发行后有效，支持过滤上市前无效报价、计算实际交易天数与流动性指标。
+  - source: Attribute:yield_to_maturity
+    target: Attribute:curve_yield
+    relation_type: compared_with
+    relation_name_zh: 收益率曲线对比
+    reason_zh: 将债券到期收益率与同期限曲线收益率对齐，支持信用利差计算、估值偏离度分析及相对价值排序。
+  - source: Attribute:portfolio_id
+    target: Attribute:portfolio_id
+    relation_type: belongs_to
+    relation_name_zh: 持仓归集组合
+    reason_zh: 将明细持仓归集至投资组合，支持组合层级收益汇总、风险敞口计算及资产配置比例分析。
+  - source: Attribute:holding_quantity
+    target: Attribute:face_value
+    relation_type: multiplied_by
+    relation_name_zh: 名义本金计算
+    reason_zh: 持仓数量乘以面值计算名义本金，支持持仓规模统计、久期加权计算及杠杆率监控。
+  - source: Attribute:transaction_amount
+    target: Attribute:holding_cost
+    relation_type: updates
+    relation_name_zh: 交易更新持仓
+    reason_zh: 交易金额与方向联动更新持仓成本与数量，支持持仓变动流水追踪、实现盈亏计算及调仓分析。
+  - source: Attribute:default_date
+    target: Attribute:rating_date
+    relation_type: triggers
+    relation_name_zh: 违约触发评级
+    reason_zh: 违约事件发生时间关联评级调整时间，支持违约后评级下调路径分析、风险预警模型训练及处置周期统计。
+  - source: Attribute:duration
+    target: Attribute:nav
+    relation_type: impacts
+    relation_name_zh: 久期影响净值
+    reason_zh: 久期等风险指标直接映射组合净值波动，支持利率风险压力测试、组合免疫策略验证及回撤归因。
+  - source: Attribute:payment_date
+    target: Attribute:trade_date
+    relation_type: precedes
+    relation_name_zh: 付息决定除息
+    reason_zh: 现金流支付日期决定除息日与价格跳变点，支持全价/净价转换、应计利息计算及票息再投资分析。
+  - source: Attribute:investor_type
+    target: Attribute:portfolio_type
+    relation_type: matches
+    relation_name_zh: 投资者类型匹配
+    reason_zh: 投资者类型决定组合类型与风险偏好，支持机构行为分析、合规持仓限制校验及资金流向监控。
+  - source: Attribute:clean_price
+    target: Attribute:accrued_interest
+    relation_type: adds_up_to
+    relation_name_zh: 净价加应计利息
+    reason_zh: 构建全价计算基础链，支持OAG自动推导全价、过滤异常报价及计算应计利息累积趋势。
+  - source: Attribute:accrued_interest
+    target: Attribute:full_price
+    relation_type: adds_up_to
+    relation_name_zh: 应计利息构成全价
+    reason_zh: 明确全价=净价+应计利息的恒等式，支持除息日价格跳变分析与票息再投资计算。
+  - source: Attribute:full_price
+    target: Attribute:yield_to_maturity
+    relation_type: inversely_correlates_with
+    relation_name_zh: 价格收益率反向联动
+    reason_zh: 建立债券定价核心逻辑，支持OAG执行收益率敏感性分析、价格偏离度预警及套利机会识别。
+  - source: Attribute:payment_amount
+    target: Attribute:yield_to_maturity
+    relation_type: discounted_by
+    relation_name_zh: 现金流折现基准
+    reason_zh: 将未来付息/兑付金额与到期收益率绑定，支持DCF估值模型执行、票息结构对比及再投资收益率测算。
+  - source: Attribute:yield_to_maturity
+    target: Attribute:modified_duration
+    relation_type: sensitivity_basis_for
+    relation_name_zh: 收益率驱动修正久期
+    reason_zh: 修正久期衡量收益率变动1%时的价格变动幅度，支持OAG执行利率风险压力测试与组合免疫策略验证。
+  - source: Attribute:modified_duration
+    target: Attribute:convexity
+    relation_type: second_order_adjustment_for
+    relation_name_zh: 凸性二阶修正
+    reason_zh: 凸性修正久期的线性偏差，支持OAG在收益率大幅波动时执行高精度价格预测与风险归因。
+  - source: Attribute:coupon_rate
+    target: Attribute:payment_amount
+    relation_type: multiplied_by_face_value_for
+    relation_name_zh: 票面利率决定付息额
+    reason_zh: 明确固定/浮动票息计算规则，支持现金流计划自动生成、票息类型对比及再投资现金流预测。
+  - source: Attribute:holding_quantity
+    target: Attribute:market_value
+    relation_type: multiplied_by_clean_price_for
+    relation_name_zh: 持仓数量乘净价估值
+    reason_zh: 构建持仓市值计算链，支持OAG实时盯市、流动性覆盖率计算及持仓集中度监控。
+  - source: Attribute:market_value
+    target: Attribute:unrealized_pnl
+    relation_type: subtracts_holding_cost_for
+    relation_name_zh: 市值减成本得浮盈
+    reason_zh: 明确浮动盈亏计算逻辑，支持OAG执行实现/未实现收益拆分、调仓绩效归因及税务成本核算。
+  - source: Attribute:curve_yield
+    target: Attribute:yield_to_maturity
+    relation_type: benchmark_plus_spread_for
+    relation_name_zh: 曲线收益率加利差
+    reason_zh: 将无风险曲线与信用利差解耦，支持OAG执行相对价值分析、信用风险溢价测算及曲线骑乘策略回测。
+  - source: Attribute:rating_level
+    target: Attribute:credit_spread
+    relation_type: determines
+    relation_name_zh: 评级等级驱动利差
+    reason_zh: 建立信用等级与信用利差的映射关系，支持OAG执行评级下调利差走阔预警、信用风险定价及组合信用敞口聚合。
+  - source: Attribute:default_date
+    target: Attribute:rating_level
+    relation_type: triggers_reassessment_for
+    relation_name_zh: 违约触发评级重估
+    reason_zh: 关联违约事件与评级调整时序，支持OAG执行违约后评级路径追踪、回收率测算及风险传染网络分析。
+  - source: Attribute:transaction_amount
+    target: Attribute:holding_cost
+    relation_type: accumulates_into
+    relation_name_zh: 交易金额累积持仓成本
+    reason_zh: 明确买卖交易对持仓成本的动态更新逻辑，支持OAG执行移动平均成本计算、实现盈亏结转及调仓流水审计。
+  - source: Attribute:payment_date
+    target: Attribute:trade_date
+    relation_type: defines_ex_dividend_for
+    relation_name_zh: 付息日定义除息交易
+    reason_zh: 绑定现金流支付与交易日期，支持OAG执行除息日价格调整、应计利息截断计算及票息再投资时机分析。
+  - source: Attribute:remaining_term
+    target: Attribute:modified_duration
+    relation_type: maturity_cap_for
+    relation_name_zh: 剩余期限约束久期
+    reason_zh: 久期受剩余期限物理上限约束，支持OAG执行期限结构匹配、滚动收益测算及久期缺口管理。
+  - source: Attribute:portfolio_weight
+    target: Attribute:holding_quantity
+    relation_type: normalized_by_portfolio_total_for
+    relation_name_zh: 持仓数量归一化权重
+    reason_zh: 将明细持仓转化为组合权重，支持OAG执行资产配置比例分析、风险预算分配及再平衡触发计算。
+  - source: Attribute:duration
+    target: Attribute:nav
+    relation_type: volatility_driver_for
+    relation_name_zh: 久期驱动净值波动
+    reason_zh: 组合久期直接映射净值对利率的敏感度，支持OAG执行宏观利率冲击模拟、组合免疫效果评估及回撤归因。
+  - source: Attribute:max_drawdown
+    target: Attribute:unrealized_pnl
+    relation_type: historical_bound_for
+    relation_name_zh: 最大回撤界定浮亏边界
+    reason_zh: 历史最大回撤为当前浮盈/亏提供风险边界参考，支持OAG执行止损线监控、风险价值(VaR)校准及压力情景设定。
+  - source: Attribute:market_id
+    target: Attribute:quote_id
+    relation_type: hosts
+    relation_name_zh: 市场托管行情
+    reason_zh: 明确行情数据源归属，支持OAG执行跨市场流动性对比、交易规则差异分析及数据质量监控。
+  - source: Attribute:rating_date
+    target: Attribute:rating_level
+    relation_type: temporal_snapshot_of
+    relation_name_zh: 评级日期快照等级
+    reason_zh: 将评级等级锚定至具体日期，支持OAG执行评级时序追踪、变动频率统计及前瞻性风险预警。
+  deleted_relationships: []
+  deleted_objects: []
+  deleted_attributes: []
+  open_questions:
+  - 收益率曲线期限点(tenor)与债券剩余期限(remaining_term)在利差计算时是否需支持非线性插值(如Cubic Spline)，当前属性粒度是否满足高精度估值需求？
+  - 违约事件处置状态(resolution_status)与持仓浮盈(unrealized_pnl)的联动更新频率是T日终还是实时？是否需增加处置进度百分比属性以支持动态回收率测算？
+  - 组合权重(portfolio_weight)计算基准是市值权重还是面值权重？不同权重体系对久期与信用敞口聚合结果差异较大，需明确默认计算规则。
+  revision_notes:
+  - 针对属性孤立问题，全面重构关系网络，将静态字段转化为可执行计算链（定价、折现、归集、传导）。
+  - 新增accrued_interest、modified_duration、portfolio_weight等计算型属性，填补OAG执行高精度估值与风险归因的空白。
+  - 关系设计严格遵循OAG规范，100%采用Attribute端点，明确数学恒等式、时序依赖与风险驱动逻辑，彻底打通业务数据孤岛。
+  - 保留前期有效关系，本次仅输出新增/修改项，确保规划增量迭代且不影响已有事实网络。
+feedback: 当前各对象和属性之间非常孤立。对于债券来说，其各属性之间应当存在逻辑性很强，且较为复杂的关系。请详细地补充关系图，必要时可修改或新增对象或属性。
+created_at: '2026-07-09T16:30:44'
+version:
+  version_id: v20260709163044386955
+  parent_version_id: v20260709162451566926
+  summary: 当前各对象和属性之间非常孤立。对于债券来说，其各属性之间应当存在逻辑性很强，且较为复杂的关系。请详细地补充关系图，必要时可修改或新增对象或属性。
+  operation_summary: 当前各对象和属性之间非常孤立。对于债券来说，其各属性之间应当存在逻辑性很强，且较为复杂的关系。请详细地补充关系图，必要时可修改或新增对象或属性。
+  created_at: '2026-07-09T16:30:44'

@@ -1,0 +1,95 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: OAG
+      - generic [ref=e6]:
+        - heading "回答稳定性对比" [level=1] [ref=e7]
+        - paragraph [ref=e8]: 对比无 OAG 与有 OAG 在 5 轮重复问答中的一致性表现
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - text: 导入 CSV
+        - button "导入 CSV"
+      - button "读取默认数据" [ref=e11] [cursor=pointer]
+  - main [ref=e12]:
+    - region "整体概览" [ref=e13]:
+      - article [ref=e14]:
+        - generic [ref=e15]: 问题数
+        - strong [ref=e16]: "3"
+        - text: 15 条回答记录
+      - article [ref=e17]:
+        - generic [ref=e18]: 无 OAG 稳定性
+        - strong [ref=e19]: "23.4"
+        - text: 朴素回答平均分
+      - article [ref=e20]:
+        - generic [ref=e21]: 有 OAG 稳定性
+        - strong [ref=e22]: "96"
+        - text: OAG 回答平均分
+      - article [ref=e23]:
+        - generic [ref=e24]: OAG 优势
+        - strong [ref=e25]: "+72.6"
+        - text: 整体提升明显
+    - region "搜索与视图控制" [ref=e26]:
+      - generic [ref=e27]:
+        - searchbox "搜索问题、序号或回答内容" [ref=e28]
+        - button "×" [ref=e29] [cursor=pointer]
+      - combobox "筛选问题" [ref=e30]:
+        - option "全部问题" [selected]
+        - option "OAG 提升明显"
+        - option "无明显差异"
+        - option "OAG 下降"
+        - option "低稳定性问题"
+        - option "数据异常"
+      - combobox "排序方式" [ref=e31]:
+        - option "按序号" [selected]
+        - option "OAG 优势从高到低"
+        - option "OAG 优势从低到高"
+        - option "无 OAG 稳定性从低到高"
+        - option "有 OAG 稳定性从低到高"
+      - tablist "视图" [ref=e32]:
+        - button "单题对比" [ref=e33] [cursor=pointer]
+        - button "全量列表" [active] [ref=e34] [cursor=pointer]
+    - generic [ref=e241]:
+      - generic [ref=e242]:
+        - heading "全部问题" [level=2] [ref=e243]
+        - paragraph [ref=e244]: 3 个结果
+      - table [ref=e246]:
+        - rowgroup [ref=e247]:
+          - row "序号 问题 无 OAG 有 OAG OAG 优势 轮次 状态" [ref=e248]:
+            - columnheader "序号" [ref=e249]
+            - columnheader "问题" [ref=e250]
+            - columnheader "无 OAG" [ref=e251]
+            - columnheader "有 OAG" [ref=e252]
+            - columnheader "OAG 优势" [ref=e253]
+            - columnheader "轮次" [ref=e254]
+            - columnheader "状态" [ref=e255]
+        - rowgroup [ref=e256]:
+          - row "1 对比两只基金近一年收益稳定性 22.2 88 +65.8 5 / 5 正常" [ref=e257]:
+            - cell "1" [ref=e258]
+            - cell "对比两只基金近一年收益稳定性" [ref=e259]
+            - cell "22.2" [ref=e260]
+            - cell "88" [ref=e261]
+            - cell "+65.8" [ref=e262]:
+              - generic [ref=e263]: "+65.8"
+            - cell "5 / 5" [ref=e264]
+            - cell "正常" [ref=e265]:
+              - generic [ref=e266]: 正常
+          - row "2 某基金是否适合低风险投资者 25.3 100 +74.7 5 / 5 正常" [ref=e267]:
+            - cell "2" [ref=e268]
+            - cell "某基金是否适合低风险投资者" [ref=e269]
+            - cell "25.3" [ref=e270]
+            - cell "100" [ref=e271]
+            - cell "+74.7" [ref=e272]:
+              - generic [ref=e273]: "+74.7"
+            - cell "5 / 5" [ref=e274]
+            - cell "正常" [ref=e275]:
+              - generic [ref=e276]: 正常
+          - row "3 筛选近一年夏普比率较高的基金 22.7 100 +77.3 5 / 5 正常" [ref=e277]:
+            - cell "3" [ref=e278]
+            - cell "筛选近一年夏普比率较高的基金" [ref=e279]
+            - cell "22.7" [ref=e280]
+            - cell "100" [ref=e281]
+            - cell "+77.3" [ref=e282]:
+              - generic [ref=e283]: "+77.3"
+            - cell "5 / 5" [ref=e284]
+            - cell "正常" [ref=e285]:
+              - generic [ref=e286]: 正常

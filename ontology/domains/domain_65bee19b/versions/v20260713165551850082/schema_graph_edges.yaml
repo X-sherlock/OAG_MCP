@@ -1,0 +1,12 @@
+- edge_id: Attribute:COD_FUND__identifies__Attribute:NAM_FUND
+  from: Attribute:COD_FUND
+  to: Attribute:NAM_FUND
+  relation_type: identifies
+  reason_zh: 基金代码与基金名称存在一一对应关系，用于在系统中唯一识别特定基金实体。
+  score: 0.9
+- edge_id: Attribute:NAM_MAGR_1__evaluates_performance_of__Attribute:VLU_MAGR_TERM_RET_1
+  from: Attribute:NAM_MAGR_1
+  to: Attribute:VLU_MAGR_TERM_RET_1
+  relation_type: evaluates_performance_of
+  reason_zh: 任期回报直接评价了该基金经理在管理该基金期间的业绩表现。
+  score: 0.9

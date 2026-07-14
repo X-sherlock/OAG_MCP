@@ -1,0 +1,54 @@
+- relation_type: submits
+  relation_name_zh: 提交
+  description: 明确客户与维修单的归属关系，支持查询谁提交了哪些单据。
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+  direction: outbound
+  enabled: true
+- relation_type: matches
+  relation_name_zh: 匹配
+  description: 通过ID关联实现维修单与工程师的分配关系，支持按工程师查询工单。
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+  direction: outbound
+  enabled: true
+- relation_type: links_to
+  relation_name_zh: 关联
+  description: 建立维修单与设备型号的关联，支持按设备类型统计故障率与聚合分析。
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+  direction: outbound
+  enabled: true
+- relation_type: determines
+  relation_name_zh: 决定
+  description: 维修单状态流转至完成时决定最终维修结果，支持状态与结果的分析。
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+  direction: outbound
+  enabled: true
+- relation_type: requires
+  relation_name_zh: 要求
+  description: 故障类型对工程师等级有匹配要求，用于智能派单与技能校验。
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+  direction: outbound
+  enabled: true
+- relation_type: precedes
+  relation_name_zh: 先于
+  description: 时间先后关系，用于计算维修处理时长与时效分析。
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+  direction: outbound
+  enabled: true

@@ -1,0 +1,224 @@
+- generic [ref=f4e2]:
+  - banner [ref=f4e3]:
+    - generic [ref=f4e4]:
+      - generic [ref=f4e5]: OAG
+      - generic [ref=f4e6]:
+        - heading "回答稳定性对比" [level=1] [ref=f4e7]
+        - paragraph [ref=f4e8]: 对比无 OAG 与有 OAG 在 5 轮重复问答中的一致性表现
+    - generic [ref=f4e9]:
+      - generic [ref=f4e10]:
+        - text: 导入 CSV
+        - button "导入 CSV" [active]
+      - button "读取默认数据" [ref=f4e11] [cursor=pointer]
+  - main [ref=f4e12]:
+    - region "整体概览" [ref=f4e13]:
+      - article [ref=f4e14]:
+        - generic [ref=f4e15]: 问题数
+        - strong [ref=f4e16]: "1"
+        - text: 5 条回答记录
+      - article [ref=f4e17]:
+        - generic [ref=f4e18]: 无 OAG 稳定性
+        - strong [ref=f4e19]: "73.7"
+        - text: 朴素回答平均分
+      - article [ref=f4e20]:
+        - generic [ref=f4e21]: 有 OAG 稳定性
+        - strong [ref=f4e22]: "73.7"
+        - text: OAG 回答平均分
+      - article [ref=f4e23]:
+        - generic [ref=f4e24]: OAG 优势
+        - strong [ref=f4e25]: "0"
+        - text: 整体差异不大
+    - region "搜索与视图控制" [ref=f4e26]:
+      - generic [ref=f4e27]:
+        - searchbox "搜索问题、序号或回答内容" [ref=f4e28]
+        - button "×" [ref=f4e29] [cursor=pointer]
+      - combobox "筛选问题" [ref=f4e30]:
+        - option "全部问题" [selected]
+        - option "OAG 共识更稳定"
+        - option "OAG 信息覆盖更稳定"
+        - option "存在数值漂移"
+        - option "有效样本不足"
+        - option "低稳定性问题"
+        - option "数据异常"
+      - combobox "排序方式" [ref=f4e31]:
+        - option "按序号" [selected]
+        - option "OAG 优势从高到低"
+        - option "OAG 优势从低到高"
+        - option "共识差异从高到低"
+        - option "信息覆盖差异从高到低"
+        - option "数值一致差异从高到低"
+        - option "无 OAG 稳定性从低到高"
+        - option "有 OAG 稳定性从低到高"
+      - tablist "视图" [ref=f4e32]:
+        - button "单题对比" [ref=f4e33] [cursor=pointer]
+        - button "全量列表" [ref=f4e34] [cursor=pointer]
+    - generic [ref=f4e35]:
+      - generic [ref=f4e36]:
+        - button "‹" [disabled] [ref=f4e37]
+        - generic [ref=f4e38]:
+          - text: 1 / 1
+          - heading "纯文本稳定性验证" [level=2] [ref=f4e311]
+          - paragraph [ref=f4e40]: 序号 1 · 5 轮记录
+        - button "›" [disabled] [ref=f4e41]
+      - generic [ref=f4e42]:
+        - generic [ref=f4e43]:
+          - text: 当前题 OAG 优势
+          - strong [ref=f4e44]: "0"
+        - generic [ref=f4e45]:
+          - generic [ref=f4e46]: 无 OAG 73.7
+          - generic [ref=f4e49]: 有 OAG 73.7
+      - generic [ref=f4e52]:
+        - article [ref=f4e53]:
+          - generic [ref=f4e54]:
+            - heading "无 OAG" [level=3] [ref=f4e55]
+            - paragraph [ref=f4e56]: 稳定性 73.7 · 字面相似 26.1% · 完全重复 0% · 有效回答 5 条 · 缺失 0 条
+            - generic [ref=f4e57]:
+              - generic [ref=f4e312]:
+                - generic [ref=f4e313]:
+                  - generic [ref=f4e314]: 共识相似
+                  - strong [ref=f4e315]: "50.2"
+                - generic [ref=f4e318]:
+                  - generic [ref=f4e319]: 信息覆盖
+                  - strong [ref=f4e320]: "55.7"
+                - generic [ref=f4e323]:
+                  - generic [ref=f4e324]: 数值一致
+                  - strong [ref=f4e325]: "100"
+                - generic [ref=f4e328]:
+                  - generic [ref=f4e329]: 结构一致性
+                  - strong [ref=f4e330]: "100"
+              - generic [ref=f4e333]:
+                - generic [ref=f4e334]:
+                  - heading "多数派共识" [level=4] [ref=f4e335]
+                  - paragraph [ref=f4e336]: 多数派共识：1/5 轮进入多数派；平均相似 31%；中位相似 36.3%；离群轮次：第2轮、第3轮、第4轮、第5轮
+                - generic [ref=f4e337]:
+                  - heading "信息覆盖" [level=4] [ref=f4e338]
+                  - paragraph [ref=f4e339]: 共同信息：未形成稳定共同信息单元；覆盖不足：第4轮
+                - generic [ref=f4e340]:
+                  - heading "数值一致" [level=4] [ref=f4e341]
+                  - paragraph [ref=f4e342]: 数值/实体：未检测到可比较数值，按中性一致处理。；数值漂移：无
+                - generic [ref=f4e343]:
+                  - heading "结构一致性" [level=4] [ref=f4e344]
+                  - paragraph [ref=f4e345]: 结构特征：以普通段落为主
+          - generic [ref=f4e92]:
+            - article [ref=f4e346]:
+              - generic [ref=f4e347]:
+                - strong [ref=f4e348]: 第 1 轮
+                - generic [ref=f4e349]: 38 字符
+              - paragraph [ref=f4e351]: 整体来看，该基金更适合稳健型投资者，主要原因是波动控制较好，长期表现相对平稳。
+              - generic [ref=f4e352]:
+                - button "展开" [ref=f4e353] [cursor=pointer]
+                - button "查看原文" [ref=f4e354] [cursor=pointer]
+                - button "复制回答" [ref=f4e355] [cursor=pointer]
+            - article [ref=f4e356]:
+              - generic [ref=f4e357]:
+                - strong [ref=f4e358]: 第 2 轮
+                - generic [ref=f4e359]: 38 字符
+              - paragraph [ref=f4e361]: 从风险偏好看，这只基金比较适合稳健投资者，因为波动较可控，长期走势也比较平稳。
+              - generic [ref=f4e362]:
+                - button "展开" [ref=f4e363] [cursor=pointer]
+                - button "查看原文" [ref=f4e364] [cursor=pointer]
+                - button "复制回答" [ref=f4e365] [cursor=pointer]
+            - article [ref=f4e366]:
+              - generic [ref=f4e367]:
+                - strong [ref=f4e368]: 第 3 轮
+                - generic [ref=f4e369]: 42 字符
+              - paragraph [ref=f4e371]: 这只基金整体偏稳健，适合风险承受能力不高的投资者，核心理由是波动控制和长期稳定性较好。
+              - generic [ref=f4e372]:
+                - button "展开" [ref=f4e373] [cursor=pointer]
+                - button "查看原文" [ref=f4e374] [cursor=pointer]
+                - button "复制回答" [ref=f4e375] [cursor=pointer]
+            - article [ref=f4e376]:
+              - generic [ref=f4e377]:
+                - strong [ref=f4e378]: 第 4 轮
+                - generic [ref=f4e379]: 33 字符
+              - paragraph [ref=f4e381]: 结论上，它更适合稳健型用户，原因在于表现相对平稳，波动没有特别激烈。
+              - generic [ref=f4e382]:
+                - button "展开" [ref=f4e383] [cursor=pointer]
+                - button "查看原文" [ref=f4e384] [cursor=pointer]
+                - button "复制回答" [ref=f4e385] [cursor=pointer]
+            - article [ref=f4e386]:
+              - generic [ref=f4e387]:
+                - strong [ref=f4e388]: 第 5 轮
+                - generic [ref=f4e389]: 37 字符
+              - paragraph [ref=f4e391]: 如果投资者偏稳健，这只基金是可以关注的，因为它的波动控制较好，长期表现稳定。
+              - generic [ref=f4e392]:
+                - button "展开" [ref=f4e393] [cursor=pointer]
+                - button "查看原文" [ref=f4e394] [cursor=pointer]
+                - button "复制回答" [ref=f4e395] [cursor=pointer]
+        - article [ref=f4e146]:
+          - generic [ref=f4e147]:
+            - heading "有 OAG" [level=3] [ref=f4e148]
+            - paragraph [ref=f4e149]: 稳定性 73.7 · 字面相似 26.1% · 完全重复 0% · 有效回答 5 条 · 缺失 0 条
+            - generic [ref=f4e150]:
+              - generic [ref=f4e396]:
+                - generic [ref=f4e397]:
+                  - generic [ref=f4e398]: 共识相似
+                  - strong [ref=f4e399]: "50.2"
+                - generic [ref=f4e402]:
+                  - generic [ref=f4e403]: 信息覆盖
+                  - strong [ref=f4e404]: "55.7"
+                - generic [ref=f4e407]:
+                  - generic [ref=f4e408]: 数值一致
+                  - strong [ref=f4e409]: "100"
+                - generic [ref=f4e412]:
+                  - generic [ref=f4e413]: 结构一致性
+                  - strong [ref=f4e414]: "100"
+              - generic [ref=f4e417]:
+                - generic [ref=f4e418]:
+                  - heading "多数派共识" [level=4] [ref=f4e419]
+                  - paragraph [ref=f4e420]: 多数派共识：1/5 轮进入多数派；平均相似 31%；中位相似 36.3%；离群轮次：第2轮、第3轮、第4轮、第5轮
+                - generic [ref=f4e421]:
+                  - heading "信息覆盖" [level=4] [ref=f4e422]
+                  - paragraph [ref=f4e423]: 共同信息：未形成稳定共同信息单元；覆盖不足：第4轮
+                - generic [ref=f4e424]:
+                  - heading "数值一致" [level=4] [ref=f4e425]
+                  - paragraph [ref=f4e426]: 数值/实体：未检测到可比较数值，按中性一致处理。；数值漂移：无
+                - generic [ref=f4e427]:
+                  - heading "结构一致性" [level=4] [ref=f4e428]
+                  - paragraph [ref=f4e429]: 结构特征：以普通段落为主
+          - generic [ref=f4e185]:
+            - article [ref=f4e430]:
+              - generic [ref=f4e431]:
+                - strong [ref=f4e432]: 第 1 轮
+                - generic [ref=f4e433]: 38 字符
+              - paragraph [ref=f4e435]: 整体来看，该基金更适合稳健型投资者，主要原因是波动控制较好，长期表现相对平稳。
+              - generic [ref=f4e436]:
+                - button "展开" [ref=f4e437] [cursor=pointer]
+                - button "查看原文" [ref=f4e438] [cursor=pointer]
+                - button "复制回答" [ref=f4e439] [cursor=pointer]
+            - article [ref=f4e440]:
+              - generic [ref=f4e441]:
+                - strong [ref=f4e442]: 第 2 轮
+                - generic [ref=f4e443]: 38 字符
+              - paragraph [ref=f4e445]: 从风险偏好看，这只基金比较适合稳健投资者，因为波动较可控，长期走势也比较平稳。
+              - generic [ref=f4e446]:
+                - button "展开" [ref=f4e447] [cursor=pointer]
+                - button "查看原文" [ref=f4e448] [cursor=pointer]
+                - button "复制回答" [ref=f4e449] [cursor=pointer]
+            - article [ref=f4e450]:
+              - generic [ref=f4e451]:
+                - strong [ref=f4e452]: 第 3 轮
+                - generic [ref=f4e453]: 42 字符
+              - paragraph [ref=f4e455]: 这只基金整体偏稳健，适合风险承受能力不高的投资者，核心理由是波动控制和长期稳定性较好。
+              - generic [ref=f4e456]:
+                - button "展开" [ref=f4e457] [cursor=pointer]
+                - button "查看原文" [ref=f4e458] [cursor=pointer]
+                - button "复制回答" [ref=f4e459] [cursor=pointer]
+            - article [ref=f4e460]:
+              - generic [ref=f4e461]:
+                - strong [ref=f4e462]: 第 4 轮
+                - generic [ref=f4e463]: 33 字符
+              - paragraph [ref=f4e465]: 结论上，它更适合稳健型用户，原因在于表现相对平稳，波动没有特别激烈。
+              - generic [ref=f4e466]:
+                - button "展开" [ref=f4e467] [cursor=pointer]
+                - button "查看原文" [ref=f4e468] [cursor=pointer]
+                - button "复制回答" [ref=f4e469] [cursor=pointer]
+            - article [ref=f4e470]:
+              - generic [ref=f4e471]:
+                - strong [ref=f4e472]: 第 5 轮
+                - generic [ref=f4e473]: 37 字符
+              - paragraph [ref=f4e475]: 如果投资者偏稳健，这只基金是可以关注的，因为它的波动控制较好，长期表现稳定。
+              - generic [ref=f4e476]:
+                - button "展开" [ref=f4e477] [cursor=pointer]
+                - button "查看原文" [ref=f4e478] [cursor=pointer]
+                - button "复制回答" [ref=f4e479] [cursor=pointer]

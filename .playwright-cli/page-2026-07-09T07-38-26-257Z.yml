@@ -1,0 +1,189 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: Domain Ontology Planner
+      - heading "新领域本体关系规划" [level=1] [ref=e6]
+    - generic [ref=e7]:
+      - generic [ref=e8]: 大模型配置已就绪
+      - generic [ref=e9]: qwen3.5-plus-2026-04-20
+      - generic [ref=e10]: 未生成领域
+  - main [ref=e11]:
+    - generic [ref=e12]:
+      - generic "流程" [ref=e13]:
+        - generic [ref=e14]:
+          - strong [ref=e15]: 录入
+          - generic [ref=e16]: 对象与属性
+        - generic [ref=e17]:
+          - strong [ref=e18]: 规划
+          - generic [ref=e19]: 关系方案
+        - generic [ref=e20]:
+          - strong [ref=e21]: 生成
+          - generic [ref=e22]: YAML 与图谱
+      - generic [ref=e23]:
+        - generic [ref=e24]:
+          - generic [ref=e25]:
+            - heading "领域信息" [level=2] [ref=e26]
+            - paragraph [ref=e27]: 描述一个全新业务领域，系统会先规划关系，再由你确认生成图谱。
+          - button "清空" [ref=e28] [cursor=pointer]
+        - generic [ref=e29]:
+          - text: 领域名称
+          - textbox "领域名称" [ref=e30]:
+            - /placeholder: 例如 售后维修 / 电商订单 / 医院门诊
+        - generic [ref=e31]:
+          - text: 领域说明
+          - textbox "领域说明" [ref=e32]:
+            - /placeholder: 说明业务范围、主要对象、关键流程或边界
+        - generic [ref=e33]:
+          - button "售后维修示例" [ref=e34] [cursor=pointer]
+          - button "电商订单示例" [ref=e35] [cursor=pointer]
+          - button "在线课程示例" [ref=e36] [cursor=pointer]
+          - button "债券投资分析示例" [ref=e37] [cursor=pointer]
+      - generic [ref=e38]:
+        - generic [ref=e39]:
+          - heading "对象" [level=2] [ref=e40]
+          - button "新增对象" [ref=e41] [cursor=pointer]
+        - generic [ref=e42]:
+          - generic [ref=e43]:
+            - generic [ref=e44]: 对象标识
+            - generic [ref=e45]: 中文名
+            - generic [ref=e46]: 描述
+          - generic [ref=e47]:
+            - textbox "RepairOrder" [ref=e48]
+            - textbox "维修单" [ref=e49]
+            - textbox "对象说明" [ref=e50]
+            - button "删除" [ref=e51] [cursor=pointer]
+      - generic [ref=e52]:
+        - generic [ref=e53]:
+          - heading "属性" [level=2] [ref=e54]
+          - button "新增属性" [ref=e55] [cursor=pointer]
+        - generic [ref=e56]:
+          - generic [ref=e57]:
+            - generic [ref=e58]: 属性标识
+            - generic [ref=e59]: 中文名
+            - generic [ref=e60]: 所属对象
+            - generic [ref=e61]: 值类型
+            - generic [ref=e62]: 描述
+          - generic [ref=e63]:
+            - textbox "order_status" [ref=e64]
+            - textbox "维修单状态" [ref=e65]
+            - combobox [ref=e66]:
+              - option "请选择对象" [selected]
+            - textbox "string" [ref=e67]
+            - textbox "属性说明" [ref=e68]
+            - button "删除" [ref=e69] [cursor=pointer]
+      - generic [ref=e70]:
+        - heading "批量说明" [level=2] [ref=e71]
+        - generic [ref=e72]:
+          - text: 批量补充
+          - textbox "批量补充" [ref=e73]:
+            - /placeholder: 粘贴对象清单、属性说明、业务规则、已有草稿等
+        - button "生成规划方案" [ref=e75] [cursor=pointer]
+    - generic [ref=e77]:
+      - generic [ref=e78]:
+        - heading "已生成领域" [level=2] [ref=e79]
+        - button "刷新" [ref=e80] [cursor=pointer]
+      - button "在线课程 domain_b2f3247b_919ed3 · 2026-07-09T15:20:51 · 10 个版本" [ref=e113] [cursor=pointer]:
+        - strong [ref=e114]: 在线课程
+        - generic [ref=e115]: domain_b2f3247b_919ed3 · 2026-07-09T15:20:51 · 10 个版本
+    - generic [ref=e82]:
+      - generic [ref=e83]:
+        - generic [ref=e84]:
+          - heading "本体关系图" [level=2] [ref=e85]
+          - paragraph [ref=e86]: 生成后可在画布中查看和调整对象、属性与关系。
+        - generic [ref=e87]:
+          - button "展开画布" [ref=e88] [cursor=pointer]
+          - button "新增节点" [disabled] [ref=e89]
+          - button "新增关系" [disabled] [ref=e90]
+      - generic [ref=e91]: 暂无图谱
+      - generic "图例" [ref=e92]:
+        - generic [ref=e93]: 对象节点
+        - generic [ref=e95]: 属性节点
+        - generic [ref=e97]: 关系边
+        - generic [ref=e99]: 当前聚焦
+        - generic [ref=e101]: 非相关元素淡化
+  - dialog [ref=e116]:
+    - generic [ref=e117]:
+      - generic [ref=e118]:
+        - generic [ref=e119]:
+          - heading "在线课程" [level=2] [ref=e120]
+          - paragraph [ref=e121]: domain_b2f3247b_919ed3 · 10 个版本
+        - button "关闭版本树" [active] [ref=e122] [cursor=pointer]: ×
+      - generic [ref=e123]:
+        - generic [ref=e125]:
+          - img [ref=e126]
+          - button "更新规划方案" [ref=e133] [cursor=pointer]
+          - button "更新规划方案" [ref=e134] [cursor=pointer]
+          - button "更新规划方案" [ref=e135] [cursor=pointer]
+          - button "为学生增加“年级”、“班级”属性，并..." [ref=e136] [cursor=pointer]
+          - button "添加“课程表”对象，并为其赋予合理的..." [ref=e137] [cursor=pointer]
+          - button "请全量优化当前本体关系图，可以增加或..." [ref=e138] [cursor=pointer]
+          - button "请全量优化当前本体关系图，可以增加或..." [ref=e139] [cursor=pointer]
+          - button "新增学校对象，为其赋予合适的属性及关..." [ref=e140] [cursor=pointer]
+          - button "当前课时、教师、作业、办公室、教室、..." [ref=e141] [cursor=pointer]
+          - button "v20260709…3687 2026-07-09T10:27:26 初始" [ref=e142] [cursor=pointer]:
+            - strong [ref=e144]: v20260709…3687
+            - emphasis [ref=e145]: 2026-07-09T10:27:26
+            - generic [ref=e147]: 初始
+          - button "v20260709…6210 2026-07-09T10:29:45 已删除" [ref=e148] [cursor=pointer]:
+            - strong [ref=e150]: v20260709…6210
+            - emphasis [ref=e151]: 2026-07-09T10:29:45
+            - generic [ref=e153]: 已删除
+          - button "v20260709…7329 2026-07-09T10:46:58 已删除" [ref=e154] [cursor=pointer]:
+            - strong [ref=e156]: v20260709…7329
+            - emphasis [ref=e157]: 2026-07-09T10:46:58
+            - generic [ref=e159]: 已删除
+          - button "v20260709…2734 2026-07-09T10:51:27" [ref=e160] [cursor=pointer]:
+            - strong [ref=e162]: v20260709…2734
+            - emphasis [ref=e163]: 2026-07-09T10:51:27
+          - button "v20260709…1973 2026-07-09T11:18:58" [ref=e165] [cursor=pointer]:
+            - strong [ref=e167]: v20260709…1973
+            - emphasis [ref=e168]: 2026-07-09T11:18:58
+          - button "v20260709…8764 2026-07-09T11:22:02" [ref=e170] [cursor=pointer]:
+            - strong [ref=e172]: v20260709…8764
+            - emphasis [ref=e173]: 2026-07-09T11:22:02
+          - button "v20260709…1380 2026-07-09T14:46:36" [ref=e175] [cursor=pointer]:
+            - strong [ref=e177]: v20260709…1380
+            - emphasis [ref=e178]: 2026-07-09T14:46:36
+          - button "v20260709…3075 2026-07-09T15:07:50" [ref=e180] [cursor=pointer]:
+            - strong [ref=e182]: v20260709…3075
+            - emphasis [ref=e183]: 2026-07-09T15:07:50
+          - button "v20260709…0384 2026-07-09T14:52:54" [ref=e185] [cursor=pointer]:
+            - strong [ref=e187]: v20260709…0384
+            - emphasis [ref=e188]: 2026-07-09T14:52:54
+          - button "v20260709…1319 2026-07-09T15:20:51" [ref=e190] [cursor=pointer]:
+            - strong [ref=e192]: v20260709…1319
+            - emphasis [ref=e193]: 2026-07-09T15:20:51
+        - separator "拖动调整信息栏宽度" [ref=e195]
+        - complementary [ref=e196]:
+          - button "收起信息栏" [ref=e197] [cursor=pointer]
+          - generic [ref=e198]:
+            - strong [ref=e199]: v20260709…1319
+            - generic [ref=e200]: 版本详情
+          - generic [ref=e201]:
+            - term [ref=e202]: 版本 ID
+            - definition [ref=e203]: v20260709152051881319
+            - term [ref=e204]: 父版本
+            - definition [ref=e205]: v20260709150750833075
+            - term [ref=e206]: 创建时间
+            - definition [ref=e207]: 2026-07-09T15:20:51
+            - term [ref=e208]: Commit 留言
+            - definition [ref=e209]: 当前课时、教师、作业、办公室、教室、科目对象及其属性与其他对象和属性之间的关系缺失了，请补全。
+            - term [ref=e210]: 规划摘要
+            - definition [ref=e211]: 针对用户反馈，补全课时、教师、作业、办公室、教室、科目对象及其属性与现有实体的关系网络。新增8组对象导航关系以明确课程结构、教学责任与空间归属；新增7组属性关联关系以支持OAG在出勤分析、成绩诊断、资源配比、空间调度、学业规划与时序追踪等维度的可执行事实查询。整体规划强化了教学执行链路与资源管理维度的属性事实网络，确保各核心对象均融入可检索、可对比、可解释的OAG事实体系。
+          - generic [ref=e212]:
+            - text: 版本备注
+            - textbox "版本备注" [ref=e213]:
+              - /placeholder: 为这个版本补充备注
+          - generic [ref=e214]:
+            - button "保存备注" [ref=e215] [cursor=pointer]
+            - button "加载此版本" [ref=e216] [cursor=pointer]
+            - button "删除此版本" [ref=e217] [cursor=pointer]
+  - complementary "详情面板" [ref=e103]:
+    - generic [ref=e104]:
+      - generic [ref=e105]:
+        - heading "未选择" [level=2] [ref=e106]
+        - paragraph [ref=e107]: 点击图中的节点或关系查看详情。
+      - button "关闭详情" [ref=e108] [cursor=pointer]: ×
+    - generic [ref=e109]:
+      - strong [ref=e110]: 没有选中元素
+      - generic [ref=e111]: 生成关系图后，选择对象、属性或关系进行编辑。

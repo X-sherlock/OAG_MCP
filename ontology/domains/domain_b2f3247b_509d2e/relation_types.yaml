@@ -1,0 +1,54 @@
+- relation_type: works_in
+  relation_name_zh: 办公
+  description: 明确教师与办公空间的归属关系，支持按办公地点查询教师或预约答疑。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: attends_class_in
+  relation_name_zh: 上课
+  description: 描述学生参与课程学习的场所关联，支持按教室类型筛选学生或统计出勤。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: matches_schedule
+  relation_name_zh: 匹配排期
+  description: 教室类型决定课程排期形式，用于查询特定授课模式下的课程时间安排。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: expires_on
+  relation_name_zh: 截止于
+  description: 作业状态受截止日期约束，支持按时间过滤未提交或逾期作业。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: influences_duration
+  relation_name_zh: 影响时长
+  description: 课程难度等级通常决定课时时长分配，用于规划学习进度与资源调度。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: assigned_to
+  relation_name_zh: 分配至
+  description: 院系与办公位置存在行政分配关系，支持按部门定位教师办公资源。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute

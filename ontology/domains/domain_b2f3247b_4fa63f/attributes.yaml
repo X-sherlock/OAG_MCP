@@ -1,0 +1,80 @@
+- attribute_name: course_level
+  attribute_name_zh: 课程难度
+  description: 课程难度等级。
+  value_type: string
+  object_types:
+  - Course
+  aliases: []
+  enabled: true
+- attribute_name: lesson_duration
+  attribute_name_zh: 课时时长
+  description: 课时持续时间。
+  value_type: number
+  object_types:
+  - Lesson
+  aliases: []
+  enabled: true
+- attribute_name: assignment_status
+  attribute_name_zh: 作业状态
+  description: 作业提交状态。
+  value_type: string
+  object_types:
+  - Assignment
+  aliases: []
+  enabled: true
+- attribute_name: office_location
+  attribute_name_zh: 办公室位置
+  description: 办公室的具体地址或楼栋房间号。
+  value_type: string
+  object_types:
+  - Office
+  aliases: []
+  enabled: true
+- attribute_name: classroom_capacity
+  attribute_name_zh: 教室容量
+  description: 教室可容纳的最大人数。
+  value_type: number
+  object_types:
+  - Classroom
+  aliases: []
+  enabled: true
+- attribute_name: teacher_office_assignment_date
+  attribute_name_zh: 教师办公分配日期
+  description: 教师被分配至特定办公室的生效日期。
+  value_type: string
+  object_types:
+  - Teacher
+  aliases: []
+  enabled: true
+- attribute_name: student_classroom_seat_number
+  attribute_name_zh: 学生教室座位号
+  description: 学生在指定教室的固定或临时座位编号。
+  value_type: string
+  object_types:
+  - Student
+  aliases: []
+  enabled: true
+- attribute_name: lesson_schedule_time
+  attribute_name_zh: 课时排课时间
+  description: 课时计划上课的具体时间或时间段。
+  value_type: string
+  object_types:
+  - Lesson
+  aliases: []
+  enabled: true
+- attribute_name: assignment_score
+  attribute_name_zh: 作业得分
+  description: 教师批改后给出的作业分数。
+  value_type: number
+  object_types:
+  - Assignment
+  aliases: []
+  enabled: true
+- attribute_name: course_completion_rate
+  attribute_name_zh: 课程完成率
+  description: 选课学生中完成课程全部内容的比例。
+  value_type: number
+  object_types:
+  - Course
+  aliases: []
+  enabled: true

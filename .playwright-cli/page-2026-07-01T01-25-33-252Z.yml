@@ -1,0 +1,88 @@
+- generic [ref=f6e2]:
+  - banner [ref=f6e3]:
+    - generic [ref=f6e4]:
+      - generic [ref=f6e5]: OAG
+      - generic [ref=f6e6]:
+        - heading "回答稳定性对比" [level=1] [ref=f6e7]
+        - paragraph [ref=f6e8]: 对比无 OAG 与有 OAG 在 5 轮重复问答中的一致性表现
+    - generic [ref=f6e9]:
+      - generic [ref=f6e10]:
+        - text: 导入 CSV
+        - button "导入 CSV"
+      - button "读取默认数据" [ref=f6e11] [cursor=pointer]
+  - main [ref=f6e12]:
+    - region "整体概览" [ref=f6e13]:
+      - article [ref=f6e14]:
+        - generic [ref=f6e15]: 问题数
+        - strong [ref=f6e16]: "1"
+        - text: 5 条回答记录
+      - article [ref=f6e17]:
+        - generic [ref=f6e18]: 无 OAG 稳定性
+        - strong [ref=f6e19]: "58.9"
+        - text: 朴素回答平均分
+      - article [ref=f6e20]:
+        - generic [ref=f6e21]: 有 OAG 稳定性
+        - strong [ref=f6e22]: "86.8"
+        - text: OAG 回答平均分
+      - article [ref=f6e23]:
+        - generic [ref=f6e24]: OAG 优势
+        - strong [ref=f6e25]: "+27.9"
+        - text: 整体提升明显
+    - region "搜索与视图控制" [ref=f6e26]:
+      - generic [ref=f6e27]:
+        - searchbox "搜索问题、序号或回答内容" [ref=f6e28]
+        - button "×" [ref=f6e29] [cursor=pointer]
+      - combobox "筛选问题" [ref=f6e30]:
+        - option "全部问题" [selected]
+        - option "OAG 共识更稳定"
+        - option "OAG 信息覆盖更稳定"
+        - option "存在数值漂移"
+        - option "有效样本不足"
+        - option "低稳定性问题"
+        - option "数据异常"
+      - combobox "排序方式" [ref=f6e31]:
+        - option "按序号" [selected]
+        - option "OAG 优势从高到低"
+        - option "OAG 优势从低到高"
+        - option "共识差异从高到低"
+        - option "信息覆盖差异从高到低"
+        - option "数值一致差异从高到低"
+        - option "无 OAG 稳定性从低到高"
+        - option "有 OAG 稳定性从低到高"
+      - tablist "视图" [ref=f6e32]:
+        - button "单题对比" [ref=f6e33] [cursor=pointer]
+        - button "全量列表" [active] [ref=f6e34] [cursor=pointer]
+    - generic [ref=f6e479]:
+      - generic [ref=f6e480]:
+        - heading "全部问题" [level=2] [ref=f6e481]
+        - paragraph [ref=f6e482]: 1 个结果
+      - table [ref=f6e484]:
+        - rowgroup [ref=f6e485]:
+          - row "序号 问题 无 OAG 有 OAG 共识差异 覆盖差异 数值差异 OAG 优势 轮次 状态" [ref=f6e486]:
+            - columnheader "序号" [ref=f6e487]
+            - columnheader "问题" [ref=f6e488]
+            - columnheader "无 OAG" [ref=f6e489]
+            - columnheader "有 OAG" [ref=f6e490]
+            - columnheader "共识差异" [ref=f6e491]
+            - columnheader "覆盖差异" [ref=f6e492]
+            - columnheader "数值差异" [ref=f6e493]
+            - columnheader "OAG 优势" [ref=f6e494]
+            - columnheader "轮次" [ref=f6e495]
+            - columnheader "状态" [ref=f6e496]
+        - rowgroup [ref=f6e497]:
+          - row "1 算法一致性验证 58.9 86.8 -11.8 -14.8 +100 +27.9 5 / 5 正常" [ref=f6e498] [cursor=pointer]:
+            - cell "1" [ref=f6e499]
+            - cell "算法一致性验证" [ref=f6e500]
+            - cell "58.9" [ref=f6e501]
+            - cell "86.8" [ref=f6e502]
+            - cell "-11.8" [ref=f6e503]:
+              - generic [ref=f6e504]: "-11.8"
+            - cell "-14.8" [ref=f6e505]:
+              - generic [ref=f6e506]: "-14.8"
+            - cell "+100" [ref=f6e507]:
+              - generic [ref=f6e508]: "+100"
+            - cell "+27.9" [ref=f6e509]:
+              - generic [ref=f6e510]: "+27.9"
+            - cell "5 / 5" [ref=f6e511]
+            - cell "正常" [ref=f6e512]:
+              - generic [ref=f6e513]: 正常

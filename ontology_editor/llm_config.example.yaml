@@ -1,0 +1,7 @@
+api_key: "xxx"
+base_url: "https://{WorkspaceId}.cn-beijing.maas.aliyuncs.com/compatible-mode/v1"
+model: "qwen3.5-plus-2026-04-20"
+enable_thinking: false
+timeout_seconds: 180
+max_completion_tokens: 20480
+temperature: 0.2

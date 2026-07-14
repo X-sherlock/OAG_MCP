@@ -1,0 +1,441 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: Domain Ontology Planner
+      - heading "领域本体关系规划" [level=1] [ref=e6]
+    - generic [ref=e7]:
+      - generic [ref=e8]: 大模型配置已就绪
+      - generic [ref=e9]: qwen3.5-plus-2026-04-20
+      - generic [ref=e10]: 当前领域：domain_b2f3247b_919ed3 / v20260709152051881319
+  - main [ref=e11]:
+    - generic [ref=e12]:
+      - generic [ref=e13]:
+        - generic [ref=e14]:
+          - generic [ref=e15]:
+            - heading "领域信息" [level=2] [ref=e16]
+            - paragraph [ref=e17]: 描述一个全新业务领域，系统会先规划关系，再由你确认生成图谱。
+          - button "清空" [ref=e18] [cursor=pointer]
+        - generic [ref=e19]:
+          - text: 领域名称
+          - textbox "领域名称" [ref=e20]:
+            - /placeholder: 例如 售后维修 / 电商订单 / 医院门诊
+            - text: 在线课程
+        - generic [ref=e21]:
+          - text: 领域说明
+          - textbox "领域说明" [ref=e22]:
+            - /placeholder: 说明业务范围、主要对象、关键流程或边界
+            - text: 在线教育课程学习领域，描述学生选课、观看课程、提交作业、教师批改和成绩反馈。
+        - generic [ref=e23]:
+          - button "售后维修示例" [ref=e24] [cursor=pointer]
+          - button "电商订单示例" [ref=e25] [cursor=pointer]
+          - button "在线课程示例" [ref=e26] [cursor=pointer]
+          - button "债券投资分析示例" [ref=e27] [cursor=pointer]
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - heading "对象" [level=2] [ref=e30]
+          - button "新增对象" [ref=e31] [cursor=pointer]
+        - generic [ref=e32]:
+          - generic [ref=e589]:
+            - generic [ref=e590]: 对象标识
+            - generic [ref=e591]: 中文名
+            - generic [ref=e592]: 描述
+          - generic [ref=e593]:
+            - textbox "RepairOrder" [ref=e594]: School
+            - textbox "维修单" [ref=e595]: 学校
+            - textbox "对象说明" [ref=e596]: 提供在线教育服务的机构实体，负责师资管理、课程发布与教学资源配置。
+            - button "删除" [ref=e597] [cursor=pointer]
+          - generic [ref=e598]:
+            - textbox "RepairOrder" [ref=e599]: Student
+            - textbox "维修单" [ref=e600]: 学生
+            - textbox "对象说明" [ref=e601]: 学习课程的用户。
+            - button "删除" [ref=e602] [cursor=pointer]
+          - generic [ref=e603]:
+            - textbox "RepairOrder" [ref=e604]: Course
+            - textbox "维修单" [ref=e605]: 课程
+            - textbox "对象说明" [ref=e606]: 在线课程。
+            - button "删除" [ref=e607] [cursor=pointer]
+          - generic [ref=e608]:
+            - textbox "RepairOrder" [ref=e609]: Lesson
+            - textbox "维修单" [ref=e610]: 课时
+            - textbox "对象说明" [ref=e611]: 课程下的教学单元。
+            - button "删除" [ref=e612] [cursor=pointer]
+          - generic [ref=e613]:
+            - textbox "RepairOrder" [ref=e614]: Assignment
+            - textbox "维修单" [ref=e615]: 作业
+            - textbox "对象说明" [ref=e616]: 课程作业。
+            - button "删除" [ref=e617] [cursor=pointer]
+          - generic [ref=e618]:
+            - textbox "RepairOrder" [ref=e619]: Teacher
+            - textbox "维修单" [ref=e620]: 教师
+            - textbox "对象说明" [ref=e621]: 课程教师。
+            - button "删除" [ref=e622] [cursor=pointer]
+          - generic [ref=e623]:
+            - textbox "RepairOrder" [ref=e624]: Office
+            - textbox "维修单" [ref=e625]: 办公室
+            - textbox "对象说明" [ref=e626]: 教师办公与答疑的物理或虚拟空间。
+            - button "删除" [ref=e627] [cursor=pointer]
+          - generic [ref=e628]:
+            - textbox "RepairOrder" [ref=e629]: Classroom
+            - textbox "维修单" [ref=e630]: 教室
+            - textbox "对象说明" [ref=e631]: 学生上课与互动的教学空间。
+            - button "删除" [ref=e632] [cursor=pointer]
+          - generic [ref=e633]:
+            - textbox "RepairOrder" [ref=e634]: Subject
+            - textbox "维修单" [ref=e635]: 科目
+            - textbox "对象说明" [ref=e636]: 学术分类或知识领域，用于归类课程与评估学习方向。
+            - button "删除" [ref=e637] [cursor=pointer]
+          - generic [ref=e638]:
+            - generic [ref=e639]: 已回填 9 个对象，当前显示前 6 个。
+            - button "展开全部" [ref=e640] [cursor=pointer]
+      - generic [ref=e42]:
+        - generic [ref=e43]:
+          - heading "属性" [level=2] [ref=e44]
+          - button "新增属性" [ref=e45] [cursor=pointer]
+        - generic [ref=e46]:
+          - generic [ref=e641]:
+            - generic [ref=e642]: 属性标识
+            - generic [ref=e643]: 中文名
+            - generic [ref=e644]: 所属对象
+            - generic [ref=e645]: 值类型
+            - generic [ref=e646]: 描述
+          - generic [ref=e647]:
+            - textbox "order_status" [ref=e648]: school_name
+            - textbox "维修单状态" [ref=e649]: 学校名称
+            - combobox [ref=e650]:
+              - option "请选择对象"
+              - option "学校 (School)" [selected]
+              - option "学生 (Student)"
+              - option "课程 (Course)"
+              - option "课时 (Lesson)"
+              - option "作业 (Assignment)"
+              - option "教师 (Teacher)"
+              - option "办公室 (Office)"
+              - option "教室 (Classroom)"
+              - option "科目 (Subject)"
+            - textbox "string" [ref=e651]
+            - textbox "属性说明" [ref=e652]: 学校的官方名称，用于机构标识与校际对比查询。
+            - button "删除" [ref=e653] [cursor=pointer]
+          - generic [ref=e654]:
+            - textbox "order_status" [ref=e655]: school_type
+            - textbox "维修单状态" [ref=e656]: 学校类型
+            - combobox [ref=e657]:
+              - option "请选择对象"
+              - option "学校 (School)" [selected]
+              - option "学生 (Student)"
+              - option "课程 (Course)"
+              - option "课时 (Lesson)"
+              - option "作业 (Assignment)"
+              - option "教师 (Teacher)"
+              - option "办公室 (Office)"
+              - option "教室 (Classroom)"
+              - option "科目 (Subject)"
+            - textbox "string" [ref=e658]
+            - textbox "属性说明" [ref=e659]: 学校的办学性质分类，如公立、私立、职业院校等，用于教育资源分布分析。
+            - button "删除" [ref=e660] [cursor=pointer]
+          - generic [ref=e661]:
+            - textbox "order_status" [ref=e662]: campus_location
+            - textbox "维修单状态" [ref=e663]: 校区位置
+            - combobox [ref=e664]:
+              - option "请选择对象"
+              - option "学校 (School)" [selected]
+              - option "学生 (Student)"
+              - option "课程 (Course)"
+              - option "课时 (Lesson)"
+              - option "作业 (Assignment)"
+              - option "教师 (Teacher)"
+              - option "办公室 (Office)"
+              - option "教室 (Classroom)"
+              - option "科目 (Subject)"
+            - textbox "string" [ref=e665]
+            - textbox "属性说明" [ref=e666]: 学校主校区或在线运营基地的地理位置，用于区域生源与资源调度分析。
+            - button "删除" [ref=e667] [cursor=pointer]
+          - generic [ref=e668]:
+            - textbox "order_status" [ref=e669]: total_students
+            - textbox "维修单状态" [ref=e670]: 在校生规模
+            - combobox [ref=e671]:
+              - option "请选择对象"
+              - option "学校 (School)" [selected]
+              - option "学生 (Student)"
+              - option "课程 (Course)"
+              - option "课时 (Lesson)"
+              - option "作业 (Assignment)"
+              - option "教师 (Teacher)"
+              - option "办公室 (Office)"
+              - option "教室 (Classroom)"
+              - option "科目 (Subject)"
+            - textbox "string" [ref=e672]: number
+            - textbox "属性说明" [ref=e673]: 学校当前注册学生总数，用于机构体量评估与教学负荷计算。
+            - button "删除" [ref=e674] [cursor=pointer]
+          - generic [ref=e675]:
+            - textbox "order_status" [ref=e676]: course_level
+            - textbox "维修单状态" [ref=e677]: 课程难度
+            - combobox [ref=e678]:
+              - option "请选择对象"
+              - option "学校 (School)"
+              - option "学生 (Student)"
+              - option "课程 (Course)" [selected]
+              - option "课时 (Lesson)"
+              - option "作业 (Assignment)"
+              - option "教师 (Teacher)"
+              - option "办公室 (Office)"
+              - option "教室 (Classroom)"
+              - option "科目 (Subject)"
+            - textbox "string" [ref=e679]
+            - textbox "属性说明" [ref=e680]: 课程难度等级。
+            - button "删除" [ref=e681] [cursor=pointer]
+          - generic [ref=e682]:
+            - textbox "order_status" [ref=e683]: lesson_duration
+            - textbox "维修单状态" [ref=e684]: 课时时长
+            - combobox [ref=e685]:
+              - option "请选择对象"
+              - option "学校 (School)"
+              - option "学生 (Student)"
+              - option "课程 (Course)"
+              - option "课时 (Lesson)" [selected]
+              - option "作业 (Assignment)"
+              - option "教师 (Teacher)"
+              - option "办公室 (Office)"
+              - option "教室 (Classroom)"
+              - option "科目 (Subject)"
+            - textbox "string" [ref=e686]: number
+            - textbox "属性说明" [ref=e687]: 课时持续时间。
+            - button "删除" [ref=e688] [cursor=pointer]
+          - generic [ref=e689]:
+            - textbox "order_status" [ref=e690]: assignment_status
+            - textbox "维修单状态" [ref=e691]: 作业状态
+            - combobox [ref=e692]:
+              - option "请选择对象"
+              - option "学校 (School)"
+              - option "学生 (Student)"
+              - option "课程 (Course)"
+              - option "课时 (Lesson)"
+              - option "作业 (Assignment)" [selected]
+              - option "教师 (Teacher)"
+              - option "办公室 (Office)"
+              - option "教室 (Classroom)"
+              - option "科目 (Subject)"
+            - textbox "string" [ref=e693]
+            - textbox "属性说明" [ref=e694]: 作业提交状态。
+            - button "删除" [ref=e695] [cursor=pointer]
+          - generic [ref=e696]:
+            - textbox "order_status" [ref=e697]: enrollment_date
+            - textbox "维修单状态" [ref=e698]: 报名日期
+            - combobox [ref=e699]:
+              - option "请选择对象"
+              - option "学校 (School)"
+              - option "学生 (Student)" [selected]
+              - option "课程 (Course)"
+              - option "课时 (Lesson)"
+              - option "作业 (Assignment)"
+              - option "教师 (Teacher)"
+              - option "办公室 (Office)"
+              - option "教室 (Classroom)"
+              - option "科目 (Subject)"
+            - textbox "string" [ref=e700]
+            - textbox "属性说明" [ref=e701]: 学生报名课程的时间节点。
+            - button "删除" [ref=e702] [cursor=pointer]
+          - generic [ref=e703]:
+            - textbox "order_status" [ref=e704]: submission_score
+            - textbox "维修单状态" [ref=e705]: 提交成绩
+            - combobox [ref=e706]:
+              - option "请选择对象"
+              - option "学校 (School)"
+              - option "学生 (Student)"
+              - option "课程 (Course)"
+              - option "课时 (Lesson)"
+              - option "作业 (Assignment)" [selected]
+              - option "教师 (Teacher)"
+              - option "办公室 (Office)"
+              - option "教室 (Classroom)"
+              - option "科目 (Subject)"
+            - textbox "string" [ref=e707]: number
+            - textbox "属性说明" [ref=e708]: 学生作业提交的得分。
+            - button "删除" [ref=e709] [cursor=pointer]
+          - generic [ref=e710]:
+            - textbox "order_status" [ref=e711]: attendance_rate
+            - textbox "维修单状态" [ref=e712]: 出勤率
+            - combobox [ref=e713]:
+              - option "请选择对象"
+              - option "学校 (School)"
+              - option "学生 (Student)" [selected]
+              - option "课程 (Course)"
+              - option "课时 (Lesson)"
+              - option "作业 (Assignment)"
+              - option "教师 (Teacher)"
+              - option "办公室 (Office)"
+              - option "教室 (Classroom)"
+              - option "科目 (Subject)"
+            - textbox "string" [ref=e714]: number
+            - textbox "属性说明" [ref=e715]: 学生上课出勤的比例。
+            - button "删除" [ref=e716] [cursor=pointer]
+          - generic [ref=e717]:
+            - textbox "order_status" [ref=e718]: office_capacity
+            - textbox "维修单状态" [ref=e719]: 办公室容量
+            - combobox [ref=e720]:
+              - option "请选择对象"
+              - option "学校 (School)"
+              - option "学生 (Student)"
+              - option "课程 (Course)"
+              - option "课时 (Lesson)"
+              - option "作业 (Assignment)"
+              - option "教师 (Teacher)"
+              - option "办公室 (Office)" [selected]
+              - option "教室 (Classroom)"
+              - option "科目 (Subject)"
+            - textbox "string" [ref=e721]: number
+            - textbox "属性说明" [ref=e722]: 办公室可容纳的教师数量。
+            - button "删除" [ref=e723] [cursor=pointer]
+          - generic [ref=e724]:
+            - textbox "order_status" [ref=e725]: classroom_location
+            - textbox "维修单状态" [ref=e726]: 教室位置
+            - combobox [ref=e727]:
+              - option "请选择对象"
+              - option "学校 (School)"
+              - option "学生 (Student)"
+              - option "课程 (Course)"
+              - option "课时 (Lesson)"
+              - option "作业 (Assignment)"
+              - option "教师 (Teacher)"
+              - option "办公室 (Office)"
+              - option "教室 (Classroom)" [selected]
+              - option "科目 (Subject)"
+            - textbox "string" [ref=e728]
+            - textbox "属性说明" [ref=e729]: 教室的物理地址或虚拟链接。
+            - button "删除" [ref=e730] [cursor=pointer]
+          - generic [ref=e731]:
+            - textbox "order_status" [ref=e732]: subject_category
+            - textbox "维修单状态" [ref=e733]: 科目分类
+            - combobox [ref=e734]:
+              - option "请选择对象"
+              - option "学校 (School)"
+              - option "学生 (Student)"
+              - option "课程 (Course)"
+              - option "课时 (Lesson)"
+              - option "作业 (Assignment)"
+              - option "教师 (Teacher)"
+              - option "办公室 (Office)"
+              - option "教室 (Classroom)"
+              - option "科目 (Subject)" [selected]
+            - textbox "string" [ref=e735]
+            - textbox "属性说明" [ref=e736]: 科目的学术分类，如理工、人文、艺术等，用于课程归类与学习路径推荐。
+            - button "删除" [ref=e737] [cursor=pointer]
+          - generic [ref=e738]:
+            - textbox "order_status" [ref=e739]: subject_credit
+            - textbox "维修单状态" [ref=e740]: 科目学分
+            - combobox [ref=e741]:
+              - option "请选择对象"
+              - option "学校 (School)"
+              - option "学生 (Student)"
+              - option "课程 (Course)"
+              - option "课时 (Lesson)"
+              - option "作业 (Assignment)"
+              - option "教师 (Teacher)"
+              - option "办公室 (Office)"
+              - option "教室 (Classroom)"
+              - option "科目 (Subject)" [selected]
+            - textbox "string" [ref=e742]: number
+            - textbox "属性说明" [ref=e743]: 科目对应的标准学分值，用于学业进度计算与毕业要求核对。
+            - button "删除" [ref=e744] [cursor=pointer]
+          - generic [ref=e745]:
+            - textbox "order_status" [ref=e746]: subject_code
+            - textbox "维修单状态" [ref=e747]: 科目代码
+            - combobox [ref=e748]:
+              - option "请选择对象"
+              - option "学校 (School)"
+              - option "学生 (Student)"
+              - option "课程 (Course)"
+              - option "课时 (Lesson)"
+              - option "作业 (Assignment)"
+              - option "教师 (Teacher)"
+              - option "办公室 (Office)"
+              - option "教室 (Classroom)"
+              - option "科目 (Subject)" [selected]
+            - textbox "string" [ref=e749]
+            - textbox "属性说明" [ref=e750]: 科目的唯一标识代码，用于系统检索与教务管理对接。
+            - button "删除" [ref=e751] [cursor=pointer]
+          - generic [ref=e752]:
+            - generic [ref=e753]: 已回填 15 个属性，当前显示前 10 个。
+            - button "展开全部" [ref=e754] [cursor=pointer]
+      - generic [ref=e60]:
+        - heading "批量说明" [level=2] [ref=e61]
+        - generic [ref=e62]:
+          - text: 批量补充
+          - textbox "批量补充" [ref=e63]:
+            - /placeholder: 粘贴对象清单、属性说明、业务规则、已有草稿等
+            - text: 学生报名课程；课程由多个课时组成；课程包含作业；教师批改作业并反馈成绩。
+        - generic [ref=e272]:
+          - button "更新规划方案" [ref=e273] [cursor=pointer]
+          - button "创建新的领域规划" [ref=e274] [cursor=pointer]
+    - generic [ref=e66]:
+      - generic [ref=e275]:
+        - generic [ref=e277]:
+          - heading "规划状态" [level=2] [ref=e278]
+          - paragraph [ref=e279]: 规划方案生成后会以弹窗方式展示，确认前不会写入 YAML。
+        - generic [ref=e280]:
+          - strong [ref=e281]: 已生成规划方案
+          - generic [ref=e282]: 针对用户反馈，补全课时、教师、作业、办公室、教室、科目对象及其属性与现有实体的关系网络。新增8组对象导航关系以明确课程结构、教学责任与空间归属；新增7组属性关联关系以支持OAG在出勤分析、成绩诊断、资源配比、空间调度、学业规划与时序追踪等维度的可执行事实查询。整体规划强化了教学执行链路与资源管理维度的属性事实网络，确保各核心对象均融入可检索、可对比、可解释的OAG事实体系。
+          - generic [ref=e283]:
+            - generic [ref=e284]:
+              - generic [ref=e285]: 对象
+              - strong [ref=e286]: "9"
+            - generic [ref=e287]:
+              - generic [ref=e288]: 属性
+              - strong [ref=e289]: "15"
+            - generic [ref=e290]:
+              - generic [ref=e291]: 关系
+              - strong [ref=e292]: "23"
+            - generic [ref=e293]:
+              - generic [ref=e294]: 问题
+              - strong [ref=e295]: "2"
+        - generic [ref=e296]:
+          - button "查看规划方案" [ref=e297] [cursor=pointer]
+          - button "确认生成关系图" [ref=e298] [cursor=pointer]
+      - generic [ref=e67]:
+        - generic [ref=e68]:
+          - heading "已生成领域" [level=2] [ref=e69]
+          - button "刷新" [ref=e70] [cursor=pointer]
+        - button "在线课程 domain_b2f3247b_919ed3 · 2026-07-09T15:20:51 · 10 个版本" [ref=e103] [cursor=pointer]:
+          - strong [ref=e104]: 在线课程
+          - generic [ref=e105]: domain_b2f3247b_919ed3 · 2026-07-09T15:20:51 · 10 个版本
+    - generic [ref=e72]:
+      - generic [ref=e73]:
+        - generic [ref=e74]:
+          - heading "本体关系图" [level=2] [ref=e75]
+          - paragraph [ref=e76]: 保存位置：ontology/domains/domain_b2f3247b_919ed3
+        - generic [ref=e77]:
+          - button "收起画布" [ref=e299] [cursor=pointer]
+          - button "新增节点" [ref=e79] [cursor=pointer]
+          - button "新增关系" [ref=e80] [cursor=pointer]
+      - generic [ref=e81]: 在线课程 · 24 个节点 · 38 条关系 · 关系类型 13 个作为边标签使用
+      - generic [ref=e300]:
+        - generic [ref=e301]:
+          - heading "调整反馈" [level=2] [ref=e302]
+          - paragraph [ref=e303]: 基于当前图谱和原规划继续调整。
+        - generic [ref=e304]:
+          - text: 反馈内容
+          - textbox "反馈内容" [ref=e305]:
+            - /placeholder: 例如：拆分对象、调整关系方向、补充缺失属性
+        - generic [ref=e306]:
+          - button "回填到录入区" [ref=e307] [cursor=pointer]
+          - button "按反馈重新规划" [ref=e308] [cursor=pointer]
+      - generic "图例" [ref=e82]:
+        - generic [ref=e83]: 对象节点
+        - generic [ref=e85]: 属性节点
+        - generic [ref=e87]: 关系边
+        - generic [ref=e89]: 当前聚焦
+        - generic [ref=e91]: 非相关元素淡化
+      - generic [ref=e309]:
+        - generic [ref=e310]: 布局松散度
+        - slider "布局松散度" [ref=e311]: "1"
+        - generic [ref=e312]: 1.00x
+      - separator "拖动调整画布高度" [ref=e319]:
+        - generic [ref=e320]: 拖动调整画布高度
+  - complementary "详情面板" [ref=e93]:
+    - generic [ref=e94]:
+      - generic [ref=e95]:
+        - heading "未选择" [level=2] [ref=e96]
+        - paragraph [ref=e97]: 点击图中的节点或关系查看详情。
+      - button "关闭详情" [ref=e98] [cursor=pointer]: ×
+    - generic [ref=e99]:
+      - strong [ref=e100]: 没有选中元素
+      - generic [ref=e101]: 生成关系图后，选择对象、属性或关系进行编辑。

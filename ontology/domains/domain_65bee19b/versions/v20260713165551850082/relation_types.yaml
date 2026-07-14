@@ -1,0 +1,27 @@
+- relation_type: has_attribute
+  relation_name_zh: 拥有属性
+  description: 基金代码是基金产品的唯一标识符，属于其基本属性。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - Attribute
+- relation_type: identifies
+  relation_name_zh: 标识对应
+  description: 基金代码与基金名称存在一一对应关系，用于在系统中唯一识别特定基金实体。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: evaluates_performance_of
+  relation_name_zh: 评估表现
+  description: 任期回报直接评价了该基金经理在管理该基金期间的业绩表现。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute

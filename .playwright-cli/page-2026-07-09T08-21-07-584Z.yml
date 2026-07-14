@@ -1,0 +1,2021 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: Domain Ontology Planner
+      - heading "领域本体关系规划" [level=1] [ref=e6]
+    - generic [ref=e7]:
+      - generic [ref=e8]: 大模型配置已就绪
+      - generic [ref=e9]: qwen3.5-plus-2026-04-20
+      - generic [ref=e10]: 当前领域：domain_b2f3247b_919ed3 / v20260709152051881319
+  - main [ref=e11]:
+    - generic [ref=e12]:
+      - generic [ref=e13]:
+        - generic [ref=e14]:
+          - generic [ref=e15]:
+            - heading "领域信息" [level=2] [ref=e16]
+            - paragraph [ref=e17]: 描述一个全新业务领域，系统会先规划关系，再由你确认生成图谱。
+          - button "清空" [ref=e18] [cursor=pointer]
+        - generic [ref=e19]:
+          - text: 领域名称
+          - textbox "领域名称" [ref=e20]:
+            - /placeholder: 例如 售后维修 / 电商订单 / 医院门诊
+            - text: 债券投资分析
+        - generic [ref=e21]:
+          - text: 领域说明
+          - textbox "领域说明" [ref=e22]:
+            - /placeholder: 说明业务范围、主要对象、关键流程或边界
+            - text: 本领域用于描述债券从发行、上市交易、评级跟踪、价格行情、收益率计算、投资组合持仓到风险监控的核心对象和关系。系统需要能够识别债券、发行主体、担保主体、承销商、评级机构、交易市场、行情报价、投资组合、投资者、交易记录、收益率曲线和风险指标之间的关系，并支持围绕债券收益、价格波动、信用风险、久期风险、评级变化、持仓敞口等问题进行查询和分析。
+        - generic [ref=e23]:
+          - button "售后维修示例" [ref=e24] [cursor=pointer]
+          - button "电商订单示例" [ref=e25] [cursor=pointer]
+          - button "在线课程示例" [ref=e26] [cursor=pointer]
+          - button "债券投资分析示例" [active] [ref=e27] [cursor=pointer]
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - heading "对象" [level=2] [ref=e30]
+          - button "新增对象" [ref=e31] [cursor=pointer]
+        - generic [ref=e32]:
+          - generic [ref=e424]:
+            - generic [ref=e425]: 对象标识
+            - generic [ref=e426]: 中文名
+            - generic [ref=e427]: 描述
+          - generic [ref=e428]:
+            - textbox "RepairOrder" [ref=e429]: Bond
+            - textbox "维修单" [ref=e430]: 债券
+            - textbox "对象说明" [ref=e431]: 固定收益类证券，包含债券代码、债券名称、期限、票面利率、付息方式、到期日等基础信息。
+            - button "删除" [ref=e432] [cursor=pointer]
+          - generic [ref=e433]:
+            - textbox "RepairOrder" [ref=e434]: Issuer
+            - textbox "维修单" [ref=e435]: 发行主体
+            - textbox "对象说明" [ref=e436]: 发行债券的企业、金融机构、地方政府或其他机构。
+            - button "删除" [ref=e437] [cursor=pointer]
+          - generic [ref=e438]:
+            - textbox "RepairOrder" [ref=e439]: Guarantor
+            - textbox "维修单" [ref=e440]: 担保主体
+            - textbox "对象说明" [ref=e441]: 为债券偿付提供担保的机构，可为空。
+            - button "删除" [ref=e442] [cursor=pointer]
+          - generic [ref=e443]:
+            - textbox "RepairOrder" [ref=e444]: Underwriter
+            - textbox "维修单" [ref=e445]: 承销商
+            - textbox "对象说明" [ref=e446]: 负责债券发行承销、销售或簿记建档的金融机构。
+            - button "删除" [ref=e447] [cursor=pointer]
+          - generic [ref=e448]:
+            - textbox "RepairOrder" [ref=e449]: CreditRating
+            - textbox "维修单" [ref=e450]: 信用评级
+            - textbox "对象说明" [ref=e451]: 评级机构对债券或发行主体给出的信用等级及评级展望。
+            - button "删除" [ref=e452] [cursor=pointer]
+          - generic [ref=e453]:
+            - textbox "RepairOrder" [ref=e454]: RatingAgency
+            - textbox "维修单" [ref=e455]: 评级机构
+            - textbox "对象说明" [ref=e456]: 提供债券评级、主体评级、评级调整和评级报告的机构。
+            - button "删除" [ref=e457] [cursor=pointer]
+          - generic [ref=e458]:
+            - textbox "RepairOrder" [ref=e459]: BondMarket
+            - textbox "维修单" [ref=e460]: 交易市场
+            - textbox "对象说明" [ref=e461]: 债券挂牌和交易的市场，例如银行间市场、交易所市场。
+            - button "删除" [ref=e462] [cursor=pointer]
+          - generic [ref=e463]:
+            - textbox "RepairOrder" [ref=e464]: BondQuote
+            - textbox "维修单" [ref=e465]: 债券行情
+            - textbox "对象说明" [ref=e466]: 某只债券在某个交易日、某个市场上的价格、收益率、成交量等行情数据。
+            - button "删除" [ref=e467] [cursor=pointer]
+          - generic [ref=e468]:
+            - textbox "RepairOrder" [ref=e469]: BondTransaction
+            - textbox "维修单" [ref=e470]: 债券交易
+            - textbox "对象说明" [ref=e471]: 投资者或组合买入、卖出债券形成的交易记录。
+            - button "删除" [ref=e472] [cursor=pointer]
+          - generic [ref=e473]:
+            - textbox "RepairOrder" [ref=e474]: BondHolding
+            - textbox "维修单" [ref=e475]: 债券持仓
+            - textbox "对象说明" [ref=e476]: 投资组合或投资者当前持有某只债券的数量、市值、成本和浮盈亏。
+            - button "删除" [ref=e477] [cursor=pointer]
+          - generic [ref=e478]:
+            - textbox "RepairOrder" [ref=e479]: BondPortfolio
+            - textbox "维修单" [ref=e480]: 债券组合
+            - textbox "对象说明" [ref=e481]: 由多只债券构成的投资组合，用于分析收益、风险和资产配置。
+            - button "删除" [ref=e482] [cursor=pointer]
+          - generic [ref=e483]:
+            - textbox "RepairOrder" [ref=e484]: Investor
+            - textbox "维修单" [ref=e485]: 投资者
+            - textbox "对象说明" [ref=e486]: 持有或交易债券的个人、机构或账户主体。
+            - button "删除" [ref=e487] [cursor=pointer]
+          - generic [ref=e488]:
+            - textbox "RepairOrder" [ref=e489]: YieldCurve
+            - textbox "维修单" [ref=e490]: 收益率曲线
+            - textbox "对象说明" [ref=e491]: 不同期限债券对应的市场收益率曲线，用于估值和利率风险分析。
+            - button "删除" [ref=e492] [cursor=pointer]
+          - generic [ref=e493]:
+            - textbox "RepairOrder" [ref=e494]: RiskIndicator
+            - textbox "维修单" [ref=e495]: 风险指标
+            - textbox "对象说明" [ref=e496]: 债券或组合的久期、凸性、信用利差、到期收益率、最大回撤等指标。
+            - button "删除" [ref=e497] [cursor=pointer]
+          - generic [ref=e498]:
+            - textbox "RepairOrder" [ref=e499]: CashflowSchedule
+            - textbox "维修单" [ref=e500]: 现金流计划
+            - textbox "对象说明" [ref=e501]: 债券未来付息、本金兑付、提前赎回等现金流安排。
+            - button "删除" [ref=e502] [cursor=pointer]
+          - generic [ref=e503]:
+            - textbox "RepairOrder" [ref=e504]: DefaultEvent
+            - textbox "维修单" [ref=e505]: 违约事件
+            - textbox "对象说明" [ref=e506]: 债券或发行主体发生的本金违约、利息违约、展期、重组等信用事件。
+            - button "删除" [ref=e507] [cursor=pointer]
+          - generic [ref=e508]:
+            - generic [ref=e509]: 已回填 16 个对象，当前显示前 6 个。
+            - button "展开全部" [ref=e510] [cursor=pointer]
+      - generic [ref=e42]:
+        - generic [ref=e43]:
+          - heading "属性" [level=2] [ref=e44]
+          - button "新增属性" [ref=e45] [cursor=pointer]
+        - generic [ref=e46]:
+          - generic [ref=e511]:
+            - generic [ref=e512]: 属性标识
+            - generic [ref=e513]: 中文名
+            - generic [ref=e514]: 所属对象
+            - generic [ref=e515]: 值类型
+            - generic [ref=e516]: 描述
+          - generic [ref=e517]:
+            - textbox "order_status" [ref=e518]: bond_code
+            - textbox "维修单状态" [ref=e519]: 债券代码
+            - combobox [ref=e520]:
+              - option "请选择对象"
+              - option "债券 (Bond)" [selected]
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e521]
+            - textbox "属性说明" [ref=e522]: 债券在市场中的唯一代码。
+            - button "删除" [ref=e523] [cursor=pointer]
+          - generic [ref=e524]:
+            - textbox "order_status" [ref=e525]: bond_name
+            - textbox "维修单状态" [ref=e526]: 债券名称
+            - combobox [ref=e527]:
+              - option "请选择对象"
+              - option "债券 (Bond)" [selected]
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e528]
+            - textbox "属性说明" [ref=e529]: 债券简称或全称。
+            - button "删除" [ref=e530] [cursor=pointer]
+          - generic [ref=e531]:
+            - textbox "order_status" [ref=e532]: bond_type
+            - textbox "维修单状态" [ref=e533]: 债券类型
+            - combobox [ref=e534]:
+              - option "请选择对象"
+              - option "债券 (Bond)" [selected]
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e535]
+            - textbox "属性说明" [ref=e536]: 国债、地方债、金融债、企业债、公司债、可转债等。
+            - button "删除" [ref=e537] [cursor=pointer]
+          - generic [ref=e538]:
+            - textbox "order_status" [ref=e539]: issue_date
+            - textbox "维修单状态" [ref=e540]: 发行日期
+            - combobox [ref=e541]:
+              - option "请选择对象"
+              - option "债券 (Bond)" [selected]
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e542]: date
+            - textbox "属性说明" [ref=e543]: 债券正式发行的日期。
+            - button "删除" [ref=e544] [cursor=pointer]
+          - generic [ref=e545]:
+            - textbox "order_status" [ref=e546]: maturity_date
+            - textbox "维修单状态" [ref=e547]: 到期日期
+            - combobox [ref=e548]:
+              - option "请选择对象"
+              - option "债券 (Bond)" [selected]
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e549]: date
+            - textbox "属性说明" [ref=e550]: 债券本金最终兑付日期。
+            - button "删除" [ref=e551] [cursor=pointer]
+          - generic [ref=e552]:
+            - textbox "order_status" [ref=e553]: coupon_rate
+            - textbox "维修单状态" [ref=e554]: 票面利率
+            - combobox [ref=e555]:
+              - option "请选择对象"
+              - option "债券 (Bond)" [selected]
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e556]: number
+            - textbox "属性说明" [ref=e557]: 债券约定的年化票面利率。
+            - button "删除" [ref=e558] [cursor=pointer]
+          - generic [ref=e559]:
+            - textbox "order_status" [ref=e560]: coupon_type
+            - textbox "维修单状态" [ref=e561]: 付息方式
+            - combobox [ref=e562]:
+              - option "请选择对象"
+              - option "债券 (Bond)" [selected]
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e563]
+            - textbox "属性说明" [ref=e564]: 固定利率、浮动利率、贴现债、零息债等。
+            - button "删除" [ref=e565] [cursor=pointer]
+          - generic [ref=e566]:
+            - textbox "order_status" [ref=e567]: face_value
+            - textbox "维修单状态" [ref=e568]: 面值
+            - combobox [ref=e569]:
+              - option "请选择对象"
+              - option "债券 (Bond)" [selected]
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e570]: number
+            - textbox "属性说明" [ref=e571]: 单张债券的票面本金金额。
+            - button "删除" [ref=e572] [cursor=pointer]
+          - generic [ref=e573]:
+            - textbox "order_status" [ref=e574]: remaining_term
+            - textbox "维修单状态" [ref=e575]: 剩余期限
+            - combobox [ref=e576]:
+              - option "请选择对象"
+              - option "债券 (Bond)" [selected]
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e577]: number
+            - textbox "属性说明" [ref=e578]: 距离债券到期日的剩余时间。
+            - button "删除" [ref=e579] [cursor=pointer]
+          - generic [ref=e580]:
+            - textbox "order_status" [ref=e581]: issuer_id
+            - textbox "维修单状态" [ref=e582]: 发行主体编号
+            - combobox [ref=e583]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)" [selected]
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e584]
+            - textbox "属性说明" [ref=e585]: 发行主体的唯一标识。
+            - button "删除" [ref=e586] [cursor=pointer]
+          - generic [ref=e587]:
+            - textbox "order_status" [ref=e588]: issuer_name
+            - textbox "维修单状态" [ref=e589]: 发行主体名称
+            - combobox [ref=e590]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)" [selected]
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e591]
+            - textbox "属性说明" [ref=e592]: 发行债券的机构名称。
+            - button "删除" [ref=e593] [cursor=pointer]
+          - generic [ref=e594]:
+            - textbox "order_status" [ref=e595]: issuer_type
+            - textbox "维修单状态" [ref=e596]: 发行主体类型
+            - combobox [ref=e597]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)" [selected]
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e598]
+            - textbox "属性说明" [ref=e599]: 企业、金融机构、政府平台、地方政府等。
+            - button "删除" [ref=e600] [cursor=pointer]
+          - generic [ref=e601]:
+            - textbox "order_status" [ref=e602]: industry
+            - textbox "维修单状态" [ref=e603]: 所属行业
+            - combobox [ref=e604]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)" [selected]
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e605]
+            - textbox "属性说明" [ref=e606]: 发行主体所属行业。
+            - button "删除" [ref=e607] [cursor=pointer]
+          - generic [ref=e608]:
+            - textbox "order_status" [ref=e609]: region
+            - textbox "维修单状态" [ref=e610]: 所属地区
+            - combobox [ref=e611]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)" [selected]
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e612]
+            - textbox "属性说明" [ref=e613]: 发行主体注册地或主要经营地区。
+            - button "删除" [ref=e614] [cursor=pointer]
+          - generic [ref=e615]:
+            - textbox "order_status" [ref=e616]: ownership_type
+            - textbox "维修单状态" [ref=e617]: 企业性质
+            - combobox [ref=e618]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)" [selected]
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e619]
+            - textbox "属性说明" [ref=e620]: 国有企业、民营企业、央企、地方国企等。
+            - button "删除" [ref=e621] [cursor=pointer]
+          - generic [ref=e622]:
+            - textbox "order_status" [ref=e623]: guarantor_id
+            - textbox "维修单状态" [ref=e624]: 担保主体编号
+            - combobox [ref=e625]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)" [selected]
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e626]
+            - textbox "属性说明" [ref=e627]: 担保主体的唯一标识。
+            - button "删除" [ref=e628] [cursor=pointer]
+          - generic [ref=e629]:
+            - textbox "order_status" [ref=e630]: guarantor_name
+            - textbox "维修单状态" [ref=e631]: 担保主体名称
+            - combobox [ref=e632]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)" [selected]
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e633]
+            - textbox "属性说明" [ref=e634]: 为债券提供担保的机构名称。
+            - button "删除" [ref=e635] [cursor=pointer]
+          - generic [ref=e636]:
+            - textbox "order_status" [ref=e637]: guarantee_type
+            - textbox "维修单状态" [ref=e638]: 担保方式
+            - combobox [ref=e639]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)" [selected]
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e640]
+            - textbox "属性说明" [ref=e641]: 全额担保、连带责任担保、抵押担保、质押担保等。
+            - button "删除" [ref=e642] [cursor=pointer]
+          - generic [ref=e643]:
+            - textbox "order_status" [ref=e644]: guarantee_amount
+            - textbox "维修单状态" [ref=e645]: 担保金额
+            - combobox [ref=e646]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)" [selected]
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e647]: number
+            - textbox "属性说明" [ref=e648]: 担保覆盖的本金或本息金额。
+            - button "删除" [ref=e649] [cursor=pointer]
+          - generic [ref=e650]:
+            - textbox "order_status" [ref=e651]: underwriter_id
+            - textbox "维修单状态" [ref=e652]: 承销商编号
+            - combobox [ref=e653]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)" [selected]
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e654]
+            - textbox "属性说明" [ref=e655]: 承销商的唯一标识。
+            - button "删除" [ref=e656] [cursor=pointer]
+          - generic [ref=e657]:
+            - textbox "order_status" [ref=e658]: underwriter_name
+            - textbox "维修单状态" [ref=e659]: 承销商名称
+            - combobox [ref=e660]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)" [selected]
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e661]
+            - textbox "属性说明" [ref=e662]: 承销机构名称。
+            - button "删除" [ref=e663] [cursor=pointer]
+          - generic [ref=e664]:
+            - textbox "order_status" [ref=e665]: underwriter_role
+            - textbox "维修单状态" [ref=e666]: 承销角色
+            - combobox [ref=e667]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)" [selected]
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e668]
+            - textbox "属性说明" [ref=e669]: 主承销商、联席主承销商、副主承销商、簿记管理人等。
+            - button "删除" [ref=e670] [cursor=pointer]
+          - generic [ref=e671]:
+            - textbox "order_status" [ref=e672]: rating_id
+            - textbox "维修单状态" [ref=e673]: 评级编号
+            - combobox [ref=e674]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)" [selected]
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e675]
+            - textbox "属性说明" [ref=e676]: 单条评级记录的唯一标识。
+            - button "删除" [ref=e677] [cursor=pointer]
+          - generic [ref=e678]:
+            - textbox "order_status" [ref=e679]: rating_target_type
+            - textbox "维修单状态" [ref=e680]: 评级对象类型
+            - combobox [ref=e681]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)" [selected]
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e682]
+            - textbox "属性说明" [ref=e683]: 债项评级或主体评级。
+            - button "删除" [ref=e684] [cursor=pointer]
+          - generic [ref=e685]:
+            - textbox "order_status" [ref=e686]: rating_level
+            - textbox "维修单状态" [ref=e687]: 评级等级
+            - combobox [ref=e688]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)" [selected]
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e689]
+            - textbox "属性说明" [ref=e690]: AAA、AA+、AA、A+ 等信用等级。
+            - button "删除" [ref=e691] [cursor=pointer]
+          - generic [ref=e692]:
+            - textbox "order_status" [ref=e693]: rating_outlook
+            - textbox "维修单状态" [ref=e694]: 评级展望
+            - combobox [ref=e695]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)" [selected]
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e696]
+            - textbox "属性说明" [ref=e697]: 稳定、正面、负面、列入观察等。
+            - button "删除" [ref=e698] [cursor=pointer]
+          - generic [ref=e699]:
+            - textbox "order_status" [ref=e700]: rating_date
+            - textbox "维修单状态" [ref=e701]: 评级日期
+            - combobox [ref=e702]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)" [selected]
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e703]: date
+            - textbox "属性说明" [ref=e704]: 评级结果生效或发布的日期。
+            - button "删除" [ref=e705] [cursor=pointer]
+          - generic [ref=e706]:
+            - textbox "order_status" [ref=e707]: agency_id
+            - textbox "维修单状态" [ref=e708]: 评级机构编号
+            - combobox [ref=e709]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)" [selected]
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e710]
+            - textbox "属性说明" [ref=e711]: 评级机构唯一标识。
+            - button "删除" [ref=e712] [cursor=pointer]
+          - generic [ref=e713]:
+            - textbox "order_status" [ref=e714]: agency_name
+            - textbox "维修单状态" [ref=e715]: 评级机构名称
+            - combobox [ref=e716]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)" [selected]
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e717]
+            - textbox "属性说明" [ref=e718]: 提供评级服务的机构名称。
+            - button "删除" [ref=e719] [cursor=pointer]
+          - generic [ref=e720]:
+            - textbox "order_status" [ref=e721]: market_id
+            - textbox "维修单状态" [ref=e722]: 市场编号
+            - combobox [ref=e723]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)" [selected]
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e724]
+            - textbox "属性说明" [ref=e725]: 交易市场唯一标识。
+            - button "删除" [ref=e726] [cursor=pointer]
+          - generic [ref=e727]:
+            - textbox "order_status" [ref=e728]: market_name
+            - textbox "维修单状态" [ref=e729]: 市场名称
+            - combobox [ref=e730]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)" [selected]
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e731]
+            - textbox "属性说明" [ref=e732]: 银行间市场、上交所、深交所、北交所等。
+            - button "删除" [ref=e733] [cursor=pointer]
+          - generic [ref=e734]:
+            - textbox "order_status" [ref=e735]: listing_date
+            - textbox "维修单状态" [ref=e736]: 上市日期
+            - combobox [ref=e737]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)" [selected]
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e738]: date
+            - textbox "属性说明" [ref=e739]: 债券在该市场开始交易的日期。
+            - button "删除" [ref=e740] [cursor=pointer]
+          - generic [ref=e741]:
+            - textbox "order_status" [ref=e742]: quote_id
+            - textbox "维修单状态" [ref=e743]: 行情编号
+            - combobox [ref=e744]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)" [selected]
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e745]
+            - textbox "属性说明" [ref=e746]: 行情记录唯一标识。
+            - button "删除" [ref=e747] [cursor=pointer]
+          - generic [ref=e748]:
+            - textbox "order_status" [ref=e749]: trade_date
+            - textbox "维修单状态" [ref=e750]: 交易日期
+            - combobox [ref=e751]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)" [selected]
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e752]: date
+            - textbox "属性说明" [ref=e753]: 行情对应的交易日。
+            - button "删除" [ref=e754] [cursor=pointer]
+          - generic [ref=e755]:
+            - textbox "order_status" [ref=e756]: clean_price
+            - textbox "维修单状态" [ref=e757]: 净价
+            - combobox [ref=e758]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)" [selected]
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e759]: number
+            - textbox "属性说明" [ref=e760]: 不含应计利息的债券价格。
+            - button "删除" [ref=e761] [cursor=pointer]
+          - generic [ref=e762]:
+            - textbox "order_status" [ref=e763]: full_price
+            - textbox "维修单状态" [ref=e764]: 全价
+            - combobox [ref=e765]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)" [selected]
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e766]: number
+            - textbox "属性说明" [ref=e767]: 包含应计利息的债券价格。
+            - button "删除" [ref=e768] [cursor=pointer]
+          - generic [ref=e769]:
+            - textbox "order_status" [ref=e770]: yield_to_maturity
+            - textbox "维修单状态" [ref=e771]: 到期收益率
+            - combobox [ref=e772]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)" [selected]
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e773]: number
+            - textbox "属性说明" [ref=e774]: 按当前价格持有至到期的年化收益率。
+            - button "删除" [ref=e775] [cursor=pointer]
+          - generic [ref=e776]:
+            - textbox "order_status" [ref=e777]: volume
+            - textbox "维修单状态" [ref=e778]: 成交量
+            - combobox [ref=e779]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)" [selected]
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e780]: number
+            - textbox "属性说明" [ref=e781]: 当日成交数量或成交面额。
+            - button "删除" [ref=e782] [cursor=pointer]
+          - generic [ref=e783]:
+            - textbox "order_status" [ref=e784]: transaction_id
+            - textbox "维修单状态" [ref=e785]: 交易编号
+            - combobox [ref=e786]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)" [selected]
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e787]
+            - textbox "属性说明" [ref=e788]: 单笔交易记录唯一标识。
+            - button "删除" [ref=e789] [cursor=pointer]
+          - generic [ref=e790]:
+            - textbox "order_status" [ref=e791]: transaction_date
+            - textbox "维修单状态" [ref=e792]: 交易日期
+            - combobox [ref=e793]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)" [selected]
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e794]: date
+            - textbox "属性说明" [ref=e795]: 买入或卖出发生日期。
+            - button "删除" [ref=e796] [cursor=pointer]
+          - generic [ref=e797]:
+            - textbox "order_status" [ref=e798]: transaction_type
+            - textbox "维修单状态" [ref=e799]: 交易方向
+            - combobox [ref=e800]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)" [selected]
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e801]
+            - textbox "属性说明" [ref=e802]: 买入、卖出、回购、赎回等。
+            - button "删除" [ref=e803] [cursor=pointer]
+          - generic [ref=e804]:
+            - textbox "order_status" [ref=e805]: transaction_price
+            - textbox "维修单状态" [ref=e806]: 交易价格
+            - combobox [ref=e807]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)" [selected]
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e808]: number
+            - textbox "属性说明" [ref=e809]: 交易成交价格。
+            - button "删除" [ref=e810] [cursor=pointer]
+          - generic [ref=e811]:
+            - textbox "order_status" [ref=e812]: transaction_amount
+            - textbox "维修单状态" [ref=e813]: 交易金额
+            - combobox [ref=e814]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)" [selected]
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e815]: number
+            - textbox "属性说明" [ref=e816]: 交易对应的金额。
+            - button "删除" [ref=e817] [cursor=pointer]
+          - generic [ref=e818]:
+            - textbox "order_status" [ref=e819]: holding_id
+            - textbox "维修单状态" [ref=e820]: 持仓编号
+            - combobox [ref=e821]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)" [selected]
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e822]
+            - textbox "属性说明" [ref=e823]: 持仓记录唯一标识。
+            - button "删除" [ref=e824] [cursor=pointer]
+          - generic [ref=e825]:
+            - textbox "order_status" [ref=e826]: holding_quantity
+            - textbox "维修单状态" [ref=e827]: 持仓数量
+            - combobox [ref=e828]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)" [selected]
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e829]: number
+            - textbox "属性说明" [ref=e830]: 当前持有债券数量或面额。
+            - button "删除" [ref=e831] [cursor=pointer]
+          - generic [ref=e832]:
+            - textbox "order_status" [ref=e833]: holding_cost
+            - textbox "维修单状态" [ref=e834]: 持仓成本
+            - combobox [ref=e835]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)" [selected]
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e836]: number
+            - textbox "属性说明" [ref=e837]: 当前持仓的成本金额。
+            - button "删除" [ref=e838] [cursor=pointer]
+          - generic [ref=e839]:
+            - textbox "order_status" [ref=e840]: market_value
+            - textbox "维修单状态" [ref=e841]: 持仓市值
+            - combobox [ref=e842]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)" [selected]
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e843]: number
+            - textbox "属性说明" [ref=e844]: 按最新行情估算的持仓价值。
+            - button "删除" [ref=e845] [cursor=pointer]
+          - generic [ref=e846]:
+            - textbox "order_status" [ref=e847]: unrealized_pnl
+            - textbox "维修单状态" [ref=e848]: 浮动盈亏
+            - combobox [ref=e849]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)" [selected]
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e850]: number
+            - textbox "属性说明" [ref=e851]: 当前持仓未实现收益或亏损。
+            - button "删除" [ref=e852] [cursor=pointer]
+          - generic [ref=e853]:
+            - textbox "order_status" [ref=e854]: portfolio_id
+            - textbox "维修单状态" [ref=e855]: 组合编号
+            - combobox [ref=e856]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)" [selected]
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e857]
+            - textbox "属性说明" [ref=e858]: 投资组合唯一标识。
+            - button "删除" [ref=e859] [cursor=pointer]
+          - generic [ref=e860]:
+            - textbox "order_status" [ref=e861]: portfolio_name
+            - textbox "维修单状态" [ref=e862]: 组合名称
+            - combobox [ref=e863]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)" [selected]
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e864]
+            - textbox "属性说明" [ref=e865]: 债券组合名称。
+            - button "删除" [ref=e866] [cursor=pointer]
+          - generic [ref=e867]:
+            - textbox "order_status" [ref=e868]: portfolio_type
+            - textbox "维修单状态" [ref=e869]: 组合类型
+            - combobox [ref=e870]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)" [selected]
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e871]
+            - textbox "属性说明" [ref=e872]: 自营组合、理财组合、基金组合、保险资管组合等。
+            - button "删除" [ref=e873] [cursor=pointer]
+          - generic [ref=e874]:
+            - textbox "order_status" [ref=e875]: nav
+            - textbox "维修单状态" [ref=e876]: 组合净值
+            - combobox [ref=e877]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)" [selected]
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e878]: number
+            - textbox "属性说明" [ref=e879]: 组合当前净值。
+            - button "删除" [ref=e880] [cursor=pointer]
+          - generic [ref=e881]:
+            - textbox "order_status" [ref=e882]: investor_id
+            - textbox "维修单状态" [ref=e883]: 投资者编号
+            - combobox [ref=e884]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)" [selected]
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e885]
+            - textbox "属性说明" [ref=e886]: 投资者或账户唯一标识。
+            - button "删除" [ref=e887] [cursor=pointer]
+          - generic [ref=e888]:
+            - textbox "order_status" [ref=e889]: investor_name
+            - textbox "维修单状态" [ref=e890]: 投资者名称
+            - combobox [ref=e891]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)" [selected]
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e892]
+            - textbox "属性说明" [ref=e893]: 投资者、机构或账户名称。
+            - button "删除" [ref=e894] [cursor=pointer]
+          - generic [ref=e895]:
+            - textbox "order_status" [ref=e896]: investor_type
+            - textbox "维修单状态" [ref=e897]: 投资者类型
+            - combobox [ref=e898]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)" [selected]
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e899]
+            - textbox "属性说明" [ref=e900]: 银行、基金、保险、券商、个人等。
+            - button "删除" [ref=e901] [cursor=pointer]
+          - generic [ref=e902]:
+            - textbox "order_status" [ref=e903]: curve_id
+            - textbox "维修单状态" [ref=e904]: 曲线编号
+            - combobox [ref=e905]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)" [selected]
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e906]
+            - textbox "属性说明" [ref=e907]: 收益率曲线唯一标识。
+            - button "删除" [ref=e908] [cursor=pointer]
+          - generic [ref=e909]:
+            - textbox "order_status" [ref=e910]: curve_date
+            - textbox "维修单状态" [ref=e911]: 曲线日期
+            - combobox [ref=e912]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)" [selected]
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e913]: date
+            - textbox "属性说明" [ref=e914]: 收益率曲线对应日期。
+            - button "删除" [ref=e915] [cursor=pointer]
+          - generic [ref=e916]:
+            - textbox "order_status" [ref=e917]: curve_type
+            - textbox "维修单状态" [ref=e918]: 曲线类型
+            - combobox [ref=e919]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)" [selected]
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e920]
+            - textbox "属性说明" [ref=e921]: 国债收益率曲线、信用债收益率曲线、同业存单曲线等。
+            - button "删除" [ref=e922] [cursor=pointer]
+          - generic [ref=e923]:
+            - textbox "order_status" [ref=e924]: tenor
+            - textbox "维修单状态" [ref=e925]: 期限点
+            - combobox [ref=e926]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)" [selected]
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e927]
+            - textbox "属性说明" [ref=e928]: 1M、3M、1Y、3Y、5Y、10Y 等期限。
+            - button "删除" [ref=e929] [cursor=pointer]
+          - generic [ref=e930]:
+            - textbox "order_status" [ref=e931]: curve_yield
+            - textbox "维修单状态" [ref=e932]: 曲线收益率
+            - combobox [ref=e933]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)" [selected]
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e934]: number
+            - textbox "属性说明" [ref=e935]: 该期限点对应的市场收益率。
+            - button "删除" [ref=e936] [cursor=pointer]
+          - generic [ref=e937]:
+            - textbox "order_status" [ref=e938]: risk_id
+            - textbox "维修单状态" [ref=e939]: 风险指标编号
+            - combobox [ref=e940]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)" [selected]
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e941]
+            - textbox "属性说明" [ref=e942]: 风险指标记录唯一标识。
+            - button "删除" [ref=e943] [cursor=pointer]
+          - generic [ref=e944]:
+            - textbox "order_status" [ref=e945]: indicator_date
+            - textbox "维修单状态" [ref=e946]: 指标日期
+            - combobox [ref=e947]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)" [selected]
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e948]: date
+            - textbox "属性说明" [ref=e949]: 风险指标计算日期。
+            - button "删除" [ref=e950] [cursor=pointer]
+          - generic [ref=e951]:
+            - textbox "order_status" [ref=e952]: duration
+            - textbox "维修单状态" [ref=e953]: 久期
+            - combobox [ref=e954]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)" [selected]
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e955]: number
+            - textbox "属性说明" [ref=e956]: 衡量债券价格对利率变化敏感程度的指标。
+            - button "删除" [ref=e957] [cursor=pointer]
+          - generic [ref=e958]:
+            - textbox "order_status" [ref=e959]: convexity
+            - textbox "维修单状态" [ref=e960]: 凸性
+            - combobox [ref=e961]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)" [selected]
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e962]: number
+            - textbox "属性说明" [ref=e963]: 衡量久期随收益率变化而变化的指标。
+            - button "删除" [ref=e964] [cursor=pointer]
+          - generic [ref=e965]:
+            - textbox "order_status" [ref=e966]: credit_spread
+            - textbox "维修单状态" [ref=e967]: 信用利差
+            - combobox [ref=e968]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)" [selected]
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e969]: number
+            - textbox "属性说明" [ref=e970]: 债券收益率相对无风险收益率的利差。
+            - button "删除" [ref=e971] [cursor=pointer]
+          - generic [ref=e972]:
+            - textbox "order_status" [ref=e973]: max_drawdown
+            - textbox "维修单状态" [ref=e974]: 最大回撤
+            - combobox [ref=e975]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)" [selected]
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e976]: number
+            - textbox "属性说明" [ref=e977]: 债券或组合在一段时间内的最大跌幅。
+            - button "删除" [ref=e978] [cursor=pointer]
+          - generic [ref=e979]:
+            - textbox "order_status" [ref=e980]: cashflow_id
+            - textbox "维修单状态" [ref=e981]: 现金流编号
+            - combobox [ref=e982]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)" [selected]
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e983]
+            - textbox "属性说明" [ref=e984]: 现金流计划唯一标识。
+            - button "删除" [ref=e985] [cursor=pointer]
+          - generic [ref=e986]:
+            - textbox "order_status" [ref=e987]: payment_date
+            - textbox "维修单状态" [ref=e988]: 支付日期
+            - combobox [ref=e989]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)" [selected]
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e990]: date
+            - textbox "属性说明" [ref=e991]: 付息或兑付发生日期。
+            - button "删除" [ref=e992] [cursor=pointer]
+          - generic [ref=e993]:
+            - textbox "order_status" [ref=e994]: payment_type
+            - textbox "维修单状态" [ref=e995]: 支付类型
+            - combobox [ref=e996]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)" [selected]
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e997]
+            - textbox "属性说明" [ref=e998]: 利息、本金、提前赎回、回售等。
+            - button "删除" [ref=e999] [cursor=pointer]
+          - generic [ref=e1000]:
+            - textbox "order_status" [ref=e1001]: payment_amount
+            - textbox "维修单状态" [ref=e1002]: 支付金额
+            - combobox [ref=e1003]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)" [selected]
+              - option "违约事件 (DefaultEvent)"
+            - textbox "string" [ref=e1004]: number
+            - textbox "属性说明" [ref=e1005]: 计划支付的现金流金额。
+            - button "删除" [ref=e1006] [cursor=pointer]
+          - generic [ref=e1007]:
+            - textbox "order_status" [ref=e1008]: default_id
+            - textbox "维修单状态" [ref=e1009]: 违约事件编号
+            - combobox [ref=e1010]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)" [selected]
+            - textbox "string" [ref=e1011]
+            - textbox "属性说明" [ref=e1012]: 违约事件唯一标识。
+            - button "删除" [ref=e1013] [cursor=pointer]
+          - generic [ref=e1014]:
+            - textbox "order_status" [ref=e1015]: default_date
+            - textbox "维修单状态" [ref=e1016]: 违约日期
+            - combobox [ref=e1017]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)" [selected]
+            - textbox "string" [ref=e1018]: date
+            - textbox "属性说明" [ref=e1019]: 违约或风险事件发生日期。
+            - button "删除" [ref=e1020] [cursor=pointer]
+          - generic [ref=e1021]:
+            - textbox "order_status" [ref=e1022]: default_type
+            - textbox "维修单状态" [ref=e1023]: 违约类型
+            - combobox [ref=e1024]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)" [selected]
+            - textbox "string" [ref=e1025]
+            - textbox "属性说明" [ref=e1026]: 本金违约、利息违约、展期、交叉违约等。
+            - button "删除" [ref=e1027] [cursor=pointer]
+          - generic [ref=e1028]:
+            - textbox "order_status" [ref=e1029]: default_amount
+            - textbox "维修单状态" [ref=e1030]: 违约金额
+            - combobox [ref=e1031]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)" [selected]
+            - textbox "string" [ref=e1032]: number
+            - textbox "属性说明" [ref=e1033]: 涉及违约的本金或利息金额。
+            - button "删除" [ref=e1034] [cursor=pointer]
+          - generic [ref=e1035]:
+            - textbox "order_status" [ref=e1036]: resolution_status
+            - textbox "维修单状态" [ref=e1037]: 处置状态
+            - combobox [ref=e1038]:
+              - option "请选择对象"
+              - option "债券 (Bond)"
+              - option "发行主体 (Issuer)"
+              - option "担保主体 (Guarantor)"
+              - option "承销商 (Underwriter)"
+              - option "信用评级 (CreditRating)"
+              - option "评级机构 (RatingAgency)"
+              - option "交易市场 (BondMarket)"
+              - option "债券行情 (BondQuote)"
+              - option "债券交易 (BondTransaction)"
+              - option "债券持仓 (BondHolding)"
+              - option "债券组合 (BondPortfolio)"
+              - option "投资者 (Investor)"
+              - option "收益率曲线 (YieldCurve)"
+              - option "风险指标 (RiskIndicator)"
+              - option "现金流计划 (CashflowSchedule)"
+              - option "违约事件 (DefaultEvent)" [selected]
+            - textbox "string" [ref=e1039]
+            - textbox "属性说明" [ref=e1040]: 未处置、展期、重组、部分兑付、已兑付等。
+            - button "删除" [ref=e1041] [cursor=pointer]
+          - generic [ref=e1042]:
+            - generic [ref=e1043]: 已回填 75 个属性，当前显示前 10 个。
+            - button "展开全部" [ref=e1044] [cursor=pointer]
+      - generic [ref=e60]:
+        - heading "批量说明" [level=2] [ref=e61]
+        - generic [ref=e62]:
+          - text: 批量补充
+          - textbox "批量补充" [ref=e63]:
+            - /placeholder: 粘贴对象清单、属性说明、业务规则、已有草稿等
+            - text: 债券由发行主体发行；发行主体可以发行多只债券；债券可以有一个或多个承销商参与发行；承销商在债券发行中承担主承销、联席主承销或簿记管理等角色；债券可以由担保主体提供担保；一个担保主体可以为多只债券提供担保；债券在一个或多个交易市场挂牌交易；交易市场产生债券行情；债券行情记录债券在某个交易日的净价、全价、到期收益率和成交量；评级机构对发行主体进行主体评级；评级机构也可以对具体债券进行债项评级；同一只债券在不同日期可以有多条信用评级记录；信用评级变化会影响债券的信用风险判断；投资者可以创建或管理债券组合；债券组合持有多只债券；债券持仓记录组合对某只债券的持仓数量、成本、市值和浮动盈亏；投资者通过债券交易买入或卖出债券；债券交易会改变债券持仓；债券未来会产生付息、本金兑付、回售或提前赎回等现金流；现金流计划属于具体债券；收益率曲线描述不同期限的市场收益率；债券估值和风险分析可以参考收益率曲线；风险指标可以针对单只债券计算，也可以针对债券组合计算；风险指标包括久期、凸性、信用利差、到期收益率、最大回撤等；发行主体或债券发生违约事件时，需要记录违约类型、违约金额和处置状态；违约事件会影响债券评级、债券价格、持仓风险和组合风险敞口。
+        - generic [ref=e272]:
+          - button "更新规划方案" [ref=e273] [cursor=pointer]
+          - button "创建新的领域规划" [ref=e274] [cursor=pointer]
+    - generic [ref=e66]:
+      - generic [ref=e275]:
+        - generic [ref=e277]:
+          - heading "规划状态" [level=2] [ref=e278]
+          - paragraph [ref=e279]: 规划方案生成后会以弹窗方式展示，确认前不会写入 YAML。
+        - generic [ref=e280]:
+          - strong [ref=e281]: 已生成规划方案
+          - generic [ref=e282]: 针对用户反馈，补全课时、教师、作业、办公室、教室、科目对象及其属性与现有实体的关系网络。新增8组对象导航关系以明确课程结构、教学责任与空间归属；新增7组属性关联关系以支持OAG在出勤分析、成绩诊断、资源配比、空间调度、学业规划与时序追踪等维度的可执行事实查询。整体规划强化了教学执行链路与资源管理维度的属性事实网络，确保各核心对象均融入可检索、可对比、可解释的OAG事实体系。
+          - generic [ref=e283]:
+            - generic [ref=e284]:
+              - generic [ref=e285]: 对象
+              - strong [ref=e286]: "9"
+            - generic [ref=e287]:
+              - generic [ref=e288]: 属性
+              - strong [ref=e289]: "15"
+            - generic [ref=e290]:
+              - generic [ref=e291]: 关系
+              - strong [ref=e292]: "23"
+            - generic [ref=e293]:
+              - generic [ref=e294]: 问题
+              - strong [ref=e295]: "2"
+        - generic [ref=e296]:
+          - button "查看规划方案" [ref=e297] [cursor=pointer]
+          - button "确认生成关系图" [ref=e298] [cursor=pointer]
+      - generic [ref=e67]:
+        - generic [ref=e68]:
+          - heading "已生成领域" [level=2] [ref=e69]
+          - button "刷新" [ref=e70] [cursor=pointer]
+        - button "在线课程 domain_b2f3247b_919ed3 · 2026-07-09T15:20:51 · 10 个版本" [ref=e103] [cursor=pointer]:
+          - strong [ref=e104]: 在线课程
+          - generic [ref=e105]: domain_b2f3247b_919ed3 · 2026-07-09T15:20:51 · 10 个版本
+    - generic [ref=e72]:
+      - generic [ref=e73]:
+        - generic [ref=e74]:
+          - heading "本体关系图" [level=2] [ref=e75]
+          - paragraph [ref=e76]: 保存位置：ontology/domains/domain_b2f3247b_919ed3
+        - generic [ref=e77]:
+          - button "收起画布" [ref=e299] [cursor=pointer]
+          - button "新增节点" [ref=e79] [cursor=pointer]
+          - button "新增关系" [ref=e80] [cursor=pointer]
+      - generic [ref=e81]: 在线课程 · 24 个节点 · 38 条关系 · 关系类型 13 个作为边标签使用
+      - generic [ref=e300]:
+        - generic [ref=e301]:
+          - heading "调整反馈" [level=2] [ref=e302]
+          - paragraph [ref=e303]: 基于当前图谱和原规划继续调整。
+        - generic [ref=e304]:
+          - text: 反馈内容
+          - textbox "反馈内容" [ref=e305]:
+            - /placeholder: 例如：拆分对象、调整关系方向、补充缺失属性
+        - generic [ref=e306]:
+          - button "回填到录入区" [ref=e307] [cursor=pointer]
+          - button "按反馈重新规划" [ref=e308] [cursor=pointer]
+      - generic "图例" [ref=e82]:
+        - generic [ref=e83]: 对象节点
+        - generic [ref=e85]: 属性节点
+        - generic [ref=e87]: 关系边
+        - generic [ref=e89]: 当前聚焦
+        - generic [ref=e91]: 非相关元素淡化
+      - generic [ref=e309]:
+        - generic [ref=e310]: 布局松散度
+        - slider "布局松散度" [ref=e311]: "1"
+        - generic [ref=e312]: 1.00x
+      - separator "拖动调整画布高度" [ref=e319]:
+        - generic [ref=e320]: 拖动调整画布高度
+  - complementary "详情面板" [ref=e93]:
+    - generic [ref=e94]:
+      - generic [ref=e95]:
+        - heading "未选择" [level=2] [ref=e96]
+        - paragraph [ref=e97]: 点击图中的节点或关系查看详情。
+      - button "关闭详情" [ref=e98] [cursor=pointer]: ×
+    - generic [ref=e99]:
+      - strong [ref=e100]: 没有选中元素
+      - generic [ref=e101]: 生成关系图后，选择对象、属性或关系进行编辑。

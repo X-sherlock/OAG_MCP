@@ -1,0 +1,600 @@
+- attribute_name: bond_code
+  attribute_name_zh: 债券代码
+  description: 债券在市场中的唯一代码。
+  value_type: string
+  object_types:
+  - Bond
+  aliases: []
+  enabled: true
+- attribute_name: bond_name
+  attribute_name_zh: 债券名称
+  description: 债券简称或全称。
+  value_type: string
+  object_types:
+  - Bond
+  aliases: []
+  enabled: true
+- attribute_name: bond_type
+  attribute_name_zh: 债券类型
+  description: 国债、地方债、金融债、企业债、公司债、可转债等。
+  value_type: string
+  object_types:
+  - Bond
+  aliases: []
+  enabled: true
+- attribute_name: issue_date
+  attribute_name_zh: 发行日期
+  description: 债券正式发行的日期。
+  value_type: date
+  object_types:
+  - Bond
+  aliases: []
+  enabled: true
+- attribute_name: maturity_date
+  attribute_name_zh: 到期日期
+  description: 债券本金最终兑付日期。
+  value_type: date
+  object_types:
+  - Bond
+  aliases: []
+  enabled: true
+- attribute_name: coupon_rate
+  attribute_name_zh: 票面利率
+  description: 债券约定的年化票面利率。
+  value_type: number
+  object_types:
+  - Bond
+  aliases: []
+  enabled: true
+- attribute_name: coupon_type
+  attribute_name_zh: 付息方式
+  description: 固定利率、浮动利率、贴现债、零息债等。
+  value_type: string
+  object_types:
+  - Bond
+  aliases: []
+  enabled: true
+- attribute_name: face_value
+  attribute_name_zh: 面值
+  description: 单张债券的票面本金金额。
+  value_type: number
+  object_types:
+  - Bond
+  aliases: []
+  enabled: true
+- attribute_name: remaining_term
+  attribute_name_zh: 剩余期限
+  description: 距离债券到期日的剩余时间。
+  value_type: number
+  object_types:
+  - Bond
+  aliases: []
+  enabled: true
+- attribute_name: issuer_id
+  attribute_name_zh: 发行主体编号
+  description: 发行主体的唯一标识。
+  value_type: string
+  object_types:
+  - Issuer
+  aliases: []
+  enabled: true
+- attribute_name: issuer_name
+  attribute_name_zh: 发行主体名称
+  description: 发行债券的机构名称。
+  value_type: string
+  object_types:
+  - Issuer
+  aliases: []
+  enabled: true
+- attribute_name: issuer_type
+  attribute_name_zh: 发行主体类型
+  description: 企业、金融机构、政府平台、地方政府等。
+  value_type: string
+  object_types:
+  - Issuer
+  aliases: []
+  enabled: true
+- attribute_name: industry
+  attribute_name_zh: 所属行业
+  description: 发行主体所属行业。
+  value_type: string
+  object_types:
+  - Issuer
+  aliases: []
+  enabled: true
+- attribute_name: region
+  attribute_name_zh: 所属地区
+  description: 发行主体注册地或主要经营地区。
+  value_type: string
+  object_types:
+  - Issuer
+  aliases: []
+  enabled: true
+- attribute_name: ownership_type
+  attribute_name_zh: 企业性质
+  description: 国有企业、民营企业、央企、地方国企等。
+  value_type: string
+  object_types:
+  - Issuer
+  aliases: []
+  enabled: true
+- attribute_name: guarantor_id
+  attribute_name_zh: 担保主体编号
+  description: 担保主体的唯一标识。
+  value_type: string
+  object_types:
+  - Guarantor
+  aliases: []
+  enabled: true
+- attribute_name: guarantor_name
+  attribute_name_zh: 担保主体名称
+  description: 为债券提供担保的机构名称。
+  value_type: string
+  object_types:
+  - Guarantor
+  aliases: []
+  enabled: true
+- attribute_name: guarantee_type
+  attribute_name_zh: 担保方式
+  description: 全额担保、连带责任担保、抵押担保、质押担保等。
+  value_type: string
+  object_types:
+  - Guarantor
+  aliases: []
+  enabled: true
+- attribute_name: guarantee_amount
+  attribute_name_zh: 担保金额
+  description: 担保覆盖的本金或本息金额。
+  value_type: number
+  object_types:
+  - Guarantor
+  aliases: []
+  enabled: true
+- attribute_name: underwriter_id
+  attribute_name_zh: 承销商编号
+  description: 承销商的唯一标识。
+  value_type: string
+  object_types:
+  - Underwriter
+  aliases: []
+  enabled: true
+- attribute_name: underwriter_name
+  attribute_name_zh: 承销商名称
+  description: 承销机构名称。
+  value_type: string
+  object_types:
+  - Underwriter
+  aliases: []
+  enabled: true
+- attribute_name: underwriter_role
+  attribute_name_zh: 承销角色
+  description: 主承销商、联席主承销商、副主承销商、簿记管理人等。
+  value_type: string
+  object_types:
+  - Underwriter
+  aliases: []
+  enabled: true
+- attribute_name: rating_id
+  attribute_name_zh: 评级编号
+  description: 单条评级记录的唯一标识。
+  value_type: string
+  object_types:
+  - CreditRating
+  aliases: []
+  enabled: true
+- attribute_name: rating_target_type
+  attribute_name_zh: 评级对象类型
+  description: 债项评级或主体评级。
+  value_type: string
+  object_types:
+  - CreditRating
+  aliases: []
+  enabled: true
+- attribute_name: rating_level
+  attribute_name_zh: 评级等级
+  description: AAA、AA+、AA、A+ 等信用等级。
+  value_type: string
+  object_types:
+  - CreditRating
+  aliases: []
+  enabled: true
+- attribute_name: rating_outlook
+  attribute_name_zh: 评级展望
+  description: 稳定、正面、负面、列入观察等。
+  value_type: string
+  object_types:
+  - CreditRating
+  aliases: []
+  enabled: true
+- attribute_name: rating_date
+  attribute_name_zh: 评级日期
+  description: 评级结果生效或发布的日期。
+  value_type: date
+  object_types:
+  - CreditRating
+  aliases: []
+  enabled: true
+- attribute_name: agency_id
+  attribute_name_zh: 评级机构编号
+  description: 评级机构唯一标识。
+  value_type: string
+  object_types:
+  - RatingAgency
+  aliases: []
+  enabled: true
+- attribute_name: agency_name
+  attribute_name_zh: 评级机构名称
+  description: 提供评级服务的机构名称。
+  value_type: string
+  object_types:
+  - RatingAgency
+  aliases: []
+  enabled: true
+- attribute_name: market_id
+  attribute_name_zh: 市场编号
+  description: 交易市场唯一标识。
+  value_type: string
+  object_types:
+  - BondMarket
+  aliases: []
+  enabled: true
+- attribute_name: market_name
+  attribute_name_zh: 市场名称
+  description: 银行间市场、上交所、深交所、北交所等。
+  value_type: string
+  object_types:
+  - BondMarket
+  aliases: []
+  enabled: true
+- attribute_name: listing_date
+  attribute_name_zh: 上市日期
+  description: 债券在该市场开始交易的日期。
+  value_type: date
+  object_types:
+  - BondMarket
+  aliases: []
+  enabled: true
+- attribute_name: quote_id
+  attribute_name_zh: 行情编号
+  description: 行情记录唯一标识。
+  value_type: string
+  object_types:
+  - BondQuote
+  aliases: []
+  enabled: true
+- attribute_name: trade_date
+  attribute_name_zh: 交易日期
+  description: 行情对应的交易日。
+  value_type: date
+  object_types:
+  - BondQuote
+  aliases: []
+  enabled: true
+- attribute_name: clean_price
+  attribute_name_zh: 净价
+  description: 不含应计利息的债券价格。
+  value_type: number
+  object_types:
+  - BondQuote
+  aliases: []
+  enabled: true
+- attribute_name: full_price
+  attribute_name_zh: 全价
+  description: 包含应计利息的债券价格。
+  value_type: number
+  object_types:
+  - BondQuote
+  aliases: []
+  enabled: true
+- attribute_name: yield_to_maturity
+  attribute_name_zh: 到期收益率
+  description: 按当前价格持有至到期的年化收益率。
+  value_type: number
+  object_types:
+  - BondQuote
+  aliases: []
+  enabled: true
+- attribute_name: volume
+  attribute_name_zh: 成交量
+  description: 当日成交数量或成交面额。
+  value_type: number
+  object_types:
+  - BondQuote
+  aliases: []
+  enabled: true
+- attribute_name: transaction_id
+  attribute_name_zh: 交易编号
+  description: 单笔交易记录唯一标识。
+  value_type: string
+  object_types:
+  - BondTransaction
+  aliases: []
+  enabled: true
+- attribute_name: transaction_date
+  attribute_name_zh: 交易日期
+  description: 买入或卖出发生日期。
+  value_type: date
+  object_types:
+  - BondTransaction
+  aliases: []
+  enabled: true
+- attribute_name: transaction_type
+  attribute_name_zh: 交易方向
+  description: 买入、卖出、回购、赎回等。
+  value_type: string
+  object_types:
+  - BondTransaction
+  aliases: []
+  enabled: true
+- attribute_name: transaction_price
+  attribute_name_zh: 交易价格
+  description: 交易成交价格。
+  value_type: number
+  object_types:
+  - BondTransaction
+  aliases: []
+  enabled: true
+- attribute_name: transaction_amount
+  attribute_name_zh: 交易金额
+  description: 交易对应的金额。
+  value_type: number
+  object_types:
+  - BondTransaction
+  aliases: []
+  enabled: true
+- attribute_name: holding_id
+  attribute_name_zh: 持仓编号
+  description: 持仓记录唯一标识。
+  value_type: string
+  object_types:
+  - BondHolding
+  aliases: []
+  enabled: true
+- attribute_name: holding_quantity
+  attribute_name_zh: 持仓数量
+  description: 当前持有债券数量或面额。
+  value_type: number
+  object_types:
+  - BondHolding
+  aliases: []
+  enabled: true
+- attribute_name: holding_cost
+  attribute_name_zh: 持仓成本
+  description: 当前持仓的成本金额。
+  value_type: number
+  object_types:
+  - BondHolding
+  aliases: []
+  enabled: true
+- attribute_name: market_value
+  attribute_name_zh: 持仓市值
+  description: 按最新行情估算的持仓价值。
+  value_type: number
+  object_types:
+  - BondHolding
+  aliases: []
+  enabled: true
+- attribute_name: unrealized_pnl
+  attribute_name_zh: 浮动盈亏
+  description: 当前持仓未实现收益或亏损。
+  value_type: number
+  object_types:
+  - BondHolding
+  aliases: []
+  enabled: true
+- attribute_name: portfolio_id
+  attribute_name_zh: 组合编号
+  description: 投资组合唯一标识。
+  value_type: string
+  object_types:
+  - BondPortfolio
+  aliases: []
+  enabled: true
+- attribute_name: portfolio_name
+  attribute_name_zh: 组合名称
+  description: 债券组合名称。
+  value_type: string
+  object_types:
+  - BondPortfolio
+  aliases: []
+  enabled: true
+- attribute_name: portfolio_type
+  attribute_name_zh: 组合类型
+  description: 自营组合、理财组合、基金组合、保险资管组合等。
+  value_type: string
+  object_types:
+  - BondPortfolio
+  aliases: []
+  enabled: true
+- attribute_name: nav
+  attribute_name_zh: 组合净值
+  description: 组合当前净值。
+  value_type: number
+  object_types:
+  - BondPortfolio
+  aliases: []
+  enabled: true
+- attribute_name: investor_id
+  attribute_name_zh: 投资者编号
+  description: 投资者或账户唯一标识。
+  value_type: string
+  object_types:
+  - Investor
+  aliases: []
+  enabled: true
+- attribute_name: investor_name
+  attribute_name_zh: 投资者名称
+  description: 投资者、机构或账户名称。
+  value_type: string
+  object_types:
+  - Investor
+  aliases: []
+  enabled: true
+- attribute_name: investor_type
+  attribute_name_zh: 投资者类型
+  description: 银行、基金、保险、券商、个人等。
+  value_type: string
+  object_types:
+  - Investor
+  aliases: []
+  enabled: true
+- attribute_name: curve_id
+  attribute_name_zh: 曲线编号
+  description: 收益率曲线唯一标识。
+  value_type: string
+  object_types:
+  - YieldCurve
+  aliases: []
+  enabled: true
+- attribute_name: curve_date
+  attribute_name_zh: 曲线日期
+  description: 收益率曲线对应日期。
+  value_type: date
+  object_types:
+  - YieldCurve
+  aliases: []
+  enabled: true
+- attribute_name: curve_type
+  attribute_name_zh: 曲线类型
+  description: 国债收益率曲线、信用债收益率曲线、同业存单曲线等。
+  value_type: string
+  object_types:
+  - YieldCurve
+  aliases: []
+  enabled: true
+- attribute_name: tenor
+  attribute_name_zh: 期限点
+  description: 1M、3M、1Y、3Y、5Y、10Y 等期限。
+  value_type: string
+  object_types:
+  - YieldCurve
+  aliases: []
+  enabled: true
+- attribute_name: curve_yield
+  attribute_name_zh: 曲线收益率
+  description: 该期限点对应的市场收益率。
+  value_type: number
+  object_types:
+  - YieldCurve
+  aliases: []
+  enabled: true
+- attribute_name: risk_id
+  attribute_name_zh: 风险指标编号
+  description: 风险指标记录唯一标识。
+  value_type: string
+  object_types:
+  - RiskIndicator
+  aliases: []
+  enabled: true
+- attribute_name: indicator_date
+  attribute_name_zh: 指标日期
+  description: 风险指标计算日期。
+  value_type: date
+  object_types:
+  - RiskIndicator
+  aliases: []
+  enabled: true
+- attribute_name: duration
+  attribute_name_zh: 久期
+  description: 衡量债券价格对利率变化敏感程度的指标。
+  value_type: number
+  object_types:
+  - RiskIndicator
+  aliases: []
+  enabled: true
+- attribute_name: convexity
+  attribute_name_zh: 凸性
+  description: 衡量久期随收益率变化而变化的指标。
+  value_type: number
+  object_types:
+  - RiskIndicator
+  aliases: []
+  enabled: true
+- attribute_name: credit_spread
+  attribute_name_zh: 信用利差
+  description: 债券收益率相对无风险收益率的利差。
+  value_type: number
+  object_types:
+  - RiskIndicator
+  aliases: []
+  enabled: true
+- attribute_name: max_drawdown
+  attribute_name_zh: 最大回撤
+  description: 债券或组合在一段时间内的最大跌幅。
+  value_type: number
+  object_types:
+  - RiskIndicator
+  aliases: []
+  enabled: true
+- attribute_name: cashflow_id
+  attribute_name_zh: 现金流编号
+  description: 现金流计划唯一标识。
+  value_type: string
+  object_types:
+  - CashflowSchedule
+  aliases: []
+  enabled: true
+- attribute_name: payment_date
+  attribute_name_zh: 支付日期
+  description: 付息或兑付发生日期。
+  value_type: date
+  object_types:
+  - CashflowSchedule
+  aliases: []
+  enabled: true
+- attribute_name: payment_type
+  attribute_name_zh: 支付类型
+  description: 利息、本金、提前赎回、回售等。
+  value_type: string
+  object_types:
+  - CashflowSchedule
+  aliases: []
+  enabled: true
+- attribute_name: payment_amount
+  attribute_name_zh: 支付金额
+  description: 计划支付的现金流金额。
+  value_type: number
+  object_types:
+  - CashflowSchedule
+  aliases: []
+  enabled: true
+- attribute_name: default_id
+  attribute_name_zh: 违约事件编号
+  description: 违约事件唯一标识。
+  value_type: string
+  object_types:
+  - DefaultEvent
+  aliases: []
+  enabled: true
+- attribute_name: default_date
+  attribute_name_zh: 违约日期
+  description: 违约或风险事件发生日期。
+  value_type: date
+  object_types:
+  - DefaultEvent
+  aliases: []
+  enabled: true
+- attribute_name: default_type
+  attribute_name_zh: 违约类型
+  description: 本金违约、利息违约、展期、交叉违约等。
+  value_type: string
+  object_types:
+  - DefaultEvent
+  aliases: []
+  enabled: true
+- attribute_name: default_amount
+  attribute_name_zh: 违约金额
+  description: 涉及违约的本金或利息金额。
+  value_type: number
+  object_types:
+  - DefaultEvent
+  aliases: []
+  enabled: true
+- attribute_name: resolution_status
+  attribute_name_zh: 处置状态
+  description: 未处置、展期、重组、部分兑付、已兑付等。
+  value_type: string
+  object_types:
+  - DefaultEvent
+  aliases: []
+  enabled: true

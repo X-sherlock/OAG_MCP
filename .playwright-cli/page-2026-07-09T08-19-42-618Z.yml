@@ -1,0 +1,98 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: Domain Ontology Planner
+      - heading "领域本体关系规划" [level=1] [ref=e6]
+    - generic [ref=e7]:
+      - generic [ref=e8]: 大模型配置已就绪
+      - generic [ref=e9]: qwen3.5-plus-2026-04-20
+      - generic [ref=e10]: 未生成领域
+  - main [ref=e11]:
+    - generic [ref=e12]:
+      - generic [ref=e13]:
+        - generic [ref=e14]:
+          - generic [ref=e15]:
+            - heading "领域信息" [level=2] [ref=e16]
+            - paragraph [ref=e17]: 描述一个全新业务领域，系统会先规划关系，再由你确认生成图谱。
+          - button "清空" [ref=e18] [cursor=pointer]
+        - generic [ref=e19]:
+          - text: 领域名称
+          - textbox "领域名称" [ref=e20]:
+            - /placeholder: 例如 售后维修 / 电商订单 / 医院门诊
+        - generic [ref=e21]:
+          - text: 领域说明
+          - textbox "领域说明" [ref=e22]:
+            - /placeholder: 说明业务范围、主要对象、关键流程或边界
+        - generic [ref=e23]:
+          - button "售后维修示例" [ref=e24] [cursor=pointer]
+          - button "电商订单示例" [ref=e25] [cursor=pointer]
+          - button "在线课程示例" [ref=e26] [cursor=pointer]
+          - button "债券投资分析示例" [ref=e27] [cursor=pointer]
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - heading "对象" [level=2] [ref=e30]
+          - button "新增对象" [ref=e31] [cursor=pointer]
+        - generic [ref=e32]:
+          - generic [ref=e33]:
+            - generic [ref=e34]: 对象标识
+            - generic [ref=e35]: 中文名
+            - generic [ref=e36]: 描述
+          - generic [ref=e37]:
+            - textbox "RepairOrder" [ref=e38]
+            - textbox "维修单" [ref=e39]
+            - textbox "对象说明" [ref=e40]
+            - button "删除" [ref=e41] [cursor=pointer]
+      - generic [ref=e42]:
+        - generic [ref=e43]:
+          - heading "属性" [level=2] [ref=e44]
+          - button "新增属性" [ref=e45] [cursor=pointer]
+        - generic [ref=e46]:
+          - generic [ref=e47]:
+            - generic [ref=e48]: 属性标识
+            - generic [ref=e49]: 中文名
+            - generic [ref=e50]: 所属对象
+            - generic [ref=e51]: 值类型
+            - generic [ref=e52]: 描述
+          - generic [ref=e53]:
+            - textbox "order_status" [ref=e54]
+            - textbox "维修单状态" [ref=e55]
+            - combobox [ref=e56]:
+              - option "请选择对象" [selected]
+            - textbox "string" [ref=e57]
+            - textbox "属性说明" [ref=e58]
+            - button "删除" [ref=e59] [cursor=pointer]
+      - generic [ref=e60]:
+        - heading "批量说明" [level=2] [ref=e61]
+        - generic [ref=e62]:
+          - text: 批量补充
+          - textbox "批量补充" [ref=e63]:
+            - /placeholder: 粘贴对象清单、属性说明、业务规则、已有草稿等
+        - button "生成规划方案" [ref=e65] [cursor=pointer]
+    - generic [ref=e68]:
+      - heading "已生成领域" [level=2] [ref=e69]
+      - button "刷新" [ref=e70] [cursor=pointer]
+    - generic [ref=e72]:
+      - generic [ref=e73]:
+        - generic [ref=e74]:
+          - heading "本体关系图" [level=2] [ref=e75]
+          - paragraph [ref=e76]: 生成后可在画布中查看和调整对象、属性与关系。
+        - generic [ref=e77]:
+          - button "展开画布" [ref=e78] [cursor=pointer]
+          - button "新增节点" [disabled] [ref=e79]
+          - button "新增关系" [disabled] [ref=e80]
+      - generic [ref=e81]: 暂无图谱
+      - generic "图例" [ref=e82]:
+        - generic [ref=e83]: 对象节点
+        - generic [ref=e85]: 属性节点
+        - generic [ref=e87]: 关系边
+        - generic [ref=e89]: 当前聚焦
+        - generic [ref=e91]: 非相关元素淡化
+  - complementary "详情面板" [ref=e93]:
+    - generic [ref=e94]:
+      - generic [ref=e95]:
+        - heading "未选择" [level=2] [ref=e96]
+        - paragraph [ref=e97]: 点击图中的节点或关系查看详情。
+      - button "关闭详情" [ref=e98] [cursor=pointer]: ×
+    - generic [ref=e99]:
+      - strong [ref=e100]: 没有选中元素
+      - generic [ref=e101]: 生成关系图后，选择对象、属性或关系进行编辑。

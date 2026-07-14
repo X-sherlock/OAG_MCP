@@ -1,0 +1,112 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: Domain Ontology Planner
+      - heading "新领域本体关系规划" [level=1] [ref=e6]
+    - generic [ref=e7]:
+      - generic [ref=e8]: 大模型配置已就绪
+      - generic [ref=e9]: qwen3.5-plus-2026-04-20
+      - generic [ref=e10]: 未生成领域
+  - main [ref=e11]:
+    - generic [ref=e12]:
+      - generic "流程" [ref=e13]:
+        - generic [ref=e14]:
+          - strong [ref=e15]: 录入
+          - generic [ref=e16]: 对象与属性
+        - generic [ref=e17]:
+          - strong [ref=e18]: 规划
+          - generic [ref=e19]: 关系方案
+        - generic [ref=e20]:
+          - strong [ref=e21]: 生成
+          - generic [ref=e22]: YAML 与图谱
+      - generic [ref=e23]:
+        - generic [ref=e24]:
+          - generic [ref=e25]:
+            - heading "领域信息" [level=2] [ref=e26]
+            - paragraph [ref=e27]: 描述一个全新业务领域，系统会先规划关系，再由你确认生成图谱。
+          - button "清空" [ref=e28] [cursor=pointer]
+        - generic [ref=e29]:
+          - text: 领域名称
+          - textbox "领域名称" [ref=e30]:
+            - /placeholder: 例如 售后维修 / 电商订单 / 医院门诊
+        - generic [ref=e31]:
+          - text: 领域说明
+          - textbox "领域说明" [ref=e32]:
+            - /placeholder: 说明业务范围、主要对象、关键流程或边界
+        - generic [ref=e33]:
+          - button "售后维修示例" [ref=e34] [cursor=pointer]
+          - button "电商订单示例" [ref=e35] [cursor=pointer]
+          - button "在线课程示例" [ref=e36] [cursor=pointer]
+          - button "债券投资分析示例" [ref=e37] [cursor=pointer]
+      - generic [ref=e38]:
+        - generic [ref=e39]:
+          - heading "对象" [level=2] [ref=e40]
+          - button "新增对象" [ref=e41] [cursor=pointer]
+        - generic [ref=e42]:
+          - generic [ref=e43]:
+            - generic [ref=e44]: 对象标识
+            - generic [ref=e45]: 中文名
+            - generic [ref=e46]: 描述
+          - generic [ref=e47]:
+            - textbox "RepairOrder" [ref=e48]
+            - textbox "维修单" [ref=e49]
+            - textbox "对象说明" [ref=e50]
+            - button "删除" [ref=e51] [cursor=pointer]
+      - generic [ref=e52]:
+        - generic [ref=e53]:
+          - heading "属性" [level=2] [ref=e54]
+          - button "新增属性" [ref=e55] [cursor=pointer]
+        - generic [ref=e56]:
+          - generic [ref=e57]:
+            - generic [ref=e58]: 属性标识
+            - generic [ref=e59]: 中文名
+            - generic [ref=e60]: 所属对象
+            - generic [ref=e61]: 值类型
+            - generic [ref=e62]: 描述
+          - generic [ref=e63]:
+            - textbox "order_status" [ref=e64]
+            - textbox "维修单状态" [ref=e65]
+            - combobox [ref=e66]:
+              - option "请选择对象" [selected]
+            - textbox "string" [ref=e67]
+            - textbox "属性说明" [ref=e68]
+            - button "删除" [ref=e69] [cursor=pointer]
+      - generic [ref=e70]:
+        - heading "批量说明" [level=2] [ref=e71]
+        - generic [ref=e72]:
+          - text: 批量补充
+          - textbox "批量补充" [ref=e73]:
+            - /placeholder: 粘贴对象清单、属性说明、业务规则、已有草稿等
+        - button "生成规划方案" [ref=e75] [cursor=pointer]
+    - generic [ref=e77]:
+      - generic [ref=e78]:
+        - heading "已生成领域" [level=2] [ref=e79]
+        - button "刷新" [active] [ref=e80] [cursor=pointer]
+      - button "在线课程 domain_b2f3247b_919ed3 · 2026-07-09T15:20:51 · 10 个版本" [ref=e113] [cursor=pointer]:
+        - strong [ref=e114]: 在线课程
+        - generic [ref=e115]: domain_b2f3247b_919ed3 · 2026-07-09T15:20:51 · 10 个版本
+    - generic [ref=e82]:
+      - generic [ref=e83]:
+        - generic [ref=e84]:
+          - heading "本体关系图" [level=2] [ref=e85]
+          - paragraph [ref=e86]: 生成后可在画布中查看和调整对象、属性与关系。
+        - generic [ref=e87]:
+          - button "展开画布" [ref=e88] [cursor=pointer]
+          - button "新增节点" [disabled] [ref=e89]
+          - button "新增关系" [disabled] [ref=e90]
+      - generic [ref=e91]: 暂无图谱
+      - generic "图例" [ref=e92]:
+        - generic [ref=e93]: 对象节点
+        - generic [ref=e95]: 属性节点
+        - generic [ref=e97]: 关系边
+        - generic [ref=e99]: 当前聚焦
+        - generic [ref=e101]: 非相关元素淡化
+  - complementary "详情面板" [ref=e103]:
+    - generic [ref=e104]:
+      - generic [ref=e105]:
+        - heading "未选择" [level=2] [ref=e106]
+        - paragraph [ref=e107]: 点击图中的节点或关系查看详情。
+      - button "关闭详情" [ref=e108] [cursor=pointer]: ×
+    - generic [ref=e109]:
+      - strong [ref=e110]: 没有选中元素
+      - generic [ref=e111]: 生成关系图后，选择对象、属性或关系进行编辑。

@@ -1,0 +1,230 @@
+domain_input:
+  domain_name: 在线课程
+  description: 在线教育课程学习领域，描述学生选课、观看课程、提交作业、教师批改和成绩反馈。
+  objects:
+  - object_type: Student
+    object_type_zh: 学生
+    description: 学习课程的用户。
+    enabled: true
+  - object_type: Course
+    object_type_zh: 课程
+    description: 在线课程。
+    enabled: true
+  - object_type: Lesson
+    object_type_zh: 课时
+    description: 课程下的教学单元。
+    enabled: true
+  - object_type: Assignment
+    object_type_zh: 作业
+    description: 课程作业。
+    enabled: true
+  - object_type: Teacher
+    object_type_zh: 教师
+    description: 课程教师。
+    enabled: true
+  - object_type: Office
+    object_type_zh: 办公室
+    description: 教师办公与答疑的物理或虚拟空间。
+    enabled: true
+  - object_type: Classroom
+    object_type_zh: 教室
+    description: 学生上课与互动的教学空间。
+    enabled: true
+  attributes:
+  - attribute_name: course_level
+    attribute_name_zh: 课程难度
+    description: 课程难度等级。
+    value_type: string
+    object_types:
+    - Course
+    aliases: []
+    enabled: true
+  - attribute_name: lesson_duration
+    attribute_name_zh: 课时时长
+    description: 课时持续时间。
+    value_type: number
+    object_types:
+    - Lesson
+    aliases: []
+    enabled: true
+  - attribute_name: assignment_status
+    attribute_name_zh: 作业状态
+    description: 作业提交状态。
+    value_type: string
+    object_types:
+    - Assignment
+    aliases: []
+    enabled: true
+  - attribute_name: enrollment_date
+    attribute_name_zh: 报名日期
+    description: 学生报名课程的时间节点。
+    value_type: string
+    object_types:
+    - Student
+    - Course
+    aliases: []
+    enabled: true
+  - attribute_name: submission_score
+    attribute_name_zh: 提交成绩
+    description: 学生作业提交的得分。
+    value_type: number
+    object_types:
+    - Assignment
+    - Student
+    aliases: []
+    enabled: true
+  - attribute_name: attendance_rate
+    attribute_name_zh: 出勤率
+    description: 学生上课出勤的比例。
+    value_type: number
+    object_types:
+    - Student
+    - Course
+    aliases: []
+    enabled: true
+  - attribute_name: office_capacity
+    attribute_name_zh: 办公室容量
+    description: 办公室可容纳的教师数量。
+    value_type: number
+    object_types:
+    - Office
+    aliases: []
+    enabled: true
+  - attribute_name: classroom_location
+    attribute_name_zh: 教室位置
+    description: 教室的物理地址或虚拟链接。
+    value_type: string
+    object_types:
+    - Classroom
+    aliases: []
+    enabled: true
+  bulk_text: 学生报名课程；课程由多个课时组成；课程包含作业；教师批改作业并反馈成绩。
+plan:
+  summary_zh: 基于用户反馈，为学生对象新增“年级”与“班级”属性，并围绕OAG事实查询需求构建属性级关系网络。新属性主要支撑按学段与行政班的过滤、聚合与对比查询，如年级成绩分布分析、班级出勤率汇总、班级作业进度追踪及班级-教室空间绑定。整体规划延续以属性为核心的设计原则，通过属性端点扩展事实路径，避免冗余的对象间关系，为后续学情分析、班级管理与资源调度提供可执行查询基础。
+  relationships:
+  - source: Attribute:grade
+    target: Attribute:submission_score
+    relation_type: correlates_with
+    relation_name_zh: 年级与成绩关联
+    reason_zh: 支持对比与解释查询，OAG可分析不同年级学生的成绩分布差异，辅助教学难度评估与分层辅导策略制定。
+  - source: Attribute:class
+    target: ObjectType:Classroom
+    relation_type: assigned_to
+    relation_name_zh: 班级绑定教室
+    reason_zh: 支持实体导航查询，明确行政班级与固定教学空间的对应关系，便于OAG查询班级教室分配与空间调度。
+  - source: Attribute:grade
+    target: ObjectType:Course
+    relation_type: filtered_by
+    relation_name_zh: 年级过滤课程
+    reason_zh: 支持过滤查询，OAG可按年级筛选适配课程或统计各年级选课分布，支撑学段课程推荐与资源规划。
+  - source: Attribute:class
+    target: Attribute:attendance_rate
+    relation_type: aggregated_to
+    relation_name_zh: 班级聚合出勤
+    reason_zh: 支持聚合查询，OAG可汇总班级内学生出勤数据，生成班级级考勤报表，辅助班主任管理与异常预警。
+  - source: Attribute:class
+    target: Attribute:assignment_status
+    relation_type: filtered_by
+    relation_name_zh: 班级过滤作业
+    reason_zh: 支持过滤与追踪查询，OAG可按班级维度统计作业提交进度与完成率，便于教师进行班级级学情监控。
+  open_questions:
+  - 是否需要为“年级”属性增加时间维度（如入学年份、当前学年）以支持跨学年学情追踪与毕业年级预警？
+  - “班级”属性是否需区分行政班与教学班（走班制），并补充对应的班级教师或课程关联属性以支持分层教学查询？
+  revision_notes:
+  - 根据用户反馈为学生对象新增grade与class属性，明确其值类型与业务描述。
+  - 围绕新属性构建5条核心关系，涵盖成绩对比、空间绑定、课程过滤、出勤聚合与作业追踪，严格遵循OAG属性驱动的事实规划原则。
+  - 保留原有对象与属性结构，仅追加新增属性及其关系，确保本体扩展的连贯性与可执行性。
+  objects:
+  - object_type: Student
+    object_type_zh: 学生
+    description: 学习课程的用户。
+  - object_type: Course
+    object_type_zh: 课程
+    description: 在线课程。
+  - object_type: Lesson
+    object_type_zh: 课时
+    description: 课程下的教学单元。
+  - object_type: Assignment
+    object_type_zh: 作业
+    description: 课程作业。
+  - object_type: Teacher
+    object_type_zh: 教师
+    description: 课程教师。
+  - object_type: Office
+    object_type_zh: 办公室
+    description: 教师办公与答疑的物理或虚拟空间。
+  - object_type: Classroom
+    object_type_zh: 教室
+    description: 学生上课与互动的教学空间。
+  attributes:
+  - attribute_name: grade
+    attribute_name_zh: 年级
+    object_types:
+    - Student
+    value_type: string
+    description: 学生所属的年级阶段，用于学段划分与跨年级学情对比。
+  - attribute_name: class
+    attribute_name_zh: 班级
+    object_types:
+    - Student
+    value_type: string
+    description: 学生所属的行政或教学班级，用于班级级资源分配、考勤统计与作业追踪。
+  - attribute_name: course_level
+    attribute_name_zh: 课程难度
+    object_types:
+    - Course
+    value_type: string
+    description: 课程难度等级。
+  - attribute_name: lesson_duration
+    attribute_name_zh: 课时时长
+    object_types:
+    - Lesson
+    value_type: number
+    description: 课时持续时间。
+  - attribute_name: assignment_status
+    attribute_name_zh: 作业状态
+    object_types:
+    - Assignment
+    value_type: string
+    description: 作业提交状态。
+  - attribute_name: enrollment_date
+    attribute_name_zh: 报名日期
+    object_types:
+    - Student
+    - Course
+    value_type: string
+    description: 学生报名课程的时间节点。
+  - attribute_name: submission_score
+    attribute_name_zh: 提交成绩
+    object_types:
+    - Assignment
+    - Student
+    value_type: number
+    description: 学生作业提交的得分。
+  - attribute_name: attendance_rate
+    attribute_name_zh: 出勤率
+    object_types:
+    - Student
+    - Course
+    value_type: number
+    description: 学生上课出勤的比例。
+  - attribute_name: office_capacity
+    attribute_name_zh: 办公室容量
+    object_types:
+    - Office
+    value_type: number
+    description: 办公室可容纳的教师数量。
+  - attribute_name: classroom_location
+    attribute_name_zh: 教室位置
+    object_types:
+    - Classroom
+    value_type: string
+    description: 教室的物理地址或虚拟链接。
+feedback: 为学生增加“年级”、“班级”属性，并为止与其他对象或属性添加合适的关系。
+created_at: '2026-07-09T11:18:58'
+version:
+  version_id: v20260709111858101973
+  parent_version_id: v20260709102945716210
+  summary: 为学生增加“年级”、“班级”属性，并为止与其他对象或属性添加合适的关系。
+  operation_summary: 为学生增加“年级”、“班级”属性，并为止与其他对象或属性添加合适的关系。
+  created_at: '2026-07-09T11:18:58'

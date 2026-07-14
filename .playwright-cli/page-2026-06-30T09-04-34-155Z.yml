@@ -1,0 +1,175 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: OAG
+      - generic [ref=e6]:
+        - heading "回答稳定性对比" [level=1] [ref=e7]
+        - paragraph [ref=e8]: 对比无 OAG 与有 OAG 在 5 轮重复问答中的一致性表现
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - text: 导入 CSV
+        - button "导入 CSV" [active]
+      - button "读取默认数据" [ref=e11] [cursor=pointer]
+  - main [ref=e12]:
+    - generic [ref=e241]:
+      - strong [ref=e242]: 数据提示
+      - list [ref=e243]:
+        - listitem [ref=e244]: 当前数据源：gbk_results.csv
+        - listitem [ref=e245]: 已按 GB18030 编码读取 CSV。建议后续另存为 UTF-8 CSV，便于跨环境迁移。
+    - region "整体概览" [ref=e13]:
+      - article [ref=e14]:
+        - generic [ref=e15]: 问题数
+        - strong [ref=e16]: "1"
+        - text: 5 条回答记录
+      - article [ref=e17]:
+        - generic [ref=e18]: 无 OAG 稳定性
+        - strong [ref=e19]: "39.2"
+        - text: 朴素回答平均分
+      - article [ref=e20]:
+        - generic [ref=e21]: 有 OAG 稳定性
+        - strong [ref=e22]: "36.9"
+        - text: OAG 回答平均分
+      - article [ref=e23]:
+        - generic [ref=e24]: OAG 优势
+        - strong [ref=e25]: "-2.3"
+        - text: 整体差异不大
+    - region "搜索与视图控制" [ref=e26]:
+      - generic [ref=e27]:
+        - searchbox "搜索问题、序号或回答内容" [ref=e28]
+        - button "×" [ref=e29] [cursor=pointer]
+      - combobox "筛选问题" [ref=e30]:
+        - option "全部问题" [selected]
+        - option "OAG 提升明显"
+        - option "无明显差异"
+        - option "OAG 下降"
+        - option "低稳定性问题"
+        - option "数据异常"
+      - combobox "排序方式" [ref=e31]:
+        - option "按序号" [selected]
+        - option "OAG 优势从高到低"
+        - option "OAG 优势从低到高"
+        - option "无 OAG 稳定性从低到高"
+        - option "有 OAG 稳定性从低到高"
+      - tablist "视图" [ref=e32]:
+        - button "单题对比" [ref=e33] [cursor=pointer]
+        - button "全量列表" [ref=e34] [cursor=pointer]
+    - generic [ref=e35]:
+      - generic [ref=e36]:
+        - button "‹" [disabled] [ref=e37]
+        - generic [ref=e38]:
+          - text: 1 / 1
+          - heading "测试GBK编码" [level=2] [ref=e246]
+          - paragraph [ref=e40]: 序号 1 · 5 轮记录
+        - button "›" [disabled] [ref=e41]
+      - generic [ref=e42]:
+        - generic [ref=e43]:
+          - text: 当前题 OAG 优势
+          - strong [ref=e44]: "-2.3"
+        - generic [ref=e45]:
+          - generic [ref=e46]: 无 OAG 39.2
+          - generic [ref=e49]: 有 OAG 36.9
+      - generic [ref=e52]:
+        - article [ref=e53]:
+          - generic [ref=e54]:
+            - heading "无 OAG" [level=3] [ref=e55]
+            - paragraph [ref=e56]: 稳定性 39.2 · 平均相似度 43.3% · 完全重复 0% · 长度波动 33.3%
+          - generic [ref=e57]:
+            - article [ref=e247]:
+              - generic [ref=e248]:
+                - strong [ref=e249]: 第 1 轮
+                - generic [ref=e250]: 6 字符
+              - generic [ref=e251]:
+                - heading "朴素" [level=1] [ref=e252]
+                - text: 回答一
+              - generic [ref=e253]:
+                - button "展开" [ref=e254] [cursor=pointer]
+                - button "查看原文" [ref=e255] [cursor=pointer]
+                - button "复制回答" [ref=e256] [cursor=pointer]
+            - article [ref=e257]:
+              - generic [ref=e258]:
+                - strong [ref=e259]: 第 2 轮
+                - generic [ref=e260]: 3 字符
+              - paragraph [ref=e262]: 回答二
+              - generic [ref=e263]:
+                - button "展开" [ref=e264] [cursor=pointer]
+                - button "查看原文" [ref=e265] [cursor=pointer]
+                - button "复制回答" [ref=e266] [cursor=pointer]
+            - article [ref=e267]:
+              - generic [ref=e268]:
+                - strong [ref=e269]: 第 3 轮
+                - generic [ref=e270]: 3 字符
+              - paragraph [ref=e272]: 回答三
+              - generic [ref=e273]:
+                - button "展开" [ref=e274] [cursor=pointer]
+                - button "查看原文" [ref=e275] [cursor=pointer]
+                - button "复制回答" [ref=e276] [cursor=pointer]
+            - article [ref=e277]:
+              - generic [ref=e278]:
+                - strong [ref=e279]: 第 4 轮
+                - generic [ref=e280]: 3 字符
+              - paragraph [ref=e282]: 回答四
+              - generic [ref=e283]:
+                - button "展开" [ref=e284] [cursor=pointer]
+                - button "查看原文" [ref=e285] [cursor=pointer]
+                - button "复制回答" [ref=e286] [cursor=pointer]
+            - article [ref=e287]:
+              - generic [ref=e288]:
+                - strong [ref=e289]: 第 5 轮
+                - generic [ref=e290]: 3 字符
+              - paragraph [ref=e292]: 回答五
+              - generic [ref=e293]:
+                - button "展开" [ref=e294] [cursor=pointer]
+                - button "查看原文" [ref=e295] [cursor=pointer]
+                - button "复制回答" [ref=e296] [cursor=pointer]
+        - article [ref=e111]:
+          - generic [ref=e112]:
+            - heading "有 OAG" [level=3] [ref=e113]
+            - paragraph [ref=e114]: 稳定性 36.9 · 平均相似度 41.4% · 完全重复 0% · 长度波动 42.1%
+          - generic [ref=e115]:
+            - article [ref=e297]:
+              - generic [ref=e298]:
+                - strong [ref=e299]: 第 1 轮
+                - generic [ref=e300]: 7 字符
+              - generic [ref=e301]:
+                - heading "OAG" [level=1] [ref=e302]
+                - text: 回答一
+              - generic [ref=e303]:
+                - button "展开" [ref=e304] [cursor=pointer]
+                - button "查看原文" [ref=e305] [cursor=pointer]
+                - button "复制回答" [ref=e306] [cursor=pointer]
+            - article [ref=e307]:
+              - generic [ref=e308]:
+                - strong [ref=e309]: 第 2 轮
+                - generic [ref=e310]: 3 字符
+              - paragraph [ref=e312]: 回答二
+              - generic [ref=e313]:
+                - button "展开" [ref=e314] [cursor=pointer]
+                - button "查看原文" [ref=e315] [cursor=pointer]
+                - button "复制回答" [ref=e316] [cursor=pointer]
+            - article [ref=e317]:
+              - generic [ref=e318]:
+                - strong [ref=e319]: 第 3 轮
+                - generic [ref=e320]: 3 字符
+              - paragraph [ref=e322]: 回答三
+              - generic [ref=e323]:
+                - button "展开" [ref=e324] [cursor=pointer]
+                - button "查看原文" [ref=e325] [cursor=pointer]
+                - button "复制回答" [ref=e326] [cursor=pointer]
+            - article [ref=e327]:
+              - generic [ref=e328]:
+                - strong [ref=e329]: 第 4 轮
+                - generic [ref=e330]: 3 字符
+              - paragraph [ref=e332]: 回答四
+              - generic [ref=e333]:
+                - button "展开" [ref=e334] [cursor=pointer]
+                - button "查看原文" [ref=e335] [cursor=pointer]
+                - button "复制回答" [ref=e336] [cursor=pointer]
+            - article [ref=e337]:
+              - generic [ref=e338]:
+                - strong [ref=e339]: 第 5 轮
+                - generic [ref=e340]: 3 字符
+              - paragraph [ref=e342]: 回答五
+              - generic [ref=e343]:
+                - button "展开" [ref=e344] [cursor=pointer]
+                - button "查看原文" [ref=e345] [cursor=pointer]
+                - button "复制回答" [ref=e346] [cursor=pointer]

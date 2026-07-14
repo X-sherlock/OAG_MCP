@@ -11,7 +11,8 @@ import yaml
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-ONTOLOGY_DIR = PROJECT_ROOT / "ontology"
+DEFAULT_ONTOLOGY_DIR = PROJECT_ROOT / "ontology"
+ONTOLOGY_DIR = Path(os.environ.get("OAG_EDITOR_ONTOLOGY_DIR", DEFAULT_ONTOLOGY_DIR)).resolve()
 BACKUP_DIR = ONTOLOGY_DIR / ".backups"
 
 SUPPORTED_FILES: tuple[str, ...] = (
@@ -69,7 +70,7 @@ def file_infos() -> list[dict[str, Any]]:
         infos.append(
             {
                 "name": file_name,
-                "path": str(path.relative_to(PROJECT_ROOT)).replace("\\", "/"),
+                "path": display_path(path),
                 "exists": path.exists(),
                 "modified_at": (
                     datetime.fromtimestamp(stat.st_mtime).isoformat(timespec="seconds")
@@ -92,6 +93,14 @@ def file_infos() -> list[dict[str, Any]]:
             }
         )
     return infos
+
+
+def display_path(path: Path) -> str:
+    try:
+        value = path.resolve().relative_to(PROJECT_ROOT)
+    except ValueError:
+        value = path.resolve()
+    return str(value).replace("\\", "/")
 
 
 def read_yaml_file(file_name: str) -> Any:
@@ -155,9 +164,9 @@ def write_yaml_file(file_name: str, data: Any) -> dict[str, Any]:
         raise
     return {
         "file": file_name,
-        "path": str(path.relative_to(PROJECT_ROOT)).replace("\\", "/"),
+        "path": display_path(path),
         "backup_path": (
-            str(backup_path.relative_to(PROJECT_ROOT)).replace("\\", "/")
+            display_path(backup_path)
             if backup_path
             else None
         ),

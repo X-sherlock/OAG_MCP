@@ -1,0 +1,12 @@
+- object_type: Customer
+  object_type_zh: 客户
+  description: 提交维修申请的用户。
+  enabled: true
+- object_type: RepairOrder
+  object_type_zh: 维修单
+  description: 售后维修服务单据。
+  enabled: true
+- object_type: Engineer
+  object_type_zh: 工程师
+  description: 负责维修处理的人员。
+  enabled: true

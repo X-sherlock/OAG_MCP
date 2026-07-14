@@ -1,0 +1,72 @@
+- relation_type: correlates_with
+  relation_name_zh: 年级与成绩关联
+  description: 支持对比与解释查询，OAG可分析不同年级学生的作业得分分布差异，辅助教学难度评估与分层辅导策略制定。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: aggregated_to
+  relation_name_zh: 班级聚合出勤
+  description: 支持聚合查询，OAG可汇总班级内学生出勤数据，生成班级级考勤报表，辅助班主任管理与异常预警。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: filtered_by
+  relation_name_zh: 班级过滤作业状态
+  description: 支持过滤与追踪查询，OAG可按班级维度统计作业提交进度与完成率，便于教师进行班级级学情监控。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: influences
+  relation_name_zh: 难度影响进度
+  description: 支持解释与对比查询，OAG可分析课程难度等级对学生学习进度的影响，支撑课程推荐与学习路径优化。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: determines
+  relation_name_zh: 时长决定完成状态
+  description: 支持过滤与聚合查询，OAG可分析课时长度对学生完课率的影响，优化课程切片与内容编排。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - Attribute
+  target_node_types:
+  - Attribute
+- relation_type: teaches
+  relation_name_zh: 教师授课
+  description: 支持实体导航查询，明确教师与课程的归属关系，便于OAG快速定位师资分布与课程负责人。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: contains
+  relation_name_zh: 课程包含课时
+  description: 支持实体导航查询，构建课程教学单元的结构化视图，便于OAG检索课程大纲与课时序列。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
+- relation_type: submits
+  relation_name_zh: 学生提交作业
+  description: 支持实体导航与关系实例查询，追踪学生作业提交轨迹，为成绩核算与学术诚信分析提供数据锚点。
+  direction: outbound
+  enabled: true
+  source_node_types:
+  - ObjectType
+  target_node_types:
+  - ObjectType
